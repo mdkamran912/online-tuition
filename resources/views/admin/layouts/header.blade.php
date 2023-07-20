@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{url('vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{url('vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{url('css/custom.css')}}">
+    <script src="{{url('js/ckeditor.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url('vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
@@ -205,9 +206,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="exam.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('admin.questionbank')}}" aria-controls="form-elements">
                             <i class="ti-target menu-icon"></i>
-                            <span class="menu-title">Examination</span>
+                            <span class="menu-title">Question Bank</span>
+                            <!-- <i class="menu-arrow"></i> -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.onlinetests')}}" aria-controls="form-elements">
+                            <i class="ti-target menu-icon"></i>
+                            <span class="menu-title">Online Tests</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>

@@ -42,7 +42,6 @@
 {{-- <script src="{{url('vendors/jquery/jquery.min.js')}}"></script> --}}
 
 
-
 <!-- End plugin js for this page -->
 <!-- inject:js -->
 <script src="{{url('js/off-canvas.js')}}"></script>
@@ -50,6 +49,7 @@
 <script src="{{url('js/template.js')}}"></script>
 <script src="{{url('js/settings.js')}}"></script>
 <script src="{{url('js/todolist.js')}}"></script>
+
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script src="{{url('js/jquery.cookie.js')}}" type="text/javascript"></script>

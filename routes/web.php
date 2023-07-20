@@ -6,7 +6,9 @@ use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\DemoController;
 use App\Http\Controllers\admin\LearningsContentsController;
 use App\Http\Controllers\admin\LoginController;
+use App\Http\Controllers\admin\OnlineTestController;
 use App\Http\Controllers\admin\PaymentsController;
+use App\Http\Controllers\admin\QuestionBankController;
 use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\admin\TopicController;
 use App\Http\Controllers\AssignmentsController;
@@ -89,10 +91,12 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
     Route::get('topic',[TopicController::class,'index'])->name('admin.topic');
     Route::post('topic',[TopicController::class,'store'])->name('admin.topic.create');
     Route::get('topic/status',[TopicController::class,'status'])->name('admin.topic.status');
-    // Topics
+    // Batch
     Route::get('batch',[BatchesController::class,'index'])->name('admin.batch');
     Route::post('batch',[BatchesController::class,'store'])->name('admin.batch.create');
     Route::get('batch/status',[BatchesController::class,'status'])->name('admin.batch.status');
+    Route::post('batchmapping/create',[BatchesController::class,'mapping'])->name('admin.batchmapping.create');
+    Route::get('viewbatchdata/{id}',[BatchesController::class,'viewrecord'])->name('admin.viewbatchdata');
     // Demo List
     Route::get('demolist',[DemoController::class,'index'])->name('admin.demolist');
     Route::post('bookdemo',[DemoController::class,'bookdemo'])->name('admin.bookdemo');
@@ -121,6 +125,18 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
     Route::get('assignments',[AssignmentsController::class,'adminindex'])->name('admin.assignments');
     Route::get('assignments/status',[AssignmentsController::class,'status'])->name('admin.assignments.status');
     Route::get('assignments/{id}',[AssignmentsController::class,'view'])->name('admin.assignments.view');
-
-
+    // Question Bank
+    Route::get('questionbank',[QuestionBankController::class,'index'])->name('admin.questionbank');
+    Route::get('questionbank/create',[QuestionBankController::class,'create'])->name('admin.questionbank.create');
+    Route::post('questionbank/store',[QuestionBankController::class,'store'])->name('admin.questionbank.store');
+    Route::get('question/status',[QuestionBankController::class,'status'])->name('admin.question.status');
+    Route::get('questionupdate/{id}',[QuestionBankController::class,'view'])->name('admin.questionupdate.view');
+    // Online tests
+    Route::get('onlinetestlist',[OnlineTestController::class,'index'])->name('admin.onlinetests');
+    Route::get('onlinetests',[OnlineTestController::class,'create'])->name('admin.onlinetests.create');
+    Route::post('onlinetests',[OnlineTestController::class,'store'])->name('admin.onlinetests.store');
+    Route::get('onlinetests/{id}',[OnlineTestController::class,'edit'])->name('admin.onlinetests.edit');
+    Route::get('onlinetestquestions/{id}',[OnlineTestController::class,'viewquestions'])->name('admin.onlinetestquestions.viewquestions');
+    // Get questions by Topic
+    Route::post('fetchquestions',[OnlineTestController::class,'fetchquestions'])->name('fetchquestions');
 });

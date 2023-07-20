@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('batchstudentmappings', function (Blueprint $table) {
             $table->id();
             $table->integer('batch_id');
-            $table->integer('student_id');
+            $table->text('student_data');
             $table->integer('tutor_id')->nullable();
             $table->timestamps();
         });

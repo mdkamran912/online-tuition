@@ -14,8 +14,9 @@
                 <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span class="fa fa-plus"></span> New
                     Batch</button>
             </div>
+
             <div class="mt-4" id="">
-                <table class="table table-bordered table-hover mt-3 table-responsive">
+                <table class="table table-bordered table-hover mt-3">
                     <thead class="bg-dark text-white">
                         <tr>
                             <th>S.No.</th>
@@ -25,8 +26,8 @@
                             <th>Batch</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Students</th>
                             <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
 
@@ -56,16 +57,17 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><button type="button" class="badge btn-sm btn-primary"
-                                        onclick="addstudentsmodal({{ $batch->class_id }});">Add Students</button>
-                                    <br><br><button type="button" class="badge btn-sm btn-primary"
-                                        onclick="viewstudentsmodal('{{ $batch->batch_id }}','{{ $batch->class_id }}','{{ $batch->subject_id }}','{{ $batch->tutor_id }}','{{ $batch->batch_name }}','{{ $batch->batch_description }}');">Add
-                                        Students</button>
+                                <td>
+                                    <div class="text-center">
+                                        <button type="button" class="badge btn-sm btn-primary"
+                                            onclick="edit('{{ $batch->batch_id }}','{{ $batch->class_id }}','{{ $batch->subject_id }}','{{ $batch->tutor_id }}','{{ $batch->batch_name }}','{{ $batch->batch_description }}');">Edit
+                                            Batch Details</button>
+                                        <br><br>
+                                        <button type="button" class="badge btn-sm btn-primary"
+                                            onclick="addstudentsmodal('{{ $batch->class_id }}','{{ $batch->batch_id }}','{{ $batch->tutor_id }}');">Add/View
+                                            Students</button>
+                                    </div>
                                 </td>
-
-                                <td><button type="button" class="badge btn-sm btn-primary"
-                                        onclick="edit('{{ $batch->batch_id }}','{{ $batch->class_id }}','{{ $batch->subject_id }}','{{ $batch->tutor_id }}','{{ $batch->batch_name }}','{{ $batch->batch_description }}');">Edit
-                                        Record</button></td>
 
                             </tr>
                         @endforeach
@@ -146,43 +148,80 @@
 
                     <div class="modal-body">
                         <h3 class="text-center mb-3"><u>Add Student</u></h3>
-                        <form action="" method="">
-                            {{-- <div class=" row">
-                        <div class="form-group col-md-12">
-                            <label for="">Class</label>
-                            <select type="text" class="form-control" id="batchclassid" name="batchclassid">
-                                @foreach ($classes as $class)
-                                    <option value="{{$class->id}}">{{$class->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-                            <input type="text" id="classid" name="classid">
-                            <table class="table table-bordered table-hover mb-3">
-                                <thead class="bg-dark text-white">
-                                    <tr>
-                                        <th>S.No.</th>
-                                        <th>Select</th>
-                                        <th>Student</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="studentlisttbl" name="studentlisttbl">
-                                    <tr>
-                                        <td>1</td>
-                                        <td class="text-center">
-                                            <input type="checkbox">
-                                        </td>
-                                        <td>qwertyhjk sdfgh sdfg</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                        <button type="button" id="" class="btn btn-sm btn-primary float-right"><span
-                                class="fa fa-plus"></span>
-                            Add</button>
-                        <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                class="fa fa-times"></span> Close</button>
+                        <form action="{{ route('admin.batchmapping.create') }}" method="POST">
+                            @csrf
+                            <style>
+                                .studentpop tr td {
+                                    margin: 0;
+                                    padding-top: 0 !important;
+                                    padding-bottom: 0 !important;
 
+
+                                }
+
+                                .my-custom-scrollbar {
+                                    position: relative;
+                                    height: 200px;
+                                    overflow: auto;
+                                }
+
+                                .table-wrapper-scroll-y {
+                                    display: block;
+                                }
+
+                                /* select option:nth-child(even) {
+                                        background: rgb(231, 231, 231);
+                                    } */
+                                select option:nth-child(odd) {
+                                    background: rgb(227, 226, 226);
+                                }
+
+                                select option:checked {
+                                    background-color: rgb(47, 255, 0);
+                                    /* color:white; */
+                                }
+
+                                select option:hover {
+                                    background-color: rgb(47, 255, 0);
+                                }
+
+                                .select-checkbox option::before {
+                                    content: "\2610";
+                                    width: 1.3em;
+                                    text-align: center;
+                                    display: inline-block;
+                                }
+
+                                .select-checkbox option:checked::before {
+                                    content: "\2611";
+                                }
+
+                                .select-checkbox-fa option::before {
+                                    font-family: FontAwesome;
+                                    content: "\f096";
+                                    width: 1.3em;
+                                    display: inline-block;
+                                    margin-left: 2px;
+                                }
+
+                                .select-checkbox-fa option:checked::before {
+                                    content: "\f046";
+                                }
+                            </style>
+                            <input type="hidden" id="batchid" name="batchid">
+                            <input type="hidden" id="tutorid" name="tutorid">
+                            <select class="form-control select-checkbox-fa" style="height: 300px" id="studentsdata"
+                                name="studentsdata[]" multiple>
+
+                            </select><br>
+
+                            <button type="submit" id="" class="btn btn-sm btn-primary float-right"><span
+                                    class="fa fa-plus"></span>
+                                Add</button>
+                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
+                                data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+
+                        </form>
                     </div>
 
                 </div>
@@ -257,12 +296,18 @@
                         });
 
                     }
+
                 });
+
             };
             var data = "";
 
-            function addstudentsmodal(classId) {
+            function addstudentsmodal(classId, batchid, tutorid) {
+
+                $('#batchid').val(batchid);
+                $('#tutorid').val(tutorid);
                 $('#addStudentsModal').modal('show');
+
 
                 $.ajax({
                     url: "{{ url('studentsbyclass') }}",
@@ -273,15 +318,34 @@
                     },
                     dataType: 'json',
                     success: function(result) {
-                        data = result.students;
-                        populateTable();
+                        // data = result.students;
+                        // populateTable();
+                        $('#studentsdata').html('');
+                        $.each(result.students, function(key, value) {
+                            $("#studentsdata").append('<option value="' + value
+                                .id + '">' + value.name + ' (' + value.email + ')</option>');
+                        });
                     }
+                });
+                $.ajax({
+                    url: "{{ url('admin/viewbatchdata') }}/" + batchid,
+                    type: "GET",
+                    data: {
+                        // class_id: classId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(JSON.parse(result.subjects.student_data))
+                        $("#studentsdata").val(JSON.parse(result.subjects.student_data));
+                    }
+
                 });
             };
 
             function populateTable() {
                 var table = "";
-                var p=0;
+                var p = 0;
                 for (var i in data) {
                     p++;
                     table += "<tr>";
@@ -289,7 +353,8 @@
                         data[i].id + "</td>" +
                         "<td>" + p + "</td>" +
                         "<td>" + data[i].name + "</td>" +
-                        "<td><input id='sel"+data[i].id+"' type='checkbox'><label for=''>&nbsp; Select</label></td>";
+                        "<td><input id='sel" + data[i].id + "' type='checkbox'><label for='sel" + data[i].id +
+                        "'>&nbsp; Select</label></td>";
                     table += "</tr>";
                 }
 

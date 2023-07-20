@@ -4,69 +4,103 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\batches;
+use App\Models\batchstudentmapping;
 use App\Models\classes;
 use App\Models\tutorregistration;
 use Illuminate\Http\Request;
 
 class BatchesController extends Controller
 {
-    
-    public function index(){
-        $classes = classes::select('*')->where('is_active',1)->get();
-        $tutors = tutorregistration::select('*')->where('is_active',1)->get();
-        $batches = batches::select('batches.id as batch_id','batches.name as batch_name','batches.description as batch_description','batches.is_active as batch_status','subjects.name as subject_name','subjects.id as subject_id','classes.id as class_id','classes.name as class_name','tutorregistrations.id as tutor_id','tutorregistrations.name as tutor_name')
-        ->join('subjects','subjects.id','=','batches.subject_id')
-        ->join('tutorregistrations','tutorregistrations.id','=','batches.tutor_id')
-        ->join('classes','classes.id','=','subjects.class_id')->paginate(10);
-        return view('admin.batch',compact('batches','classes','tutors'));
+
+    public function index()
+    {   
+        $classes = classes::select('*')->where('is_active', 1)->get();
+        $tutors = tutorregistration::select('*')->where('is_active', 1)->get();
+        $batches = batches::select('batches.id as batch_id', 'batches.name as batch_name', 'batches.description as batch_description', 'batches.is_active as batch_status', 'subjects.name as subject_name', 'subjects.id as subject_id', 'classes.id as class_id', 'classes.name as class_name', 'tutorregistrations.id as tutor_id', 'tutorregistrations.name as tutor_name')
+            ->join('subjects', 'subjects.id', '=', 'batches.subject_id')
+            ->join('tutorregistrations', 'tutorregistrations.id', '=', 'batches.tutor_id')
+            ->join('classes', 'classes.id', '=', 'subjects.class_id')->paginate(10);
+        return view('admin.batch', compact('batches', 'classes', 'tutors'));
     }
-    
-    public function store(Request $request){
+
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'classname'=> 'required',
-            'subject'=> 'required',
-            'tutor'=>'required',
-            'batchname'=> 'required',
+            'classname' => 'required',
+            'subject' => 'required',
+            'tutor' => 'required',
+            'batchname' => 'required',
             // 'description'=> 'required'
         ]);
-        if($request->id){
+        if ($request->id) {
             $data = batches::find($request->id);
             $msg = 'Batch updated successfully';
-        }
-        else{
+        } else {
             $data = new batches();
             $msg = 'Batch added successfully';
         }
-        
+
         $data->name = $request->batchname;
         $data->description = $request->description;
         $data->subject_id = $request->subject;
         $data->tutor_id = $request->tutor;
         $res = $data->save();
 
-        if($res){
-            return back()->with('success',$msg);
-        }
-        else{
-            return back()->with('fail','Something went wrong. Please try again later');
+        if ($res) {
+            return back()->with('success', $msg);
+        } else {
+            return back()->with('fail', 'Something went wrong. Please try again later');
         }
     }
-    public function status(Request $request){
+    public function status(Request $request)
+    {
         // echo 'Test';
         // echo $request->id;
         // echo $request->status;
         // dd();
         $data = batches::find($request->id);
-        if($request->status == 1){
+        if ($request->status == 1) {
             $status = 0;
         }
-        if($request->status == 0){
+        if ($request->status == 0) {
             $status = 1;
         }
         $data->is_active = $status;
 
-       $res = $data->save();
-     return json_encode(array('statusCode'=>200));
+        $res = $data->save();
+        return json_encode(array('statusCode' => 200));
     }
-    
+
+    public function mapping(Request $request)
+    {
+        $datachk = batchstudentmapping::select('*')->where('batch_id',$request->batchid)->first();
+        if($datachk){
+            $data = batchstudentmapping::find($datachk->id);
+            $msg = 'Batch updated successfully';
+        }
+        // if ($request->mappingid) {
+        //     
+        else {
+            $data = new batchstudentmapping();
+            $msg = 'Students added to batch';
+            $data->batch_id = $request->batchid;
+        }
+        $data->student_data = json_encode($request->studentsdata);
+        $data->tutor_id = $request->tutorid;
+        $res = $data->save();
+
+        if ($res) {
+            return back()->with('success', $msg);
+        } else {
+            return back()->with('fail', 'Something went wrong. Please try again later');
+        }
+    }
+
+    public function viewrecord($id){
+        
+         // Fetch student details based on batches -> Using jQuerry
+         $data['subjects'] = batchstudentmapping::where("batch_id", $id)->first();
+     return response()->json($data);
+    }
 }
