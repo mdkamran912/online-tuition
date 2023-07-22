@@ -20,12 +20,12 @@
     <div class="main-panel">
         <div class="content-wrapper">
             @if (Session::has('success'))
-            <div class="alert alert-success">{{ Session::get('success') }}</div>
-        @endif
-        @if (Session::has('fail'))
-            <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-        @endif
-        
+                <div class="alert alert-success">{{ Session::get('success') }}</div>
+            @endif
+            @if (Session::has('fail'))
+                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+            @endif
+
             <!-- <h3 class="text-center"></h3> -->
             <div id="listHeader" class="mb-3">
                 <h3>Create Test Series </h3>
@@ -54,8 +54,8 @@
                     }
 
                     /* select option:nth-child(even) {
-                                background: rgb(231, 231, 231);
-                            } */
+                                    background: rgb(231, 231, 231);
+                                } */
                     select option:nth-child(odd) {
                         background: rgb(227, 226, 226);
                     }
@@ -93,10 +93,11 @@
                     }
                 </style>
                 <div class=" row">
-                    <input type="hidden" id="id" name="id" value="{{$tdata->id ?? ''}}" class="form-control">
+                    <input type="hidden" id="id" name="id" value="{{ $tdata->id ?? '' }}" class="form-control">
                     <div class="col-md-3 col-sm-3 col-12">
                         <label for="">Test Name<i style="color: red">*</i></label>
-                        <input type="text" class="form-control" id="testname" name="testname" value="{{$tdata->name ?? ''}}" required>
+                        <input type="text" class="form-control" id="testname" name="testname"
+                            value="{{ $tdata->name ?? '' }}" required>
                         <span class="text-danger">
                             @error('testname')
                                 {{ 'Please enter test name' }}
@@ -105,7 +106,7 @@
                     </div>
                     <div class="col-md-6 col-sm-3 col-12">
                         <label for="">Test Description<i style="color: red">*</i></label>
-                        <textarea type="text" class="form-control" id="testdescription" name="testdescription" required>{{$tdata->description ?? ''}}</textarea>
+                        <textarea type="text" class="form-control" id="testdescription" name="testdescription" required>{{ $tdata->description ?? '' }}</textarea>
                         <span class="text-danger">
                             @error('testdescription')
                                 {{ 'Please enter test description' }}
@@ -171,7 +172,8 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Max Attempt<i style="color: red">*</i></label>
-                        <input type="number" class="form-control" id="maxattempt" name="maxattempt" value="{{$tdata->max_attempt ?? ''}}" required>
+                        <input type="number" class="form-control" id="maxattempt" name="maxattempt"
+                            value="{{ $tdata->max_attempt ?? '' }}" required>
                         <span class="text-danger">
                             @error('maxattempt')
                                 {{ 'Please enter max attempts' }}
@@ -180,7 +182,8 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Duration(minutes)<i style="color: red">*</i></label>
-                        <input type="number" class="form-control" id="duration" name="duration" value="{{$tdata->test_duration ?? ''}}" required>
+                        <input type="number" class="form-control" id="duration" name="duration"
+                            value="{{ $tdata->test_duration ?? '' }}" required>
                         <span class="text-danger">
                             @error('duration')
                                 {{ 'Please enter test duration' }}
@@ -190,7 +193,8 @@
 
                     <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Test Start Date<i style="color: red">*</i></label>
-                        <input type="datetime-local" class="form-control" id="tstartdate" name="tstartdate" value="{{$tdata->test_start_date ?? ''}}" required>
+                        <input type="datetime-local" class="form-control" id="tstartdate" name="tstartdate"
+                            value="{{ $tdata->test_start_date ?? '' }}" required>
                         <span class="text-danger">
                             @error('tstartdate')
                                 {{ 'Please select test start date' }}
@@ -200,7 +204,8 @@
 
                     <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Test End Date<i style="color: red">*</i></label>
-                        <input type="datetime-local" class="form-control" id="testenddate" name="testenddate" value="{{$tdata->test_end_date ?? ''}}" required>
+                        <input type="datetime-local" class="form-control" id="testenddate" name="testenddate"
+                            value="{{ $tdata->test_end_date ?? '' }}" required>
                         <span class="text-danger">
                             @error('testenddate')
                                 {{ 'Please select test end date' }}
@@ -209,19 +214,23 @@
                     </div>
                 </div>
 
+                
                 <div class="form-group row mt-2">
                     <div class="col-md-12">
                         <label for="">Questions<i style="color: red">*</i></label>
 
                         <select class="form-control select-checkbox-fa" style="height: 300px" id="questiondata"
-                            name="questiondata[]" multiple required>
-                            @if ($tdata ?? '') 
-                            @foreach($questions as $question)
-     <option value="{{ $question->question_id }}" >{{ $question->question}}</option>
-   @endforeach
-                        @endif
+                            name="questiondata[]"  multiple required>
+
+                           @if($questions ?? ''){ @foreach($questions as $question)
+                                <option value="{{ $question->id }}" @if(in_array($question->id,$qstn)) selected @endif>
+                                    {{ $question->question }}
+                                </option>
+                            @endforeach}
+                            @endif
+
                         </select>
-                        
+
                         <span class="text-danger">
                             @error('questiondata')
                                 {{ 'Please select questions' }}
@@ -229,11 +238,11 @@
                         </span>
                         <br>
                     </div>
-
-                </div>
+                    
                 <div class="row mt-4">
                     <div class="col-md-12 col-sm-12 col-12">
-                        <button type="submit" id="" class="btn btn-success btn-sm float-right">Save Test</button>
+                        <button type="submit" id="" class="btn btn-success btn-sm float-right">Save
+                            Test</button>
 
                     </div>
                 </div>
@@ -317,7 +326,8 @@
                 });
 
             };
-            function viewtestquestions(){
+            // viewtestquestions();
+            function viewtestquestions() {
                 var id = $('#id').val();
                 $.ajax({
                     url: "{{ url('admin/onlinetestquestions') }}/" + id,
@@ -335,5 +345,4 @@
                 });
             }
         </script>
-
     @endsection

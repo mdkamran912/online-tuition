@@ -90,11 +90,18 @@ class OnlineTestController extends Controller
         $questions = questionbank::select('*')->where('topic_id',$tdata->topic_id)->where('is_active',1)->get();
         $questiondatas = OnlineTests::select('question_id')->where('id',$tdata->id)->first();
 
-        // echo $questiondatas;
-        // echo "<br>";
-    
-        // dd();
-        return view('admin.onlinetestnew', compact('tdata','classes','subjects','topics','questions','questiondatas'));
+        // $questiondata = explode(',', $tdata->question_id);
+        // $data = ModelName::find($id);
+        $qstn = explode('"', $tdata->question_id);
+        // return view('package.edit', ['data' => $data,'months' => $SelectedMonths]);
+        // foreach($prodmulti as $test)
+        // echo $months ;
+        // echo "<pre>";
+        // dd($months);
+    // endforeach
+    // $keywords = preg_split('/[\s,-,"]+/', $tdata->question_id);
+// dd($months);
+        return view('admin.onlinetestnew', compact(['tdata','classes','subjects','topics','questions','questiondatas','qstn']));
     }
 
     public function viewquestions($id){
