@@ -51,7 +51,7 @@ class AssignmentsController extends Controller
         return view('admin.assignments',compact('datas'));
     }
 
-    public function tutorassignment(){
+    public function tutorassignments(){
         return view('tutor.assignments');
     }
 
