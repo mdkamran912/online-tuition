@@ -153,6 +153,8 @@ Route::get('profileupdate',[TutorProfileController::class,'edit'])->name('tutor.
 Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledata'])->name('tutor.updateprofiledata');
     // Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
+Route::get('mybatches',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
+
 
 
 });
