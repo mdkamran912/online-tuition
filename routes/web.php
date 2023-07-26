@@ -15,6 +15,8 @@ use App\Http\Controllers\AssignmentsController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\student\DashboardController;
+use App\Http\Controllers\tutor\TutorDashboardController;
+use App\Http\Controllers\tutor\TutorProfileController;
 use App\Http\Controllers\student\DemoListController;
 use App\Http\Controllers\student\MyLearningController;
 use App\Http\Controllers\student\StudentProfileController;
@@ -139,4 +141,13 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
     Route::get('onlinetestquestions/{id}',[OnlineTestController::class,'viewquestions'])->name('admin.onlinetestquestions.viewquestions');
     // Get questions by Topic
     Route::post('fetchquestions',[OnlineTestController::class,'fetchquestions'])->name('fetchquestions');
+});
+
+// Tutor Activity
+Route::group(['prefix'=>'tutor','middleware'=>['TutorAuthenticate']], function(){
+// Tutor Dashboard
+Route::get('dashboard',[TutorDashboardController::class,'index'])->name('tutor.dashboard');
+Route::get('profile',[TutorProfileController::class,'tutorprofile'])->name('tutor.profile');
+Route::get('profileupdate',[TutorProfileController::class,'edit'])->name('tutor.profileupdate');
+Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledata'])->name('tutor.updateprofiledata');
 });

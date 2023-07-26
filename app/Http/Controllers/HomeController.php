@@ -96,10 +96,7 @@ class HomeController extends Controller
                         dd($user->role_id);
                         break;
                     case 2:
-                        echo "Tutor - Something new is coming!";
-                        dd($user->role_id);
-
-                        break;
+                        return redirect('tutor/dashboard');
                     case 3:
                         return redirect('student/dashboard');
                     case 4:
