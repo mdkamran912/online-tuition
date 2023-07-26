@@ -31,7 +31,7 @@
                         @foreach ($demos as $demo)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                 <td>{{ $demo->class }}</td>
+                                 <td>{{ $demo->classname }}</td>
                                   <td>{{ $demo->subject }}</td>
                                 
                                 <td><a href="studentprofile/{{$demo->student_id}}">{{ $demo->student_name }}</a></td>
@@ -60,7 +60,7 @@
                                 <td>{{ $demo->remarks }}</td>
                                 <td>
                                     <button class="badge badge-primary"
-                                        onclick="openupdatemodal({{ $demo->demo_id }})">Update</button>
+                                        onclick="openupdatemodal('{{ $demo->demo_id }}','{{$demo->status}}','{{$demo->remarks}}')">Update</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -75,81 +75,8 @@
         </div>
         <!-- content-wrapper ends -->
 
-        <!--confirm modal -->
-        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <div class="modal-body">
-
-
-                        <header>
-                            <h3 class="text-center mb-4">Confirm Demo</h3>
-                        </header>
-
-                        <form action="{{ route('admin.demo.confirm') }}" method="POST">
-                            @csrf
-                            <label>Select Slot to Confirm</label>
-                            <div class="row mb-3">
-                                <input type="hidden" id="confirmid" name="confirmid">
-                                <div class="col-12 col-md-12 col-ms-12 p-2">
-                                    <label class="mr-4 text-secondary">Slot 1</label>
-                                    <input type="radio" id="slot1" value="" name="slot">&nbsp;<span
-                                        id="slot_1"></span>
-                                </div>
-                                <div class="col-12 col-md-12 col-ms-12 p-2">
-                                    <label class="mr-4 text-secondary">Slot 2</label>
-                                    <input type="radio" id="slot2" value="" name="slot">&nbsp;<span
-                                        id="slot_2"></span>
-                                </div>
-
-                                <div class="col-12 col-md-12 col-ms-12 p-2 mb-3">
-                                    <label class="mr-4 text-secondary">Slot 3</label>
-                                    <input type="radio" id="slot3" value="" name="slot">&nbsp;<span
-                                        id="slot_3"></span>
-                                </div>
-                                <span class="text-danger">
-                                    @error('slot')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-
-
-                                <div class="col-12 col-md-12 col-ms-12">
-                                    <label>Demo Link<i style="color: red;">*</i></label>
-                                    <input type="text" class="form-control" id="demolink" name="demolink"
-                                        placeholder="Paste Demo Link Here">
-                                    <span class="text-danger">
-                                        @error('demolink')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-12 col-ms-12">
-                                    <label>Remarks</label>
-                                    <textarea type="text" class="form-control" id="demoremarks" name="demoremarks" value="" placeholder="Remarks"></textarea>
-                                </div>
-
-                            </div>
-
-
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
-                                    class="fa fa-check"></span> Comfirm</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                    class="fa fa-times"></span> Close</button>
-
-
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--edit modal -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <!--demo update modal -->
+        <div class="modal fade" id="demostatusupdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -162,12 +89,13 @@
                             <h3 class="text-center mb-4">Update Status</h3>
                         </header>
 
-                        <form action="" method="POST">
+                        <form action="{{ route('tutor.demo.update') }}" method="POST">
                             @csrf
                             <div class="row">
                                 
                                
                                 <div class="col-12 col-md-12 col-sm-12 mb-3 ">
+                                    <input type="hidden" id="demoid" name="demoid">
                                     <label>Status<i style="color: red">*</i></label>
                                     <select class="form-control" id="statusupdate" name="statusupdate"
                                         placeholder="Select Status">
@@ -184,8 +112,8 @@
                                     </span>
                                 </div>
                                  <div class="col-12 col-md-12 col-sm-12 mb-3 ">
-                                    <label>Feedback</label>
-                                    <textarea class="form-control" id="feedback" name="feedback"></textarea>
+                                    <label>Remarks</label>
+                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
                                  </div>
                             </div>
 
@@ -228,26 +156,11 @@
                 $('#confirmModal').modal('show')
             }
 
-            function openupdatemodal(id) {
-                $.ajax({
-                    url: "{{ url('admin/demodetails') }}/" + id,
-                    type: "GET",
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        console.log(result)
-                        result = result[0]
-                        $('#demoupdateid').val(id)
-                        $('#slotupdate1').val(result.slot_1)
-                        $('#slotupdate2').val(result.slot_2)
-                        $('#slotupdate3').val(result.slot_3)
-                        $('#statusupdate').val(result.status)
-
-                    }
-                });
-                $('#editModal').modal('show')
+            function openupdatemodal(id,status,remarks) {
+                $('#demoid').val(id)
+                $('#statusupdate').val(status)
+                $('#remarks').val(remarks)
+                $('#demostatusupdate').modal('show')
             }
         </script>
     @endsection

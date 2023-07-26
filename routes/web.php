@@ -156,6 +156,7 @@ Route::get('tutoracdel/{id}',[TutorProfileController::class,'tutoracdel'])->name
 Route::post('classmapping',[TutorProfileController::class,'classmapping'])->name('tutor.classmapping');
 // Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
+Route::post('demolist',[DemoController::class,'tutordemoupdate'])->name('tutor.demo.update');
 Route::get('batches',[BatchesController::class,'tutorbatches'])->name('tutor.batches');
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
