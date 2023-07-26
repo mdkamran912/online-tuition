@@ -164,16 +164,23 @@
                     
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.students')}}">
+                        <a class="nav-link" href="{{route('tutor.batches')}}">
                             <i class="ti-book menu-icon"></i>
-                            <span class="menu-title">Students</span>
+                            <span class="menu-title">Batches</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.tutors')}}">
+                        <a class="nav-link" href="{{route('tutor.classes')}}">
                             <i class="ti-stats-up menu-icon"></i>
-                            <span class="menu-title">Tutors</span>
+                            <span class="menu-title">Classes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('tutor.assignments')}}" aria-controls="form-elements">
+                            <i class="ti-ruler-pencil menu-icon"></i>
+                            <span class="menu-title">Assignments</span>
+                            <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
                     <li class="nav-item">
@@ -183,13 +190,7 @@
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.assignments')}}" aria-controls="form-elements">
-                            <i class="ti-ruler-pencil menu-icon"></i>
-                            <span class="menu-title">Assignments</span>
-                            <!-- <i class="menu-arrow"></i> -->
-                        </a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.questionbank')}}" aria-controls="form-elements">
                             <i class="ti-target menu-icon"></i>
@@ -223,6 +224,13 @@
                         <a class="nav-link" href="studentFeedbackPannel.html" aria-controls="form-elements">
                             <i class="ti-comment-alt menu-icon"></i>
                             <span class="menu-title">Feedback</span>
+                            <!-- <i class="menu-arrow"></i> -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url('tutor/profile')}}" aria-controls="form-elements">
+                            <i class="ti-user menu-icon"></i>
+                            <span class="menu-title">My Profile</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>

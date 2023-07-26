@@ -144,12 +144,81 @@
                 </form>
                 <hr>
 
+                 {{-- Achievement Add/Update --}}
+                 <h3 class="text-center mb-4"><u>Class/Grade Mapping</u></h3>
 
+                 <form action="{{ route('tutor.classmapping') }}"  method="POST" name="classmapping">
+                     @csrf
+                     <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="">Class<i style="color:red">*</i></label>
+                            <select type="text" class="form-control" id="classname" name="classname"
+                                onchange="fetchSubjects();" required>
+                                <option value="">--Select--</option>
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="hidden" id="id" name="id" class="form-group">
+                            <label for="">Subject<i style="color:red">*</i></label>
+                            <select type="text" class="form-control" id="subject" name="subject" required>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="">Rate<i style="color:red">*</i></label>
+                            <input type="text" class="form-control" id="classrate" name="classrate"
+                                placeholder="Enter Details" required>
+                                <span class="text-danger">
+                                    @error('classrate')
+                                    {{ $message }}
+                                    @enderror
+                                </span>
+                        </div>
+ 
+                         <div class="form-group col-md-3 text-right" style="margin-top: 33px;">
+                             <button class=" btn btn-sm btn-success text-white" type="submit"><span
+                                     class="fa fa-plus"></span> Add</button>
+                         </div>
+                     </div>
+                 </form>
+ 
+                 <table class="table table-bordered">
+                     <thead class="bg-dark text-white">
+                         <tr>
+                             <th>S.No.</th>
+                             <th>Class</th>
+                             <th>Subject</th>
+                             <th>Rate/Hr</th>
+                             <th>Action</th>
+                         </tr>
+                     </thead>
+                     {{-- <tbody id="achievementGrid">
+                         @foreach ($achievement as $achievement)
+                             <tr>
+                                 <td>{{ $loop->iteration }}</td>
+                                 <td class="text-wrap">{{ $achievement->name }}</td>
+                                 <td class="text-wrap">{{ $achievement->description }}</td>
+                                 <td>{{ \Carbon\Carbon::parse($achievement->date)->format('j-F-Y') }}</td>
+                                 <td><a href="{{url('tutor/tutoracdel')}}/{{$achievement->id}}"><button class="btn-sm btn btn-danger"
+                                             type="button"><span class="fa fa-trash"></span> Delete</button></a></td>
+                             </tr>
+                         @endforeach
+                         <tr>
+ 
+                         </tr>
+ 
+                     </tbody> --}}
+                 </table>
+
+                 <hr>
 
                 {{-- Achievement Add/Update --}}
                 <h3 class="text-center mb-4"><u>Achievement</u></h3>
 
-                <form action="{{ route('student.studentacadd') }}"  method="POST" name="achie">
+                <form action="{{ route('tutor.tutoracadd') }}"  method="POST" name="achie">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-3">
@@ -203,7 +272,7 @@
                                 <td class="text-wrap">{{ $achievement->description }}</td>
                                 {{-- <td class="text-wrap">{{$achievement->date}}</td> --}}
                                 <td>{{ \Carbon\Carbon::parse($achievement->date)->format('j-F-Y') }}</td>
-                                <td><a href="../studentacdel/{{$achievement->id}}"><button class="btn-sm btn btn-danger"
+                                <td><a href="{{url('tutor/tutoracdel')}}/{{$achievement->id}}"><button class="btn-sm btn btn-danger"
                                             type="button"><span class="fa fa-trash"></span> Delete</button></a></td>
                             </tr>
                         @endforeach
@@ -225,15 +294,7 @@
 
     </div>
     <!-- content-wrapper ends -->
-    <!-- partial:partials/_footer.html -->
-    <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
-                All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
-                with <i class="ti-heart text-danger ml-1"></i></span>
-        </div>
-    </footer>
+   
     <!-- partial -->
     </div>
     <!-- main-panel ends -->
@@ -318,23 +379,31 @@
                 });
 
                 reader.readAsDataURL(choosedFile);
-                // alert(document.getElementById('file').value)
-                // $("#profilepic").change(function(){
-                // $.ajax({
-                //     type: "POST",
-                //     // data: $('#profile-form').serialize(),
-                //     data: document.getElementById('file')value,
-                //     url: "{{ url('student/profilepicupdate') }}",
-                //     success: function(data) {
-                //         window.location.href = window.location.href;
-                //     },
-
-                // });
             }
         });
-        //         });
+        function fetchSubjects() {
 
-        //     }
-        // });
+var classId = $('#classname option:selected').val();
+$("#subject").html('');
+$.ajax({
+    url: "{{ url('fetchsubjects') }}",
+    type: "POST",
+    data: {
+        class_id: classId,
+        _token: '{{ csrf_token() }}'
+    },
+    dataType: 'json',
+    success: function(result) {
+        $('#subject').html('<option value="">-- Select Type --</option>');
+        $.each(result.subjects, function(key, value) {
+            $("#subject").append('<option value="' + value
+                .id + '">' + value.name + '</option>');
+        });
+
+    }
+
+});
+
+};
     </script>
 @endsection

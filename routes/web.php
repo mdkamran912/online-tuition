@@ -151,8 +151,15 @@ Route::get('dashboard',[TutorDashboardController::class,'index'])->name('tutor.d
 Route::get('profile',[TutorProfileController::class,'tutorprofile'])->name('tutor.profile');
 Route::get('profileupdate',[TutorProfileController::class,'edit'])->name('tutor.profileupdate');
 Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledata'])->name('tutor.updateprofiledata');
-    // Demo List
+Route::post('tutoracadd',[TutorProfileController::class,'tutoracadd'])->name('tutor.tutoracadd');
+Route::get('tutoracdel/{id}',[TutorProfileController::class,'tutoracdel'])->name('tutor.tutoracdel');
+Route::post('classmapping',[TutorProfileController::class,'classmapping'])->name('tutor.classmapping');
+// Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
+Route::get('batches',[BatchesController::class,'tutorbatches'])->name('tutor.batches');
+Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
+Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
+
 
 
 });
