@@ -160,6 +160,6 @@ Route::get('batches',[BatchesController::class,'tutorbatches'])->name('tutor.bat
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
 
-
+ 
 
 });
