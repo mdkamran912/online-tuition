@@ -103,4 +103,8 @@ class BatchesController extends Controller
          $data['subjects'] = batchstudentmapping::where("batch_id", $id)->first();
      return response()->json($data);
     }
+
+    public function tutorbatches(){
+        return view('tutor.batches');
+    }
 }

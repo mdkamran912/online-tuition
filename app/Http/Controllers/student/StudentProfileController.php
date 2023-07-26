@@ -189,4 +189,5 @@ class StudentProfileController extends Controller
        $res = $data->save();
      return json_encode(array('statusCode'=>200));
     }
+    
 }

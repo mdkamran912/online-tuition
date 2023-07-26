@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\tutor;
 
+use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\country;
 use App\Models\payments\paymentdetails;
@@ -27,6 +28,7 @@ class TutorProfileController extends Controller
 
     public function tutorprofile()
     {   $id = session('userid')->id;
+        $classes = (new CommonController)->classes();
         $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
@@ -50,12 +52,13 @@ class TutorProfileController extends Controller
         }
         // echo $tutorpd;
         //     dd();
-        return view('tutor.tutorprofile', compact('tutorpd', 'achievement', 'reviews','tutorsub'));
+        return view('tutor.tutorprofile', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
     }
 
     public function edit()
     {
         $id = session('userid')->id;
+        $classes = (new CommonController)->classes();
         $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
@@ -79,7 +82,7 @@ class TutorProfileController extends Controller
         }
         // echo $tutorpd;
         //     dd();
-        return view('tutor.profileupdate', compact('tutorpd', 'achievement', 'reviews','tutorsub'));
+        return view('tutor.profileupdate', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
     }
 
     public function updateprofiledata(Request $request)
@@ -122,4 +125,53 @@ class TutorProfileController extends Controller
             return back()->with('fail', 'Something went wrong, please try again later');
         }
     }
+
+    public function tutoracadd(Request $request){
+        
+        $request->validate([
+            'achievementName'=>'required',
+            'achievementDesc'=>'required',
+        ]);
+        $achv = new tutorachievements();
+        $achv->name = $request->achievementName;
+        $achv->description = $request->achievementDesc;
+        $achv->date = $request->achDate;
+        $achv->tutor_id = session('userid')->id;
+        $res = $achv->save();
+        if ($res) {
+            return back()->with('success', 'Achievement added successfully');
+        } else {
+            return back()->with('fail', 'Something went wrong, please try again later');
+        }
+    }
+    public function tutoracdel($id){
+        
+        $achv =  DB::delete('delete from tutorachievements where id = ?',[$id]);
+        if ($achv) {
+            return back()->with('success', 'Achievement deleted successfully');
+        } else {
+            return back()->with('fail', 'Something went wrong, please try again later');
+        }
+    }
+public function classmapping(Request $request){
+
+    $request->validate([
+        'classname'=>'required',
+        'subject'=>'required',
+        'classrate'=>'required',
+    ]);
+    
+    $trmapping = new tutorsubjectmapping();
+    $trmapping->tutor_id = session('userid')->id;
+    $trmapping->subject_id = $request->subject;
+    $trmapping->rate = $request->classrate;
+    $trmapping->class_id = $request->classname;
+    $res = $trmapping->save();
+    if ($res) {
+        return back()->with('success', 'Subject added successfully');
+    } else {
+        return back()->with('fail', 'Something went wrong, please try again later');
+    }
+
+}
 }
