@@ -46,7 +46,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Full Name<i style="color:red">*</i></label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                    value="{{ $tutorpd->name ?? session('userid')->name }}" required>
+                                    value="{{ $tutorpd->name ?? session('userid')->name }}" required disabled>
                             </div>
 
                             <div class="form-group col-md-6">

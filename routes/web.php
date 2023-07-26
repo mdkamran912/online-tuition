@@ -145,9 +145,14 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
 
 // Tutor Activity
 Route::group(['prefix'=>'tutor','middleware'=>['TutorAuthenticate']], function(){
-// Tutor Dashboard
+
+    // Tutor Dashboard
 Route::get('dashboard',[TutorDashboardController::class,'index'])->name('tutor.dashboard');
 Route::get('profile',[TutorProfileController::class,'tutorprofile'])->name('tutor.profile');
 Route::get('profileupdate',[TutorProfileController::class,'edit'])->name('tutor.profileupdate');
 Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledata'])->name('tutor.updateprofiledata');
+    // Demo List
+Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
+
+
 });

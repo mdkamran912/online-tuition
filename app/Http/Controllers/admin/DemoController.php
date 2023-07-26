@@ -112,4 +112,17 @@ class DemoController extends Controller
     }
     }
     
+    public function tutordemolist(){
+
+        $demos = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','tutorregistrations.mobile as tutor_mobile','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile')
+        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
+        ->join('subjects', 'subjects.id','=','democlasses.subject_id')
+        ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
+        ->where('democlasses.student_id','=', session('userid')->id)
+        ->get();
+        
+        $statuses = status::select('*')->get();
+        return view('tutor.demolist', compact('demos','statuses'));
+    }
 }

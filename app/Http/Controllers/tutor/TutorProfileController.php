@@ -92,7 +92,7 @@ class TutorProfileController extends Controller
         } else {
             $ppic = new tutorprofile();
         }
-        $ppic->name = $request->name;
+        $ppic->name = session('userid')->name;
         $ppic->mobile = session('userid')->mobile;
         $ppic->secondary_mobile = $request->secmobile;
         $ppic->email = session('userid')->email;
