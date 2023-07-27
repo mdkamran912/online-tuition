@@ -159,6 +159,7 @@ Route::get('classmappingdelete/{id}',[TutorProfileController::class,'classmappin
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
 Route::post('demolist',[DemoController::class,'tutordemoupdate'])->name('tutor.demo.update');
 Route::get('batches',[BatchesController::class,'tutorbatches'])->name('tutor.batches');
+Route::get('batches/students/{id}',[BatchesController::class,'tutorbatchesstudents'])->name('tutor.batches.students');
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
 

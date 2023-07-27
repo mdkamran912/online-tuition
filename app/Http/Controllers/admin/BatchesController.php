@@ -105,6 +105,17 @@ class BatchesController extends Controller
     }
 
     public function tutorbatches(){
-        return view('tutor.batches');
+        $batches = batches::select('batches.id as batch_id','batches.name as batch_name','batches.description as batch_description','subjects.name as subject_name','classes.name as class_name')
+        ->join('subjects','subjects.id','batches.subject_id')
+        ->join('classes','classes.id','subjects.class_id')
+        ->where('batches.tutor_id',session('userid')->id)
+        ->where('batches.is_active',1)
+        ->get();
+        return view('tutor.batches',compact('batches'));
+    }
+
+    public function tutorbatchesstudents($id){
+        $data['students'] = batchstudentmapping::where("batch_id", $id)->first();
+        return response()->json($data);
     }
 }

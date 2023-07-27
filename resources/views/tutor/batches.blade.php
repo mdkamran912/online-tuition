@@ -10,39 +10,33 @@
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
             <h3 class="text-center">Batches</h3>
-            <div id="listHeader" class="mb-3">
-                        
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#newClassModal"> <span
-                                class="fa fa-plus"></span> Schedule New
-                            Class</button>
-                    </div>
+            
             <div class="mt-4" id="">
 
                 <table class="table table-hover table-bordered ">
                     <thead class="thead-dark ">
                         <tr>
                                 <th scope="col">S.No.</th>
-                                <th scope="col">Class.</th>
+                                <th scope="col">Class/Grade</th>
                                 <th scope="col">Subject</th>
                                 <th scope="col">Batch</th>
-                                <th scope="col">Batch Start Date</th>
-                                <th scope="col">Batch End Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">View-List Of Students</th>
+                                <th scope="col">Batch Description</th>
+                                <th scope="col">Action</th>
                             </tr>
                     </thead>
                     <tbody>
+                        @foreach ($batches as $batch)
+                            
                       <tr>
-                        <td>1</td>
-                        <td>class</td>
-                        <td>Mathematics</td>
-                        <td>Batch 1</td>
-                        <td> 23 jun 2023</td>
-                        <td>22 Aug 2023</td>
-                        <td>Confirm</td>
-                        <td><button class="btb btn-sm btn-primary" data-togggle="modal" data-target="#studentList" onclick="openModal();">View</button></td>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$batch->class_name}}</td>
+                        <td>{{$batch->subject_name}}</td>
+                        <td>{{$batch->batch_name}}</td>
+                        <td>{{$batch->batch_description}}</td>
+                        <td><button class="btn btn-sm btn-primary" onclick="openstudentmodal({{$batch->batch_id}});"><span class="fa fa-search"></span> View Students</button> <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><span class="fa fa-plus-circle"></span> Schedule Class</button></td>
                         
                       </tr>
+                      @endforeach
 
                     </tbody>
                 </table>
@@ -55,9 +49,45 @@
         </div>
         <!-- content-wrapper ends -->
 
+
+         <!--Student List modal -->
+         <div class="modal fade" id="studentlistmodal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+
+
+                 <div class="modal-body">
+
+
+                     <header>
+                         <h3 class="text-center mb-4">Student List</h3>
+                     </header>
+
+                     <form action="" method="">
+                         <div class="row">
+                            <div class="col-12 col-md-6 col-ms-6 mb-3">
+                         <select id="studentlist" name="studentlist" multiple>
+
+                         </select>
+                            </div>
+                         </div>
+
+
+                         <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
+                             data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+
+
+
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
+
         
-                <!-- modal -->
-                <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog"
+                <!--Schedule modal -->
+                <div class="modal fade" id="scheduleclassmodal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -107,11 +137,35 @@
 
 
         <script>
-            function openModal(){
+            function openclassmodal(){
 
-                 $('#newClassModal').modal('show')
+                 $('#scheduleclassmodal').modal('show')
 
             }
-          
+            function openstudentmodal(id){
+                var classId = $('#classname option:selected').val();
+                $("#subject").html('');
+                $.ajax({
+                    url: "{{ url('tutor/batches/students') }}/"+id,
+                    type: "GET",
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result.student_data);
+                        $('#studentlist').html('<option value="">-- Select Type --</option>');
+                        $.each(result.students, function(key, value) {
+                            $("#studentlist").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+
+                });
+                // $('#studentlist').val()
+            $('#studentlistmodal').modal('show')
+
+            }
         </script>
     @endsection
