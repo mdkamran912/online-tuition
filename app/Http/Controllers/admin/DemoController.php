@@ -127,10 +127,24 @@ class DemoController extends Controller
         return view('tutor.demolist', compact('demos','statuses'));
     }
 public function tutordemoupdate(Request $request){
+    // echo $request->statusupdate;
+    // dd();
 $request->validate([
     'statusupdate'=>'required',
     'demoid'=>'required'
 ]);
+
+$data = democlasses::find($request->demoid);
+$data->status = $request->statusupdate;
+$data->remarks = $request->remarks;
+
+$res = $data->save();
+if($res){
+    return back()->with('success','Demo details updated successfully');
+}
+else{
+    return back()->with('fail','Something went wrong. Please try again later');
+}
 
 }
 }

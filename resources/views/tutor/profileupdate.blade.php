@@ -195,14 +195,14 @@
                              <th>Action</th>
                          </tr>
                      </thead>
-                     {{-- <tbody id="achievementGrid">
-                         @foreach ($achievement as $achievement)
+                     <tbody id="tutorclassmappinggrid">
+                         @foreach ($tutorsub as $classmapping)
                              <tr>
                                  <td>{{ $loop->iteration }}</td>
-                                 <td class="text-wrap">{{ $achievement->name }}</td>
-                                 <td class="text-wrap">{{ $achievement->description }}</td>
-                                 <td>{{ \Carbon\Carbon::parse($achievement->date)->format('j-F-Y') }}</td>
-                                 <td><a href="{{url('tutor/tutoracdel')}}/{{$achievement->id}}"><button class="btn-sm btn btn-danger"
+                                 <td class="text-wrap">{{ $classmapping->class }}</td>
+                                 <td class="text-wrap">{{ $classmapping->subject }}</td>
+                                 <td class="text-wrap">{{ $classmapping->rate }}</td>
+                                 <td><a href="{{url('tutor/classmappingdelete')}}/{{$classmapping->id}}"><button class="btn-sm btn btn-danger"
                                              type="button"><span class="fa fa-trash"></span> Delete</button></a></td>
                              </tr>
                          @endforeach
@@ -210,7 +210,7 @@
  
                          </tr>
  
-                     </tbody> --}}
+                     </tbody>
                  </table>
 
                  <hr>

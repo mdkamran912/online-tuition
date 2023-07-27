@@ -74,14 +74,14 @@ class TutorProfileController extends Controller
             ->join('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
             ->where('tutorreviews.tutor_id', '=', $id)->get();
 
-        $tutorsub = tutorsubjectmapping::select('*','subjects.name as subject')
+        $tutorsub = tutorsubjectmapping::select('*','tutorsubjectmappings.id as id','subjects.name as subject','classes.name as class')
         ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
+        ->join('classes','classes.id','subjects.class_id')
                     ->where('tutor_id', $id)->get();
         if (!$tutorpd) {
             return view('tutor.tutorprofile')->with('fail', 'Something went wrong');
         }
-        // echo $tutorpd;
-        //     dd();
+        
         return view('tutor.profileupdate', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
     }
 
@@ -173,5 +173,13 @@ public function classmapping(Request $request){
         return back()->with('fail', 'Something went wrong, please try again later');
     }
 
+}
+public function classmappingdelete($id){
+    $classmp =  DB::delete('delete from tutorsubjectmappings where id = ?',[$id]);
+    if ($classmp) {
+        return back()->with('success', 'Class Mapping deleted successfully');
+    } else {
+        return back()->with('fail', 'Something went wrong, please try again later');
+    }
 }
 }

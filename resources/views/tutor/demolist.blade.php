@@ -34,11 +34,7 @@
                                  <td>{{ $demo->classname }}</td>
                                   <td>{{ $demo->subject }}</td>
                                 
-                                <td><a href="studentprofile/{{$demo->student_id}}">{{ $demo->student_name }}</a></td>
-                                {{-- <td>{{ $demo->student_mobile }}</td>
-                                <td><a href="tutorprofile/{{$demo->tutor_id}}">{{ $demo->tutor }}</a></td>
-                                <td>{{ $demo->tutor_mobile }}</td> --}}
-                               
+                                <td>{{ $demo->student_name }}</td>
                                 <td>
                                     @if ($demo->status == 1)
                                         <span class="badge badge-info">{{ $demo->currentstatus }}</span>
@@ -59,8 +55,11 @@
                                 <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
                                 <td>{{ $demo->remarks }}</td>
                                 <td>
+                                    @if ($demo->status == 3)
                                     <button class="badge badge-primary"
-                                        onclick="openupdatemodal('{{ $demo->demo_id }}','{{$demo->status}}','{{$demo->remarks}}')">Update</button>
+                                    onclick="openupdatemodal('{{ $demo->demo_id }}','{{$demo->status}}','{{$demo->remarks}}')">Update</button>
+                                    
+                                @endif
                                 </td>
                             </tr>
                         @endforeach

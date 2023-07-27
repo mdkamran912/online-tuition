@@ -154,6 +154,7 @@ Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledat
 Route::post('tutoracadd',[TutorProfileController::class,'tutoracadd'])->name('tutor.tutoracadd');
 Route::get('tutoracdel/{id}',[TutorProfileController::class,'tutoracdel'])->name('tutor.tutoracdel');
 Route::post('classmapping',[TutorProfileController::class,'classmapping'])->name('tutor.classmapping');
+Route::get('classmappingdelete/{id}',[TutorProfileController::class,'classmappingdelete'])->name('tutor.classmappingdelete');
 // Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
 Route::post('demolist',[DemoController::class,'tutordemoupdate'])->name('tutor.demo.update');
