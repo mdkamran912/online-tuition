@@ -9,8 +9,8 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <h3 class="text-center">Batches</h3>
-           <a href="{{route('tutor.liveclass')}}"> <button class="btn btn-sm btn-danger">Test API</button></a>
+            <h3 class="text-center">Live Classes</h3>
+           <a href="{{route('tutor.liveclass.create')}}"> <button class="btn btn-sm btn-danger">Cretae ZOOM API Test</button></a>
             <div class="mt-4" id="">
 
                 <table class="table table-hover table-bordered ">
@@ -25,15 +25,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($batches as $batch)
+                        @foreach ($liveclasses as $liveclass)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $batch->class_name }}</td>
-                                <td>{{ $batch->subject_name }}</td>
-                                <td>{{ $batch->batch_name }}</td>
-                                <td>{{ $batch->batch_description }}</td>
+                                <td>{{ $liveclass->id }}</td>
+                                <td>{{ $liveclass->meeting_id }}</td>
+                                <td>{{ $liveclass->topic }}</td>
+                                <td>{{ $liveclass->start_at }}</td>
                                 <td><button class="btn btn-sm btn-primary"
-                                        onclick="openstudentmodal({{ $batch->batch_id }});"><span
+                                        onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
                                             class="fa fa-search"></span> View Students</button>
                                     {{-- @if ($classessch)
                                 @foreach ($classessch as $classsc)
@@ -41,9 +41,9 @@
                                         <p>Hello</p>
                                         
                                     @else --}}
-                                    <button class="btn btn-sm btn-primary"
+                                    {{-- <button class="btn btn-sm btn-primary"
                                         onclick="openclassmodal('{{ $batch->batch_id }}','{{ $batch->subject_id }}');"><span
-                                            class="fa fa-plus-circle"></span> Schedule Class</button>
+                                            class="fa fa-plus-circle"></span> Schedule Class</button> --}}
                                     {{-- <button class="btn btn-sm btn-primary" onclick="openclassmodal('{{$batch->batch_id}}','{{$batch->subject_id}}');"><span class="fa fa-plus-circle"></span> Schedule Class</button> --}}
                                     {{-- @endif --}}
                                     {{-- @endforeach
@@ -57,7 +57,11 @@
                 <div class="d-flex justify-content-center">
                     {{-- {!! $demos->links() !!} --}}
                 </div>
-
+<form action="{{route('tutor.liveclass.store')}}" method="POST">
+    @csrf
+    <input type="text">
+<button type="submit" class="success">Submit</button>
+</form>
 
             </div>
         </div>

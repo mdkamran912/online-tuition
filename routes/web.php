@@ -22,6 +22,8 @@ use App\Http\Controllers\student\MyLearningController;
 use App\Http\Controllers\student\StudentProfileController;
 use App\Http\Controllers\student\SubjectsController;
 use App\Http\Controllers\student\TutorSearchController;
+use App\Http\Controllers\tutor\ClassScheduleController;
+use App\Http\Controllers\ZoomClassesController;
 // use App\Http\Controllers\StudentregistrationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -146,22 +148,33 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
 // Tutor Activity
 Route::group(['prefix'=>'tutor','middleware'=>['TutorAuthenticate']], function(){
 
-    // Tutor Dashboard
+// Tutor Dashboard
 Route::get('dashboard',[TutorDashboardController::class,'index'])->name('tutor.dashboard');
+// Tutor Profile
 Route::get('profile',[TutorProfileController::class,'tutorprofile'])->name('tutor.profile');
 Route::get('profileupdate',[TutorProfileController::class,'edit'])->name('tutor.profileupdate');
 Route::post('updateprofiledata',[TutorProfileController::class,'updateprofiledata'])->name('tutor.updateprofiledata');
+// Tutor Achievement Mapping
 Route::post('tutoracadd',[TutorProfileController::class,'tutoracadd'])->name('tutor.tutoracadd');
 Route::get('tutoracdel/{id}',[TutorProfileController::class,'tutoracdel'])->name('tutor.tutoracdel');
+// Tutor Class Mapping
 Route::post('classmapping',[TutorProfileController::class,'classmapping'])->name('tutor.classmapping');
 Route::get('classmappingdelete/{id}',[TutorProfileController::class,'classmappingdelete'])->name('tutor.classmappingdelete');
+// Tutor Class Scheduling
+Route::post('classschedule',[ClassScheduleController::class,'create'])->name('tutor.classschedule.create');
 // Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
 Route::post('demolist',[DemoController::class,'tutordemoupdate'])->name('tutor.demo.update');
+// Tutor Batches
 Route::get('batches',[BatchesController::class,'tutorbatches'])->name('tutor.batches');
 Route::get('batches/students/{id}',[BatchesController::class,'tutorbatchesstudents'])->name('tutor.batches.students');
+// Tutor Classes
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
+// Tutor Assignments
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
+Route::get('liveclass',[ZoomClassesController::class,'index'])->name('tutor.liveclass');
+Route::get('liveclass/create',[ZoomClassesController::class,'create'])->name('tutor.liveclass.create');
+Route::post('liveclass/store',[ZoomClassesController::class,'store'])->name('tutor.liveclass.store');
 
 
 
