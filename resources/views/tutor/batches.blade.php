@@ -41,9 +41,9 @@
                                         <p>Hello</p>
                                         
                                     @else --}}
-                                    <button class="btn btn-sm btn-primary"
-                                        onclick="openclassmodal('{{ $batch->batch_id }}','{{ $batch->subject_id }}');"><span
-                                            class="fa fa-plus-circle"></span> Schedule Class</button>
+                                    <a href="{{route('tutor.liveclass.classlist')}}">
+                                    <button class="btn btn-sm btn-primary"><span
+                                            class="fa fa-plus-circle"></span> Schedule Class</button></
                                     {{-- <button class="btn btn-sm btn-primary" onclick="openclassmodal('{{$batch->batch_id}}','{{$batch->subject_id}}');"><span class="fa fa-plus-circle"></span> Schedule Class</button> --}}
                                     {{-- @endif --}}
                                     {{-- @endforeach
@@ -254,26 +254,6 @@
 
             }
 
-            function testapi() {
-                // $.ajax({
-                //     url: "https://zoom.us/oauth/authorize",
-                //     type: "GET",
-                //     data: {
-                //         response_type : "code",
-                //         redirect_uri : "http://127.0.0.1:8000/student/demolist",
-                //         client_id : "oFed_e_zQi6wE8183XRI0A"
-
-                //     },
-                //     dataType: 'json',
-                //     success: function(data) {
-                //         alert(data)
-                //     }
-                // });
-            // window.location.href = 'https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/student/demolist';
-            
-            
-        
-
-        }
+           
         </script>
     @endsection

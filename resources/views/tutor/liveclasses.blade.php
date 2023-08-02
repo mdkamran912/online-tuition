@@ -10,17 +10,22 @@
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
             <h3 class="text-center">Live Classes</h3>
-           <a href="{{route('tutor.liveclass.create')}}"> <button class="btn btn-sm btn-danger">Cretae ZOOM API Test</button></a>
+            <button class="btn btn-sm btn-success" onclick="openclassmodal();">Schedule Class</button>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered ">
+                <table class="table table-hover table-bordered table-responsive">
                     <thead class="thead-dark ">
                         <tr>
                             <th scope="col">S.No.</th>
-                            <th scope="col">Class/Grade</th>
+                            <th scope="col">Meeting ID</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Batch</th>
                             <th scope="col">Batch Description</th>
+                            <th scope="col">Topic</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Agenda</th>
+                            <th scope="col">Meeting Link</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -57,11 +62,18 @@
                 <div class="d-flex justify-content-center">
                     {{-- {!! $demos->links() !!} --}}
                 </div>
-<form action="{{route('tutor.liveclass.store')}}" method="POST">
-    @csrf
-    <input type="text">
-<button type="submit" class="success">Submit</button>
-</form>
+                {{-- <form action="{{ route('tutor.liveclass.store') }}" method="POST">
+                    @csrf
+                    <input type="text" id="url" name="url"
+                        value="{{ url()->full() }}">{{ url()->full('code') }}
+                    <button type="submit" class="success">Submit</button>
+                </form> --}}
+                <br>
+
+                {{-- <form action="{{ route('tutor.liveclass.getuser') }}" method="GET">
+                    @csrf
+                    <input type="text" id="zuser" name="zuser"><button type="submit" class="success">Submit</button>
+                </form> --}}
 
             </div>
         </div>
@@ -138,9 +150,44 @@
                         <form action="{{ route('tutor.classschedule.create') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <input type="hidden" id="batchid" name="batchid" class="">
-                                <div class="col-12 col-md-12 col-ms-6 mb-3">
-                                    <label>Topic</label>
+                               
+                                <div class="col-12 col-md-4 col-ms-6 mb-3">
+                                    <label>Class/Grade<span style="color:red">*</span></label>
+                                    <select type="text" class="form-control" id="class" name="class">
+                                        @foreach ($classes as $class)
+                                            <option value="{{$class->id}}">{{$class->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger">
+                                        @error('class')
+                                            {{ 'Class is required' }}
+                                        @enderror
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 col-ms-6 mb-3">
+                                    <label>Subject<span style="color:red">*</span></label>
+                                    <select type="text" class="form-control" id="subject" name="subject">
+
+                                    </select>
+                                    <span class="text-danger">
+                                        @error('subject')
+                                            {{ 'Subject is required' }}
+                                        @enderror
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 col-ms-6 mb-3">
+                                    <label>Batch<span style="color:red">*</span></label>
+                                    <select type="text" class="form-control" id="batchid" name="batchid">
+
+                                    </select>
+                                    <span class="text-danger">
+                                        @error('batchid')
+                                            {{ 'Batch is required' }}
+                                        @enderror
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                    <label>Topic<span style="color:red">*</span></label>
                                     <select type="text" class="form-control" id="topic" name="topic">
 
                                     </select>
@@ -150,17 +197,8 @@
                                         @enderror
                                     </span>
                                 </div>
-                                <div class="col-12 col-md-12 col-ms-6 mb-3">
-                                    <label>Class Link</label>
-                                    <input type="text" class="form-control" id="classlink" name="classlink">
-                                    <span class="text-danger">
-                                        @error('classlink')
-                                            {{ 'Class link is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class Start Time</label>
+                                    <label>Class Start Time<span style="color:red">*</span></label>
                                     <input type="datetime-local" class="form-control" id="classstarttime"
                                         name="classstarttime">
                                     <span class="text-danger">
@@ -171,11 +209,20 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class End Time</label>
-                                    <input type="datetime-local" class="form-control" id="classendtime" name="classendtime">
+                                    <label>Class Duration(minutes)<span style="color:red">*</span></label>
+                                    <input type="tet" class="form-control" id="classduration" name="classduration">
                                     <span class="text-danger">
-                                        @error('classendtime')
-                                            {{ 'Class end time is required' }}
+                                        @error('classduration')
+                                            {{ 'Class duration is required' }}
+                                        @enderror
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                    <label>Class Password<span style="color:red">*</span></label>
+                                    <input type="tet" class="form-control" id="classpassword" name="classpassword">
+                                    <span class="text-danger">
+                                        @error('classpassword')
+                                            {{ 'Class password is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -273,11 +320,30 @@
                 //         alert(data)
                 //     }
                 // });
-            // window.location.href = 'https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/student/demolist';
-            
-            
-        
+                // window.location.href = 'https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/student/demolist';
 
+
+
+
+            }
+
+function testapidata(){
+            $.ajax({
+                type: "POST",
+                url: "https://zoom.us/oauth/token",
+                data: {
+                    grant_type: "authorization_code",
+                    code:'fzAJfhkgr4Hvad3MAZvQJ6QaLBCFXrAzA'
+                },
+                dataType: 'json',
+                // Content-Type: 'application/x-www-form-urlencoded',
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(test){
+// console.log(test)
+                }
+            })
         }
         </script>
     @endsection

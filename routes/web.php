@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\TopicController;
 use App\Http\Controllers\AssignmentsController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JitsiController;
 use App\Http\Controllers\student\DashboardController;
 use App\Http\Controllers\tutor\TutorDashboardController;
 use App\Http\Controllers\tutor\TutorProfileController;
@@ -118,6 +119,8 @@ Route::group(['prefix' => 'admin','middleware' => ['AdminAuthenticate']], functi
     Route::get('tutors/status',[TutorSearchController::class,'status'])->name('admin.tutors.status');
     // Payment details
     Route::get('payments',[PaymentsController::class,'index'])->name('admin.payments');
+    Route::get('tutorpayments',[PaymentsController::class,'tutorpayments'])->name('admin.tutorpayments');
+    Route::get('tutorpaymentslist',[PaymentsController::class,'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments',[PaymentsController::class,'update'])->name('admin.payments.update');
     // Learning contents
     Route::get('learningcontents',[LearningsContentsController::class,'index'])->name('admin.learningcontents');
@@ -175,7 +178,10 @@ Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->nam
 Route::get('liveclass',[ZoomClassesController::class,'index'])->name('tutor.liveclass');
 Route::get('liveclass/create',[ZoomClassesController::class,'create'])->name('tutor.liveclass.create');
 Route::post('liveclass/store',[ZoomClassesController::class,'store'])->name('tutor.liveclass.store');
-
+Route::get('getuser',[ZoomClassesController::class,'getzoomuser'])->name('tutor.liveclass.getuser');
+Route::get('getclass',[ZoomClassesController::class,'classlist'])->name('tutor.liveclass.classlist');
 
 
 });
+
+Route::get('/jitsi', [JitsiController::class,'index']);

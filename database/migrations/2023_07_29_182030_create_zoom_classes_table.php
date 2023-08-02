@@ -13,25 +13,32 @@ return new class extends Migration
     {
         Schema::create('zoom_classes', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('Grade_id')->references('id')->on('Grades')->onDelete('cascade');
-            // $table->foreignId('Classroom_id')->references('id')->on('Classrooms')->onDelete('cascade');
-            // $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
-            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('Grade_id');
-            $table->string('Classroom_id');
-            $table->string('section_id');
-            $table->string('user_id');
-            
+            $table->integer('tutor_id');
+            $table->integer('batch_id');
+            $table->string('uuid');
             $table->string('meeting_id');
-            $table->string('topic');
-            $table->dateTime('start_at');
+            $table->string('host_id');
+            $table->string('host_email');
+            $table->string('topic_id');
+            $table->string('topic_name');
+            $table->integer('type');
+            $table->string('status');
+            $table->string('start_time');
             $table->integer('duration')->comment('minutes');
-            $table->string('password')->comment('meeting password');
+            $table->string('timezone');
+            $table->string('agenda');
             $table->text('start_url');
             $table->text('join_url');
+            $table->string('password')->comment('meeting password');
+            $table->string('h323_password');
+            $table->string('pstn_password');
+            $table->string('encrypted_password');
+            $table->integer('is_active')->default(1);
+            $table->integer('is_completed')->default(0);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

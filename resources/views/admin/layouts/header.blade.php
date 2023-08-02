@@ -222,7 +222,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.payments')}}" aria-controls="form-elements">
                             <i class="ti-money menu-icon"></i>
-                            <span class="menu-title">Payments</span>
+                            <span class="menu-title">Student Payments</span>
+                            <!-- <i class="menu-arrow"></i> -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.tutorpaymentslist')}}" aria-controls="form-elements">
+                            <i class="ti-money menu-icon"></i>
+                            <span class="menu-title">Tutor Payments</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>

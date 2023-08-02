@@ -39,4 +39,14 @@ class PaymentsController extends Controller
             return back()->with('fail','Something went wrong. Please try again later');
         }
     }
+
+    public function tutorpaymentslist(){
+
+        return view('admin.tutorpaymentlist');
+    }
+
+    public function tutorpayments(){
+
+        return view('admin.tutorpayment');
+    }
 }

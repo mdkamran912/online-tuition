@@ -8,3 +8,10 @@ return [
     'authentication_method' => 'OAuth2', // Only jwt compatible at present but will add OAuth2
     'max_api_calls_per_request' => '5' // how many times can we hit the api to return results for an all() request
 ];
+
+// return [
+//     POST https://zoom.us/oauth/token?grant_type=account_credentials&account_id={accountId}
+// HTTP/1.1
+// Host: zoom.us
+// Authorization: Basic Base64Encoder(clientId:clientSecret)
+// ]

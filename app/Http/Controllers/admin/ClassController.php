@@ -4,12 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\classes;
+use App\Models\zoom_classes;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
 {
     public function index(){
         $classes = classes::select('*')->paginate(10);
+        
         return view('admin.class',compact('classes'));
     }
     
@@ -54,6 +56,7 @@ class ClassController extends Controller
     }
 
     public function tutorclasses(){
-        return view('tutor.classes');
+        $liveclasses = zoom_classes::select('*')->where('tutor_id',session('userid')->id);
+        return view('tutor.classes',compact('liveclasses'));
     }
 }
