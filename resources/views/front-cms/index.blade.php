@@ -1,290 +1,461 @@
+<style>
+
+.gradeBox{
+    border: 1px solid lightgray;
+    height: 200px;
+    border-radius: 10px;
+}
+.gradeBox:hover{
+background-color: #dfceee;
+}
+.grades{ 
+    padding: 30px;
+}
+
+
+.headerText{
+    color: #3c4852;
+    font-size: 44px;
+    font-weight: 800;
+    font-family:AvertaStd, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.section-title{
+     color: #3c4852;
+     font-weight: 700;
+
+}
+
+  .carousel-container {
+            /* width: 100%; */
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            /* Add this to position buttons */
+        }
+
+        .carousel {
+            display: flex;
+            margin-left: 30px;
+        }
+
+        .contentBox {
+            flex: 0 0 30%;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .carousel-button {
+            position: absolute;
+            /* Position the buttons */
+            top: 50%;
+            /* Adjust this to vertically center the buttons */
+            transform: translateY(-50%);
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+
+        .next-btn {
+            right: 0;
+            /* Position the next button on the right */
+        }
+
+        .prev-btn {
+            left: 0;
+            /* Position the previous button on the left */
+        }
+
+
+</style>
+
 @extends('layout.common.main')
 @section('main-section')
-    <div class="header-content">
-        <div class="row">
+    <div class="header-content ">
+        <div class="row ">
             <div class="col-md-6">
-                <h1>Achieve your goal with world's top tutor.</h1>
+                <p class="headerText">Achieve your goal with world's top tutor.</p>
                 <p class="text-dark">Over <b class="">1 Millions</b> learners trust us for their
                     preparation.</p>
-                <a class="btn mb-4" href="{{ url('tutorsearchforvisitors') }}"
-                    style="background-color: #620ca8; color: white;">Search
+                <a class="btn btn-primary mb-4" href="#teacherSec"
+                    >Search
                     Your Tutor</a>
 
-                <a class="btn mb-4" style="background-color: #620ca8; color: white;" data-toggle="modal"
+                <a class="btn btn-primary mb-4" style="color: white" data-toggle="modal"
                     data-target="#registerModal">Request Demo</a>
 
 
             </div>
             <div class="col-md-6">
-                <img src="images/app_1.png" alt="app" width="388px" class="img-fluid">
+                <img src="images/home-illustration.svg" alt="app" width="600px" class="img-fluid ">
             </div>
         </div>
     </div>
+    
     </div>
+    
     </header>
-    <section class="py-5 mb-5">
-        <div class="container">
-            <h2 class="section-title">Application Features</h2>
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h5>Secure Data</h5>
-                    <p class="text-dark">No matter what kind of home you have to share, you can increase your earnings.
-                    </p>
-                    <p class="mb-5"><a href="#!" class="text-primary mb-5">Find out More</a></p>
-                    <h5>Fully functional</h5>
-                    <p class="text-dark">No matter what kind of home you have to share, you can increase your earnings.
-                    </p>
-                    <p class="mb-5"><a href="#!" class="text-primary mb-5">Find out More</a></p>
-                </div>
-                <div class="col-lg-4 mb-3 mb-lg-0">
-                    <h5>Live Chat</h5>
-                    <p class="text-dark">No matter what kind of home you have to share, you can increase your earnings.
-                    </p>
-                    <p class="mb-5"><a href="#!" class="text-primary mb-5">Find out More</a></p>
-                    <h5>Powerful dashboard</h5>
-                    <p class="text-dark">No matter what kind of home you have to share, you can increase your earnings.
-                    </p>
-                    <p class="mb-5"><a href="#!" class="text-primary mb-5">Find out More</a></p>
-                </div>
-                <div class="col-lg-4">
-                    <h6 class="text-gray font-os font-weight-semibold">Trusted by the world's best</h6>
-                    <div id="landingClientCarousel" class="carousel slide landing-client-carousel" data-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                                <div class="d-flex flex-wrap justify-content-center">
-                                    <div class="clients-logo">
-                                        <img src="images/clients/slack.svg" alt="Slack" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/spotify.svg" alt="Spotify" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/paypal.svg" alt="Paypal" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/amazon.svg" alt="Amazon" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/google.svg" alt="Google" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/samsung.svg" alt="Samsung" class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex flex-wrap justify-content-center">
-                                    <div class="clients-logo">
-                                        <img src="images/clients/slack.svg" alt="Slack" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/spotify.svg" alt="Spotify" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/paypal.svg" alt="Paypal" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/amazon.svg" alt="Amazon" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/google.svg" alt="Google" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/samsung.svg" alt="Samsung" class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex flex-wrap justify-content-center">
-                                    <div class="clients-logo">
-                                        <img src="images/clients/slack.svg" alt="Slack" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/spotify.svg" alt="Spotify" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/paypal.svg" alt="Paypal" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/amazon.svg" alt="Amazon" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/google.svg" alt="Google" class="img-fluid">
-                                    </div>
-                                    <div class="clients-logo">
-                                        <img src="images/clients/samsung.svg" alt="Samsung" class="img-fluid">
-                                    </div>
+    
+    
+    <section class="py-5 mb-5 popCourses">
+        {{-- <div class="parallax"></div> --}}
+        {{-- <div class="overlay-content">
+            <div class="parallax overlay-lighten" style="background-image: url('images/populaeCourse.jpg'); height: 300px; width: 100%;">&nbsp;</div>
+            <div class="overlay-text" style="width: 75%; min-width: 350px;">
+                <h2 style="padding: 0 20px;">
+                    <span style="font-size: 60pt; font-family: 'Architects Daughter', lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; color: tomato;">Popular Subjects</span>
+                </h2>
+            </div>
+        </div> --}}
+        <div class="container" >
+            
+            <h2 class="section-title mb-5 ">Popular Subjects</h2>
+          <div class="row mt-4">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="../images/subjects/maths.webp" class="card-img-top"
+                                    alt="Fissure in Sandstone" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Mathematics</h5>
+                                    <p class="card-text"><b>Tutor: </b>Hazel</p>
+                                     <button href="#!" class="btn btn-sm btn-primary"  onclick="viewSubject();">View</button>
                                 </div>
                             </div>
                         </div>
-                        <ol class="carousel-indicators">
-                            <li data-target="#landingClientCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#landingClientCarousel" data-slide-to="1"></li>
-                            <li data-target="#landingClientCarousel" data-slide-to="2"></li>
-                        </ol>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="../images/subjects/chemistry.jpeg" class="card-img-top"
+                                    alt="Fissure in Sandstone" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Chemistry</h5>
+                                    <p class="card-text"><b>Tutor: </b>Ronald</p>
+                                    <button href="#!" class="btn btn-sm btn-primary" >View</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="../images/subjects/physics.jpeg" class="card-img-top"
+                                    alt="Fissure in Sandstone" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Physics</h5>
+                                    <p class="card-text"><b>Tutor: </b>Jeffrey</p>
+                                    <a href="#!" class="btn btn-sm btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="../images/subjects/computer.jpeg" class="card-img-top"
+                                    alt="Fissure in Sandstone" />
+                                <div class="card-body">
+                                    <h5 class="card-title">Computer</h5>
+                                    <p class="card-text"><b>Tutor: </b>David</p>
+                                    <a href="#!" class="btn btn-sm btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+           <div class="row mt-4">
+             <div class="col-3 col-md-3 col-sm-3">
+                <button class="btn btn-outline-primary">See All Subjects</button>
+             </div>
+           </div>
         </div>
     </section>
-    <section class="py-5 mb-5">
+     {{-- <div class="overlay-content">
+            <div class="parallax overlay-lighten" style="background-image: url('images/parallex3.jpg'); height: 300px; width: 100%;">&nbsp;</div>
+            <div class="overlay-text" style="width: 75%; min-width: 350px;">
+                <h2 style="padding: 0 20px;">
+                    <span style="font-size: 60pt; font-family: 'Architects Daughter', lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; color: tomato;">Popular Tutors</span>
+                </h2>
+            </div>
+        </div> --}}
+
+    {{-- teacher sec --}}
+    <section class="py-5 mb-5 teacherSec" id="teacherSec">
         <div class="container">
+             <h2 class="section-title mb-5">Popular Tutors</h2>
             <div class="row">
-                <div class="col-md-6 mb-5 mb-md-0">
-                    <img src="images/app_2.png" alt="special offers" class="img-fluid" width="492px">
-                </div>
-                <div class="col-md-6">
-                    <h2 class="section-title">Get special offers on the things you love</h2>
-                    <p class="mb-5">He has led a remarkable campaign, defying the traditional mainstream parties
-                        courtesy of his En Marche! movement. For many, however, the campaign has become less about
-                        backing Macron and instead about voting against Le Pen, the National Front candidate.</p>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="media landing-feature">
-                                <span class="landing-feature-icon"></span>
-                                <div class="media-body">
-                                    <h5>Essentials</h5>
-                                    <p>All the basics for businesses that are just getting started.</p>
+                        <div class="col-md-3">
+                            <div class="card tutorCrad" style="width: 15rem;">
+                                <img src="../images/faces/face1.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Richard</h5>
+                                    <p><b>Subject:</b> English</p>
+                                    <p><b>Rate:</b> <span>&#163;</span>150/Hr</p>
+                                    <div>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                        <a href="tutorforguest.html" class="btn btn-primary">View</button>
+                                        <a href="demo.html" class="btn btn-primary">Demo</a>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="media landing-feature">
-                                <span class="landing-feature-icon"></span>
-                                <div class="media-body">
-                                    <h5>Premium</h5>
-                                    <p>All the basics for businesses that are just getting started.</p>
+
+                        <div class="col-md-3">
+                            <div class="card tutorCrad" style="width: 15rem;">
+                                <img src="../images/faces/face2.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hazel</h5>
+                                    <p><b>Subject:</b> Mathematics</p>
+                                    <p><b>Rate:</b> <span>&#163;</span>160/Hr</p>
+                                    <div>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <button class="btn btn-primary">View</button>
+                                    <a href="demo.html" class="btn btn-primary">Demo</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="media landing-feature">
-                                <span class="landing-feature-icon"></span>
-                                <div class="media-body">
-                                    <h5>Standard</h5>
-                                    <p>All the basics for businesses that are just getting started.</p>
+                        <div class="col-md-3">
+                            <div class="card tutorCrad" style="width: 15rem;">
+                                <img src="../images/faces/face3.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Christopher</h5>
+                                    <p><b>Subject:</b> French</p>
+                                    <p><b>Rate:</b> <span>&#163;</span>130/Hr</p>
+                                    <div>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <a href="tutorsearchforvisitors" class="btn btn-primary">View</a>
+                                    <a href="demo.html" class="btn btn-primary">Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card tutorCrad" style="width: 15rem;">
+                                <img src="../images/faces/face4.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">David</h5>
+                                    <p><b>Subject:</b> Computer</p>
+                                    <p><b>Rate:</b> <span>&#163;</span>150/Hr</p>
+                                    <div>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <a href="tutorsearchforvisitors" class="btn btn-primary">View</a>
+                                    <a href="demo.html" class="btn btn-primary">Demo</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                   
+           <div class="row mt-4">
+             <div class="col-3 col-md-3 col-sm-3">
+                <button class="btn btn-outline-primary">See All Tutors</button>
+             </div>
+           </div>
         </div>
     </section>
+   
     <section class="py-5 mb-5">
-        <div class="container">
-            <h2>Choose the plan that’s right for yor business</h2>
-            <p class="text-muted mb-5">Thank you for your very professional and prompt response. I wished I had found
-                you before </p>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card pricing-card border-warning">
-                        <div class="card-body">
-                            <h3 class="mb-1">Starter</h3>
-                            <h3 class="mb-1 text-warning">Free</h3>
-                            <p class="payment-period">Per month</p>
-                            <p class="mb-4">Thank you for your very professional and prompt response.</p>
-                            <button class="btn btn-outline-warning btn-rounded">Get Started</button>
+        <div class="container-fluide">
+            <div class="container">
+                <h2 class="section-title">Satisfied Users</h2>
+                <p class="text-muted mb-5">Thank you for your very professional and prompt response. I wished I had
+                    found
+                    you before </p>
+                <div class="carousel-container">
+                    <div class="carousel">
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 1</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card pricing-card border-primary active">
-                        <div class="card-body">
-                            <h3>Popular</h3>
-                            <h3 class="text-primary">$23.00</h3>
-                            <p class="payment-period">Per month</p>
-                            <p class="mb-4">Thank you for your very professional and prompt response.</p>
-                            <button class="btn btn-primary btn-rounded">Get Started</button>
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 2</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card pricing-card border-success">
-                        <div class="card-body">
-                            <h3>Enterprise</h3>
-                            <h3 class="text-success">$40.00</h3>
-                            <p class="payment-period">Per month</p>
-                            <p class="mb-4">Thank you for your very professional and prompt response.</p>
-                            <button class="btn btn-outline-success btn-rounded">Get Started</button>
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 2</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-5 mb-5">
-        <div class="container">
-            <h2>Satisfied Users</h2>
-            <p class="text-muted mb-5">Thank you for your very professional and prompt response. I wished I had found
-                you before </p>
-            <div class="row">
-                <div class="col-md-4 foi-review mb-5 mb-md-0">
-                    <div class="foi-rating">
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                    </div>
-                    <h5 class="foi-review-heading">Great support available</h5>
-                    <p class="foi-review-content">Thank you for your very professional and prompt response. I wished I
-                        had found you before I spent money on a competitors theme.</p>
-                    <div class="media foi-review-user">
-                        <img src="images/avatar/avatar_11.jpg" alt="user" class="avatar">
-                        <div class="media-body">
-                            <h6 class="mb-0">Amarachi Nkechi</h6>
-                            <p>UX Designer</p>
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 2</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 2</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="contentBox">
+                            <div class="foi-review">
+                                <div class="foi-rating">
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                </div>
+                                <h5 class="foi-review-heading">Great support available 2</h5>
+                                <p class="foi-review-content">Thank you for your very professional and prompt response.
+                                    I
+                                    wished I
+                                    had found you before I spent money on a competitors theme.</p>
+                                <div class="media foi-review-user">
+                                    <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
+                                    <div class="media-body">
+                                        <h6 class="mb-0">Monica Böttger</h6>
+                                        <p>UX Designer</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
                     </div>
+                    <!-- Add more testimonial divs as needed -->
+
+                    <button class="carousel-button prev-btn" onclick="moveCarousel(-1)"><i class="fa fa-angle-left"></i>
+                    </button>
+                    <button class="carousel-button next-btn" onclick="moveCarousel(1)"><i
+                            class="fa fa-angle-right"></i></button>
+
+
 
                 </div>
-                <div class="col-md-4 foi-review mb-5 mb-md-0">
-                    <div class="foi-rating">
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                    </div>
-                    <h5 class="foi-review-heading">Great support available</h5>
-                    <p class="foi-review-content">Thank you for your very professional and prompt response. I wished I
-                        had found you before I spent money on a competitors theme.</p>
-                    <div class="media foi-review-user">
-                        <img src="images/avatar/avatar_12.jpg" alt="user" class="avatar">
-                        <div class="media-body">
-                            <h6 class="mb-0">Margje Jutten</h6>
-                            <p>Developer</p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-4 foi-review mb-5 mb-md-0">
-                    <div class="foi-rating">
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                        <span class="fas fa-star checked"></span>
-                    </div>
-                    <h5 class="foi-review-heading">Great support available</h5>
-                    <p class="foi-review-content">Thank you for your very professional and prompt response. I wished I
-                        had found you before I spent money on a competitors theme.</p>
-                    <div class="media foi-review-user">
-                        <img src="images/avatar/avatar_13.jpg" alt="user" class="avatar">
-                        <div class="media-body">
-                            <h6 class="mb-0">Monica Böttger</h6>
-                            <p>UX Designer</p>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
     </section>
+
     <section class="py-5 mb-5">
         <div class="container">
-            <h2>FAQ</h2>
+            <h2 class="section-title">FAQ</h2>
             <p class="section-subtitle">Frequently Asked Questions</p>
             <div class="row">
                 <div class="col-lg-6">
@@ -631,58 +802,151 @@
         </div>
     </div>
 
+   
+
     <!-- login modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @if (Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}}</div>
-            @endif
-            @if (Session::has('fail'))
-            <div class="alert alert-danger">{{Session::get('fail')}}</div>
-            @endif
-            <div class="modal-header">
-                 <h3 class="modal-title" name="studentLogin" id="studentLogin">Student Login</h3>
-                <h3 hidden class="modal-title" name="tutorLogin" id="tutorLogin">Tutor Login</h3>
-            </div>
-            <div class="modal-body">
-                <form action="{{url('/login')}}" method="GET">
-                    @csrf
-                    <input type="hidden" id="loginid" name="loginid" value="1">
-                    <div class="form-group">
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @if (Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
+                @if (Session::has('fail'))
+                <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                @endif
+                <div class="modal-header">
+                    <h3 class="modal-title" name="studentLogin" id="studentLogin">Student Login</h3>
+                    <h3 hidden class="modal-title" name="tutorLogin" id="tutorLogin">Tutor Login</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url('/login')}}" method="GET">
+                        @csrf
+                        <input type="hidden" id="loginid" name="loginid" value="1">
                         <div class="form-group">
-                            <label for="name">Mobile<i style="color:red">*</i></label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Mobile" required>
+                            <div class="form-group">
+                                <label for="name">Mobile<i style="color:red">*</i></label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Mobile" required>
+                                <span class="text-danger">
+                                    @error('username')
+                                    {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password<i style="color:red">*</i></label>
+                            <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Password" required>
                             <span class="text-danger">
-                                @error('username')
+                                @error('password')
                                 {{ $message }}
                                 @enderror
                             </span>
                         </div>
+                        <div>
+                            <a href="#" id="loginAsTutor" onclick="loginToTutor();">Login as tutor</a>
+                            <a href="#" id="loginAsStudent"  onclick="loginToStudent();" hidden>Login as student</a>                       
+                            <button role="button" type="submit" class="btn btn-primary text-white float-right">Login</button>
+                            <button type="submit" class="btn btn-secondary float-right mr-1" data-dismiss="modal">Close</button>
 
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password<i style="color:red">*</i></label>
-                        <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Password" required>
-                        <span class="text-danger">
-                            @error('password')
-                            {{ $message }}
-                            @enderror
-                        </span>
-                    </div>
-                    <div>
-                        <a href="#" id="loginAsTutor" onclick="loginToTutor();">Login as tutor</a>
-                        <a href="#" id="loginAsStudent"  onclick="loginToStudent();" hidden>Login as student</a>                       
-                        <button role="button" type="submit" class="btn btn-primary text-white float-right">Login</button>
-                        <button type="submit" class="btn btn-secondary float-right mr-1" data-dismiss="modal">Close</button>
-
-                     </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+   
+
+
+    <div class="modal fade" id="viewSub" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Syllabus</h3>
+                   
+                </div>
+                <div class="modal-body">
+                     <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mb-3 landing-faq-card">
+                        <div class="card-header bg-white" id="faqOneTitle">
+                            <a href="#faqOneCollapse" class="d-flex align-items-center" data-toggle="collapse">
+                                <h6 class="mb-0">Real Number</h6> <i class="far fa-plus-square ml-auto"></i>
+                            </a>
+                        </div>
+                        <div id="faqOneCollapse" class="collapse" aria-labelledby="faqOneTitle">
+                            <div class="card-body">
+                                <p class="mb-0 text-gray">Real Number&#44;&nbsp; Euclids division lemma and problems on it complete&#44;&nbsp; Finding HCF prime-factorization method&#44;&nbsp;Decimal expansion of rational and irrational number with ncert solutions &#44;&nbsp;Without actually dividing finding the decimal expansion of rational number.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 landing-faq-card">
+                        <div class="card-header bg-white" id="faqTwoTitle">
+                            <a href="#faqTwoCollapse" class="d-flex align-items-center" data-toggle="collapse">
+                                <h6 class="mb-0">Pair of linear equation in two variables</h6> <i
+                                    class="far fa-plus-square ml-auto"></i>
+                            </a>
+                        </div>
+                        <div id="faqTwoCollapse" class="collapse" aria-labelledby="faqTwoTitle">
+                            <div class="card-body">
+                                <p class="mb-0 text-gray">Introduction and pre requisite of Pair of linear equation in two variables&#44;&nbsp; substitution method and elimination method &#44;&nbsp;Solving by cross multiplication method&#44;&nbsp;Graphical method and some problems of reducible form.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 landing-faq-card">
+                        <div class="card-header bg-white" id="faqFourTitle">
+                            <a href="#faqFourCollapse" class="d-flex align-items-center" data-toggle="collapse">
+                                <h6 class="mb-0">Polynomials</h6> <i
+                                    class="far fa-plus-square ml-auto"></i>
+                            </a>
+                        </div>
+                        <div id="faqFourCollapse" class="collapse" aria-labelledby="faqFourTitle">
+                            <div class="card-body">
+                                <p class="mb-0 text-gray">Introduction to polynomials, zeroes of the polynomials (relations ship b/w zeroes and coefficient), Polynomial division</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 landing-faq-card">
+                        <div class="card-header bg-white" id="faqFiveTitle">
+                            <a href="#faqFiveCollapse" class="d-flex align-items-center" data-toggle="collapse">
+                                <h6 class="mb-0">Quadratic Equation</h6> <i
+                                    class="far fa-plus-square ml-auto"></i>
+                            </a>
+                        </div>
+                        <div id="faqFiveCollapse" class="collapse" aria-labelledby="faqFiveTitle">
+                            <div class="card-body">
+                                <p class="mb-0 text-gray">Introduction of quadratic equation and pre- requisite, solving by factorization method, Nature of the roots, Solving by quadratic formula and completing square method.</p>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    
+                </div>
+              
+            </div>
+
+
+               
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                </div>
+                <!-- <div class="modal-body">
+                        <p>Don't have an acocunt? <a onclick="registerModalShow();">Register</a></p>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+
+   
+
+    
+
     <script>
         function loginToTutor(){
             document.getElementById("tutorLogin").hidden=false;
@@ -752,5 +1016,40 @@
                 window.location.href = "tutorDashboard.html";
             }
         }
+        
+      
+
+         function viewSubject(){
+            $("#viewSub").modal("show");
+
+        }
+
+        
     </script>
+
+      <script>
+        let currentIndex = 0;
+
+        function moveCarousel(direction) {
+            const testimonials = document.querySelectorAll('.contentBox');
+            const totalTestimonials = testimonials.length;
+            currentIndex += direction;
+
+            // Wrap around if it reaches the end or beginning of testimonials
+            if (currentIndex >= totalTestimonials) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = totalTestimonials - 1;
+            }
+
+            const carousel = document.querySelector('.carousel');
+            const offset = currentIndex * -33.33; // Adjust this value to control the width of each testimonial
+            carousel.style.transform = `translateX(${offset}%)`;
+        }
+
+    </script>
+
+    
 @endsection
+
+   
