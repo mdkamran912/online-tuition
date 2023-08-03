@@ -11,6 +11,7 @@
     <title>Online Tutor Landing Page</title>
     <link rel="stylesheet" href="vendors/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
@@ -23,9 +24,9 @@
 </head>
 
 <body>
-    <header class="foi-header landing-header">
+    <header class="foi-header landing-header" >
         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light foi-navbar">
+            <nav class="navbar navbar-expand-lg navbar-light foi-navbar" style="border-bottom: 1px solid lightgrey">
                 <a class="navbar-brand" href="index.html">
                     <img src="images/onlineTutor_logo.png" width="150px" height="40px" alt="FOI"
                         style="margin-top: -30px;">
@@ -61,3 +62,5 @@
                     </ul>
                 </div>
             </nav>
+            
+            

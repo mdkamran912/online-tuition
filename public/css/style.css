@@ -11272,8 +11272,8 @@ html {
     line-height: 1.22;
 }
 .foi-header.landing-header {
-    background-image: url("../images/bg_1%402x.png"),
-        url("../images/Bg_2%402x.png");
+    /* background-image: url("../images/bg_1%402x.png"),
+        url("../images/Bg_2%402x.png"); */
     background-repeat: no-repeat;
     background-repeat: no-repeat;
     background-size: 167px, 65%;
@@ -11802,3 +11802,21 @@ html {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.popCourses {
+    background-image: url("../images/dot_shapes_1.png"),
+        url("../images/dot_shapes_1.png");
+    background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-size: 90px, 90px;
+    background-position: left center, right bottom;
+}
+
+.teacherSec {
+    background-image: url("../images/dot_shapes_1.png"),
+        url("../images/dot_shapes_1.png");
+    background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-size: 90px, 90px;
+    background-position: left top, right bottom;
+}
