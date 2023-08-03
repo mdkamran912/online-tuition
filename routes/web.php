@@ -47,6 +47,7 @@ Route::get("logout",[HomeController::class,"logout"])->name("logout");
 Route::post('fetchsubjects',[CommonController::class,'fetchsubjects'])->name('fetchsubjects');
 Route::post('fetchtopics',[CommonController::class,'fetchtopics'])->name('fetchtopics');
 Route::post('studentsbyclass',[CommonController::class,'studentsbyclass'])->name('studentsbyclass');
+Route::post('batchbysubject',[CommonController::class,'batchbysubject'])->name('batchbysubject');
 
 // Student Activity
 Route::group(['prefix' => 'student','middleware' => ['StudentAuthenticate']], function() {
@@ -164,7 +165,8 @@ Route::get('tutoracdel/{id}',[TutorProfileController::class,'tutoracdel'])->name
 Route::post('classmapping',[TutorProfileController::class,'classmapping'])->name('tutor.classmapping');
 Route::get('classmappingdelete/{id}',[TutorProfileController::class,'classmappingdelete'])->name('tutor.classmappingdelete');
 // Tutor Class Scheduling
-Route::post('classschedule',[ClassScheduleController::class,'create'])->name('tutor.classschedule.create');
+// Route::post('classschedule',[ClassScheduleController::class,'create'])->name('tutor.classschedule.create');
+
 // Demo List
 Route::get('demolist',[DemoController::class,'tutordemolist'])->name('tutor.demolist');
 Route::post('demolist',[DemoController::class,'tutordemoupdate'])->name('tutor.demo.update');
@@ -176,10 +178,12 @@ Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.class
 // Tutor Assignments
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
 Route::get('liveclass',[ZoomClassesController::class,'index'])->name('tutor.liveclass');
+Route::get('liveclass/completed/{id}',[ZoomClassesController::class,'completed'])->name('tutor.liveclass.completed');
 Route::get('liveclass/create',[ZoomClassesController::class,'create'])->name('tutor.liveclass.create');
 Route::post('liveclass/store',[ZoomClassesController::class,'store'])->name('tutor.liveclass.store');
 Route::get('getuser',[ZoomClassesController::class,'getzoomuser'])->name('tutor.liveclass.getuser');
 Route::get('getclass',[ZoomClassesController::class,'classlist'])->name('tutor.liveclass.classlist');
+Route::post('classschedule',[ZoomClassesController::class,'scheduleclass'])->name('tutor.liveclass.scheduleclass');
 
 
 });

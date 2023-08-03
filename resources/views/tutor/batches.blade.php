@@ -10,8 +10,7 @@
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
             <h3 class="text-center">Batches</h3>
-           <a href="{{route('tutor.liveclass')}}"> <button class="btn btn-sm btn-danger">Test API</button></a>
-            <div class="mt-4" id="">
+           <div class="mt-4" id="">
 
                 <table class="table table-hover table-bordered ">
                     <thead class="thead-dark ">
@@ -117,78 +116,7 @@
         </div>
 
 
-        <!--Schedule modal -->
-        <div class="modal fade" id="scheduleclassmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <div class="modal-body">
-
-
-                        <header>
-                            <h3 class="text-center mb-4">Schedule New Class</h3>
-                        </header>
-
-                        <form action="{{ route('tutor.classschedule.create') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <input type="hidden" id="batchid" name="batchid" class="">
-                                <div class="col-12 col-md-12 col-ms-6 mb-3">
-                                    <label>Topic</label>
-                                    <select type="text" class="form-control" id="topic" name="topic">
-
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('topic')
-                                            {{ 'Topic is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-12 col-ms-6 mb-3">
-                                    <label>Class Link</label>
-                                    <input type="text" class="form-control" id="classlink" name="classlink">
-                                    <span class="text-danger">
-                                        @error('classlink')
-                                            {{ 'Class link is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class Start Time</label>
-                                    <input type="datetime-local" class="form-control" id="classstarttime"
-                                        name="classstarttime">
-                                    <span class="text-danger">
-                                        @error('classstarttime')
-                                            {{ 'Class start time is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class End Time</label>
-                                    <input type="datetime-local" class="form-control" id="classendtime" name="classendtime">
-                                    <span class="text-danger">
-                                        @error('classendtime')
-                                            {{ 'Class end time is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div>
-
-
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right">Submit</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
-                                data-dismiss="modal">Close</button>
-
-
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+      
 
         <script>
             function openclassmodal(batchid, subjectid) {

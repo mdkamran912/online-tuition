@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\batches;
 use App\Models\classes;
 use App\Models\status;
 use App\Models\studentregistration;
@@ -41,6 +42,11 @@ class CommonController extends Controller
     public function studentsbyclass(Request $request){
         $data['students'] = studentregistration::where('class_id', $request->class_id)
         ->where('is_active',1)->get();
+        return response()->json($data);
+    }
+
+    public function batchbysubject(Request $request){
+        $data['batches'] = batches::where('subject_id', $request->subject_id)->where('is_active',1)->get();
         return response()->json($data);
     }
 }

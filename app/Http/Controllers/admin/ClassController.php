@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\classes;
 use App\Models\zoom_classes;
@@ -56,7 +57,14 @@ class ClassController extends Controller
     }
 
     public function tutorclasses(){
-        $liveclasses = zoom_classes::select('*')->where('tutor_id',session('userid')->id);
-        return view('tutor.classes',compact('liveclasses'));
+        $liveclasses = zoom_classes::select('*','batches.name as batch','subjects.name as subjects','topics.name as topics')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
+        ->join('subjects','subjects.id','topics.subject_id')
+        ->where('zoom_classes.is_completed',1)
+        ->where('zoom_classes.is_active',1)
+        ->get();
+        $classes = (new CommonController)->classes();
+        return view('tutor.classes', compact('liveclasses','classes'));
     }
 }

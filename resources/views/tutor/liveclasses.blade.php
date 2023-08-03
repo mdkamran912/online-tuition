@@ -9,8 +9,11 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <h3 class="text-center">Live Classes</h3>
-            <button class="btn btn-sm btn-success" onclick="openclassmodal();">Schedule Class</button>
+            <div id="listHeader" class="mb-3">
+                <h3>Upcoming Classes</h3>
+                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><span class="fa fa-plus-circle"> </span> Schedule Class</button>
+            </div>
+            
             <div class="mt-4" id="">
 
                 <table class="table table-hover table-bordered table-responsive">
@@ -18,14 +21,12 @@
                         <tr>
                             <th scope="col">S.No.</th>
                             <th scope="col">Meeting ID</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Batch</th>
-                            <th scope="col">Batch Description</th>
                             <th scope="col">Topic</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">Duration</th>
-                            <th scope="col">Agenda</th>
-                            <th scope="col">Meeting Link</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -33,27 +34,22 @@
                         @foreach ($liveclasses as $liveclass)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $liveclass->id }}</td>
                                 <td>{{ $liveclass->meeting_id }}</td>
-                                <td>{{ $liveclass->topic }}</td>
-                                <td>{{ $liveclass->start_at }}</td>
-                                <td><button class="btn btn-sm btn-primary"
-                                        onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
-                                            class="fa fa-search"></span> View Students</button>
-                                    {{-- @if ($classessch)
-                                @foreach ($classessch as $classsc)
-                                    @if ($classsc->batch_id == $batch->batch_id)
-                                        <p>Hello</p>
-                                        
-                                    @else --}}
-                                    {{-- <button class="btn btn-sm btn-primary"
-                                        onclick="openclassmodal('{{ $batch->batch_id }}','{{ $batch->subject_id }}');"><span
-                                            class="fa fa-plus-circle"></span> Schedule Class</button> --}}
-                                    {{-- <button class="btn btn-sm btn-primary" onclick="openclassmodal('{{$batch->batch_id}}','{{$batch->subject_id}}');"><span class="fa fa-plus-circle"></span> Schedule Class</button> --}}
-                                    {{-- @endif --}}
-                                    {{-- @endforeach
-                            @endif --}}
+                                <td>{{ $liveclass->status }}</td>
+                                <td>{{ $liveclass->subjects }}</td>
+                                <td>{{ $liveclass->batch }}</td>
+                                <td>{{ $liveclass->topics }}</td>
+                                <td>{{ $liveclass->start_time }}</td>
+                                <td>{{ $liveclass->duration }}</td>
+                                <td><a href="{{$liveclass->start_url}}" target="_blank"><button class="btn btn-sm btn-success"><span
+                                            class="fa fa-play-circle "></span> Start Class</button></a>
+                                            <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}"><button class="btn btn-sm btn-success"><span
+                                                class="fa fa-check "></span> Mark Completed</button></a>
                                 </td>
+                                {{-- <td><button class="btn btn-sm btn-primary"
+                                    onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
+                                        class="fa fa-search"></span> Start Class</button>
+                            </td> --}}
                             </tr>
                         @endforeach
 
@@ -147,15 +143,16 @@
                             <h3 class="text-center mb-4">Schedule New Class</h3>
                         </header>
 
-                        <form action="{{ route('tutor.classschedule.create') }}" method="POST">
+                        <form action="{{ route('tutor.liveclass.scheduleclass') }}" method="POST">
                             @csrf
                             <div class="row">
-                               
+
                                 <div class="col-12 col-md-4 col-ms-6 mb-3">
                                     <label>Class/Grade<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="class" name="class">
+                                    <select type="text" class="form-control" id="class" name="class"
+                                        onchange="fetchSubjects()">
                                         @foreach ($classes as $class)
-                                            <option value="{{$class->id}}">{{$class->name}}</option>
+                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger">
@@ -166,7 +163,8 @@
                                 </div>
                                 <div class="col-12 col-md-4 col-ms-6 mb-3">
                                     <label>Subject<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="subject" name="subject">
+                                    <select type="text" class="form-control" id="subject" name="subject"
+                                        onchange="fetchTopics();batchbysubject()">
 
                                     </select>
                                     <span class="text-danger">
@@ -229,7 +227,8 @@
                             </div>
 
 
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right">Submit</button>
+                            <button type="submit" id=""
+                                class="btn btn-sm btn-success float-right">Submit</button>
                             <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
                                 data-dismiss="modal">Close</button>
 
@@ -305,45 +304,80 @@
 
             }
 
-            function testapi() {
-                // $.ajax({
-                //     url: "https://zoom.us/oauth/authorize",
-                //     type: "GET",
-                //     data: {
-                //         response_type : "code",
-                //         redirect_uri : "http://127.0.0.1:8000/student/demolist",
-                //         client_id : "oFed_e_zQi6wE8183XRI0A"
+            function fetchSubjects() {
 
-                //     },
-                //     dataType: 'json',
-                //     success: function(data) {
-                //         alert(data)
-                //     }
-                // });
-                // window.location.href = 'https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/student/demolist';
+                var classId = $('#class option:selected').val();
+                $("#subject").html('');
+                $("#topic").html('');
+                $.ajax({
+                    url: "{{ url('fetchsubjects') }}",
+                    type: "POST",
+                    data: {
+                        class_id: classId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#subject').html('<option value="">-- Select Type --</option>');
+                        $.each(result.subjects, function(key, value) {
+                            $("#subject").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
 
+                    }
 
+                });
 
+            };
 
-            }
+            function fetchTopics() {
 
-function testapidata(){
-            $.ajax({
-                type: "POST",
-                url: "https://zoom.us/oauth/token",
-                data: {
-                    grant_type: "authorization_code",
-                    code:'fzAJfhkgr4Hvad3MAZvQJ6QaLBCFXrAzA'
-                },
-                dataType: 'json',
-                // Content-Type: 'application/x-www-form-urlencoded',
-                success: function(data) {
-                    console.log(data)
-                },
-                error: function(test){
-// console.log(test)
-                }
-            })
-        }
+                var subjectId = $('#subject option:selected').val();
+                $("#topic").html('');
+                $.ajax({
+                    url: "{{ url('fetchtopics') }}",
+                    type: "POST",
+                    data: {
+                        subject_id: subjectId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#topic').html('<option value="">-- Select Type --</option>');
+                        $.each(result.topics, function(key, value) {
+                            $("#topic").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+
+                });
+
+            };
+
+            function batchbysubject() {
+
+                var subjectId = $('#subject option:selected').val();
+                $("#batchid").html('');
+                $.ajax({
+                    url: "{{ url('batchbysubject') }}",
+                    type: "POST",
+                    data: {
+                        subject_id: subjectId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#batchid').html('<option value="">-- Select Type --</option>');
+                        $.each(result.batches, function(key, value) {
+                            $("#batchid").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+
+                });
+
+            };
         </script>
     @endsection

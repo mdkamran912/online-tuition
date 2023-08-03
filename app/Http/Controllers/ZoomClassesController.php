@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\batches;
+use App\Models\classschedule;
 use App\Models\zoom_classes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use MacsiDigital\Zoom\Facades\Zoom;
 use App\Http\Controllers\Controller;
 use App\Models\access_token;
+use App\Models\topics;
 use GuzzleHttp\Client;
 
 class ZoomClassesController extends Controller
@@ -110,12 +113,15 @@ class ZoomClassesController extends Controller
         $data = json_decode($response->getBody(), true);
         $meetings = $data['meetings'];
 
-        // Access the 'meetings' array
-
-        // dd($meetings);
         // Loop through the meetings
 
-        $liveclasses = zoom_classes::select('*')->get();
+        $liveclasses = zoom_classes::select('*','zoom_classes.id as liveclass_id','batches.name as batch','subjects.name as subjects','topics.name as topics')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
+        ->join('subjects','subjects.id','topics.subject_id')
+        ->where('zoom_classes.is_completed',0)
+        ->where('zoom_classes.is_active',1)
+        ->get();
         $classes = (new CommonController)->classes();
         return view('tutor.liveclasses', compact('liveclasses','classes'));
     }
@@ -238,5 +244,128 @@ class ZoomClassesController extends Controller
     public function classlist()
     {
         return redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/tutor/liveclass');
+    }
+
+    public function scheduleclass(Request $request){
+
+       
+        // Validation
+        $request->validate([
+            'class' => 'required',
+            'subject' => 'required',
+            'batchid' => 'required',
+            'topic' => 'required',
+            'classstarttime' => 'required',
+            'classduration' => 'required',
+            'classpassword' => 'required'
+        ]);
+
+        // Getting Access Token from DB
+        $access_data = access_token::select('*')->where('user_id',session('userid')->id)->first();
+
+        // Creating meeting in Zoom using API
+        
+
+        $topicdata = topics::select('*')->where('id',$request->topic)->first();
+        $batchdata = batches::select('*')->where('id',$request->batchid)->first();
+      // API Endpoint for creating meetings
+      $api_url = 'https://api.zoom.us/v2/users/metacitinasar@gmail.com/meetings';
+    //   {{baseUrl}}/users/:userId/meetings
+
+      // Request body for creating a meeting (customize as needed)
+      $meeting_data = [
+        'topic' => '('.$batchdata->name.') '.$topicdata->name,
+        'type' => 2,
+        'start_time' => $request->input('classstarttime'),
+        'duration' => (int) $request->input('classduration'),
+        'timezone' => Carbon::now()->timezone->getName(),
+        'password' => $request->input('classpassword'),
+        'agenda' => $topicdata->name,
+        'settings' => [
+            'host_video' => true,
+            'participant_video' => true,
+            'join_before_host' => false,
+            'mute_upon_entry' => true,
+            'watermark' => false,
+            'approval_type' => 1,
+            'registration_type' => 1,
+            'audio' => 'both',
+            'auto_recording' => true,
+            'enforce_login' => false,
+            'waiting_room' => false,
+            'registrants_email_notification' => true,
+        ],
+        'registrants' => [
+            [
+                'email' => 'invitee1@example.com',
+                'first_name' => 'Invitee 1',
+                'last_name' => 'Last Name 1',
+            ],
+            [
+                'email' => 'invitee2@example.com',
+                'first_name' => 'Invitee 2',
+                'last_name' => 'Last Name 2',
+            ],
+            // Add more invitees as needed
+        ],
+    ];
+
+
+      // Send POST request to create the Zoom meeting
+      $response = Http::withHeaders([
+          'Authorization' => 'Bearer ' . $access_data->access_token,
+          'Content-Type' => 'application/json',
+      ])->post($api_url, $meeting_data);
+
+    //   echo $response;
+      // Check if the request was successful and return the response
+      if ($response->successful()) {
+        //   return $response->json();
+        //   $response = $response->json();
+          $response = json_decode($response);
+          $data = new zoom_classes();
+
+          $data->tutor_id = session('userid')->id;
+          $data->batch_id = $request->batchid;
+          $data->uuid = $response->uuid;
+          $data->meeting_id = $response->id;
+          $data->host_id = $response->host_id;
+          $data->host_email = $response->host_email;
+          $data->topic_id = $request->topic;
+          $data->topic_name = $response->topic;
+          $data->type = $response->type;
+          $data->status = $response->status;
+          $data->start_time = $response->start_time;
+          $data->duration = $response->duration;
+          $data->timezone = $response->timezone;
+          $data->agenda = $response->agenda;
+          $data->start_url = $response->start_url;
+          $data->join_url = $response->join_url;
+          $data->password = $response->password;
+          $data->h323_password = $response->h323_password;
+          $data->pstn_password = $response->pstn_password;
+          $data->encrypted_password = $response->encrypted_password;
+
+            $res = $data->save();
+            if ($res) {
+                return back()->with('success', 'Class scheduled successfully!');
+            } else {
+                return back()->with('fail', 'Something went wrong. Please try again later');
+            }
+      } else {
+          return response()->json(['error' => 'Failed to create Zoom meeting'], 500);
+      }
+    }
+
+    public function completed($id){
+        $data = zoom_classes::find($id);
+        $data->is_completed = 1;
+        $data->status = 'Completed';
+        $res = $data->save();
+        if ($res) {
+            return back()->with('success', 'Status Updated Successfully!');
+        } else {
+            return back()->with('fail', 'Something went wrong. Please try again later');
+        }
     }
 }

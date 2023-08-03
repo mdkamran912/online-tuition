@@ -171,9 +171,16 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('tutor.liveclass.classlist')}}">
+                            <i class="ti-stats-up menu-icon"></i>
+                            <span class="menu-title">Upcoming Classes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{{route('tutor.classes')}}">
                             <i class="ti-stats-up menu-icon"></i>
-                            <span class="menu-title">Classes</span>
+                            <span class="menu-title">Completed Classes</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -183,13 +190,13 @@
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.learningcontents')}}" aria-controls="form-elements">
                             <i class="ti-pencil-alt menu-icon"></i>
                             <span class="menu-title">Learning Contents</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
-                    </li>
+                    </li> --}}
                     
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.questionbank')}}" aria-controls="form-elements">

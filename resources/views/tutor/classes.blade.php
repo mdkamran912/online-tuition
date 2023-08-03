@@ -9,33 +9,36 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <h3 class="text-center">Classes</h3>
+            <h3 class="text-center">Completed Classes</h3>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered ">
+                <table class="table table-hover table-bordered table-responsive">
                     <thead class="thead-dark ">
                         <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col">Class.</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Topic</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">End Time</th>
-                                <th scope="col">Link</th>
-                                <th scope="col">Status</th>
-                            </tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Meeting ID</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Batch</th>
+                            <th scope="col">Topic</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Status</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>class</td>
-                        <td>Mathematics</td>
-                        <td>topic 1</td>
-                        <td> 23 jun 2023 11:00</td>
-                        <td> 23 jun 2023 01:00</td>
-                        <td>Link</td>
-                        <td></td>
-                      </tr>
+                        @foreach ($liveclasses as $liveclass)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $liveclass->meeting_id }}</td>
+                                <td>{{ $liveclass->subjects }}</td>
+                                <td>{{ $liveclass->batch }}</td>
+                                <td>{{ $liveclass->topics }}</td>
+                                <td>{{ $liveclass->start_time }}</td>
+                                <td>{{ $liveclass->duration }}</td>
+                                <td>{{ $liveclass->status }}</td>
+                               
+                            </tr>
+                        @endforeach
 
                     </tbody>
                 </table>
