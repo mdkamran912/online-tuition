@@ -80,26 +80,27 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Assignmnet Name</label>
-                                    <input class="form-control" id="assignname" name="assignname">
+                                    <label>Upload Assignment </label>
+                                    <input type="file" class="form-control" id="assigupload" name="assigupload">
                                 </div>
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Assignmnet Description</label>
-                                    <input class="form-control" id="assigndesc" name="assigndesc">
+                                    <label>Assignment Name</label>
+                                    <input type="text" class="form-control" id="assignname" name="assignname">
+                                </div>
+                                <div class="col-12 col-md-12 col-ms-12 mb-3">
+                                    <label>Assignment Description</label>
+                                    <textarea class="form-control" id="assigndesc" name="assigndesc"></textarea>
                                 </div>
 
                                  <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Assignmnet Start Date</label>
+                                    <label>Assignment Start Date</label>
                                     <input type="date" class="form-control" id="assigstartdate" name="assigstartdate">
                                 </div>
                                  <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Assignmnet End Date</label>
+                                    <label>Assignment End Date</label>
                                     <input type="date" class="form-control" id="assigenddate" name="assigenddate">
                                 </div>
-                                <div class="col-12 col-md-12 col-ms-12 mb-3">
-                                    <label>Upload Assignmnet</label>
-                                    <input type="file" class="form-control" id="assigupload" name="assigupload">
-                                </div>
+                                
                                 
                             </div>
 
