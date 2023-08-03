@@ -177,6 +177,9 @@ Route::get('batches/students/{id}',[BatchesController::class,'tutorbatchesstuden
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
 // Tutor Assignments
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
+Route::post('assignments',[AssignmentsController::class,'tutorassignmentscreate'])->name('tutor.assignments.create');
+Route::get('assignments/{id}',[AssignmentsController::class,'tutorview'])->name('tutor.assignments.view');
+// Live Classes(Zoom Meeting)
 Route::get('liveclass',[ZoomClassesController::class,'index'])->name('tutor.liveclass');
 Route::get('liveclass/completed/{id}',[ZoomClassesController::class,'completed'])->name('tutor.liveclass.completed');
 Route::get('liveclass/create',[ZoomClassesController::class,'create'])->name('tutor.liveclass.create');
@@ -185,7 +188,6 @@ Route::get('getuser',[ZoomClassesController::class,'getzoomuser'])->name('tutor.
 Route::get('getclass',[ZoomClassesController::class,'classlist'])->name('tutor.liveclass.classlist');
 Route::post('classschedule',[ZoomClassesController::class,'scheduleclass'])->name('tutor.liveclass.scheduleclass');
 
-
 });
-
+// Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class,'index']);
