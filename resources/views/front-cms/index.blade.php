@@ -74,6 +74,8 @@ background-color: #dfceee;
         }
 
 
+
+
 </style>
 
 @extends('layout.common.main')
@@ -198,7 +200,7 @@ background-color: #dfceee;
                                         <span class="fa fa-star checked"></span>
                                         <span class="fa fa-star"></span>
                                     </div>
-                                        <a href="tutorforguest.html" class="btn btn-primary">View</button>
+                                        <a href="tutorforguest.html" class="btn btn-primary mr-1">View</button>
                                         <a href="demo.html" class="btn btn-primary">Demo</a>
 
                                 </div>
@@ -453,6 +455,7 @@ background-color: #dfceee;
         </div>
     </section>
 
+  
     <section class="py-5 mb-5">
         <div class="container">
             <h2 class="section-title">FAQ</h2>
@@ -1023,6 +1026,38 @@ background-color: #dfceee;
             $("#viewSub").modal("show");
 
         }
+
+        // slide
+
+        var swiper = new Swiper(".slide-content", {
+    slidesPerView: 3,
+    spaceBetween: 25,
+    loop: true,
+    centerSlide: 'true',
+    fade: 'true',
+    grabCursor: 'true',
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      dynamicBullets: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    breakpoints:{
+        0: {
+            slidesPerView: 1,
+        },
+        520: {
+            slidesPerView: 2,
+        },
+        950: {
+            slidesPerView: 3,
+        },
+    },
+  });
 
         
     </script>
