@@ -55,6 +55,8 @@
 <script src="{{url('js/jquery.cookie.js')}}" type="text/javascript"></script>
 <script src="{{url('js/dashboard.js')}}"></script>
 <script src="{{url('js/Chart.roundedBarCharts.js')}}"></script>
+{{-- <script src="{{url('js/jquery.star-rating-svg.js')}}"></script> --}}
+
 <!-- End custom js for this page-->
 
 
