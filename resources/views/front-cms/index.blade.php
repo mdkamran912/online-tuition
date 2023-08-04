@@ -72,6 +72,21 @@ background-color: #dfceee;
             left: 0;
             /* Position the previous button on the left */
         }
+    .loginForm{
+        padding: 50px;
+    }
+
+
+.imgBorder {
+  border: 1px solid darkgray;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.imgBorder img {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+}
 
 
 
@@ -809,6 +824,74 @@ background-color: #dfceee;
 
     <!-- login modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @if (Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
+                @if (Session::has('fail'))
+                <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                @endif
+                <div class="text-center mt-4">
+                    <h3 class="modal-title" name="studentLogin" id="studentLogin">Student Login</h3>
+                    <h3 hidden class="modal-title" name="tutorLogin" id="tutorLogin">Tutor Login</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url('/login')}}" method="GET" class="loginForm">
+                        @csrf
+                        <input type="hidden" id="loginid" name="loginid" value="1">
+                        <div class="row">
+						<div class="col-6 col-md-6 col-sm-6">
+							<div class="imgBorder">
+								<img src="../images/teacher-68.png">
+								<p>Tutor</p>
+							</div>
+
+						</div>
+						<div class="col-6 col-md-6 col-sm-6">
+							<div class="imgBorder">
+								<img src="images/smallBatch.png">
+								<p>student</p>
+							</div>
+
+						</div>
+
+					</div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="name">Mobile<i style="color:red">*</i></label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Mobile" required>
+                                <span class="text-danger">
+                                    @error('username')
+                                    {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password<i style="color:red">*</i></label>
+                            <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Password" required>
+                            <span class="text-danger">
+                                @error('password')
+                                {{ $message }}
+                                @enderror
+                            </span>
+                        </div>
+                        <div>
+                            <a href="#" id="loginAsTutor" onclick="loginToTutor();">Login as tutor</a>
+                            <a href="#" id="loginAsStudent"  onclick="loginToStudent();" hidden>Login as student</a>                       
+                            <button role="button" type="submit" class="btn btn-primary text-white float-right">Login</button>
+                            <button type="submit" class="btn btn-secondary float-right mr-1" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="xloginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 @if (Session::has('success'))

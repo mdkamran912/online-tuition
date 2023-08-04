@@ -45,7 +45,7 @@
 
          <!-- modal -->
         <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog xl">
                 <div class="modal-content">
 
 
