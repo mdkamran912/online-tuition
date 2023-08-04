@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\admin\TopicController;
 use App\Http\Controllers\AssignmentsController;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JitsiController;
 use App\Http\Controllers\student\DashboardController;
@@ -177,6 +178,9 @@ Route::get('batches/students/{id}',[BatchesController::class,'tutorbatchesstuden
 Route::get('classes',[ClassController::class,'tutorclasses'])->name('tutor.classes');
 // Tutor Assignments
 Route::get('assignments',[AssignmentsController::class,'tutorassignments'])->name('tutor.assignments');
+Route::post('assignments',[AssignmentsController::class,'tutorassignmentscreate'])->name('tutor.assignments.create');
+Route::get('assignments/{id}',[AssignmentsController::class,'tutorview'])->name('tutor.assignments.view');
+// Live Classes(Zoom Meeting)
 Route::get('liveclass',[ZoomClassesController::class,'index'])->name('tutor.liveclass');
 Route::get('liveclass/completed/{id}',[ZoomClassesController::class,'completed'])->name('tutor.liveclass.completed');
 Route::get('liveclass/create',[ZoomClassesController::class,'create'])->name('tutor.liveclass.create');
@@ -184,8 +188,8 @@ Route::post('liveclass/store',[ZoomClassesController::class,'store'])->name('tut
 Route::get('getuser',[ZoomClassesController::class,'getzoomuser'])->name('tutor.liveclass.getuser');
 Route::get('getclass',[ZoomClassesController::class,'classlist'])->name('tutor.liveclass.classlist');
 Route::post('classschedule',[ZoomClassesController::class,'scheduleclass'])->name('tutor.liveclass.scheduleclass');
-
-
+// Feedback by tutor
+Route::get('feedback',[FeedbackController::class,'index'])->name('tutor.feedback.list');
 });
-
+// Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class,'index']);

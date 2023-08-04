@@ -198,7 +198,7 @@
                         </a>
                     </li> --}}
                     
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.questionbank')}}" aria-controls="form-elements">
                             <i class="ti-target menu-icon"></i>
                             <span class="menu-title">Question Bank</span>
@@ -211,11 +211,11 @@
                             <span class="menu-title">Online Tests</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.payments')}}" aria-controls="form-elements">
                             <i class="ti-money menu-icon"></i>
-                            <span class="menu-title">Payments</span>
+                            <span class="menu-title">My Payments</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
@@ -228,7 +228,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="studentFeedbackPannel.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('tutor.feedback.list')}}" aria-controls="form-elements">
                             <i class="ti-comment-alt menu-icon"></i>
                             <span class="menu-title">Feedback</span>
                             <!-- <i class="menu-arrow"></i> -->
