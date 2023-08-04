@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\admin\TopicController;
 use App\Http\Controllers\AssignmentsController;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JitsiController;
 use App\Http\Controllers\student\DashboardController;
@@ -187,7 +188,8 @@ Route::post('liveclass/store',[ZoomClassesController::class,'store'])->name('tut
 Route::get('getuser',[ZoomClassesController::class,'getzoomuser'])->name('tutor.liveclass.getuser');
 Route::get('getclass',[ZoomClassesController::class,'classlist'])->name('tutor.liveclass.classlist');
 Route::post('classschedule',[ZoomClassesController::class,'scheduleclass'])->name('tutor.liveclass.scheduleclass');
-
+// Feedback by tutor
+Route::get('feedback',[FeedbackController::class,'index'])->name('tutor.feedback.list');
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class,'index']);

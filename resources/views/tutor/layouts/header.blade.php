@@ -228,7 +228,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="studentFeedbackPannel.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('tutor.feedback.list')}}" aria-controls="form-elements">
                             <i class="ti-comment-alt menu-icon"></i>
                             <span class="menu-title">Feedback</span>
                             <!-- <i class="menu-arrow"></i> -->
