@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class FeedbackController extends Controller
 {
     public function index(){
-
-        return view('tutor.feedback');
+        $classes = (new CommonController)->classes();
+        return view('tutor.feedback',compact('classes'));
     }
 }
