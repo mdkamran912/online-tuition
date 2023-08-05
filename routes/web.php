@@ -49,6 +49,7 @@ Route::post('fetchsubjects',[CommonController::class,'fetchsubjects'])->name('fe
 Route::post('fetchtopics',[CommonController::class,'fetchtopics'])->name('fetchtopics');
 Route::post('studentsbyclass',[CommonController::class,'studentsbyclass'])->name('studentsbyclass');
 Route::post('batchbysubject',[CommonController::class,'batchbysubject'])->name('batchbysubject');
+Route::post('studentsbybatch',[CommonController::class,'studentsbybatch'])->name('studentsbybatch');
 
 // Student Activity
 Route::group(['prefix' => 'student','middleware' => ['StudentAuthenticate']], function() {
