@@ -1,97 +1,3 @@
-<style>
-
-.gradeBox{
-    border: 1px solid lightgray;
-    height: 200px;
-    border-radius: 10px;
-}
-.gradeBox:hover{
-background-color: #dfceee;
-}
-.grades{ 
-    padding: 30px;
-}
-
-
-.headerText{
-    color: #3c4852;
-    font-size: 44px;
-    font-weight: 800;
-    font-family:AvertaStd, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.section-title{
-     color: #3c4852;
-     font-weight: 700;
-
-}
-
-  .carousel-container {
-            /* width: 100%; */
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-            /* Add this to position buttons */
-        }
-
-        .carousel {
-            display: flex;
-            margin-left: 30px;
-        }
-
-        .contentBox {
-            flex: 0 0 30%;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 5px;
-        }
-
-        .carousel-button {
-            position: absolute;
-            /* Position the buttons */
-            top: 50%;
-            /* Adjust this to vertically center the buttons */
-            transform: translateY(-50%);
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            
-        }
-
-        .next-btn {
-            right: 0;
-            /* Position the next button on the right */
-        }
-
-        .prev-btn {
-            left: 0;
-            /* Position the previous button on the left */
-        }
-    .loginForm{
-        padding: 50px;
-    }
-
-
-.imgBorder {
-  border: 1px solid darkgray;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.imgBorder img {
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-}
-
-
-
-
-</style>
 
 @extends('layout.common.main')
 @section('main-section')
@@ -665,7 +571,7 @@ background-color: #dfceee;
                 <div class="modal-body">
                     <!-- <div class="row d-flex justify-content-center align-items-center "> -->
                     <div class="col">
-                        <div class="card card-registration">
+                        <div class="card-registration">
                             {{-- <div class="row g-0"> --}}
                             {{-- <div class="col-xl-6 d-none d-xl-block">
                                     <img src="images/Register.png" style="margin-top: 150px;" alt="Sample photo"
@@ -833,28 +739,34 @@ background-color: #dfceee;
                 <div class="alert alert-danger">{{Session::get('fail')}}</div>
                 @endif
                 <div class="text-center mt-4">
-                    <h3 class="modal-title" name="studentLogin" id="studentLogin">Student Login</h3>
-                    <h3 hidden class="modal-title" name="tutorLogin" id="tutorLogin">Tutor Login</h3>
+                    <h3 class="modal-title" name="studentLogin" id="studentLogin">Login</h3>
+                    {{-- <h3 hidden class="modal-title" name="tutorLogin" id="tutorLogin">Tutor Login</h3> --}}
                 </div>
                 <div class="modal-body">
                     <form action="{{url('/login')}}" method="GET" class="loginForm">
                         @csrf
                         <input type="hidden" id="loginid" name="loginid" value="1">
                         <div class="row">
-						<div class="col-6 col-md-6 col-sm-6">
-							<div class="imgBorder">
-								<img src="../images/teacher-68.png">
-								<p>Tutor</p>
+                            <div class="col-6 col-md-6 col-sm-6">
+							<div class="imgBorder selectable p-1" onclick="toggleSelection(this); loginToTutor();">
+                               
+								<img src="images/student.png">
+                                 <i class="fa fa-check-circle" style="float: right;"></i>
+								
 							</div>
+                            <p class="text-center">Student</p>
 
 						</div>
 						<div class="col-6 col-md-6 col-sm-6">
-							<div class="imgBorder">
-								<img src="images/smallBatch.png">
-								<p>student</p>
+							<div class="imgBorder selectable p-1" onclick="toggleSelection(this); loginToTutor();">
+								<img src="../images/teacher.png">
+                                 <i class="fa fa-check-circle" style="float: right;"></i>
+								
 							</div>
+                             <p class="text-center">Tutor</p>
 
 						</div>
+						
 
 					</div>
                         <div class="form-group">
@@ -879,9 +791,9 @@ background-color: #dfceee;
                             </span>
                         </div>
                         <div>
-                            <a href="#" id="loginAsTutor" onclick="loginToTutor();">Login as tutor</a>
-                            <a href="#" id="loginAsStudent"  onclick="loginToStudent();" hidden>Login as student</a>                       
-                            <button role="button" type="submit" class="btn btn-primary text-white float-right">Login</button>
+                            {{-- <a href="#" id="loginAsTutor" onclick="loginToTutor();">Login as tutor</a>
+                            <a href="#" id="loginAsStudent"  onclick="loginToStudent();" hidden>Login as student</a>                        --}}
+                            <button role="button" type="submit" class="btn btn-success text-white float-right">Login</button>
                             <button type="submit" class="btn btn-secondary float-right mr-1" data-dismiss="modal">Close</button>
 
                         </div>
@@ -941,8 +853,6 @@ background-color: #dfceee;
             </div>
         </div>
     </div>
-
-   
 
 
     <div class="modal fade" id="viewSub" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1030,23 +940,11 @@ background-color: #dfceee;
     </div>
 
    
-
-    
-
     <script>
         function loginToTutor(){
-            document.getElementById("tutorLogin").hidden=false;
-            document.getElementById("studentLogin").hidden=true;
-            document.getElementById("loginAsTutor").hidden=true;
-            document.getElementById("loginAsStudent").hidden=false;
-            document.getElementById("loginid").value=2;
-            
+            document.getElementById("loginid").value=2;  
         }
         function loginToStudent(){
-            document.getElementById("tutorLogin").hidden=true;
-            document.getElementById("studentLogin").hidden=false;
-            document.getElementById("loginAsTutor").hidden=false;
-            document.getElementById("loginAsStudent").hidden=true;
             document.getElementById("loginid").value=1;
         }
         function changeRegisToTutor() {
@@ -1069,13 +967,9 @@ background-color: #dfceee;
             document.getElementById("tutorMobDiv").hidden = true;
             document.getElementById("studentmobdiv").hidden = false;
             document.getElementById("id").value = 1;
-
-
-
-
         }
-        var loginType = "";
 
+        var loginType = "";
         $(document).ready(function() {
             if (document.getElementById("logInToggleBTN").checked == false) {
                 loginType = 1;
@@ -1103,8 +997,7 @@ background-color: #dfceee;
             }
         }
         
-      
-
+    
          function viewSubject(){
             $("#viewSub").modal("show");
 
@@ -1113,39 +1006,37 @@ background-color: #dfceee;
         // slide
 
         var swiper = new Swiper(".slide-content", {
-    slidesPerView: 3,
-    spaceBetween: 25,
-    loop: true,
-    centerSlide: 'true',
-    fade: 'true',
-    grabCursor: 'true',
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-      dynamicBullets: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-
-    breakpoints:{
-        0: {
-            slidesPerView: 1,
-        },
-        520: {
-            slidesPerView: 2,
-        },
-        950: {
             slidesPerView: 3,
-        },
-    },
-  });
+            spaceBetween: 25,
+            loop: true,
+            centerSlide: 'true',
+            fade: 'true',
+            grabCursor: 'true',
+            pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            dynamicBullets: true,
+            },
+            navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+            },
 
-        
+            breakpoints:{
+                0: {
+                    slidesPerView: 1,
+                },
+                520: {
+                    slidesPerView: 2,
+                },
+                950: {
+                    slidesPerView: 3,
+                },
+            },
+        });
     </script>
 
-      <script>
+    <script>
         let currentIndex = 0;
 
         function moveCarousel(direction) {
@@ -1164,6 +1055,31 @@ background-color: #dfceee;
             const offset = currentIndex * -33.33; // Adjust this value to control the width of each testimonial
             carousel.style.transform = `translateX(${offset}%)`;
         }
+
+        // Get all the selectable divs
+        const selectableDivs = document.querySelectorAll('.selectable');
+
+        // Select the first div by default
+        selectableDivs[0].classList.add('selected');
+
+        function toggleSelection(div) {
+            // If the clicked div is already selected, do nothing
+            if (div.classList.contains('selected')) {
+                return;
+            }
+
+            // Remove 'selected' class from all other divs
+            selectableDivs.forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked div
+            div.classList.add('selected');
+            
+
+        }
+
+
 
     </script>
 

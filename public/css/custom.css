@@ -421,3 +421,105 @@ input[type="range"]::-ms-thumb {
 #button-3 .checkbox:checked ~ .layer {
     background-color: #baf1b8;
 }
+
+.gradeBox {
+    border: 1px solid lightgray;
+    height: 200px;
+    border-radius: 10px;
+}
+.gradeBox:hover {
+    background-color: #dfceee;
+}
+.grades {
+    padding: 30px;
+}
+
+.headerText {
+    color: #3c4852;
+    font-size: 44px;
+    font-weight: 800;
+    font-family: AvertaStd, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.section-title {
+    color: #3c4852;
+    font-weight: 700;
+}
+
+.carousel-container {
+    /* width: 100%; */
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    /* Add this to position buttons */
+}
+
+.carousel {
+    display: flex;
+    margin-left: 30px;
+}
+
+.contentBox {
+    flex: 0 0 30%;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.carousel-button {
+    position: absolute;
+    /* Position the buttons */
+    top: 50%;
+    /* Adjust this to vertically center the buttons */
+    transform: translateY(-50%);
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.next-btn {
+    right: 0;
+    /* Position the next button on the right */
+}
+
+.prev-btn {
+    left: 0;
+    /* Position the previous button on the left */
+}
+.loginForm {
+    padding: 50px;
+}
+
+.imgBorder {
+    border: 1px solid darkgray;
+    text-align: center;
+    border-radius: 5px;
+}
+.imgBorder:hover {
+    background-color: rgb(191, 244, 185);
+}
+.imgBorder img {
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+}
+.imgBorder .fa-check-circle {
+    display: none;
+}
+.selected .fa-check-circle {
+    color: #4fa746;
+    display: inline;
+}
+
+.selectable {
+    cursor: pointer;
+}
+
+.selected {
+    border: 3px solid #4fa746;
+}
