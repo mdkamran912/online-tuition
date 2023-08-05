@@ -189,7 +189,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="scheduleClasses.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.classes')}}" aria-controls="form-elements">
                             <i class="ti-pencil-alt menu-icon"></i>
                             <span class="menu-title">Class</span>
                             <!-- <i class="menu-arrow"></i> -->

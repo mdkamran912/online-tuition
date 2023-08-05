@@ -76,6 +76,8 @@ Route::group(['prefix' => 'student','middleware' => ['StudentAuthenticate']], fu
     Route::get('subjects',[SubjectsController::class,'index'])->name('student.subjects');
     // My Learning
     Route::get('mylearnings',[MyLearningController::class,'index'])->name('student.mylearnings');
+    // Classes
+    Route::get('classes',[ClassController::class,'studentclass'])->name('student.classes');
 });
 
 // Admin Routes

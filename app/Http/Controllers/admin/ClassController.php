@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
+use App\Models\batchstudentmapping;
 use App\Models\classes;
 use App\Models\zoom_classes;
 use Illuminate\Http\Request;
@@ -66,5 +67,21 @@ class ClassController extends Controller
         ->get();
         $classes = (new CommonController)->classes();
         return view('tutor.classes', compact('liveclasses','classes'));
+    }
+
+    public function studentclass(){
+
+
+
+        $targetValue = session('userid')->id; // The value you want to check in the JSON array
+        
+        $classes = zoom_classes::select('*','zoom_classes.id as class_id')
+        ->join('batchstudentmappings','batchstudentmappings.batch_id','zoom_classes.batch_id')
+        ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
+        ->where('zoom_classes.is_active',1)
+        ->get();
+       
+        return view('student.classes',compact('classes'));
+
     }
 }
