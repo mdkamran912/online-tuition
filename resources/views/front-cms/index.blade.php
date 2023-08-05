@@ -748,7 +748,7 @@
                         <input type="hidden" id="loginid" name="loginid" value="1">
                         <div class="row">
                             <div class="col-6 col-md-6 col-sm-6">
-							<div class="imgBorder selectable p-1" onclick="toggleSelection(this); loginToTutor();">
+							<div class="imgBorder selectable p-1" onclick="toggleSelection(this); loginToStudent();">
                                
 								<img src="images/student.png">
                                  <i class="fa fa-check-circle" style="float: right;"></i>
