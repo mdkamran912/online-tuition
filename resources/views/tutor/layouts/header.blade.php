@@ -221,7 +221,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="message.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('tutor.messages')}}" aria-controls="form-elements">
                             <i class="ti-email menu-icon"></i>
                             <span class="menu-title">Message</span>
                             <!-- <i class="menu-arrow"></i> -->

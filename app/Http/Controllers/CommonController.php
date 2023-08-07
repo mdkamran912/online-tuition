@@ -39,47 +39,61 @@ class CommonController extends Controller
         return response()->json($data);
     }
 
-    public function studentsbyclass(Request $request){
+    public function studentsbyclass(Request $request)
+    {
         $data['students'] = studentregistration::where('class_id', $request->class_id)
-        ->where('is_active',1)->get();
+            ->where('is_active', 1)->get();
         return response()->json($data);
     }
 
-    public function batchbysubject(Request $request){
-        $data['batches'] = batches::where('subject_id', $request->subject_id)->where('is_active',1)->get();
+    public function batchbysubject(Request $request)
+    {
+        $data['batches'] = batches::where('subject_id', $request->subject_id)->where('is_active', 1)->get();
         return response()->json($data);
     }
 
-    public function studentsbybatch(Request $request){
+    public function studentsbybatch(Request $request)
+    {
         $targetValue = 1;
-    //     $data['students'] = studentregistration::select('*')
-    //     ->join('batchstudentmappings', 'studentregistrations.student_id', '=', 'batchstudentmappings.student_id')
-    // ->whereIn('batchstudentmappings.student_id', $studentIdsArray)
+        //     $data['students'] = studentregistration::select('*')
+        //     ->join('batchstudentmappings', 'studentregistrations.student_id', '=', 'batchstudentmappings.student_id')
+        // ->whereIn('batchstudentmappings.student_id', $studentIdsArray)
         // ->join('batchstudentmappings','batchstudentmappings.id',$request->batch_id)
         // ->join('batchstudentmappings','batchstudentmappings.id',$request->batch_id)
         // ->join('batchstudentmappings',"JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         // ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         // ->where('batchstudentmappings.batch_id', $request->batch_id)
         // ->get();
-        $studentId = 1;
-$targetStudentData = ["1", "3"];
+       
+        $targetStudentData = ["1", "3"];
 
-$results['students'] = StudentRegistration::select('studentregistrations.*')
-    ->join('batchstudentmappings', function ($join) use ($targetStudentData) {
-        $join->whereJsonContains('batchstudentmappings.student_data', $targetStudentData);
-    })
-    
-    ->get();
-// dd($results);
+        $results['students'] = StudentRegistration::
+            join('batchstudentmappings', function ($join) use ($targetStudentData) {
+                $join->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"studentregistrations.id[0]\"')"); // For the first element
+                for ($i = 1; $i < count($targetStudentData); $i++) {
+                    $join->orWhereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetStudentData[$i]\"')");
+                }
+            })
+            ->select('studentregistrations.*', 'batchstudentmappings.*')
+            // ->where('batchstudentmappings','batchstudentmappings.batch_id',$request->batchid)
+            ->get();
+        // dd($results);
         return response()->json($results);
     }
 
+    // $studentId = 1;
+    // $targetStudentData = ["1", "3","10","11"];
 
-//     $studentId = 1;
-// $studentIdsArray = ["1", "2"];
+    // select a.* from studentregistrations a, batchstudentmappings b where '"'+a.id+'"' in b.student_data
 
-// $results = Table1::where('student_id', $studentId)
-//     ->join('table2', 'table1.student_id', '=', 'table2.student_id')
-//     ->whereIn('table2.student_id', $studentIdsArray)
-//     ->get();
+
+
+
+    //     $studentId = 1;
+    // $studentIdsArray = ["1", "2"];
+
+    // $results = Table1::where('student_id', $studentId)
+    //     ->join('table2', 'table1.student_id', '=', 'table2.student_id')
+    //     ->whereIn('table2.student_id', $studentIdsArray)
+    //     ->get();
 }
