@@ -1,314 +1,172 @@
 @extends('tutor.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card chatPannel">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 col-xl-3 border-right">
+                        <a href="{{ route('tutor.messages.students') }}"> <button
+                                class="badge badge-primary">Students</button></a>
+                        <a href="{{ route('tutor.messages.admins') }}"> <button class="badge badge-primary">Admin</button></a>
 
-
-
-                    <div class="card chatPannel">
-                        <div class="row g-0">
-                            <div class="col-12 col-lg-5 col-xl-3 border-right">
-
-                                <div class="px-4 d-none d-md-block">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <input type="text" class="form-control my-3" placeholder="Search...">
-                                        </div>
-                                    </div>
+                        <div class="px-4 d-none d-md-block">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <input type="text" class="form-control my-3" placeholder="Search...">
                                 </div>
-
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                            alt="Richard" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Richard
-                                            <div class="small"><span class="fas fa-circle chat-online"></span>
-                                                Online</div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="badge bg-success float-right">5</div>
-                                    <div class="d-flex align-items-start">
-                                        <img src="images/faces/face3.jpg" class="rounded-circle mr-1"
-                                            alt="Vanessa Tucker" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Christopher
-                                            <div class="small"><span class="fas fa-circle chat-online"></span>
-                                                Online</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="badge bg-success float-right">2</div>
-                                    <div class="d-flex align-items-start">
-                                        <img src="images/faces/face4.jpg" class="rounded-circle mr-1"
-                                            alt="William Harris" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            David
-                                            <div class="small"><span class="fas fa-circle chat-online"></span>
-                                                Online</div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                            class="rounded-circle mr-1" alt="Christina Mason" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Christina Mason
-                                            <div class="small"><span class="fas fa-circle chat-offline"></span>
-                                                Offline</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="images/faces/face2.jpg" class="rounded-circle mr-1"
-                                            alt="Fiona Green" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Hazel
-                                            <div class="small"><span class="fas fa-circle chat-offline"></span>
-                                                Offline</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                            class="rounded-circle mr-1" alt="Doris Wilder" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Doris Wilder
-                                            <div class="small"><span class="fas fa-circle chat-offline"></span>
-                                                Offline</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                            class="rounded-circle mr-1" alt="Haley Kennedy" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Haley Kennedy
-                                            <div class="small"><span class="fas fa-circle chat-offline"></span>
-                                                Offline</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">
-                                    <div class="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                            class="rounded-circle mr-1" alt="Jennifer Chang" width="40" height="40">
-                                        <div class="flex-grow-1 ml-3">
-                                            Jennifer Chang
-                                            <div class="small"><span class="fas fa-circle chat-offline"></span>
-                                                Offline</div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                <hr class="d-block d-lg-none mt-1 mb-0">
                             </div>
-                            <div class="col-12 col-lg-7 col-xl-9">
-                                <div class="py-2 px-4 border-bottom d-none d-lg-block">
-                                    <div class="d-flex align-items-center py-1">
-                                        <div class="position-relative">
-                                            <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                alt="Richard" width="40" height="40">
-                                        </div>
-                                        <div class="flex-grow-1 pl-3">
-                                            <strong>Richard</strong>
-                                            <div class="text-muted small"><em>Typing...</em></div>
-                                        </div>
+                        </div>
+                        {{-- Populating chat user list --}}
+                        @foreach ($userlists as $userlist)
+                            @if ($userlist->role_id == 1)
+                                <a href="{{ url('tutor/adminmessages') }}/{{ $userlist->id }}"
+                                    class="list-group-item list-group-item-action border-0">
+                                @elseif ($userlist->role_id == 2)
+                                    {{-- //tutors --}}
+                                @elseif ($userlist->role_id == 3)
+                                    <a href="{{ url('tutor/studentmessages') }}/{{ $userlist->id }}"
+                                        class="list-group-item list-group-item-action border-0">
+                            @endif
+
+                            <div class="d-flex align-items-start">
+
+                                @if (empty($userlist->profile_pic))
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                        class="rounded-circle mr-1" alt="Richard" width="40" height="40">
+                                @else
+                                    <img src="{{ url('images/students/profilepics') }}/{{ $userlist->profile_pic }}"
+                                        class="rounded-circle mr-1" alt="Richard" width="40" height="40">
+                                @endif
+
+                                <div class="flex-grow-1 ml-3">
+                                    {{ $userlist->name }}
+                                    <div class="small"><span class="fa fa-circle chat-online"></span>
+                                        Online</div>
+                                </div>
+                            </div>
+                            </a>
+                        @endforeach
+
+                        <hr class="d-block d-lg-none mt-1 mb-0">
+                    </div>
+
+                    <div class="col-12 col-lg-7 col-xl-9">
+                        @if ($header->name ?? '')
+                            <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                                <div class="d-flex align-items-center py-1">
+                                    <div class="position-relative">
+                                        @if (empty($header->profile_pic))
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                                class="rounded-circle mr-1" alt="Richard" width="40" height="40">
+                                        @else
+                                            <img src="{{ url('images/students/profilepics') }}/{{ $header->profile_pic }}"
+                                                class="rounded-circle mr-1" alt="Richard" width="40" height="40">
+                                        @endif
 
                                     </div>
-                                </div>
-
-                                <div class="position-relative">
-                                    <div class="chat-messages p-4">
-
-                                        <div class="chat-message-right pb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:33 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt
-                                                prodesset te vix.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:34 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Sit meis deleniti eu, pri vidit meliore docendi ut, an eum erat
-                                                animal commodo.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-right mb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:35 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Cum ea graeci tractatos.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:36 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Sed pulvinar, massa vitae interdum pulvinar, risus lectus
-                                                porttitor magna, vitae
-                                                commodo lectus mauris et velit.
-                                                Proin ultricies placerat imperdiet. Morbi varius quam ac
-                                                venenatis tempus.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:37 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Cras pulvinar, sapien id vehicula aliquet, diam velit elementum
-                                                orci.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-right mb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:38 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt
-                                                prodesset te vix.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:39 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Sit meis deleniti eu, pri vidit meliore docendi ut, an eum erat
-                                                animal commodo.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-right mb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:40 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Cum ea graeci tractatos.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-right mb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:41 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Morbi finibus, lorem id placerat ullamcorper, nunc enim ultrices
-                                                massa, id dignissim
-                                                metus urna eget purus.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:42 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Sed pulvinar, massa vitae interdum pulvinar, risus lectus
-                                                porttitor magna, vitae
-                                                commodo lectus mauris et velit.
-                                                Proin ultricies placerat imperdiet. Morbi varius quam ac
-                                                venenatis tempus.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-right mb-4">
-                                            <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                                    class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:43 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                                                <div class="font-weight-bold mb-1">You</div>
-                                                Lorem ipsum dolor sit amet, vis erat denique in, dicunt
-                                                prodesset te vix.
-                                            </div>
-                                        </div>
-
-                                        <div class="chat-message-left pb-4">
-                                            <div>
-                                                <img src="images/faces/face1.jpg" class="rounded-circle mr-1"
-                                                    alt="Richard" width="40" height="40">
-                                                <div class="text-muted small text-nowrap mt-2">2:44 am</div>
-                                            </div>
-                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                                                <div class="font-weight-bold mb-1">Richard</div>
-                                                Sit meis deleniti eu, pri vidit meliore docendi ut, an eum erat
-                                                animal commodo.
-                                            </div>
-                                        </div>
-
+                                    <div class="flex-grow-1 pl-3">
+                                        <strong>{{ $header->name }}</strong>
+                                        {{-- <div class="text-muted small"><em>Typing...</em></div> --}}
                                     </div>
-                                </div>
 
-                                <div class="flex-grow-0 py-3 px-4 border-top">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Type your message">
-                                        <button class="btn btn-sm btn-primary ml-1"> Send</i></button>
-                                    </div>
                                 </div>
+                            </div>
+                        @endif
+                        <div class="position-relative">
+                            <div class="chat-messages p-4">
+
+                                @if (empty($messages))
+                                    <div class="chat-message-center pb-4">
+
+                                        Please select anyone from the list to start chat
+                                    </div>
+                                @else
+                                    @foreach ($messages as $message)
+                                        @if ($message->from_id === session('userid')->id && $message->from_role_id === 2)
+                                            {{-- <div class="my-message">
+                                            <p>{{ $message->content }}</p>
+                                            <span>{{ $message->created_at->format('H:i') }}</span>
+                                        </div> --}}
+                                            <div class="chat-message-right pb-4">
+                                                <div>
+                                                    <img src="{{ url('images/tutors/profilepics') }}/{{ $profile_pics->profile_pic }}"
+                                                        class="rounded-circle mr-1" alt="Chris Wood" width="40"
+                                                        height="40">
+                                                    <div class="text-muted small text-nowrap mt-2">
+                                                        {{ $message->created_at }}</div>
+                                                </div>
+                                                <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                    <div class="font-weight-bold mb-1">You</div>
+                                                    {{ $message->body }}
+                                                </div>
+                                            </div>
+                                        @else
+                                            {{-- <div class="their-message">
+                                            <p>{{ $message->content }}</p>
+                                            <span>{{ $message->created_at->format('H:i') }}</span>
+                                        </div> --}}
+                                            <div class="chat-message-left pb-4">
+                                                <div>
+                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                                        class="rounded-circle mr-1" alt="Chris Wood" width="40"
+                                                        height="40">
+                                                    <div class="text-muted small text-nowrap mt-2">
+                                                        {{ $message->created_at }}</div>
+                                                </div>
+                                                <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                    <div class="font-weight-bold mb-1">{{ $header->name }}</div>
+                                                    {{ $message->body }}
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
 
                             </div>
                         </div>
+                        @if ($header->name ?? '')
+
+                        {{-- @else --}}
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            @if (session('userid')->role_id == 1)
+                                <form action="{{ route('admin.messages.send') }}" method="POST">
+                                @elseif (session('userid')->role_id == 2)
+                                <form action="{{ route('tutor.messages.send') }}" method="POST">
+                                @elseif (session('userid')->role_id == 3)
+                                <form action="{{ route('student.messages.send') }}" method="POST">
+                                {{-- @elseif (session('userid')->role_id == 4) --}}
+                                {{-- <form action="{{ route('parent.messages.send') }}" method="POST"> --}}
+                            @endif
+                            @csrf
+                            <div class="input-group">
+
+
+                                <input type="hidden" id="receiver_role_id" name="receiver_role_id" placeholder="reole id" value="{{$header->role_id}}">
+                                <input type="hidden" id="receiver_id" name="receiver_id" placeholder="receiver id" value="{{$header->id}}">
+                                
+                                <input type="text" id="message" name="message" class="form-control" placeholder="Type your message here ...">
+                               
+                                
+                                <button type="submit" class="btn btn-sm btn-success ml-1"><span class="fa fa-paper-plane">
+                                    </span> Send</i></button>
+                                </div>
+                                    <span class="text-danger" style="float: left !important;">
+                                        @error('message')
+                                            {{ "Can't send empty message!" }}
+                                        @enderror
+                                    </span>
+                            </form>
+
+                        </div>
+                        @endif
+
                     </div>
-
-
-
                 </div>
-                <!-- content-wrapper ends -->
-               
-                @endsection
+            </div>
+
+
+
+        </div>
+        <!-- content-wrapper ends -->
+    @endsection

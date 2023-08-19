@@ -8,6 +8,7 @@ use App\Models\country;
 use App\Models\payments\paymentdetails;
 use App\Models\payments\paymentstudents;
 use App\Models\subjects;
+use App\Models\teacherclassmapping;
 use App\Models\tutorachievements;
 use App\Models\tutorprofile;
 use App\Models\tutorregistration;
@@ -30,7 +31,7 @@ class TutorProfileController extends Controller
     {   $id = session('userid')->id;
         $classes = (new CommonController)->classes();
         $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
-            ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+            // ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
             ->where('tutorprofiles.id', '=', $id)
@@ -59,13 +60,13 @@ class TutorProfileController extends Controller
     {
         $id = session('userid')->id;
         $classes = (new CommonController)->classes();
-        $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
-            ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+        $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject')
+            // ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
             ->where('tutorprofiles.id', '=', $id)
             ->first();
-
+// dd($tutorpd);
         $achievement = tutorachievements::select('*')
             ->where('tutor_id', '=', $id)->get();
 
@@ -78,9 +79,9 @@ class TutorProfileController extends Controller
         ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
         ->join('classes','classes.id','subjects.class_id')
                     ->where('tutor_id', $id)->get();
-        if (!$tutorpd) {
-            return view('tutor.tutorprofile')->with('fail', 'Something went wrong');
-        }
+        // if (!$tutorpd) {
+        //     return view('tutor.tutorprofile')->with('fail', 'Something went wrong');
+        // }
         
         return view('tutor.profileupdate', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
     }
@@ -160,23 +161,36 @@ public function classmapping(Request $request){
         'subject'=>'required',
         'classrate'=>'required',
     ]);
-    
+    $datachk = tutorsubjectmapping::select('id')->where('tutor_id',session('userid')->id)->where('subject_id',$request->subject)->where('class_id',$request->classname)->first();
+    if ($datachk) {
+        return back()->with('fail', 'Subject already added');
+    }
+    else{
     $trmapping = new tutorsubjectmapping();
+    $tcmapping = new teacherclassmapping();
     $trmapping->tutor_id = session('userid')->id;
+    $tcmapping->teacher_id = session('userid')->id;
     $trmapping->subject_id = $request->subject;
+    $tcmapping->class_id = $request->classname;
     $trmapping->rate = $request->classrate;
     $trmapping->class_id = $request->classname;
     $res = $trmapping->save();
+    $data = tutorsubjectmapping::select('id')->where('tutor_id',session('userid')->id)->where('subject_id',$request->subject)->where('class_id',$request->classname)->first();
+    $tcmapping->subject_mapping_id = $data->id;
+    
+    $tcmapping->save();
     if ($res) {
         return back()->with('success', 'Subject added successfully');
     } else {
         return back()->with('fail', 'Something went wrong, please try again later');
     }
+}
 
 }
 public function classmappingdelete($id){
-    $classmp =  DB::delete('delete from tutorsubjectmappings where id = ?',[$id]);
-    if ($classmp) {
+    $submp =  DB::delete('delete from tutorsubjectmappings where id = ?',[$id]);
+    $classmp =  DB::delete('delete from teacherclassmappings where subject_mapping_id = ?',[$id]);
+    if ($submp) {
         return back()->with('success', 'Class Mapping deleted successfully');
     } else {
         return back()->with('fail', 'Something went wrong, please try again later');

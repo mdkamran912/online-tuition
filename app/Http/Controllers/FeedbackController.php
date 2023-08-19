@@ -10,4 +10,6 @@ class FeedbackController extends Controller
         $classes = (new CommonController)->classes();
         return view('tutor.feedback',compact('classes'));
     }
+
+    
 }

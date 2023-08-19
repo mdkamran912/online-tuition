@@ -26,7 +26,9 @@ use App\Http\Controllers\student\StudentProfileController;
 use App\Http\Controllers\student\SubjectsController;
 use App\Http\Controllers\student\TutorSearchController;
 use App\Http\Controllers\tutor\ClassScheduleController;
+use App\Http\Controllers\TutorreviewsController;
 use App\Http\Controllers\ZoomClassesController;
+use App\Models\tutorreviews;
 // use App\Http\Controllers\StudentregistrationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -76,10 +78,34 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::post('purchaseclass', [TutorSearchController::class, 'purchaseclass'])->name('student.purchaseclass');
     // Subjects
     Route::get('subjects', [SubjectsController::class, 'index'])->name('student.subjects');
+    // Syllabus
+    Route::get('subjects/syllabus/{id}', [SubjectsController::class, 'getsyllabus'])->name('student.subjects.syllabus');
     // My Learning
     Route::get('mylearnings', [MyLearningController::class, 'index'])->name('student.mylearnings');
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
+    // Feedback by Student
+    Route::post('feedback/submit',[TutorreviewsController::class,'feedbacksubmitstudent'])->name('student.feedback.submit');
+    // Feedback by tutor
+    Route::get('myfeedback', [TutorreviewsController::class, 'studentfeedbacklist'])->name('student.myfeedback');
+    // Message By Student
+    Route::get('messages', [MessagesController::class, 'messagesbystudent'])->name('student.messages');
+    Route::get('adminmessages', [MessagesController::class, 'messagesbystudentadmins'])->name('student.messages.admins');
+    Route::get('adminmessages/{id}', [MessagesController::class, 'messagesbystudentadminmessages'])->name('student.messages.adminmessages');
+    Route::get('tutormessages', [MessagesController::class, 'messagesbystudenttutor'])->name('student.messages.tutor');
+    Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbystudenttutormessages'])->name('student.messages.tutormessages');
+    Route::post('sendmessage', [MessagesController::class, 'messagesentbystudent'])->name('student.messages.send');
+    // Assignments
+    Route::get('assignments',[AssignmentsController::class,'studentassignmentslist'])->name('student.assignments.list');
+    Route::post('assignments/upload',[AssignmentsController::class,'studentassignmentsupload'])->name('student.assignments.upload');
+    // Student Fees/Payments
+    Route::get('studentpayments', [PaymentsController::class, 'studentpayments'])->name('student.studentpayments');
+    // Online tests/exams
+    Route::get('exams', [OnlineTestController::class, 'studentexams'])->name('student.exams');
+    Route::get('taketest/{id}', [OnlineTestController::class, 'taketest'])->name('student.taketest');
+    Route::post('/save-responses', [OnlineTestController::class, 'saveResponses'])->name('student.save.responses');
+    // Route::post('/save-responses', 'OnlineTestController@saveResponses')->name('student.save.responses');
+
 });
 
 // Admin Routes
@@ -123,6 +149,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorprofile/{id}', [TutorSearchController::class, 'tutorprofile'])->name('admin.tutorprofile');
     Route::get('tutors', [TutorSearchController::class, 'tutorslist'])->name('admin.tutors');
     Route::get('tutors/status', [TutorSearchController::class, 'status'])->name('admin.tutors.status');
+    // Admin Commission
+    Route::get('commission/update',[TutorSearchController::class,'commissionupdate'])->name('admin.commission.update');
     // Payment details
     Route::get('payments', [PaymentsController::class, 'index'])->name('admin.payments');
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
@@ -152,6 +180,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('onlinetestquestions/{id}', [OnlineTestController::class, 'viewquestions'])->name('admin.onlinetestquestions.viewquestions');
     // Get questions by Topic
     Route::post('fetchquestions', [OnlineTestController::class, 'fetchquestions'])->name('fetchquestions');
+    // Message By Student
+    Route::get('messages', [MessagesController::class, 'messagesbyadmin'])->name('admin.messages');
+    Route::get('studentmessages', [MessagesController::class, 'messagesbyadminstudents'])->name('admin.messages.students');
+    Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbyadminstudentmessages'])->name('admin.messages.studentmessages');
+    Route::get('tutormessages', [MessagesController::class, 'messagesbyadmintutor'])->name('admin.messages.tutors');
+    Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbyadmintutormessages'])->name('admin.messages.tutormessages');
+    Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
 });
 
 // Tutor Activity
@@ -195,7 +230,12 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     // Feedback by tutor
     Route::get('feedback', [FeedbackController::class, 'index'])->name('tutor.feedback.list');
     // Message By Tutor
-    Route::get('messages',[MessagesController::class,'messagesbytutor'])->name('tutor.messages');
+    Route::get('messages', [MessagesController::class, 'messagesbytutor'])->name('tutor.messages');
+    Route::get('adminmessages', [MessagesController::class, 'messagesbytutoradmins'])->name('tutor.messages.admins');
+    Route::get('adminmessages/{id}', [MessagesController::class, 'messagesbytutoradminmessages'])->name('tutor.messages.adminmessages');
+    Route::get('studentmessages', [MessagesController::class, 'messagesbytutorstudents'])->name('tutor.messages.students');
+    Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbytutorstudentmessages'])->name('tutor.messages.studentmessages');
+    Route::post('sendmessage', [MessagesController::class, 'messagesentbytutor'])->name('tutor.messages.send');
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);

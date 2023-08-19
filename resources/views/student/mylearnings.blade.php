@@ -9,56 +9,56 @@
 
                     </div>
 
-                    <table class="table table-bordered table-responsive">
+                    <table class="table table-bordered">
                         <thead class="bg-dark text-white">
                             <tr>
                                 <th scope="col">S.No.</th>
                                 <th scope="col">Topic</th>
-                                <th scope="col">Videos</th>
                                 <th scope="col">Study Content</th>
+                                <th scope="col">Videos</th>
                                 <th scope="col">Blogs</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($learnings as $learning)
+                                
+                           
                             <tr>
-                                <td>1</td>
-                                <td>Mathematics</td>
-                                <td class="text-wrap">
-                                    Learn everything from the basics of math, then
-                                    test your knowledge with 50+
-                                    practicequestions.<br>
-                                    <a class="btn" data-toggle="modal" data-target="#popUpVideoModal"><b>Watch
-                                            Video</b></a>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$learning->topic_name}}</td>
+                                @if ($learning->content_description)
+                                    
+                               
+                                <td class="text-wrap"><div class="text-center">{{$learning->content_description}}<br><br>
+                                    <a class="badge badge-primary" href="{{$learning->content_link}}"><b>View</b></a>
+                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                </div>
                                 </td>
-                                <td class="text-wrap">
-                                    Learn everything from the basics of math,then test
-                                    your knowledge with 50+
-                                    practice questions.<br>
-                                    <a class="btn" data-toggle="modal" data-target="#studyMaterialModal"><b>View</b></a>
-                                </td>
-                                <td>
-                                    <a href="blog-single.html"><b>View Blog</b></a>
-                                </td>
-                            </tr>
+                                @else
+                                <td></td>
+                                @endif
 
-                            <tr>
-                                <td>2</td>
-                                <td>Chemistry</td>
-                                <td class="text-wrap">
-                                    Clear your concept/ practice all the questions one by one and see where do you
-                                    stand.<br>
-                                    <a class="btn" data-toggle="modal" data-target="#popUpVideoModal"><b>Watch
-                                            Video</b></a>
+                                @if($learning->video_description)
+                                <td class="text-wrap"><div class="text-center">{{$learning->video_description}}<br><br>
+                                    <a class="badge badge-primary" href="{{$learning->video_link}}"><b>View</b></a>
+                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                </div>
                                 </td>
-                                <td class="text-wrap">
-                                    Learn everything from the basics of Chemistry.<br>
-                                    <a class="btn" data-toggle="modal" data-target="#studyMaterialModal"><b>View</b></a>
+                                @else
+                                <td></td>
+                                @endif
+                                @if ($learning->blog_description)
+                                    
+                                <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}<br><br>
+                                    <a class="badge badge-primary" href="{{$learning->blog_link}}"><b>View</b></a>
+                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                </div>
                                 </td>
-                                <td>
-                                    <a href="blog-single.html"><b>View Blog</b></a>
-                                </td>
+                                @else
+                                <td></td>
+                                @endif
                             </tr>
-
+                            @endforeach
                         </tbody>
                     </table>
 

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{url('vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{url('vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{url('css/custom.css')}}">
+    <link rel="stylesheet" href="{{url('css/chat.css')}}">
+
     <script src="{{url('js/ckeditor.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -234,7 +236,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="message.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('admin.messages')}}" aria-controls="form-elements">
                             <i class="ti-email menu-icon"></i>
                             <span class="menu-title">Message</span>
                             <!-- <i class="menu-arrow"></i> -->

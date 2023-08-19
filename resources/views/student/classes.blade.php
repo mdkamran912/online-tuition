@@ -49,7 +49,7 @@
                                                 Class</button></a>
                                     @else
                                         <button
-                                                class="btn btn-sm btn-warning" onclick="openfeedbackmodal({{$class->class_id}})"><span class="fa fa-check "></span> Give Feedback</button>
+                                                class="btn btn-sm btn-warning" data-toggle="modal" data-target="#openreviewsmodal" onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span class="fa fa-check "></span> Give Feedback</button>
                                     @endforelse
 
                                 </td>
@@ -82,9 +82,8 @@
         </div>
         <!-- content-wrapper ends -->
 
-
-        <!--Student List modal -->
-        <div class="modal fade" id="studentlistmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <!-- modal -->
+        <div class="modal fade" id="openreviewsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -94,297 +93,73 @@
 
 
                         <header>
-                            <h3 class="text-center mb-4">Student List</h3>
+                            <h3 class="text-center mb-4" id="header">Add Feedback</h3>
                         </header>
-
-                        <form action="" method="">
-                            <div class="row">
-                                <div class="col-12 col-md-12 col-ms-12 mb-3">
-                                    {{-- <select id="studentlist" name="studentlist[]" multiple>
-
-                         </select> --}}
-                                    <style>
-                                        .newclass td,
-                                        .newclass th {
-                                            padding: 2px !important
-                                        }
-                                    </style>
-                                    <table class="table table-bordered newclass" style="margin: 0%;">
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Student Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="studentlist">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                    class="fa fa-times"></span> Close</button>
-
-
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!--Schedule modal -->
-        <div class="modal fade" id="scheduleclassmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <div class="modal-body">
-
-
-                        <header>
-                            <h3 class="text-center mb-4">Schedule New Class</h3>
-                        </header>
-
-                        <form action="{{ route('tutor.liveclass.scheduleclass') }}" method="POST">
+                       
+                        <form action="{{route('student.feedback.submit')}}" method="POST">
                             @csrf
+                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="subject_id" name="subject_id">
+                            <input type="hidden" id="tutor_id" name="tutor_id">
                             <div class="row">
-
-                                <div class="col-12 col-md-4 col-ms-6 mb-3">
-                                    <label>Class/Grade<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="class" name="class"
-                                        onchange="fetchSubjects()">
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('class')
-                                            {{ 'Class is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-4 col-ms-6 mb-3">
-                                    <label>Subject<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="subject" name="subject"
-                                        onchange="fetchTopics();batchbysubject()">
+                             
+                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                    <label>Rating<span style="color:red">*</span></label>
+                                    <select type="text" class="form-control" id="rating" name="rating" required>
+                                        <option value="0">0</option>
+                                        <option value="0.5">0.5</option>
+                                        <option value="1">1</option>
+                                        <option value="1.5">1.5</option>
+                                        <option value="2">2</option>
+                                        <option value="2.5">2.5</option>
+                                        <option value="3">3</option>
+                                        <option value="3.5">3.5</option>
+                                        <option value="4">4</option>
+                                        <option value="4.5">4.5</option>
+                                        <option value="5">5</option>
 
                                     </select>
-                                    <span class="text-danger">
-                                        @error('subject')
-                                            {{ 'Subject is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-4 col-ms-6 mb-3">
-                                    <label>Batch<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="batchid" name="batchid">
 
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('batchid')
-                                            {{ 'Batch is required' }}
-                                        @enderror
-                                    </span>
                                 </div>
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Topic<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="topic" name="topic">
-
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('topic')
-                                            {{ 'Topic is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class Start Time<span style="color:red">*</span></label>
-                                    <input type="datetime-local" class="form-control" id="classstarttime"
-                                        name="classstarttime">
-                                    <span class="text-danger">
-                                        @error('classstarttime')
-                                            {{ 'Class start time is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
+                                <span class="text-danger">
+                                    @error('rating')
+                                    {{ $message }}
+                                    @enderror
+                                </span>
 
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class Duration(minutes)<span style="color:red">*</span></label>
-                                    <input type="tet" class="form-control" id="classduration" name="classduration">
-                                    <span class="text-danger">
-                                        @error('classduration')
-                                            {{ 'Class duration is required' }}
-                                        @enderror
-                                    </span>
+                                    <label>Comments<span style="color:red">*</span></label>
+                                    <textarea type="text" class="form-control" id="comments" name="comments" required>
+                                    </textarea>
                                 </div>
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Class Password<span style="color:red">*</span></label>
-                                    <input type="tet" class="form-control" id="classpassword" name="classpassword">
-                                    <span class="text-danger">
-                                        @error('classpassword')
-                                            {{ 'Class password is required' }}
-                                        @enderror
-                                    </span>
-                                </div>
+                                <span class="text-danger">
+                                    @error('comments')
+                                    {{ $message }}
+                                    @enderror
+                                </span>
+
                             </div>
-
-
-                            <button type="submit" id=""
-                                class="btn btn-sm btn-success float-right">Submit</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
-                                data-dismiss="modal">Close</button>
-
-
-
+                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
+                                class="fa fa-check"></span> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
+                            data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
                         </form>
+
+
                     </div>
                 </div>
             </div>
         </div>
 
         <script>
-            function openclassmodal(batchid, subjectid) {
-                $('#batchid').val(batchid);
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchtopics') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectid,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#topic').html('<option value="">-- Select Topic --</option>');
-                        $.each(result.topics, function(key, value) {
-                            $("#topic").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-                $('#scheduleclassmodal').modal('show')
+            function openfeedbackmodal(id,subjectid,tutorid) {
+                $('#id').val(id)
+                $('#subject_id').val(subjectid)
+                $('#tutor_id').val(tutorid)
+                $('#openreviewsmodal').modal('show');
+               
 
             }
 
-            function openstudentmodal(id) {
-                var classId = $('#classname option:selected').val();
-                $("#subject").html('');
-                $.ajax({
-                    url: "{{ url('tutor/batches/students') }}/" + id,
-                    type: "GET",
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        // console.log(result)
-                        $('#studentlist').html('');
-                        $.each(result, function(key, value) {
-                            // $("#studentlist").append(value.name);
-                        });
-                        var table = "";
-                        var p = 0;
-                        for (var i in result) {
-                            p++;
-                            table += "<tr>";
-                            table += "<td hidden>" +
-                                result[i].id + "</td>" +
-                                "<td>" + p + "</td>" +
-                                "<td>" + result[i].name + "</td>";
-                            table += "</tr>";
-                        }
-
-                        document.getElementById("studentlist").innerHTML = table;
-                    }
-
-                });
-                // $('#studentlist').val()
-                $('#studentlistmodal').modal('show')
-
-            }
-
-            function fetchSubjects() {
-
-                var classId = $('#class option:selected').val();
-                $("#subject").html('');
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchsubjects') }}",
-                    type: "POST",
-                    data: {
-                        class_id: classId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#subject').html('<option value="">-- Select Type --</option>');
-                        $.each(result.subjects, function(key, value) {
-                            $("#subject").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
-
-            function fetchTopics() {
-
-                var subjectId = $('#subject option:selected').val();
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchtopics') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#topic').html('<option value="">-- Select Type --</option>');
-                        $.each(result.topics, function(key, value) {
-                            $("#topic").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
-
-            function batchbysubject() {
-
-                var subjectId = $('#subject option:selected').val();
-                $("#batchid").html('');
-                $.ajax({
-                    url: "{{ url('batchbysubject') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#batchid').html('<option value="">-- Select Type --</option>');
-                        $.each(result.batches, function(key, value) {
-                            $("#batchid").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
         </script>
     @endsection

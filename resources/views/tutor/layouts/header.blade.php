@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{url('vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{url('vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{url('css/custom.css')}}">
+    <link rel="stylesheet" href="{{url('css/chat.css')}}">
     <script src="{{url('js/ckeditor.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -112,7 +113,7 @@
                     <li class="nav-item nav-profile dropdown">
 
                         <a class="nav-link dropdown-toggle ml-2" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="{{url('images/students/profilepics','/')}}{{ $studentpro->profile_pic ?? url('images/avatar/default-profile-pic.png')}}"
+                            <img src="{{url('images/tutors/profilepics','/')}}{{ $studentpro->profile_pic ?? url('images/avatar/default-profile-pic.png')}}"
                                 alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"

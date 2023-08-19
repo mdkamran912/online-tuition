@@ -14,12 +14,14 @@ class CreateChatifyMessagesTable extends Migration
     public function up()
     {
         Schema::create('ch_messages', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->bigInteger('from_id');
+            $table->integer('from_role_id');
             $table->bigInteger('to_id');
+            $table->integer('to_role_id');
             $table->string('body',5000)->nullable();
             $table->string('attachment')->nullable();
-            $table->boolean('seen')->default(false);
+            $table->boolean('seen')->default(0);
             $table->timestamps();
         });
     }

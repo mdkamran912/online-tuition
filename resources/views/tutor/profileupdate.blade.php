@@ -53,9 +53,15 @@
                                 <label for="name">Gender<i style="color:red">*</i></label>
                                 <select type="text" class="form-control" id="gender" name="gender"
                                     value="" required>
+                                    @if (empty($tutorpd->gender))
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                    @else
                                     <option value="1" {{ ( $tutorpd->gender == "1") ? 'selected' : '' }}>Male</option>
                                     <option value="2"{{ ( $tutorpd->gender == "2") ? 'selected' : '' }}>Female</option>
                                     <option value="3"{{ ( $tutorpd->gender == "3") ? 'selected' : '' }}>Other</option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -118,7 +124,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Details 3</label>
                                 <input type="text" class="form-control" id="details3" name="details3" placeholder="Enter Details"
-                                    value="{{ $tutorpd->detail_3 ?? '' }}" required>
+                                    value="{{ $tutorpd->detail_3 ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name">Intro Video Link<i style="color:red">*</i></label>

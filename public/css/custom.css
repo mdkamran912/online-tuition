@@ -91,7 +91,7 @@
     width: 95%;
 }
 
-#submit {
+/* #submit {
     width: 100%;
     background-color: #4b49ac;
     transition: 0.5s;
@@ -106,7 +106,7 @@
 
 #submit:hover {
     background-color: rgb(34, 6, 53);
-}
+} */
 
 .box {
     box-shadow: 0px -1px 1px gray;
@@ -523,3 +523,16 @@ input[type="range"]::-ms-thumb {
 .selected {
     border: 3px solid #4fa746;
 }
+
+.pre, .next{
+    width: 50%; 
+ }
+ 
+ .ansSec{
+   border: 1px solid darkgray;
+   padding: 20px;
+ }
+ 
+ .optionDiv{
+   border-bottom: 1px solid lightgray;
+ }

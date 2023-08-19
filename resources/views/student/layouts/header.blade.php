@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{url('vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{url('vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{url('css/custom.css')}}">
+    <link rel="stylesheet" href="{{url('css/chat.css')}}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url('vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
@@ -178,7 +179,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('student.subjects')}}">
                             <i class="ti-book menu-icon"></i>
-                            <span class="menu-title">Subjects</span>
+                            <span class="menu-title">Purchased Subjects</span>
                         </a>
                     </li>
 
@@ -196,28 +197,28 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="studentActivity.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.assignments.list')}}" aria-controls="form-elements">
                             <i class="ti-ruler-pencil menu-icon"></i>
-                            <span class="menu-title">Activity</span>
+                            <span class="menu-title">Assignments</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="exam.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.exams')}}" aria-controls="form-elements">
                             <i class="ti-target menu-icon"></i>
-                            <span class="menu-title">Examination</span>
+                            <span class="menu-title">Tests/Exams</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="fees.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.studentpayments')}}" aria-controls="form-elements">
                             <i class="ti-money menu-icon"></i>
-                            <span class="menu-title">Fees</span>
+                            <span class="menu-title">Payment History</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="message.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.messages')}}" aria-controls="form-elements">
                             <i class="ti-email menu-icon"></i>
                             <span class="menu-title">Message</span>
                             <!-- <i class="menu-arrow"></i> -->
@@ -225,9 +226,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="studentFeedbackPannel.html" aria-controls="form-elements">
+                        <a class="nav-link" href="{{route('student.myfeedback')}}" aria-controls="form-elements">
                             <i class="ti-comment-alt menu-icon"></i>
-                            <span class="menu-title">Feedback</span>
+                            <span class="menu-title">My Feedback</span>
                             <!-- <i class="menu-arrow"></i> -->
                         </a>
                     </li>

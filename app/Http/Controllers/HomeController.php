@@ -32,6 +32,7 @@ class HomeController extends Controller
             $user->mobile = $request->studentmobile;
             $user->role_id = "3";
             $user->class_id = $request->class;
+            // $user->is_active = "1";
         } else {
             $request->validate([
                 'tutormobile' => 'required|min:4|max:11'
@@ -40,6 +41,8 @@ class HomeController extends Controller
             $user = new tutorregistration();
             $user->mobile = $request->tutormobile;
             $user->role_id = "2";
+            $user->is_active = "0";
+
         }
         $request->validate([
             'name' => 'required',

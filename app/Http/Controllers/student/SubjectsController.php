@@ -4,6 +4,8 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Models\subjects;
+use App\Models\syllabus;
+use App\Models\topics;
 use Illuminate\Http\Request;
 
 class SubjectsController extends Controller
@@ -18,5 +20,13 @@ class SubjectsController extends Controller
         ->where('paymentdetails.status',1)
         ->get();
         return view('student.selectedsubjects', compact('subjectlist'));
+    }
+
+    public function getsyllabus($id){
+
+        $subject = subjects::select('*')->where('id',$id)->first();
+        $topics = topics::select('*')->where('subject_id',$id)->get();
+        $syllabus = syllabus::select('*')->get();
+        return view('student.mathssyllabus',compact('subject','topics','syllabus'));
     }
 }

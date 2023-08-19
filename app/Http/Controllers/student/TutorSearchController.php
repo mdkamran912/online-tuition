@@ -11,6 +11,7 @@ use App\Models\tutorachievements;
 use App\Models\tutorprofile;
 use App\Models\tutorregistration;
 use App\Models\tutorreviews;
+use App\Models\tutorsubjectmapping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,17 +20,17 @@ class TutorSearchController extends Controller
     public function index()
     {
         // $tutorlist = tutorprofile::select('tutorprofiles.*','subjects.name as subject','subjects.name as subject','tutorreviews.*',DB::raw('SUM(ratings) AS sum_of_1'))
-        $tutorlist = tutorprofile::select('tutorprofiles.id', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'))
+        $tutorlist = tutorprofile::select('tutorprofiles.id', 'tutorprofiles.name',DB::raw('tutorsubjectmappings.rate + tutorsubjectmappings.admin_commission as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->join('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
+            ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
             ->join('topics', 'topics.subject_id', '=', 'subjects.id')
             ->where('teacherclassmappings.class_id', '=', session('userid')->class_id)
-            ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name')
+            ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
             ->get();
-        // echo $tutorlist[0]->total_topics;
-        // dd();
+        // echo "<pre>";
+        // dd($tutorlist);
         $subjectlist = subjects::select('*')->get();
         $countrylist = country::select('*')->get();
         if (!$tutorlist) {
@@ -54,15 +55,17 @@ class TutorSearchController extends Controller
             // ->where('paymentdetails.id', '=', 'paymentstudents.subject_id' )
             ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name')
             ->get();
+
+           
         return view('student.yourtutor', compact('tutorlist'));
     }
     public function tutorprofile($id)
     {
-        $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
-            ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-            ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+        $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('tutorsubjectmappings.rate + tutorsubjectmappings.admin_commission as rate'))
+        ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            ->join('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->where('tutorprofiles.id', '=', $id)
+            ->where('tutorsubjectmappings.id', '=', $id)
             ->first();
 
         $achievement = tutorachievements::select('*')
@@ -175,7 +178,7 @@ class TutorSearchController extends Controller
 
 
     public function tutorslist(){
-        $ttrlists = tutorregistration::select('*','tutorregistrations.id as tutor_id','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name')
+        $ttrlists = tutorregistration::select('*','tutorregistrations.id as tutor_id','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name','tutorsubjectmappings.rate as rate','tutorsubjectmappings.admin_commission as admin_commission','tutorsubjectmappings.id as rate_id')
         ->join('tutorsubjectmappings','tutorsubjectmappings.tutor_id','=','tutorregistrations.id')
         ->join('subjects','subjects.id','=','tutorsubjectmappings.subject_id')
         ->get();
@@ -191,6 +194,17 @@ class TutorSearchController extends Controller
             $status = 1;
         }
         $data->is_active = $status;
+
+       $res = $data->save();
+     return json_encode(array('statusCode'=>200));
+    }
+
+    public function commissionupdate(Request $request){
+        $data = tutorsubjectmapping::find($request->id);
+        // echo $data;
+        // dd();
+        
+        $data->admin_commission = $request->commission;
 
        $res = $data->save();
      return json_encode(array('statusCode'=>200));

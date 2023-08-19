@@ -8,19 +8,22 @@ use App\Models\OnlineTests;
 use App\Models\questionbank;
 use App\Models\subjects;
 use App\Models\topics;
+use App\Models\OnlineTest;
 use Illuminate\Http\Request;
+
+
 
 class OnlineTestController extends Controller
 {
     public function index()
     {
-        $testlists = OnlineTests::select('*','online_tests.id as test_id','online_tests.name as test_name','online_tests.description as test_description','online_tests.is_active as test_status','classes.name as class_name','subjects.name as subject_name','topics.name as topic_name')
-        ->join('classes','classes.id','online_tests.class_id')
-        ->join('subjects','subjects.id','online_tests.subject_id')
-        ->join('topics','topics.id','online_tests.topic_id')
-        ->get();
+        $testlists = OnlineTests::select('*', 'online_tests.id as test_id', 'online_tests.name as test_name', 'online_tests.description as test_description', 'online_tests.is_active as test_status', 'classes.name as class_name', 'subjects.name as subject_name', 'topics.name as topic_name')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->get();
 
-        return view('admin.onlinetestlist',compact('testlists'));
+        return view('admin.onlinetestlist', compact('testlists'));
     }
 
     public function create()
@@ -82,13 +85,14 @@ class OnlineTestController extends Controller
         }
     }
 
-    public function edit($id){
-        $tdata = OnlineTests::select('*')->where('id',$id)->first();
+    public function edit($id)
+    {
+        $tdata = OnlineTests::select('*')->where('id', $id)->first();
         $classes = (new CommonController)->classes();
-        $subjects = subjects::select('*')->where('class_id',$tdata->class_id)->where('is_active',1)->get();
-        $topics = topics::select('*')->where('subject_id',$tdata->subject_id)->where('is_active',1)->get();
-        $questions = questionbank::select('*')->where('topic_id',$tdata->topic_id)->where('is_active',1)->get();
-        $questiondatas = OnlineTests::select('question_id')->where('id',$tdata->id)->first();
+        $subjects = subjects::select('*')->where('class_id', $tdata->class_id)->where('is_active', 1)->get();
+        $topics = topics::select('*')->where('subject_id', $tdata->subject_id)->where('is_active', 1)->get();
+        $questions = questionbank::select('*')->where('topic_id', $tdata->topic_id)->where('is_active', 1)->get();
+        $questiondatas = OnlineTests::select('question_id')->where('id', $tdata->id)->first();
 
         // $questiondata = explode(',', $tdata->question_id);
         // $data = ModelName::find($id);
@@ -98,15 +102,57 @@ class OnlineTestController extends Controller
         // echo $months ;
         // echo "<pre>";
         // dd($months);
-    // endforeach
-    // $keywords = preg_split('/[\s,-,"]+/', $tdata->question_id);
-// dd($months);
-        return view('admin.onlinetestnew', compact(['tdata','classes','subjects','topics','questions','questiondatas','qstn']));
+        // endforeach
+        // $keywords = preg_split('/[\s,-,"]+/', $tdata->question_id);
+        // dd($months);
+        return view('admin.onlinetestnew', compact(['tdata', 'classes', 'subjects', 'topics', 'questions', 'questiondatas', 'qstn']));
     }
 
-    public function viewquestions($id){
-         // Fetch question details based on testid -> Using jQuerry
-         $data['questions'] = OnlineTests::where("id", $id)->first();
-     return response()->json($data);
+    public function viewquestions($id)
+    {
+        // Fetch question details based on testid -> Using jQuerry
+        $data['questions'] = OnlineTests::where("id", $id)->first();
+        return response()->json($data);
+    }
+
+    public function studentexams()
+    {
+
+        $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->get();
+        // dd($exams);
+        return view('student.exam', compact('exams'));
+    }
+
+    public function taketest($id)
+    {
+        $id = 2;
+        $onlineTest = OnlineTests::find($id);
+        // Decode the JSON string to an array
+        $questionIds = json_decode($onlineTest->question_id);
+
+        // Fetch the related questions using the decoded question_ids array
+        $questions = Questionbank::whereIn('id', $questionIds)->get();
+
+
+        // dd($questions);
+        return view('student.taketest', compact('onlineTest','questions'));
+    }
+
+    public function saveResponses(Request $request) {
+        echo "Test";
+        $responses = $request->input('responses'); // Assuming the responses are sent as an array
+    dd($responses);
+        // Here you should save the responses to your database table
+        // Replace 'Response' with the actual model name for your responses table
+        // Response::create([
+        //     'user_id' => auth()->id(), // Assuming the user is authenticated
+        //     'responses' => json_encode($responses), // Convert array to JSON
+        // ]);
+    
+        return response()->json(['message' => 'Responses saved successfully']);
     }
 }

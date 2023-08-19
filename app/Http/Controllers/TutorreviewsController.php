@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\studentreviews;
 use App\Models\tutorreviews;
 use Illuminate\Http\Request;
 
@@ -61,5 +62,37 @@ class TutorreviewsController extends Controller
     public function destroy(tutorreviews $tutorreviews)
     {
         //
+    }
+    public function feedbacksubmitstudent(Request $request)
+    {
+        $request->validate([
+            'subject_id' => 'required',
+            'tutor_id' => 'required',
+            'rating' => 'required',
+            'comments' => 'required',
+        ]);
+
+        $data = new tutorreviews();
+        $data->name = $request->comments;
+        $data->ratings = $request->rating;
+        $data->subject_id = $request->subject_id;
+        $data->tutor_id = $request->tutor_id;
+        $data->student_id = session('userid')->id;
+
+        $res = $data->save();
+        if ($res) {
+            return back()->with('success', 'Feedback submitted successfully!');
+        } else {
+            return back()->with('fail', 'Feedback submission failed!');
+        }
+    }
+
+    public function studentfeedbacklist(){
+        $feedbacks = studentreviews::select('studentreviews.*','subjects.name as subject')
+        ->join('subjects','subjects.id','studentreviews.subject_id')
+        ->where('student_id',session('userid')->id)
+        ->get();
+
+        return view('student.feedback',compact('feedbacks'));
     }
 }

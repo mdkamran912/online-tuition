@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\payments\paymentdetails;
+use App\Models\payments\paymentstudents;
 use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
@@ -48,5 +49,19 @@ class PaymentsController extends Controller
     public function tutorpayments(){
 
         return view('admin.tutorpayment');
+    }
+
+    public function studentpayments(){
+
+        $payments = paymentstudents::select('paymentstudents.*','classes.name as class','subjects.name as subject','tutorregistrations.name as tutor','paymentdetails.id as paymentdetails_id','paymentdetails.amount as amount')
+        ->join('classes','classes.id','paymentstudents.class_id')
+        ->join('subjects', 'subjects.id','paymentstudents.subject_id')
+        ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
+        ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->get();
+        // dd($payments);
+        return view('student.fees',compact('payments'));
     }
 }

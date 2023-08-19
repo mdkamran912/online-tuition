@@ -71,12 +71,12 @@ class ClassController extends Controller
 
     public function studentclass(){
 
-
-
-        $targetValue = session('userid')->id; // The value you want to check in the JSON array
+        $targetValue = session('userid')->id; // The value we want to check in the JSON array
         
-        $classes = zoom_classes::select('*','zoom_classes.id as class_id')
+        $classes = zoom_classes::select('*','zoom_classes.id as class_id','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id')
         ->join('batchstudentmappings','batchstudentmappings.batch_id','zoom_classes.batch_id')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('subjects','subjects.id','batches.subject_id')
         ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         ->where('zoom_classes.is_active',1)
         ->get();

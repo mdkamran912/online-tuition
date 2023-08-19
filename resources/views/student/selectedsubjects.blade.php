@@ -5,7 +5,7 @@
                 <div class="content-wrapper">
 
                     <div id="listHeader">
-                        <h3>Your Subjects</h3>
+                        <h3>Purchased Subjects</h3>
                     </div>
 
                     <div class="row mt-4">
@@ -13,12 +13,13 @@
                             
                         <div class="col-md-3 mt-2">
                             <div class="card">
-                                <img src="{{url($subjectlist->image)}}" class="card-img-top"
+                                <img src="{{url('images/subjects')}}/{{$subjectlist->image}}" class="card-img-top"
                                 alt="Fissure in Sandstone" />
                                 <div class="card-body">
                                     <h5 class="card-title">{{$subjectlist->subjectname}}</h5>
                                     <p class="card-text"><b>Tutor: </b>{{$subjectlist->tutorname}}</p>
-                                    <a href="#!" class="btn btn-sm btn-primary">View</a>
+                                    <p class="card-text"><b>Purchased On: </b>{{$subjectlist->payment_date}}</p>
+                                    <a href="{{url('student/subjects/syllabus')}}/{{$subjectlist->subject_id}}" class="btn btn-sm btn-primary">View</a>
                                 </div>
                             </div>
                         </div>
