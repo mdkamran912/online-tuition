@@ -103,6 +103,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Online tests/exams
     Route::get('exams', [OnlineTestController::class, 'studentexams'])->name('student.exams');
     Route::get('taketest/{id}', [OnlineTestController::class, 'taketest'])->name('student.taketest');
+    Route::get('exam/report/{id}', [OnlineTestController::class, 'testreport'])->name('student.test.report');
     Route::post('/save-responses', [OnlineTestController::class, 'saveResponses'])->name('student.save.responses');
     // Route::post('/save-responses', 'OnlineTestController@saveResponses')->name('student.save.responses');
 

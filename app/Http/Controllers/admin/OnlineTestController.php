@@ -9,6 +9,8 @@ use App\Models\questionbank;
 use App\Models\subjects;
 use App\Models\topics;
 use App\Models\OnlineTest;
+use App\Models\testattempted;
+use App\Models\testresponssheet;
 use Illuminate\Http\Request;
 
 
@@ -118,19 +120,35 @@ class OnlineTestController extends Controller
     public function studentexams()
     {
 
+
         $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
             ->get();
-        // dd($exams);
-        return view('student.exam', compact('exams'));
+
+        foreach ($exams as $exam) {
+            $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
+                ->where('test_id', $exam->id)
+                ->count();
+        }
+
+        $extakens = testattempted::select('testattempteds.*','online_tests.name as exam_name','online_tests.description as exam_description','online_tests.test_duration as duration','online_tests.test_start_date as test_start_date','online_tests.test_end_date as test_end_date')
+        ->join('online_tests','online_tests.id','testattempteds.test_id')
+        ->where('testattempteds.student_id',session('userid')->id)->where('testattempteds.is_active',1)->orderBy('testattempteds.created_at', 'desc')->get();
+
+        return view('student.exam', compact('exams','extakens'));
     }
 
     public function taketest($id)
     {
-        $id = 2;
-        $onlineTest = OnlineTests::find($id);
+
+        $onlineTest = OnlineTests::where('id', $id)
+            ->where('class_id', session('userid')->class_id)
+            ->first();
+
+        // echo session('userid')->class_id;
+        // dd($onlineTest);
         // Decode the JSON string to an array
         $questionIds = json_decode($onlineTest->question_id);
 
@@ -138,21 +156,101 @@ class OnlineTestController extends Controller
         $questions = Questionbank::whereIn('id', $questionIds)->get();
 
 
-        // dd($questions);
-        return view('student.taketest', compact('onlineTest','questions'));
+        return view('student.taketest', compact('onlineTest', 'questions'));
     }
 
-    public function saveResponses(Request $request) {
-        echo "Test";
+    public function saveResponses(Request $request)
+    {
+
         $responses = $request->input('responses'); // Assuming the responses are sent as an array
-    dd($responses);
-        // Here you should save the responses to your database table
-        // Replace 'Response' with the actual model name for your responses table
-        // Response::create([
-        //     'user_id' => auth()->id(), // Assuming the user is authenticated
-        //     'responses' => json_encode($responses), // Convert array to JSON
-        // ]);
-    
-        return response()->json(['message' => 'Responses saved successfully']);
+        $savedId = [];
+        $test_id = "";
+        $attemptNumber = "";
+        foreach ($responses as $response) {
+            if ($response) {
+                $values = explode(',', $response);
+
+                // Question ID = $values[0]
+                // Selection Option = $values[1]
+                // Test ID = $values[2]
+
+                $copt = questionbank::select('*')->where('id', $values[0])->first();
+                $correctOption = $copt['correct_option'];
+                $correct_option = "";
+                // Loop through the options and check if any option matches the correct option
+                foreach (range(1, 4) as $optionNumber) {
+                    $optionField = "option{$optionNumber}";
+                    $optionValue = $copt[$optionField];
+
+                    if ($optionValue === $correctOption) {
+                        // Option $optionNumber is the correct answer
+                        $correct_option = $optionNumber;
+                        break; // No need to check other options
+                    }
+                }
+                // checking attempt no.
+                $totalattp = OnlineTests::select('max_attempt')->where('id', $values[2])->first();
+                $alreadyattp = testattempted::select('*')->where('student_id', session('userid')->id)->where('test_id', $values[2])->count();
+
+                $remaining = ($totalattp->max_attempt) - ($alreadyattp);
+                $attemptNumber = $alreadyattp + 1;
+
+                $data = new testresponssheet();
+                $data->test_id = $values[2];
+                $data->student_id = session('userid')->id;
+                $data->attempt_no = $attemptNumber;
+                $data->question_id = $values[0];
+                $data->correct_option = $correct_option;
+                $data->marked_option = $values[1];
+
+                $data->save();
+                // Access the ID of the saved record
+
+                $savedId[] = $data->id;
+                $test_id = $values[2];
+
+
+
+
+                // dd();
+            }
+        }
+        // calculating the total marks
+        $marks_ttl = 50;
+        $marks_obt = 28;
+        // Saving final test data
+        $data = new testattempted();
+        $data->student_id = session('userid')->id;
+        $data->test_id = $test_id;
+        $data->attempt_no = $attemptNumber;
+        $data->test_attempted_on = now();
+        $data->test_time_taken = 0;
+        $data->total_marks = $marks_ttl;
+        $data->obtained_marks = $marks_obt;
+        $data->response_id = json_encode($savedId);
+        // $data->status = ;
+        // $data->is_active = session('userid')->id;
+        $data->save();
+
+
+        return response()->json(['message' => 'Test Submitted Successfully']);
+    }
+
+    public function testreport($id){
+
+        $testid = testattempted::find($id);
+        $onlineTest = OnlineTests::where('id', $testid->test_id)
+            ->where('class_id', session('userid')->class_id)
+            ->first();
+        // Decode the JSON string to an array
+        $questionIds = json_decode($onlineTest->question_id);
+        $responseIds = json_decode($testid->response_id);
+
+        // Fetch the related questions using the decoded question_ids array
+        $questionsCount = Questionbank::whereIn('id', $questionIds)->count();
+        $responsesCount = testresponssheet::whereIn('id', $responseIds)->count();
+        $correctResponsesCount = testresponssheet::whereIn('id', $responseIds)->whereColumn('correct_option', 'marked_option')->count();
+        // dd($correctResponsesCount);
+        return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
     }
 }
