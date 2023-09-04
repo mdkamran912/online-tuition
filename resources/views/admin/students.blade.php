@@ -29,14 +29,14 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a href="studentprofile/{{$stdlist->student_id}}">{{ $stdlist->student_name }}</a></td>
                                 <td>{{ $stdlist->student_mobile }}</td>
-                                
+
                                 <td>{{ $stdlist->class_name }}</td>
                                 <td>
                                     <div class="toggle-button-cover">
                                         <div class="button-cover">
                                             <div class="button r" id="button-3">
                                                 <input type="checkbox" onclick="changestatus('{{$stdlist->student_id}}','{{$stdlist->student_status}}');" class="checkbox" @if ($stdlist->student_status == 1) then checked
-                                                    
+
                                                 @endif>
                                                 <div class="knobs"></div>
                                                 <div class="layer"></div>
@@ -64,9 +64,9 @@
 
         <script>
 function changestatus(id,status){
-            
+
             var url = "{{URL('admin/students/status')}}";
-            // var id= 
+            // var id=
             $.ajax({
                 url: url,
                 type: "GET",
@@ -80,15 +80,17 @@ function changestatus(id,status){
                     dataResult = JSON.parse(dataResult);
                  if(dataResult.statusCode)
                  {
-                    window.location = "/admin/students";
+                    // window.location = "/admin/students";
+                    toastr.success('status changed')
+                    window.location = "{{URL('admin/students')}}" ;
                  }
                  else{
                      alert("Something went wrong. Please try again later");
                  }
-                    
+
                 }
             });
-            
+
         }
         </script>
     @endsection

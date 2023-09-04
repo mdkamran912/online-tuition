@@ -1,8 +1,14 @@
 @extends('admin.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+        
+        
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
                     @if (Session::has('success'))
                             <div class="alert alert-success">{{Session::get('success')}}</div>
                             @endif
@@ -16,19 +22,18 @@
                                 class="fa fa-plus"></span> New
                             Class</button>
                     </div>
-
-                    <table class="table table-bordered table-hover mt-3">
-                        <thead class="bg-dark text-white">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+                        <thead>
                             <tr>
-                                <th>S.No.</th>
-                                <th>Class</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Update</th>
+                                {{-- <th scope="col">Status</th>
+                                <th scope="col">Action</th> --}}
                             </tr>
                         </thead>
-
-
-                        <thead name="classbody">
+                        <tbody>
                             @foreach ($classes as $class)
                                 
                             <tr>
@@ -36,25 +41,35 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$class->name}}</td>
                                 <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" class="checkbox" @if ($class->is_active == 1) then checked
-                                                    
-                                                @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
-                                            </div>
-                                        </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" @if ($class->is_active == 1) then checked @endif>
+                                        <label class="form-check-label" for="SwitchCheck1">Active/Inactive</label>
                                     </div>
                                 </td>
+                                
                                 
                                 <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$class->id}}','{{$class->name}}');">Edit Record</button></td>
 
                             </tr>
                             @endforeach
-                        </thead>
+
+                            {{-- <tr>
+                                <th scope="row">1</th>
+                                <td>Basic Plan</td>
+                                <td>$860</td>
+                                <td>Nov 22, 2021</td>
+                                <td><i class="ri-checkbox-circle-line align-middle text-success"></i> Subscribed</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" checked="">
+                                        <label class="form-check-label" for="SwitchCheck1">Yes/No</label>
+                                    </div>
+                                </td>
+                            </tr> --}}
+                            
+                        </tbody>
                     </table>
+                    
                    
 
 
@@ -132,9 +147,12 @@
 			},
 			success: function(dataResult){
                 dataResult = JSON.parse(dataResult);
+                
              if(dataResult.statusCode)
              {
-                window.location = "/admin/class";
+                
+                toastr.success('status changed')
+                window.location = "{{URL('admin/class')}}";
              }
              else{
                  alert("Something went wrong. Please try again later");

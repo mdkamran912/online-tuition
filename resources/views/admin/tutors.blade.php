@@ -109,7 +109,7 @@
             function changestatus(id, status) {
 
                 var url = "{{ URL('admin/tutors/status') }}";
-                // var id= 
+                // var id=
                 $.ajax({
                     url: url,
                     type: "GET",
@@ -122,7 +122,9 @@
                     success: function(dataResult) {
                         dataResult = JSON.parse(dataResult);
                         if (dataResult.statusCode) {
-                            window.location = "/admin/tutors";
+                            // window.location = "/admin/tutors";
+                            toastr.success('status changed')
+                            window.location = "{{URL('admin/tutors')}}" ;
                         } else {
                             alert("Something went wrong. Please try again later");
                         }

@@ -21,7 +21,7 @@ class StudentAuthenticate
                return $next($request);
             }
             else{
-                return redirect()->intended(route('home'))->with('message', 'Sorry, you are not authorized to access this page.');
+                return redirect()->intended(route('studentlogin'))->with('fail', 'Please, Login to access this page.');
                 // if($request->route()->named("sale.*")){
                 // //    $todaysOffloading = Offloading::where('salesman_id', Auth::id())->whereBetween('created_at',[date('Y-m-d'), date('Y-m-d 23:59:59')])->count();
                 // //     if($todaysOffloading >= 1){
@@ -31,7 +31,7 @@ class StudentAuthenticate
             } 
         }
         else {
-            return redirect()->intended(route('home'))->with('message', 'Sorry, you are not authorized to access this page.');
+            return redirect()->intended(route('studentlogin'))->with('fail', 'Please, Login to access this page.');
 
         } 
         // return $next($request);

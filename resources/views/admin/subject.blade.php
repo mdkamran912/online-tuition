@@ -148,7 +148,9 @@
                     dataResult = JSON.parse(dataResult);
                  if(dataResult.statusCode)
                  {
-                    window.location = "/admin/subject";
+                    // window.location = "/admin/subject";
+                    toastr.success('status changed')
+                    window.location = "{{URL('admin/subject')}}" ;
                  }
                  else{
                      alert("Something went wrong. Please try again later");

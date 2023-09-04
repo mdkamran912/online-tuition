@@ -266,7 +266,10 @@
                     success: function(dataResult) {
                         dataResult = JSON.parse(dataResult);
                         if (dataResult.statusCode) {
-                            window.location = "/admin/batch";
+                           
+                            toastr.success('status changed')
+                            window.location = "{{URL('admin/batch')}}" ;
+
                         } else {
                             alert("Something went wrong. Please try again later");
                         }

@@ -1,5 +1,6 @@
 @extends('admin.layouts.main')
 @section('main-section')
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- partial -->
     <div class="main-panel">
         <div class="content-wrapper">
@@ -11,64 +12,100 @@
         @endif
             <!-- <h3 class="text-center"></h3> -->
             <div id="listHeader" class="mb-3">
-                <h3>Payment History</h3>
+                <h3>Payment History</h3><br>
                 <!-- <a class="btn btn-sm btn-primary" href="createtestseries.html"> <span class="fa fa-plus"></span>
                                 Add New
                                 Test Series</a> -->
+
             </div>
+            <form  id="payment-search"  class="">
 
-            <table class="table table-hover table-bordered table-responsive ">
-                <thead class="thead-dark ">
+                <div class="form-group mt-5" >
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Start Date</label>
+                            <input type="date"  name="start_date" class="form-control">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>End Date</label>
+                            <input type="date" name="end_date"  class="form-control">
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Transaction Id</label>
+                            <input type="text" class="form-control" name="transaction_id">
+
+                        </div>
+                        <div class="col-md-3">
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <button class="btn  btn-primary float-right">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+           </form>
+           <table class="table table-hover table-bordered table-responsive users-table">
+            <thead class="thead-dark ">
+                <tr>
+                    <th scope="col">S.No</th>
+                    <th>Student Name</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Subject</th>
+                    <th>Tutor</th>
+                    <th>Transaction Date</th>
+                    <th>Trasaction Id</th>
+                    <th>Amount Paid</th>
+                    <th>Mode Of Payment</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($payments as $payment)
                     <tr>
-                        <th scope="col">S.No</th>
-                        <th>Student Name</th>
-                        <th scope="col">Class</th>
-                        <th scope="col">Subject</th>
-                        <th>Tutor</th>
-                        <th>Transaction Date</th>
-                        <th>Trasaction Id</th>
-                        <th>Amount Paid</th>
-                        <th>Mode Of Payment</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($payments as $payment)
-                        <tr>
-                            <td>{{ $loop->iteration }}
-                            <td><a href="studentprofile/{{$payment->student_id}}">{{ $payment->student_name }}</a></td>
-                            <td>{{ $payment->class_name }}</td>
-                            <td>{{ $payment->subject_name }}</td>
-                            <td><a href="tutorprofile/{{$payment->tutor_id}}">{{ $payment->tutor_name }}</a></td>
-                            <td>{{ $payment->transaction_date }}</td>
-                            <td>{{ $payment->transaction_no }}</td>
-                            <td>{{ $payment->transaction_amount }}</td>
-                            <td>{{ $payment->payment_mode }}</td>
-                            @if ($payment->transaction_status_id == "3")
-                            <td><span  class="badge badge-success">{{ $payment->transaction_status }}</span></td>
-                            
-                            @elseif ($payment->transaction_status_id == "5")
-                            <td><span  class="badge badge-danger">{{ $payment->transaction_status }}</span></td>
-                            @else
-                            <td><span  class="badge badge-primary">{{ $payment->transaction_status }}</span></td>
-                            @endif
-                                
-                            <td>{{ $payment->remarks }}</td>
-                            <td><button class="badge badge-primary"
-                                onclick="openmodal('{{ $payment->transaction_id }}','{{ $payment->transaction_no }}','{{ $payment->student_name }}','{{ $payment->transaction_status_id }}','{{ $payment->remarks }}');">Update</button>
-                            
-                        </td>
-                        </tr>
-                    @endforeach
+                        <td>{{ $loop->iteration }}
+                        <td><a href="studentprofile/{{$payment->student_id}}">{{ $payment->student_name }}</a></td>
+                        <td>{{ $payment->class_name }}</td>
+                        <td>{{ $payment->subject_name }}</td>
+                        <td><a href="tutorprofile/{{$payment->tutor_id}}">{{ $payment->tutor_name }}</a></td>
+                        <td>{{ $payment->transaction_date }}</td>
+                        <td>{{ $payment->transaction_no }}</td>
+                        <td>{{ $payment->transaction_amount }}</td>
+                        <td>{{ $payment->payment_mode }}</td>
+                        @if ($payment->transaction_status_id == "3")
+                        <td><span  class="badge badge-success">{{ $payment->transaction_status }}</span></td>
 
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-center">
+                        @elseif ($payment->transaction_status_id == "5")
+                        <td><span  class="badge badge-danger">{{ $payment->transaction_status }}</span></td>
+                        @else
+                        <td><span  class="badge badge-primary">{{ $payment->transaction_status }}</span></td>
+                        @endif
+
+                        <td>{{ $payment->remarks }}</td>
+                        <td><button class="badge badge-primary"
+                            onclick="openmodal('{{ $payment->transaction_id }}','{{ $payment->transaction_no }}','{{ $payment->student_name }}','{{ $payment->transaction_status_id }}','{{ $payment->remarks }}');">Update</button>
+
+                    </td>
+                    </tr>
+                @endforeach
+                    <tr>
+                        <td colspan="7"><strong>Grand Total:</strong></td>
+                        <td>{{ $totalTransactionAmount }}</td>
+                        <td colspan="5"></td>
+                    </tr>
+            </tbody>
+        </table>
+            <div class="d-flex justify-content-center" id="paginationContainer">
                 {!! $payments->links() !!}
             </div>
-        </div>
+
         <!-- content-wrapper ends -->
 
         <!-- modal -->
@@ -142,5 +179,74 @@
                 $('#transactionremarks').val(txnr);
                 $('#popupModal').modal('show')
             }
-            </script>
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function updateTableAndPagination(data) {
+                // $('#tableContainer').html(data.table);
+                 $('.users-table tbody').html(data.table);
+                 $('#paginationContainer').html(data.pagination);
+            }
+
+            $(document).ready(function () {
+                $('#payment-search').submit(function (e) {
+                    e.preventDefault();
+                    const page = 1;
+                    const ajaxUrl = '{{ route("admin.paymentsearch") }}'
+                    var formData = $(this).serialize();
+
+                    formData += `&page=${page}`;
+
+                    $.ajax({
+                        type: 'post',
+                        url: ajaxUrl, // Define your route here
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+
+                        success: function (data) {
+                            // console.log(data)
+                            updateTableAndPagination(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+
+                });
+
+
+                $(document).on('click', '#paginationContainer .pagination a', function (e) {
+                e.preventDefault();
+
+                const page = $(this).attr('href').split('page=')[1];
+
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route("admin.paymentsearch") }}', // Define your route here
+                    data: {
+
+
+                        end_date : $('input[name="end_date"]').val(),
+                        start_date : $('input[name="start_date"]').val(),
+                        transaction_id : $('input[name="transaction_id"]').val(),
+                        page: page
+                    },
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    success: function (data) {
+                        updateTableAndPagination(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+            });
+        </script>
     @endsection

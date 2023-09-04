@@ -1,37 +1,45 @@
-               <!-- partial:partials/_footer.html -->
-               <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023.
-                        All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
-                        with <i class="ti-heart text-danger ml-1"></i></span>
+
+    
+     <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Online Tuition App.
                 </div>
-            </footer>
-            <!-- partial -->
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Crafted with <i class="mdi mdi-heart text-danger"></i> by DGL Digital
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
+    </footer>
 </div>
-<!-- container-scroller -->
+<!-- end main content-->
 
-<script>
-    function pad2(n) {
-        return (n < 10 ? "0" : "") + n;
-    }
-    var todaydate = new Date();
-    var month = pad2(todaydate.getMonth() + 1); //months (0-11)
-    var day = pad2(todaydate.getDate()); //day (1-31)
-    var year = todaydate.getFullYear();
+    
+    <!-- JAVASCRIPT -->
+    <script src="{{url('new-styles/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url('new-styles/assets/libs/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{url('new-styles/assets/libs/node-waves/waves.min.js')}}"></script>
+    <script src="{{url('new-styles/assets/libs/feather-icons/feather.min.js')}}"></script>
+    <script src="{{url('new-styles/assets/js/pages/plugins/lord-icon-2.1.0.js')}}"></script>
+    <script src="{{url('new-styles/assets/js/plugins.js')}}"></script>
 
-    var formattedMDate = "Today" + "(" + day + "-" + month + "-" + year + ")";
+    <!-- apexcharts -->
+    <script src="{{url('new-styles/assets/libs/apexcharts/apexcharts.min.js')}}"></script>
 
-    window.addEventListener('load', () => {
-        document.getElementById("today").innerHTML = formattedMDate;
-    });
-</script>
+    <!-- Vector map-->
+    <script src="{{url('new-styles/assets/libs/jsvectormap/js/jsvectormap.min.js')}}"></script>
+    <script src="{{url('new-styles/assets/libs/jsvectormap/maps/world-merc.js')}}"></script>
 
-<!-- plugins:js -->
+    <!-- Dashboard init -->
+    <script src="{{url('new-styles/assets/js/pages/dashboard-analytics.init.js')}}"></script>
+
+    <!-- App js -->
+    <script src="{{url('new-styles/assets/js/app.js')}}"></script>
+
+    <!-- plugins:js -->
 <script src="{{url('vendors/js/vendor.bundle.base.js')}}"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
@@ -56,11 +64,7 @@
 <script src="{{url('js/dashboard.js')}}"></script>
 <script src="{{url('js/Chart.roundedBarCharts.js')}}"></script>
 <!-- End custom js for this page-->
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </body>
-
-
-<!-- Mirrored from bootstrapdash.com/demo/skydash-free/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Jun 2023 12:22:40 GMT -->
 
 </html>

@@ -45,9 +45,31 @@ use Illuminate\Support\Facades\Auth;
 
 // Common Activity
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/', [HomeController::class, 'registration'])->name('studenttutorregistration');
-Route::get('/login', [HomeController::class, 'login'])->name('login');
+// Changed to new UI for Students
+Route::get('/student/register', [HomeController::class, 'std_registration'])->name('std_registration');
+Route::post('/student/register',[HomeController::class,'student_registration_form'])->name('student_registration_form');
+Route::get('/student/login', [HomeController::class, 'std_login'])->name('studentlogin');
+Route::get('/student/mobile-verify',[HomeController::class,'student_mobile_verify'])->name('student_mobile_verify');
+Route::post('/student/mobile-verify',[HomeController::class,'verify_student_mobile'])->name('verify_student_mobile');
+Route::get('/student-login',[HomeController::class, 'student_login'])->name('student_login');
+
+// Changed to new UI for Tutors
+Route::get('/tutor/register', [HomeController::class, 'ttr_registration'])->name('ttr_registration');
+Route::post('/tutor/register',[HomeController::class,'tutor_registration_form'])->name('tutor_registration_form');
+Route::get('/tutor/login', [HomeController::class, 'ttr_login'])->name('tutorlogin');
+Route::get('/tutor/mobile-verify',[HomeController::class,'tutor_mobile_verify'])->name('tutor_mobile_verify');
+Route::post('/tutor/mobile-verify',[HomeController::class,'verify_tutor_mobile'])->name('verify_tutor_mobile');
+Route::get('/tutor-login',[HomeController::class, 'tutor_login'])->name('tutor_login');
+
+
+
 Route::get("logout", [HomeController::class, "logout"])->name("logout");
+
+// Route::get('/tutor/login', [HomeController::class, 'ttr_login'])->name('tutorlogin');
+
+// Newly Added Login Pages
+
+
 Route::post('fetchsubjects', [CommonController::class, 'fetchsubjects'])->name('fetchsubjects');
 Route::post('fetchtopics', [CommonController::class, 'fetchtopics'])->name('fetchtopics');
 Route::post('studentsbyclass', [CommonController::class, 'studentsbyclass'])->name('studentsbyclass');
@@ -154,6 +176,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('commission/update',[TutorSearchController::class,'commissionupdate'])->name('admin.commission.update');
     // Payment details
     Route::get('payments', [PaymentsController::class, 'index'])->name('admin.payments');
+    Route::get('student-payments-report', [PaymentsController::class, 'studentpaymentsreport'])->name('admin.reports.student-payments');
+    Route::get('tutor-payments-report', [PaymentsController::class, 'tutorpaymentsreport'])->name('admin.reports.tutor-payments');
+    Route::any('paymentsearch', [PaymentsController::class, 'paymentSearch'])->name('admin.paymentsearch');
+    Route::any('tutorpaymentsearch', [PaymentsController::class, 'tutorPaymentSearch'])->name('admin.tutor-paymentsearch');
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
     Route::get('tutorpaymentslist', [PaymentsController::class, 'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments', [PaymentsController::class, 'update'])->name('admin.payments.update');
@@ -189,6 +215,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbyadmintutormessages'])->name('admin.messages.tutormessages');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
 });
+
 
 // Tutor Activity
 Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], function () {
