@@ -709,7 +709,7 @@
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="layouts-horizontal.html" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
+                                        <a href="{{route('admin.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
                                     </li>
                                     </li>
                                 </ul>
@@ -725,7 +725,7 @@
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="pages-starter.html" class="nav-link" data-key="t-starter"> Student List </a>
+                                        <a href="{{route('admin.students')}}" class="nav-link" data-key="t-starter"> Student List </a>
                                     </li>
                                     
                                 </ul>
@@ -739,7 +739,7 @@
                             <div class="collapse menu-dropdown" id="sidebarLanding">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="landing.html" class="nav-link" data-key="t-one-page"> Tutor List </a>
+                                        <a href="{{route('admin.tutors')}}" class="nav-link" data-key="t-one-page"> Tutor List </a>
                                     </li>
                                     
                                 </ul>
@@ -755,10 +755,10 @@
                             <div class="collapse menu-dropdown" id="sidebarLanding">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                                <a href="ui-alerts.html" class="nav-link" data-key="t-alerts">Learning Contents</a>
+                                                <a href="{{route('admin.learningcontents')}}" class="nav-link" data-key="t-alerts">Learning Contents</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="ui-alerts.html" class="nav-link" data-key="t-alerts">Assignments</a>
+                                                <a href="{{route('admin.assignments')}}" class="nav-link" data-key="t-alerts">Assignments</a>
                                             </li>
                                     
                                         </ul>
@@ -772,10 +772,10 @@
                             <div class="collapse menu-dropdown" id="sidebarLanding">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                                <a href="ui-alerts.html" class="nav-link" data-key="t-alerts">Question Bank</a>
+                                                <a href="{{route('admin.questionbank')}}" class="nav-link" data-key="t-alerts">Question Bank</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="ui-alerts.html" class="nav-link" data-key="t-alerts">Tests</a>
+                                                <a href="{{route('admin.onlinetests')}}" class="nav-link" data-key="t-alerts">Tests</a>
                                             </li>
                                     
                                         </ul>
@@ -790,16 +790,16 @@
                             <div class="collapse menu-dropdown" id="sidebarForms">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="forms-elements.html" class="nav-link" data-key="t-basic-elements"> Create Payment </a>
+                                        <a href="#" class="nav-link" data-key="t-basic-elements"> Create Payment </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="forms-select.html" class="nav-link" data-key="t-form-select"> Tutor Payment List </a>
+                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Tutor Payment List </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="forms-checkboxs-radios.html" class="nav-link" data-key="t-checkboxs-radios"> Student Payment List </a>
+                                        <a href="{{route('admin.payments')}}" class="nav-link" data-key="t-checkboxs-radios"> Student Payment List </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="forms-pickers.html" class="nav-link" data-key="t-pickers"> Transactions List </a>
+                                        <a href="#" class="nav-link" data-key="t-pickers"> Transactions List </a>
                                     </li>
                                    
                                 </ul>
@@ -819,11 +819,11 @@
                                         <div class="collapse menu-dropdown" id="sidebarApexcharts">
                                             <ul class="nav nav-sm flex-column">
                                                 <li class="nav-item">
-                                                    <a href="charts-apex-line.html" class="nav-link" data-key="t-line"> Student Payment
+                                                    <a href="{{route('admin.reports.student-payments')}}" class="nav-link" data-key="t-line"> Student Payment
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="charts-apex-area.html" class="nav-link" data-key="t-area"> Tutor Payment
+                                                    <a href="{{route('admin.reports.tutor-payments')}}" class="nav-link" data-key="t-area"> Tutor Payment
                                                     </a>
                                                 </li>
                                                
@@ -834,7 +834,10 @@
                                         <a href="charts-chartjs.html" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     {{-- <li class="nav-item">
-                                        <a href="charts-echarts.html" class="nav-link" data-key="t-echarts"> Echarts </a>
+                                        <a href="{{route('admin.topic')}}" class="nav-link" data-key="t-echarts"> Topic </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.batch')}}" class="nav-link" data-key="t-echarts"> Batch </a>
                                     </li> --}}
                                 </ul>
                             </div>
