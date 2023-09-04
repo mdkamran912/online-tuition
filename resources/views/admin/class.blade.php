@@ -57,20 +57,6 @@
                             </tr>
                             @endforeach
 
-                            {{-- <tr>
-                                <th scope="row">1</th>
-                                <td>Basic Plan</td>
-                                <td>$860</td>
-                                <td>Nov 22, 2021</td>
-                                <td><i class="ri-checkbox-circle-line align-middle text-success"></i> Subscribed</td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" checked="">
-                                        <label class="form-check-label" for="SwitchCheck1">Yes/No</label>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            
                         </tbody>
                     </table>
                     
