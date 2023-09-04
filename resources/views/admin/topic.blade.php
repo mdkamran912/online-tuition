@@ -1,22 +1,29 @@
 @extends('admin.layouts.main')
 @section('main-section')
             <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+            <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+                <div class="page-content">
                     @if (Session::has('success'))
                     <div class="alert alert-success">{{Session::get('success')}}</div>
                     @endif
                     @if (Session::has('fail'))
                     <div class="alert alert-danger">{{Session::get('fail')}}</div>
                     @endif
-                    <div id="listHeader" class="mb-3">
+                    <div id="" class="mb-3 listHeader">
                         <h3>List Of Topics</h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> New
                             Topic</button>
                     </div>
                     <div class="mt-4" id="">
-                        <table class="table table-bordered table-hover mt-3 table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 table-responsive">
+
                             <thead class="bg-dark text-white">
                                 <tr>
                                     <th>S.No.</th>
@@ -29,7 +36,7 @@
                                 </tr>
                             </thead>
                            
-                        <thead name="classbody">
+                        <tbody name="classbody">
                             @foreach ($topics as $topic)
                                 
                             <tr>
@@ -58,7 +65,7 @@
 
                             </tr>
                             @endforeach
-                        </thead>
+                        </tbody>
                     </table>
                 </div>
                 <!-- content-wrapper ends -->
@@ -73,7 +80,7 @@
     <!-- modal -->
     <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-body">

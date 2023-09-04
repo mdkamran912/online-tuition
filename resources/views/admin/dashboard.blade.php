@@ -47,7 +47,7 @@
                                                 </div>
 
                                                 <div class="row align-items-end">
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-12">
                                                         <div class="p-3">
                                                             <p class="fs-16 lh-base">"Welcome to our tuition app! As administrators, we believe in a learning environment where there are no boundaries. Our platform is designed to empower both educators and students to explore, discover, and excel in the world of education. Join us today, and together, let's unlock a world of limitless opportunities."</p>
                                                             
@@ -56,11 +56,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4">
+                                                    <!-- <div class="col-sm-4">
                                                         <div class="px-3">
                                                             <img src="assets/images/user-illustarator-2.png" class="img-fluid" alt="">
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div> <!-- end card-body-->
                                         </div>

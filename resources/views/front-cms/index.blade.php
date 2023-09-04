@@ -119,7 +119,7 @@
 
             
             <!-- banner area start -->
-            <section class="banner-area parallex-item ">
+            <section class="banner-area">
                 <div class="single-banner container-fluid container-custom-1 p-0 ">
                     <img class="banner-top-shape-1" src="{{url('front-cms-styles/assets/img/banner/1/1.png')}}" alt="">
                     <img class="banner-top-shape-2" src="{{url('front-cms-styles/assets/img/banner/1/3.png')}}" alt="">
@@ -303,7 +303,7 @@
             <!-- about area end -->
 
             <!-- category area start -->
-            <section class="parallex-item"></section>
+            
         
             <section class="category-area pt-120 pb-60">
                 <div class="container">
@@ -2145,7 +2145,7 @@
                 </div>
             </section>
             <!-- course area end -->
-            <section class="parallex-item2"></section>
+       
             <!-- about area start -->
             <section class="about-area pt-140 pb-90">
                 <div class="container">

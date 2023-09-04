@@ -1,22 +1,33 @@
 @extends('admin.layouts.main')
 @section('main-section')
     <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+    <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .batchBadge button{
+                    background-color: #405189;
+                }
+               
+            </style>
+        <div class="page-content">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <div id="listHeader" class="mb-3">
+            <div id="" class="mb-3 listHeader">
                 <h3>List Of Batches</h3>
                 <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span class="fa fa-plus"></span> New
                     Batch</button>
             </div>
 
             <div class="mt-4" id="">
-                <table class="table table-bordered table-hover mt-3">
+            <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+
                     <thead class="bg-dark text-white">
                         <tr>
                             <th>S.No.</th>
@@ -58,7 +69,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="text-center">
+                                    <div class="text-center batchBadge">
                                         <button type="button" class="badge btn-sm btn-primary"
                                             onclick="edit('{{ $batch->batch_id }}','{{ $batch->class_id }}','{{ $batch->subject_id }}','{{ $batch->tutor_id }}','{{ $batch->batch_name }}','{{ $batch->batch_description }}');">Edit
                                             Batch Details</button>
@@ -85,7 +96,7 @@
         <!-- modal -->
         <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-body">

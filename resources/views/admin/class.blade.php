@@ -6,6 +6,12 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
 
             <div class="page-content">
                 <div class="container-fluid">
@@ -16,7 +22,7 @@
                             <div class="alert alert-danger">{{Session::get('fail')}}</div>
                             @endif
                     <!-- <h3 class="text-center"></h3> -->
-                    <div id="listHeader" class="mb-3">
+                    <div  class="mb-3 listHeader">
                         <h3>List Of Classes</h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> New
@@ -25,7 +31,7 @@
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">S.No</th>
+                                <th scope="col">S.No.</th>
                                 <th scope="col">Grade</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Update</th>
@@ -46,7 +52,7 @@
                                         <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
                                         @else
                                         <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-@endif
+                                        @endif
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" @if ($class->is_active == 1) then checked @endif>
                                     </div>
                                 </td>
@@ -76,7 +82,7 @@
                 <!--demo modal -->
                 <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
 
 

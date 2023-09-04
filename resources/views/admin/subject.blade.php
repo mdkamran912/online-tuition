@@ -1,79 +1,91 @@
 @extends('admin.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    @if (Session::has('success'))
-                            <div class="alert alert-success">{{Session::get('success')}}</div>
-                            @endif
-                            @if (Session::has('fail'))
-                            <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                            @endif
-                    <!-- <h3 class="text-center"></h3> -->
-                    <div id="listHeader" class="mb-3">
-                        <h3>List Of Classes</h3>
+        
+    <!-- partial -->
+    <div class="main-content">
+    <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+        <div class="page-content">
+            <div class="content-wrapper">
+                @if (Session::has('success'))
+                        <div class="alert alert-success">{{Session::get('success')}}</div>
+                        @endif
+                        @if (Session::has('fail'))
+                        <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                        @endif
+                <!-- <h3 class="text-center"></h3> -->
+                <div  class="mb-3 listHeader">
+                        <h3>List Of Subjects</h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> New
                             Subject</button>
                     </div>
 
-                    <table class="table table-bordered table-hover mt-3">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th>S.No.</th>
-                                <th>Class</th>
-                                <th>Subject</th>
-                                <th>Image</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Grade</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Update</th>
+                            {{-- <th scope="col">Status</th>
+                            <th scope="col">Action</th> --}}
+                        </tr>
+                    </thead>
 
-
-                        <thead name="classbody">
-                            @foreach ($subjects as $subject)
-                                
-                            <tr>
-
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$subject->class_name}}</td>
-                                <td>{{$subject->subject_name}}</td>
-                                <td>
-                                    <img src="{{ asset('/images/subjects/'.$subject->subject_image) }}" width= '50' height='50' class="img img-responsive" />
+                    <tbody name="classbody">
+                        @foreach ($subjects as $subject)
                             
+                        <tr>
+
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$subject->class_name}}</td>
+                            <td>{{$subject->subject_name}}</td>
+                            <td>
+                                <img src="{{ asset('/images/subjects/'.$subject->subject_image) }}" width= '50' height='50' class="img img-responsive" />
+                        
+                        
+                            </td>
                             
-                                </td>
-                                <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox" onclick="changestatus('{{$subject->subject_id}}','{{$subject->subject_status}}');" class="checkbox" @if ($subject->subject_status == 1) then checked
-                                                    
-                                                @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
-                                            </div>
+                            <td>
+                                <div class="toggle-button-cover">
+                                    <div class="button-cover">
+                                        <div class="button r" id="button-3">
+                                            <input type="checkbox" onclick="changestatus('{{$subject->subject_id}}','{{$subject->subject_status}}');" class="checkbox" @if ($subject->subject_status == 1) then checked
+                                                
+                                            @endif>
+                                            <div class="knobs"></div>
+                                            <div class="layer"></div>
                                         </div>
                                     </div>
-                                </td>
-                                
-                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$subject->subject_id}}','{{$subject->class_id}}','{{$subject->subject_name}}');">Edit Record</button></td>
+                                </div>
+                            </td>
+                            
+                            <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$subject->subject_id}}','{{$subject->class_id}}','{{$subject->subject_name}}');">Edit Record</button></td>
 
-                            </tr>
-                            @endforeach
-                        </thead>
-                    </table>
-                </div>
-                <!-- content-wrapper ends -->
-                <div class="d-flex justify-content-center">
-                    {!! $subjects->links() !!}
-                </div>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <!-- content-wrapper ends -->
+            <div class="d-flex justify-content-center">
+                {!! $subjects->links() !!}
+            </div>
+        </div>
+    </div>
 
                 
     <!-- modal -->
     <div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-body">

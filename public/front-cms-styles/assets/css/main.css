@@ -2552,7 +2552,7 @@ textarea:focus::placeholder {
     #66b9ef,
     #56b8ec
   );
-  /* border-radius: 0 0 -20px 20px; */
+  border-radius: 20px;
   overflow: hidden;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px),
@@ -13739,40 +13739,8 @@ textarea:focus::placeholder {
 	margin-top:16px;
 }
 
-.parallex-item{
-  background-image: url("../img/bg1.jpg");
-   /* Set a specific height */
-   min-height: 250px; 
 
-   /* Create the parallax scrolling effect */
-   background-attachment: fixed;
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: cover;
-}
 
-.parallex-item2{
-  background-image: url("../img/bg2.jpg");
-   /* Set a specific height */
-   min-height: 250px; 
 
-   /* Create the parallax scrolling effect */
-   background-attachment: fixed;
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: cover;
-}
-
-.parallex-item3{
-  background-image: url("../img/bg4.jpg");
-   /* Set a specific height */
-   min-height: 250px; 
-
-   /* Create the parallax scrolling effect */
-   background-attachment: fixed;
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: cover;
-}
 
 

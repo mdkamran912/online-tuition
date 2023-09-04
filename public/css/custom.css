@@ -9,10 +9,7 @@
     float: right;
 }
 
-#listHeader {
-    display: flex;
-    justify-content: space-between;
-}
+
 
 #listHeader h3 {
     margin: 0 auto;
