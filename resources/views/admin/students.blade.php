@@ -1,8 +1,18 @@
 @extends('admin.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -12,8 +22,8 @@
             <h3 class="text-center">Students List</h3>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered ">
-                    <thead class="thead-dark ">
+                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                         <tr>
                             <th scope="col">S.No</th>
                             <th scope="col">Student Name</th>
@@ -32,18 +42,18 @@
 
                                 <td>{{ $stdlist->class_name }}</td>
                                 <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox" onclick="changestatus('{{$stdlist->student_id}}','{{$stdlist->student_status}}');" class="checkbox" @if ($stdlist->student_status == 1) then checked
+                                    <div class="form-check form-switch">
+                                        @if ($stdlist->student_status == 1)
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        @else
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                        @endif
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$stdlist->student_id}}','{{$stdlist->student_status}}');" class="checkbox" @if ($stdlist->student_status == 1) then checked
 
-                                                @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
-                                            </div>
-                                        </div>
+                                        @endif>
                                     </div>
                                 </td>
+                               
                                 {{-- <td><button class="badge badge-success"
                                         onclick="openconfirmmodal({{ $stdlist->demo_id }});">Confirm</button>
                                     <button class="badge badge-primary"

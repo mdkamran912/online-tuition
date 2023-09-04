@@ -1,17 +1,29 @@
 @extends('admin.layouts.main')
 @section('main-section')
 
- <!-- partial -->
- <div class="main-panel">
-    <div class="content-wrapper">
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
 
         <div id="listHeader">
             <h3 class="mb-3">Student's Assignments</h3>
 
         </div>
 
-        <table class="table table-bordered">
-            <thead class="bg-dark text-white">
+        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <thead>
                 <tr>
                     <th scope="col">S.No.</th>
                     <th scope="col">Assignment</th>
@@ -22,7 +34,7 @@
                     <th scope="col">Submitted By Student</th>
                     <th scope="col">Submission Date</th>
                     <th scope="col">View Submission</th>
-                    <th>Action</th>
+                    {{-- <th>Action</th> --}}
 
 
                 </tr>
@@ -31,11 +43,11 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge badge-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
+                        <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge bg-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
                         <td><a href="{{url('admin/studentprofile').'/'.$data->student_id}}" target="_blank">{{$data->student_name}}</a></td>
                         <td>{{$data->submitted_on}}</td>
                         <td><a href="{{url('admin/studentprofile').'/'.$data->student_id}}" target="_blank">{{$data->student_name}}</a></td>
-                        <td>
+                        {{-- <td>
                             <div class="toggle-button-cover">
                                 <div class="button-cover">
                                     <div class="button r" id="button-3">
@@ -44,7 +56,7 @@
                                         <div class="layer"></div>
                                     </div>
                                 </div>
-                        </td>
+                        </td> --}}
                     </tr>
                 @endforeach
                

@@ -1,9 +1,19 @@
 @extends('admin.layouts.main')
 @section('main-section')
 
-<!-- partial -->
-<div class="main-panel">
-    <div class="content-wrapper">
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
         @if (Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
     @endif
@@ -18,8 +28,8 @@
         </div>
         <div class="mt-4" id="">
 
-            <table class="table table-hover table-bordered table-responsive ">
-                <thead class="thead-dark ">
+            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                <thead>
                     <tr>
                         <th scope="col">S.No</th>
                         <th scope="col">Class/Grade</th>
@@ -41,36 +51,36 @@
                         <td>{{$content->topicname}}</td>
                         <td><div class="text-center">{{$content->content_description}}</div><br>
                             @if ($content->content_link)
-                            <div class="text-center"><a href="{{url('uploads/documents/learningcontents')}}/{{$content->content_link}}" target="_blank" class="badge badge-primary mt-2 ">View</a></div>
+                            <div class="text-center"><a href="{{url('uploads/documents/learningcontents')}}/{{$content->content_link}}" target="_blank" class="badge bg-primary mt-2 ">View</a></div>
                                 
                             @endif
                         </td>
                         <td><div class="text-center">{{$content->video_description}}</div><br>
                             @if ($content->video_link)
                             
-                            <div class="text-center"><a href="{{url('uploads/videos/learningcontents')}}/{{$content->video_link}}" target="_blank" class="badge badge-primary">View</a></div>
+                            <div class="text-center"><a href="{{url('uploads/videos/learningcontents')}}/{{$content->video_link}}" target="_blank" class="badge bg-primary">View</a></div>
                             @endif
                         </td>
                         <td><div class="text-center">{{$content->blog_description}}</div><br>
                             @if ($content->blog_link)
                                 
-                            <div class="text-center"><a href="{{$content->blog_link}}" target="_blank" class="badge badge-primary">View</a></div>
+                            <div class="text-center"><a href="{{$content->blog_link}}" target="_blank" class="badge bg-primary">View</a></div>
                             @endif
                         </td>
                         <td>
-                            <div class="toggle-button-cover">
-                                <div class="button-cover">
-                                    <div class="button r" id="button-3">
-                                        <input type="checkbox" onclick="changestatus('{{$content->contentid}}','{{$content->contentstatus}}');" class="checkbox" @if ($content->contentstatus == 1) then checked
+                            <div class="form-check form-switch">
+                                @if ($content->contentstatus == 1)
+                                <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                @else
+                                <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                @endif
+                                <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$content->contentid}}','{{$content->contentstatus}}');" class="checkbox" @if ($content->contentstatus == 1) then checked
                                             
-                                        @endif>
-                                        <div class="knobs"></div>
-                                        <div class="layer"></div>
-                                    </div>
-                                </div>
+                                @endif>
                             </div>
                         </td>
-                        <td><a href="learningcontents/{{$content->contentid}}"><button class="badge badge-danger">Modify</button></a></td>
+                      
+                        <td><a href="learningcontents/{{$content->contentid}}"><button class="badge bg-danger">Modify</button></a></td>
                        </tr>
                    @endforeach
                 </tbody>

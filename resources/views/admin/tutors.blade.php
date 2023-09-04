@@ -1,19 +1,29 @@
 @extends('admin.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
-            @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
-            @endif
-            @if (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-            @endif
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+            
             <h3 class="text-center">Tutors List</h3>
             <div class="mt-4" id="">
-
-                <table class="table table-hover table-bordered ">
-                    <thead class="thead-dark ">
+                <div class="container-fluid">
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                    @endif
+                    @if (Session::has('fail'))
+                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    @endif
+                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                         <tr>
                             <th scope="col">S.No</th>
                             <th scope="col">Tutor Name</th>
@@ -34,21 +44,21 @@
 
                                 <td>{{ $ttrlist->subject_name }}</td>
                                 <td>{{ $ttrlist->rate }}</td>
-                                <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }} <span class="badge badge-primary ml-3"> Update</span> </a>
+                                <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }} <span class="badge bg-primary ml-3"> Update</span> </a>
                                 </td>
                                 <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox"
-                                                    onclick="changestatus('{{ $ttrlist->tutor_id }}','{{ $ttrlist->tutor_status }}');"
-                                                    class="checkbox" @if ($ttrlist->tutor_status == 1) then checked @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
-                                            </div>
-                                        </div>
+                                    <div class="form-check form-switch">
+                                        @if ($ttrlist->tutor_status == 1)
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        @else
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                        @endif
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{ $ttrlist->tutor_id }}','{{ $ttrlist->tutor_status }}');"
+                                        class="checkbox" @if ($ttrlist->tutor_status == 1) then checked @endif>
+
                                     </div>
                                 </td>
+                                
                              </tr>
                         @endforeach
                     </tbody>

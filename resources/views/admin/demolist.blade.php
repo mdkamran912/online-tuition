@@ -1,8 +1,19 @@
 @extends('admin.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+        
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -12,8 +23,8 @@
             <h3 class="text-center">Demo List</h3>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered table-responsive ">
-                    <thead class="thead-dark ">
+                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                         <tr>
                             <th scope="col">S.No</th>
                             <th scope="col">Student Name</th>
@@ -43,15 +54,15 @@
                                 <td>{{ $demo->subject }}</td>
                                 <td>
                                     @if ($demo->status == 1)
-                                        <span class="badge badge-info">{{ $demo->currentstatus }}</span>
+                                        <span class="badge bg-info">{{ $demo->currentstatus }}</span>
                                     @elseif ($demo->status == 2)
-                                        <span class="badge badge-primary">{{ $demo->currentstatus }}</span>
+                                        <span class="badge bg-primary">{{ $demo->currentstatus }}</span>
                                     @elseif ($demo->status == 3)
-                                        <span class="badge badge-success">{{ $demo->currentstatus }}</span>
+                                        <span class="badge bg-success">{{ $demo->currentstatus }}</span>
                                     @elseif ($demo->status == 4)
-                                        <span class="badge badge-success">{{ $demo->currentstatus }}</span>
+                                        <span class="badge bg-success">{{ $demo->currentstatus }}</span>
                                     @elseif ($demo->status == 5)
-                                        <span class="badge badge-danger">{{ $demo->currentstatus }}</span>
+                                        <span class="badge bg-danger">{{ $demo->currentstatus }}</span>
                                     @endif
                                 </td>
                                 <td>{{ $demo->slot_1 }}</td>
@@ -60,9 +71,9 @@
                                 <td>{{ $demo->slot_confirmed }}</td>
                                 <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
                                 <td>{{ $demo->remarks }}</td>
-                                <td><button class="badge badge-success"
+                                <td><button class="btn btn-sm btn-success"
                                         onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
-                                    <button class="badge badge-primary"
+                                    <button class="btn btn-sm btn-primary"
                                         onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
                                 </td>
                             </tr>

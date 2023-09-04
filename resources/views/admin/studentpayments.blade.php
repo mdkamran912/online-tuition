@@ -1,9 +1,22 @@
 @extends('admin.layouts.main')
 @section('main-section')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
@@ -94,8 +107,8 @@
                     </div>
                 </div>
            </form>
-           <table class="table table-hover table-bordered table-responsive users-table">
-            <thead class="thead-dark ">
+           <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <thead>
                 <tr>
                     <th scope="col">S.No</th>
                     <th>Student Name</th>
@@ -124,16 +137,16 @@
                         <td>{{ $payment->transaction_amount }}</td>
                         <td>{{ $payment->payment_mode }}</td>
                         @if ($payment->transaction_status_id == "3")
-                        <td><span  class="badge badge-success">{{ $payment->transaction_status }}</span></td>
+                        <td><span  class="badge bg-success">{{ $payment->transaction_status }}</span></td>
 
                         @elseif ($payment->transaction_status_id == "5")
-                        <td><span  class="badge badge-danger">{{ $payment->transaction_status }}</span></td>
+                        <td><span  class="badge bg-danger">{{ $payment->transaction_status }}</span></td>
                         @else
-                        <td><span  class="badge badge-primary">{{ $payment->transaction_status }}</span></td>
+                        <td><span  class="badge bg-primary">{{ $payment->transaction_status }}</span></td>
                         @endif
 
                         <td>{{ $payment->remarks }}</td>
-                        <td><button class="badge badge-primary"
+                        <td><button class="badge bg-primary"
                             onclick="openmodal('{{ $payment->transaction_id }}','{{ $payment->transaction_no }}','{{ $payment->student_name }}','{{ $payment->transaction_status_id }}','{{ $payment->remarks }}');">Update</button>
 
                     </td>

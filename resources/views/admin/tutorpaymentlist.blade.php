@@ -1,8 +1,21 @@
 @extends('admin.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
                     @if (Session::has('success'))
                     <div class="alert alert-success">{{Session::get('success')}}</div>
                     @endif
@@ -15,8 +28,8 @@
                                 class="fa fa-plus"></span> Make Payment</button>
                     </div>
                     <div class="mt-4" id="">
-                        <table class="table table-bordered table-hover mt-3 table-responsive">
-                            <thead class="bg-dark text-white">
+                        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                            <thead>
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Tutor Name</th>

@@ -1,9 +1,20 @@
 @extends('admin.layouts.main')
 @section('main-section')
 
- <!-- partial -->
- <div class="main-panel">
-    <div class="content-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
         @if (Session::has('success'))
         <div class="alert alert-success">{{Session::get('success')}}</div>
         @endif
@@ -15,8 +26,8 @@
 
         </div>
 
-        <table class="table table-bordered table-responsive">
-            <thead class="bg-dark text-white">
+        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <thead>
                 <tr>
                     <th scope="col">S.No.</th>
                     <th scope="col">Assignment Name</th>
@@ -47,20 +58,20 @@
                     <td>{{$datalist->assignment_start_date}}</td>
                     <td>{{$datalist->assignment_end_date}}</td>
                     {{-- <td>{{$datalist->assigned_to}}</td> --}}
-                    <td><div class="text-center"> <a href="{{url('admin/assignments/').'/'.$datalist->assignment_id}}" class="badge badge-primary">View</a></div></td>
+                    <td><div class="text-center"> <a href="{{url('admin/assignments/').'/'.$datalist->assignment_id}}" class="badge bg-primary">View</a></div></td>
                     <td>
-                        <div class="toggle-button-cover">
-                            <div class="button-cover">
-                                <div class="button r" id="button-3">
-                                    <input type="checkbox" onclick="changestatus('{{$datalist->assignment_id}}','{{$datalist->assignment_status}}');" class="checkbox" @if ($datalist->assignment_status == 1) then checked
+                        <div class="form-check form-switch">
+                            @if ($datalist->assignment_status == 1)
+                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                            @else
+                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                            @endif
+                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$datalist->assignment_id}}','{{$datalist->assignment_status}}');" class="checkbox" @if ($datalist->assignment_status == 1) then checked
                                         
-                                    @endif>
-                                    <div class="knobs"></div>
-                                    <div class="layer"></div>
-                                </div>
-                            </div>
+                            @endif>
                         </div>
                     </td>
+                   
 
                 </tr>
                 @endforeach

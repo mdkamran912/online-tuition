@@ -9,6 +9,7 @@
                 }
             </style>
                 <div class="page-content">
+                    <div class="container-fluid">
                     @if (Session::has('success'))
                     <div class="alert alert-success">{{Session::get('success')}}</div>
                     @endif
@@ -46,20 +47,17 @@
                                     <td>{{$topic->subject_name}}</td>
                                     <td>{{$topic->topic_name}}</td>
                                     <td>{{$topic->topic_description}}</td>
-                                    
                                     <td>
-                                        <div class="toggle-button-cover">
-                                            <div class="button-cover">
-                                                <div class="button r" id="button-3">
-                                                    <input type="checkbox" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked
-                                                        
-                                                    @endif>
-                                                    <div class="knobs"></div>
-                                                    <div class="layer"></div>
-                                                </div>
-                                            </div>
+                                        <div class="form-check form-switch">
+                                            @if ($topic->topic_status == 1)
+                                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                            @else
+                                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                            @endif
+                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
                                         </div>
                                     </td>
+                                    
                                     
                                     <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
 

@@ -13,6 +13,7 @@
                
             </style>
         <div class="page-content">
+            <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -54,20 +55,18 @@
                                 </td>
                                 <td>{{ $batch->batch_name }}</td>
                                 <td>{{ $batch->batch_description }}</td>
-
                                 <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox"
-                                                    onclick="changestatus('{{ $batch->batch_id }}','{{ $batch->batch_status }}');"
-                                                    class="checkbox" @if ($batch->batch_status == 1) then checked @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
-                                            </div>
-                                        </div>
+                                    <div class="form-check form-switch">
+                                        @if ($batch->batch_status == 1)
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        @else
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                        @endif
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{ $batch->batch_id }}','{{ $batch->batch_status }}');"
+                                        class="checkbox" @if ($batch->batch_status == 1) then checked @endif>
                                     </div>
                                 </td>
+
                                 <td>
                                     <div class="text-center batchBadge">
                                         <button type="button" class="badge btn-sm btn-primary"

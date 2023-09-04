@@ -10,7 +10,7 @@
                 }
             </style>
         <div class="page-content">
-            <div class="content-wrapper">
+            <div class="container-fluid">
                 @if (Session::has('success'))
                         <div class="alert alert-success">{{Session::get('success')}}</div>
                         @endif
@@ -52,20 +52,19 @@
                         
                         
                             </td>
-                            
                             <td>
-                                <div class="toggle-button-cover">
-                                    <div class="button-cover">
-                                        <div class="button r" id="button-3">
-                                            <input type="checkbox" onclick="changestatus('{{$subject->subject_id}}','{{$subject->subject_status}}');" class="checkbox" @if ($subject->subject_status == 1) then checked
+                                <div class="form-check form-switch">
+                                    @if ($subject->subject_status == 1)
+                                    <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                    @else
+                                    <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                    @endif
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$subject->subject_id}}','{{$subject->subject_status}}');" class="checkbox" @if ($subject->subject_status == 1) then checked
                                                 
-                                            @endif>
-                                            <div class="knobs"></div>
-                                            <div class="layer"></div>
-                                        </div>
-                                    </div>
+                                    @endif>
                                 </div>
                             </td>
+                           
                             
                             <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$subject->subject_id}}','{{$subject->class_id}}','{{$subject->subject_name}}');">Edit Record</button></td>
 
