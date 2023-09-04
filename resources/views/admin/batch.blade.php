@@ -28,7 +28,7 @@
             <div class="mt-4" id="">
             <table class="table table-hover table-striped align-middle table-nowrap mb-0">
 
-                    <thead class="bg-dark text-white">
+                    <thead>
                         <tr>
                             <th>S.No.</th>
                             <th>Class</th>
@@ -42,7 +42,7 @@
                         </tr>
                     </thead>
 
-                    <thead name="classbody">
+                    <tbody name="classbody">
                         @foreach ($batches as $batch)
                             <tr>
 
@@ -82,7 +82,7 @@
 
                             </tr>
                         @endforeach
-                    </thead>
+                    </tbody>
                 </table>
             </div>
             <!-- content-wrapper ends -->

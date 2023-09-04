@@ -24,7 +24,7 @@
                     <div class="mt-4" id="">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0 table-responsive">
 
-                            <thead class="bg-dark text-white">
+                            <thead>
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Class</th>
@@ -36,36 +36,36 @@
                                 </tr>
                             </thead>
                            
-                        <tbody name="classbody">
-                            @foreach ($topics as $topic)
-                                
-                            <tr>
+                            <tbody name="classbody">
+                                @foreach ($topics as $topic)
+                                    
+                                <tr>
 
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$topic->class_name}}</td>
-                                <td>{{$topic->subject_name}}</td>
-                                <td>{{$topic->topic_name}}</td>
-                                <td>{{$topic->topic_description}}</td>
-                                
-                                <td>
-                                    <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button r" id="button-3">
-                                                <input type="checkbox" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked
-                                                    
-                                                @endif>
-                                                <div class="knobs"></div>
-                                                <div class="layer"></div>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$topic->class_name}}</td>
+                                    <td>{{$topic->subject_name}}</td>
+                                    <td>{{$topic->topic_name}}</td>
+                                    <td>{{$topic->topic_description}}</td>
+                                    
+                                    <td>
+                                        <div class="toggle-button-cover">
+                                            <div class="button-cover">
+                                                <div class="button r" id="button-3">
+                                                    <input type="checkbox" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked
+                                                        
+                                                    @endif>
+                                                    <div class="knobs"></div>
+                                                    <div class="layer"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                                
-                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
+                                    </td>
+                                    
+                                    <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
 
-                            </tr>
-                            @endforeach
-                        </tbody>
+                                </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
                 <!-- content-wrapper ends -->
