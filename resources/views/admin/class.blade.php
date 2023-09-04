@@ -42,8 +42,12 @@
                                 <td>{{$class->name}}</td>
                                 <td>
                                     <div class="form-check form-switch">
+                                        @if ($class->is_active == 1)
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        @else
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+@endif
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" @if ($class->is_active == 1) then checked @endif>
-                                        <label class="form-check-label" for="SwitchCheck1">Active/Inactive</label>
                                     </div>
                                 </td>
                                 
