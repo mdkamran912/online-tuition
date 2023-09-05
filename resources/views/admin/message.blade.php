@@ -1,8 +1,15 @@
 @extends('admin.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+<div class="main-content">
+    <style>
+        .listHeader {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+
+    <div class="page-content">
+        <div class="container-fluid">
             <div class="card chatPannel">
                 <div class="row g-0">
                     <div class="col-12 col-lg-5 col-xl-3 border-right">
