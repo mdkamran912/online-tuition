@@ -39,10 +39,12 @@
                                         <span class="fa fa-star checked"></span>
                                     @endif
                                 </div>
+                                <p><b>Class:</b>{{ $tutorlist->class_name }}</p>
                                 <p><b>Subject:</b>{{ $tutorlist->subject }}</p>
-                                <p><b>Remaining Hrs:</b>{{ $tutorlist->total_topics }}</p>
+                                {{-- <p><b>Remaining Hrs:</b>{{ $tutorlist->total_topics }}</p> --}}
+                                <p><b>Total topics:</b>{{ $tutorlist->total_topics }}</p>
                                 <p><b>Rate:</b> <span>&#163;</span>{{ $tutorlist->rate }}</p>
-                                <a href="tutorprofile/{{ $tutorlist->id }}" class="btn btn-sm btn-primary">Profile</a>
+                                <a href="tutorprofile/{{ $tutorlist->sub_map_id }}" class="btn btn-sm btn-primary">Profile</a>
                                 <button data-toggle="modal" data-target="#openDemoModal" class="btn btn-sm btn-primary"
                                     onclick="openDemoModal('{{ $tutorlist->id }}','{{ $tutorlist->name }}','{{ $tutorlist->subjectid }}','{{ $tutorlist->subject }}')">Classes
                                     </button>
