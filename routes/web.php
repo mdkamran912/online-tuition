@@ -70,6 +70,8 @@ Route::get("logout", [HomeController::class, "logout"])->name("logout");
 // Newly Added Login Pages
 
 
+
+
 Route::post('fetchsubjects', [CommonController::class, 'fetchsubjects'])->name('fetchsubjects');
 Route::post('fetchtopics', [CommonController::class, 'fetchtopics'])->name('fetchtopics');
 Route::post('studentsbyclass', [CommonController::class, 'studentsbyclass'])->name('studentsbyclass');
@@ -151,12 +153,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('topic', [TopicController::class, 'index'])->name('admin.topic');
     Route::post('topic', [TopicController::class, 'store'])->name('admin.topic.create');
     Route::get('topic/status', [TopicController::class, 'status'])->name('admin.topic.status');
+    Route::post('topic-search', [TopicController::class, 'topicSearch'])->name('admin.topic-search');
     // Batch
     Route::get('batch', [BatchesController::class, 'index'])->name('admin.batch');
     Route::post('batch', [BatchesController::class, 'store'])->name('admin.batch.create');
     Route::get('batch/status', [BatchesController::class, 'status'])->name('admin.batch.status');
     Route::post('batchmapping/create', [BatchesController::class, 'mapping'])->name('admin.batchmapping.create');
     Route::get('viewbatchdata/{id}', [BatchesController::class, 'viewrecord'])->name('admin.viewbatchdata');
+    Route::post('batches-search', [BatchesController::class, 'batchSearch'])->name('admin.batches-search');
     // Demo List
     Route::get('demolist', [DemoController::class, 'index'])->name('admin.demolist');
     Route::post('bookdemo', [DemoController::class, 'bookdemo'])->name('admin.bookdemo');

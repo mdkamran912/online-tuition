@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\batches;
+use App\Models\subjects;
 use App\Models\batchstudentmapping;
 use App\Models\classes;
 use App\Models\classschedule;
@@ -18,15 +19,50 @@ class BatchesController extends Controller
 {
 
     public function index()
-    {   
+    {
         $classes = classes::select('*')->where('is_active', 1)->get();
-        $tutors = tutorregistration::select('*')->where('is_active', 1)->get();
+        $tutors = tutorregistration::select('*')->get();
+        $subjects = subjects::where('is_active',1)->get();
         $batches = batches::select('batches.id as batch_id', 'batches.name as batch_name', 'batches.description as batch_description', 'batches.is_active as batch_status', 'subjects.name as subject_name', 'subjects.id as subject_id', 'classes.id as class_id', 'classes.name as class_name', 'tutorregistrations.id as tutor_id', 'tutorregistrations.name as tutor_name')
             ->join('subjects', 'subjects.id', '=', 'batches.subject_id')
             ->join('tutorregistrations', 'tutorregistrations.id', '=', 'batches.tutor_id')
             ->join('classes', 'classes.id', '=', 'subjects.class_id')->paginate(10);
-        return view('admin.batch', compact('batches', 'classes', 'tutors'));
+            //  dd($batches);
+        return view('admin.batch', get_defined_vars());
     }
+
+     // search functionality
+     public function batchSearch(Request $request){
+        // return $request->all();
+        $classes = classes::select('*')->where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $tutors = tutorregistration::select('*')->get();
+        $query = batches::select('batches.id as batch_id', 'batches.name as batch_name', 'batches.description as batch_description', 'batches.is_active as batch_status', 'subjects.name as subject_name', 'subjects.id as subject_id', 'classes.id as class_id', 'classes.name as class_name', 'tutorregistrations.id as tutor_id', 'tutorregistrations.name as tutor_name')
+                        ->join('subjects', 'subjects.id', '=', 'batches.subject_id')
+                        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'batches.tutor_id')
+                        ->join('classes', 'classes.id', '=', 'subjects.class_id');
+                        // ->where('batches.tutor_id',1)->get();
+                        // dd($request->tutor_name);
+
+        if ($request->class_name) {
+            $query->where('subjects.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('batches.subject_id', $request->subject_name);
+        }
+        if($request->tutor_name) {
+            $query->where('batches.tutor_id',$request->tutor_name);
+        }
+        $batches = $query->paginate(1);
+
+        $viewTable = view('admin.partials.batches-search',compact('batches'))->render();
+        $viewPagination = $batches->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+    }
+
 
 
     public function store(Request $request)
@@ -85,7 +121,7 @@ class BatchesController extends Controller
             $msg = 'Batch updated successfully';
         }
         // if ($request->mappingid) {
-        //     
+        //
         else {
             $data = new batchstudentmapping();
             $msg = 'Students added to batch';
@@ -103,7 +139,7 @@ class BatchesController extends Controller
     }
 
     public function viewrecord($id){
-        
+
          // Fetch student details based on batches -> Using jQuerry
          $data['subjects'] = batchstudentmapping::where("batch_id", $id)->first();
      return response()->json($data);
@@ -111,21 +147,21 @@ class BatchesController extends Controller
 
     public function tutorbatches(){
         $batches = batches::select('batches.id as batch_id','batches.name as batch_name','batches.description as batch_description','subjects.id as subject_id','subjects.name as subject_name','classes.name as class_name')
-        
+
         ->join('subjects','subjects.id','batches.subject_id')
         ->join('classes','classes.id','subjects.class_id')
 
         // ->join('classschedules','classschedules.batch_id','batches.id')
         // ->join('classschedules','classschedules.batch_id','batches.id')
-        // 
+        //
         ->where('batches.tutor_id',session('userid')->id)
         ->where('batches.is_active',1)
         ->get();
         $classessch = classschedule::select('*')->get();
         return view('tutor.batches',compact('batches','classessch'));
-        
+
         // ->has('classschedules','classschedules.id')->get();
-       
+
 
 
     }
@@ -150,7 +186,7 @@ public function zoomapi(){
     //     ],
     // ]);
 
-   
+
     // $accessToken = json_decode($response);
 
     // $response2 = $client->get('https://api.zoom.us/v2/users', [
@@ -167,7 +203,7 @@ public function zoomapi(){
 
     // try {
         // $client = new Client();
-     
+
         // $response = $client->get('https://zoom.us/oauth/token', [
         //     "headers" => [
         //         "Authorization" => "Basic ". base64_encode('oFed_e_zQi6wE8183XRI0A'.':'.'1hYXjFPAXUJ8uYOQDUGTJJNjzVGdaxTu')
@@ -178,9 +214,9 @@ public function zoomapi(){
         //         "redirect_uri" => 'http://127.0.0.1:8000/student/demolist'
         //     ],
         // ]);
-     
+
         // $token = json_decode($response->getBody()->getContents(), true);
-     
+
         // $db = new DB();
         // $db->update_access_token(json_encode($token));
     //     echo "Access token inserted successfully.";
@@ -192,5 +228,5 @@ public function zoomapi(){
     // echo "<pre>";
     // dd($response);
 }
-    
+
 }
