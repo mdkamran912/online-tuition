@@ -1,3 +1,6 @@
+@php
+    use App\Models\payments\paymentstudents;
+@endphp
 @extends('student.layouts.main')
 @section('main-section')
     <!-- partial -->
@@ -42,7 +45,16 @@
                                 <p><b>Class:</b>{{ $tutorlist->class_name }}</p>
                                 <p><b>Subject:</b>{{ $tutorlist->subject }}</p>
                                 {{-- <p><b>Remaining Hrs:</b>{{ $tutorlist->total_topics }}</p> --}}
-                                <p><b>Total topics:</b>{{ $tutorlist->total_topics }}</p>
+                                <?php
+
+
+$class_purchased = paymentstudents::where('student_id', session('userid')->id)
+    ->where('class_id', $tutorlist->class_id)
+    ->where('tutor_id', $tutorlist->id)
+    ->where('subject_id', $tutorlist->subjectid)
+    ->sum('classes_purchased');
+?>
+                                <p><b>Total Classes Purchased:</b>{{ $class_purchased ?? '-' }}</p>
                                 <p><b>Rate:</b> <span>&#163;</span>{{ $tutorlist->rate }}</p>
                                 <a href="tutorprofile/{{ $tutorlist->sub_map_id }}" class="btn btn-sm btn-primary">Profile</a>
                                 <button data-toggle="modal" data-target="#openDemoModal" class="btn btn-sm btn-primary"

@@ -22,8 +22,7 @@ class TutorSearchController extends Controller
     {
 
         // $tutorlist = tutorprofile::select('tutorprofiles.*','subjects.name as subject','subjects.name as subject','tutorreviews.*',DB::raw('SUM(ratings) AS sum_of_1'))
-        $tutorlist = tutorprofile::
-        select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
+        $tutorlist = tutorprofile:: select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
@@ -45,7 +44,7 @@ class TutorSearchController extends Controller
 
     public function yourtutor()
     {
-        $tutorlist = tutorprofile::select('tutorprofiles.id','classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
+        $tutorlist = tutorprofile::select('tutorprofiles.id','classes.name as class_name', 'classes.id as class_id','tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), DB::raw('SUM(    paymentstudents.classes_purchased) as total_classes_purchased'),'tutorsubjectmappings.id as sub_map_id')
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
@@ -58,17 +57,8 @@ class TutorSearchController extends Controller
             ->where('paymentstudents.subject_id', '1')  // Need to implement subject Id currently passed 1 for testing purpose
             ->where('paymentdetails.status', '1')
             // ->where('paymentdetails.id', '=', 'paymentstudents.subject_id' )
-            ->groupby('tutorprofiles.id', 'subjects.id', 'classes.name','subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','sub_map_id')
+            ->groupby('tutorprofiles.id', 'subjects.id','classes.id', 'classes.name','subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','sub_map_id')
             ->get();
-
-            $topicCounts = DB::table('tutorsubjectmappings')
-    ->join('teacherclassmappings', 'tutorsubjectmappings.class_id', '=', 'teacherclassmappings.class_id')
-    ->join('topics', 'tutorsubjectmappings.subject_id', '=', 'topics.subject_id')
-    ->select('tutorsubjectmappings.tutor_id', 'tutorsubjectmappings.class_id', 'tutorsubjectmappings.subject_id', DB::raw('COUNT(DISTINCT topics.name) AS topic_count'))
-    ->groupBy('tutorsubjectmappings.tutor_id', 'tutorsubjectmappings.class_id', 'tutorsubjectmappings.subject_id')
-    ->get();
-
-
 
 
         return view('student.yourtutor', compact('tutorlist'));
