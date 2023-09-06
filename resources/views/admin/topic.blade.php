@@ -98,12 +98,8 @@
             </div>
         </div>
         <!-- content-wrapper ends -->
-        <div class="d-flex justify-content-center">
-            {!! $topics->links() !!}
-        </div>
-            </div>
-
-        </div>
+       
+           
     </div>
         <!-- content-wrapper ends -->
         
