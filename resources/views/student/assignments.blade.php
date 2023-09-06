@@ -1,8 +1,18 @@
 @extends('student.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -45,7 +55,7 @@
                                 <td>{{ $assignment->assignment_name }}</td>
                                 <td>{{ $assignment->assignment_description }}</td>
                                 <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
-                                        target="_blank"><button class="badge badge-primary">View
+                                        target="_blank"><button class="badge bg-primary">View
                                             Assignment</button></td>
                                 <td>{{ $assignment->assignment_start_date }}</td>
                                 <td>{{ $assignment->assignment_end_date }}</td>
