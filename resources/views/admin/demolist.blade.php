@@ -23,6 +23,80 @@
                     <div class="page-title-box">
                         <h3 class="text-center">Demo List</h3>
                     </div>
+
+                    <div class="row py-3">
+                   
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text"  class="form-control" name="sname " id="sname" placeholder="Student Name">
+                                
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text"  class="form-control" name="tname " id="tname" placeholder="Tutor Name">
+                                
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="tmob " id="tmob" placeholder="Tutor Mobile">     
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select  class="form-control" name="class" id="class">
+                                <option>--Select Class--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select  class="form-control" name="sub" id="sub">
+                                <option>--Select Subject--</option>
+                            </select>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                        <label>Start Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                        <label>End Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <div class="form-group">
+                            <select  class="form-control" name="ststus" id="ststus">
+                                <option>--Status--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="form-group">
+                        <button class="btn btn-primary" style="float:right"> <span
+                            class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
                     
         
 
