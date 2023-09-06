@@ -1,17 +1,26 @@
 @extends('tutor.layouts.main')
 @section('main-section')
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
 
- <!-- partial -->
- <div class="main-panel">
-    <div class="content-wrapper">
+            <div class="page-content">
+                <div class="container-fluid">
 
         <div id="listHeader">
             <h3 class="mb-3">Student's Assignments</h3>
 
         </div>
 
-        <table class="table table-bordered">
-            <thead class="bg-dark text-white">
+        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <thead>
                 <tr>
                     <th scope="col">S.No.</th>
                     <th scope="col">Assignment</th>
@@ -30,10 +39,10 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge badge-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
+                        <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge bg-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
                         <td>{{$data->student_name}}</td>
                         <td>{{$data->submitted_on}}</td>
-                        <td><a href="{{$data->submission_link}}"><button class="badge badge-primary"><span class="fa fa-search"></span> View Submission</button></td>
+                        <td><a href="{{$data->submission_link}}"><button class="badge bg-primary"><span class="fa fa-search"></span> View Submission</button></td>
                         
                     </tr>
                 @endforeach

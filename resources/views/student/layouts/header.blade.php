@@ -641,7 +641,7 @@
                         <img src="{{url('new-styles/assets/images/logo-sm.png')}}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{url('new-styles/assets/images/logo-light.png')}}" alt="" height="17">
+                        <h1 style="color: white">Logo</h1>
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">

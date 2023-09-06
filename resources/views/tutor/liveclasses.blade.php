@@ -1,8 +1,18 @@
 @extends('tutor.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -16,8 +26,8 @@
             
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered table-responsive">
-                    <thead class="thead-dark ">
+                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                         <tr>
                             <th scope="col">S.No.</th>
                             <th scope="col">Meeting ID</th>

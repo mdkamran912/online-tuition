@@ -1,8 +1,18 @@
 @extends('tutor.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -17,8 +27,8 @@
             </div>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-bordered table-responsive">
-                    <thead class="thead-dark ">
+                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                         <tr>
                             <th scope="col">S.No.</th>
                             <th scope="col">Class.</th>
@@ -45,13 +55,13 @@
                                 <td>{{ $assignment->assignment_name }}</td>
                                 <td>{{ $assignment->assignment_description }}</td>
                                 <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
-                                        target="_blank"><button class="badge badge-primary">View
+                                        target="_blank"><button class="badge bg-primary">View
                                             Assignment</button></td>
                                 <td>{{ $assignment->assignment_start_date }}</td>
                                 <td>{{ $assignment->assignment_end_date }}</td>
                                 <td><a href="{{ url('tutor/assignments') . '/' . $assignment->assignment_id }}"> <button
-                                            class="badge badge-primary">View Submissions</button></td>
-                                <td><button class="badge badge-primary"
+                                            class="badge bg-primary">View Submissions</button></td>
+                                <td><button class="badge bg-primary"
                                         onclick="editdata('{{ $assignment->assignment_id }}','{{ $assignment->class_id }}','{{ $assignment->subject_id }}','{{ $assignment->batch_id }}','{{ $assignment->topic_id }}','{{ $assignment->assignment_name }}','{{ $assignment->assignment_description }}','{{ $assignment->assignment_start_date }}','{{ $assignment->assignment_end_date }}')">Update</button>
                                 </td>
 

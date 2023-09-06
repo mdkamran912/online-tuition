@@ -1,9 +1,18 @@
 @extends('tutor.layouts.main')
 @section('main-section')
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
 
- <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+            <div class="page-content">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 grid-margin">
                             <div class="card" style="width: 50rem; margin: 0 auto;">
@@ -93,7 +102,7 @@
                                     <br>
                                     <h5>Acievements</h5>
                 
-                                    <table class="table table-bordered">
+                                    <table class="table table-hover table-striped align-middlemb-0 table-responsive">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -118,7 +127,8 @@
                 
                                     <br>
                                     <h5>Reviews</h5>
-                                    <table class="table table-bordered">
+                                    <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                                       
                                         <tr>
                                             <th>Subject</th>
                                             <th>details</th>

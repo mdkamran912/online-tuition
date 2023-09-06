@@ -1,14 +1,18 @@
 @extends('tutor.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <style>
-            .card {
-                text-align: left !important;
-            }
-        </style>
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
 
-        <div class="content-wrapper">
+            <div class="page-content">
+                <div class="container-fluid">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -191,8 +195,8 @@
                      </div>
                  </form>
  
-                 <table class="table table-bordered">
-                     <thead class="bg-dark text-white">
+                 <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                    <thead>
                          <tr>
                              <th>S.No.</th>
                              <th>Class</th>
