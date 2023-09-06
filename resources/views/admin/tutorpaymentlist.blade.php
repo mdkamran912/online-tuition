@@ -12,6 +12,10 @@
                     display: flex;
                     justify-content: space-between;
                 }
+                .btns button{
+                    float:right;
+                    margin:2px;
+                }
             </style>
 
             <div class="page-content">
@@ -22,13 +26,75 @@
                     @if (Session::has('fail'))
                     <div class="alert alert-danger">{{Session::get('fail')}}</div>
                     @endif
-                    <div id="listHeader" class="mb-3">
+                    <div  class=" listHeader mb-3 page-title-box">
                         <h3>Tutor Payments </h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> Make Payment</button>
                     </div>
-                    <div class="mt-4" id="">
-                        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+
+                    <div class="row py-3">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text"  class="form-control" name="tname " id="tname" placeholder="Tutor Name">
+                                    
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="tmob " id="tmob" placeholder="Tutor Mobile">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="email " id="email" placeholder="Tutor Email">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="tranx " id="tranx" placeholder="Transaction No.">
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label>Start Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label>End Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mt-4">
+                        <div class="form-group">
+                            <select  class="form-control" name="byststus" id="byststus">
+                                <option>--Status--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="form-group">
+                        <button class="btn btn-primary" style="float:right"> <span
+                            class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                </div>
+                    <hr>
+
+                    <div class="mt-4 table-responsiv">
+                        <table class="table table-hover table-striped align-middlemb-0 e">
                             <thead>
                                 <tr>
                                     <th>S.No.</th>
@@ -61,17 +127,15 @@
 
                            
                        
-                    </table>
-                </div>
-                <!-- content-wrapper ends -->
-                <div class="d-flex justify-content-center">
-                   
-                </div>
+                        </table>
                     </div>
-
-                </div>
                 <!-- content-wrapper ends -->
+                
+                </div>
+
             </div>
+                <!-- content-wrapper ends -->
+        </div>
                 
     <!-- modal -->
       <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,23 +168,39 @@
                                     <select class="form-control" id="tutor" name="totor"></select>
                                 </div>
                                  <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Account</label>
+                                    <label>Account No.</label>
                                     <select class="form-control" id="account" name="account"></select>
                                 </div>
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Total Payable Amount</label>
-                                    <input type="text" class="form-control" id="totalpayableamt" name="totalpayableamt">
+                                    <label>Transaction No.</label>
+                                    <input type="text" class="form-control" id="transNo" name="transNo" placehodler="Transaction No.">
                                 </div>
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Amount</label>
-                                    <input type="text" class="form-control" id="amt" name="amt">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" id="date" name="date">
                                 </div>
+                                
+
+                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                    <label>Mode Of Payment</label>
+                                    <select class="form-control" id="mop" name="mop"></select>
+                                </div>
+                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                    <label>Status</label>
+                                    <select class="form-control" id="" name=""></select>
+                                </div>
+                               
                             </div>
-
-
-                            <button type="button" id="" class="btn btn-sm btn-primary float-right">Next</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
+                            <div class="btns">
+                            <button type="button" id="" class="btn btn-sm btn-success">Submit</button>
+                            <button type="button" class="btn btn-sm btn-danger  "
                                 data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+
+                            </div>
+                            
+
+
+                           
 
 
 
