@@ -22,49 +22,51 @@
                             <div class="alert alert-danger">{{Session::get('fail')}}</div>
                             @endif
                     <!-- <h3 class="text-center"></h3> -->
-                    <div  class="mb-3 listHeader">
+                    <div  class="mb-3 listHeader page-title-box">
                         <h3>List Of Classes</h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> New
                             Class</button>
                     </div>
-                    <table class="table table-hover table-striped align-middle table-nowrap mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col">Grade</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Update</th>
-                                {{-- <th scope="col">Status</th>
-                                <th scope="col">Action</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($classes as $class)
-                                
-                            <tr>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Update</th>
+                                    {{-- <th scope="col">Status</th>
+                                    <th scope="col">Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($classes as $class)
+                                    
+                                <tr>
 
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$class->name}}</td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        @if ($class->is_active == 1)
-                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
-                                        @else
-                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-                                        @endif
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" @if ($class->is_active == 1) then checked @endif>
-                                    </div>
-                                </td>
-                                
-                                
-                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$class->id}}','{{$class->name}}');">Edit Record</button></td>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$class->name}}</td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            @if ($class->is_active == 1)
+                                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                            @else
+                                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                            @endif
+                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$class->id}}','{{$class->is_active}}');" @if ($class->is_active == 1) then checked @endif>
+                                        </div>
+                                    </td>
+                                    
+                                    
+                                    <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$class->id}}','{{$class->name}}');">Edit Record</button></td>
 
-                            </tr>
-                            @endforeach
+                                </tr>
+                                @endforeach
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                     
                    
 

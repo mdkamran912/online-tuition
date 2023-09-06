@@ -14,9 +14,9 @@
                 <div class="row g-0">
                     <div class="col-12 col-lg-5 col-xl-3 border-right">
                         <a href="{{ route('admin.messages.students') }}"> <button
-                                class="badge badge-primary">Students</button></a>
+                                class="badge bg-primary">Students</button></a>
                         <a href="{{ route('admin.messages.tutors') }}"> <button
-                                class="badge badge-primary">Tutors</button></a>
+                                class="badge bg-primary">Tutors</button></a>
 
                         <div class="px-4 d-none d-md-block">
                             <div class="d-flex align-items-center">

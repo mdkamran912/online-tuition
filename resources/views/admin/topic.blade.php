@@ -1,80 +1,112 @@
 @extends('admin.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-content">
-            <style>
-                .listHeader {
-                    display: flex;
-                    justify-content: space-between;
-                }
-            </style>
-                <div class="page-content">
-                    <div class="container-fluid">
-                    @if (Session::has('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                    @endif
-                    @if (Session::has('fail'))
-                    <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                    @endif
-                    <div id="" class="mb-3 listHeader">
-                        <h3>List Of Topics</h3>
-                        <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
-                                class="fa fa-plus"></span> New
-                            Topic</button>
+    <!-- partial -->
+    <div class="main-content">
+        <style>
+            .listHeader {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+        
+        <div class="page-content">
+        
+            <div class="container-fluid">
+                @if (Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
+                @if (Session::has('fail'))
+                <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                @endif
+
+                <div id="" class="mb-3 listHeader page-title-box">
+                    <h3>List Of Topics</h3>
+                    <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
+                            class="fa fa-plus"></span> New
+                        Topic</button>
+                </div>
+               
+
+                <div class="row py-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select  class="form-control" name="class" id="class">
+                                <option>--Select Class--</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mt-4" id="">
-                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 table-responsive">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select  class="form-control" name="class" id="class">
+                                <option>--Select Subject--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <button class="btn btn-primary"> <span
+                            class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            
+                <!-- <div class="mt-4" id=""> -->
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th>Topic</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>Class</th>
-                                    <th>Subject</th>
-                                    <th>Topic</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                           
-                            <tbody name="classbody">
-                                @foreach ($topics as $topic)
-                                    
-                                <tr>
+                        <tbody name="classbody">
+                            @foreach ($topics as $topic)
+                                
+                            <tr>
 
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$topic->class_name}}</td>
-                                    <td>{{$topic->subject_name}}</td>
-                                    <td>{{$topic->topic_name}}</td>
-                                    <td>{{$topic->topic_description}}</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            @if ($topic->topic_status == 1)
-                                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
-                                            @else
-                                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-                                            @endif
-                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
-                                        </div>
-                                    </td>
-                                    
-                                    
-                                    <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$topic->class_name}}</td>
+                                <td>{{$topic->subject_name}}</td>
+                                <td>{{$topic->topic_name}}</td>
+                                <td>{{$topic->topic_description}}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        @if ($topic->topic_status == 1)
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        @else
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                        @endif
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
+                                    </div>
+                                </td>
+                                
+                                
+                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
 
-                                </tr>
-                                @endforeach
-                            </tbody>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
-                <!-- content-wrapper ends -->
-                <div class="d-flex justify-content-center">
-                    {!! $topics->links() !!}
-                </div>
-                    </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <div class="d-flex justify-content-center">
+            {!! $topics->links() !!}
+        </div>
+            </div>
 
-                </div>
-                <!-- content-wrapper ends -->
-                
+        </div>
+    </div>
+        <!-- content-wrapper ends -->
+        
     <!-- modal -->
     <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
