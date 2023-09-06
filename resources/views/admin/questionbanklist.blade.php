@@ -17,14 +17,92 @@
             <div class="page-content">
                 <div class="container-fluid">
             <!-- <h3 class="text-center"></h3> -->
-            <div id="listHeader" class="mb-3">
+            <!-- <div id="listHeader" class="mb-3">
                 <h3>Question Bank</h3>
                 <a class="btn btn-sm btn-primary" href="{{ route('admin.questionbank.create') }}"> <span
                         class="fa fa-plus"></span> Add New
                     Question</a>
+            </div> -->
+
+            <div id="" class="mb-3 listHeader page-title-box">
+                <h3>Question Bank</h3>
+                <button class="btn btn-sm btn-primary"> <a  class="text-white" href="{{ route('admin.questionbank.create') }}">Add New Question</a></button>
             </div>
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <div class="row ">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="text"  class="form-control" name="aname " id="aname" placeholder="Assignment Name">   
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select  class="form-control" name="class" id="class">
+                            <option>--Select Class--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select  class="form-control" name="sub" id="sub">
+                            <option>--Select Subject--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select  class="form-control" name="topic" id="topic">
+                            <option>--Select Topic--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select  class="form-control" name="assgnBy" id="assgnBy">
+                            <option>--Assigned By--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select  class="form-control" name="class" id="class">
+                            <option>--Select Status--</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                    <label>Start Date</label>
+                        <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                            
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                    <label>End Date</label>
+                        <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                            
+                    </div>
+                </div>
+
+                
+                <div class="col-md-8 mt-4">
+                    <div class="form-group">
+                    <button class="btn btn-primary" style="float:right"> <span
+                        class="fa fa-search"></span> Search</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+       
+
+
+        <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle table-nowrap mb-0 ">
                 <thead>
                     <tr>
                         <th scope="col">S.No</th>
@@ -68,6 +146,7 @@
 
                 </tbody>
             </table>
+        </div>
 
         </div>
         <!-- content-wrapper ends -->

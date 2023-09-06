@@ -29,12 +29,11 @@
 
 
 
-                    <div class="row py-3">
+                    <div class="row ">
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input type="text"  class="form-control" name="sname " id="sname" placeholder="Student Name">
-                                    
+                                <input type="text"  class="form-control" name="sname " id="sname" placeholder="Student Name">   
                             </div>
                         </div>
                         <div class="col-md-2">

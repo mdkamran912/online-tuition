@@ -23,7 +23,7 @@
                         <h3 class="text-center">Students List</h3>
                     </div>
 
-                    <div class="row py-3">
+                    <div class="row">
 
                         <div class="col-md-2">
                             <div class="form-group">
@@ -62,7 +62,7 @@
 
 
                     <div class="mt-4  table-responsive">
-                        <table class="table table-hover table-striped align-middlemb-0 ">
+                        <table class="table table-hover table-striped align-middle mb-0 ">
                             <thead>
                                 <tr>
                                     <th scope="col">S.No</th>
