@@ -5,9 +5,9 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Online Tuition App | Admin Dashboard & Analytics</title>
+    <title>Online Tuition App | student Dashboard & Analytics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Premium Multipurpose student & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{url('new-styles/assets/images/favicon.ico')}}">
@@ -673,7 +673,7 @@
                                         <a href="#" class="nav-link" data-key="t-calendar"> Calendar </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
+                                        <a href="{{route('student.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
                                     </li>
                                    
                                 </ul>
@@ -687,10 +687,10 @@
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
+                                        <a href="{{route('student.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
+                                        <a href="{{route('student.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
                                     </li>
                                    
                                 </ul>
@@ -706,10 +706,13 @@
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin.students')}}" class="nav-link" data-key="t-starter"> Tutor </a>
+                                        <li class="nav-item">
+                                            <a href="{{route('student.searchtutor')}}" class="nav-link" data-key="t-starter">Purchase New Tutor </a>
+                                        </li>
+                                        <a href="{{route('student.yourtutor')}}" class="nav-link" data-key="t-starter"> Tutor </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.students')}}" class="nav-link" data-key="t-starter"> Classes </a>
+                                        <a href="{{route('student.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
                                     </li>
                                     
                                 </ul>
@@ -723,10 +726,10 @@
                             <div class="collapse menu-dropdown" id="sidebarLanding">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutors')}}" class="nav-link" data-key="t-one-page">Learning Contents</a>
+                                        <a href="{{route('student.mylearnings')}}" class="nav-link" data-key="t-one-page">Learning Contents</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutors')}}" class="nav-link" data-key="t-one-page">Assignments</a>
+                                        <a href="{{route('student.assignments.list')}}" class="nav-link" data-key="t-one-page">Assignments</a>
                                     </li>
                                     
                                 </ul>
@@ -742,12 +745,9 @@
                             <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                                <a href="{{route('admin.questionbank')}}" class="nav-link" data-key="t-alerts">Quizes</a>
+                                                <a href="{{route('student.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
                                             </li>
-                                            {{-- <li class="nav-item">
-                                                <a href="{{route('admin.onlinetests')}}" class="nav-link" data-key="t-alerts">Tests</a>
-                                            </li> --}}
-                                    
+                                            
                                         </ul>
                                     </div>
                                 </li>
@@ -760,7 +760,7 @@
                             <div class="collapse menu-dropdown" id="sidebarForms">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
+                                        <a href="{{route('student.studentpayments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
                                     </li>
                                     
                                    
@@ -775,13 +775,13 @@
                             <div class="collapse menu-dropdown" id="sidebarCharts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="charts-chartjs.html" class="nav-link" data-key="t-chartjs"> Payments </a>
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Payments </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="charts-chartjs.html" class="nav-link" data-key="t-chartjs"> Classes </a>
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="charts-chartjs.html" class="nav-link" data-key="t-chartjs"> Attendance </a>
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
                                     
                                 </ul>
@@ -796,10 +796,10 @@
                             <div class="collapse menu-dropdown" id="sidebarFormsChat">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Chat/Messages </a>
+                                        <a href="{{route('student.messages')}}" class="nav-link" data-key="t-form-select"> Chat/Messages </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Feedbacks </a>
+                                        <a href="{{route('student.myfeedback')}}" class="nav-link" data-key="t-form-select"> Feedbacks </a>
                                     </li>
                                     
                                    
