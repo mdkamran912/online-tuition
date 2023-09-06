@@ -1,17 +1,9 @@
 @extends('admin.layouts.main')
 @section('main-section')
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- partial -->
     <div class="main-content">
-        <style>
-            .listHeader {
-                display: flex;
-                justify-content: space-between;
-            }
-            .batchBadge button{
-                background-color: #405189;
-            }
-            
-        </style>
+
         <div class="page-content " >
             <div class="container-fluid">
                 @if (Session::has('success'))
@@ -27,38 +19,50 @@
                         Batch</button>
                 </div>
 
-               
 
-                <div class="row py-3">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select  class="form-control" name="class" id="class">
-                                <option>--Select Class--</option>
-                            </select>
+                <form id="payment-search">
+                    <div class="row py-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select  class="form-control" name="class_name" onchange="fetchSubjects1();" id="classname1">
+                                    <option value="">--Select Class--</option>
+                                    @foreach ($classes as $class)
+                                        <option  value="{{ $class->id }}">{{ $class->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select  class="form-control" name="subject_name" id="subject1">
+                                    <option value="">--Select Subject--</option>
+                                    @foreach ($subjects as $subject)
+                                        <option  value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select name="tutor_name" class="form-control">
+                                    <option value="">-- Select Tutor--</option>
+                                    @foreach ($tutors as $tutor)
+                                        <option  value="{{$tutor->id }}">{{ $tutor->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <button  class="btn btn-primary"> <span
+                                class="fa fa-search"></span> Search</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select  class="form-control" name="class" id="class">
-                                <option>--Select Subject--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select  class="form-control" name="class" id="class">
-                                <option>--Select Tutor--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                        <button class="btn btn-primary"> <span
-                            class="fa fa-search"></span> Search</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
                 <hr>
+
+               <hr>
 
                 <div class="table-responsive">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0">
@@ -92,9 +96,11 @@
                                     <td>
                                         <div class="form-check form-switch">
                                             @if ($batch->batch_status == 1)
+
                                             <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
                                             @else
                                             <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+
                                             @endif
                                             <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{ $batch->batch_id }}','{{ $batch->batch_status }}');"
                                             class="checkbox" @if ($batch->batch_status == 1) then checked @endif>
@@ -119,10 +125,11 @@
                     </table>
                 </div>
                 <!-- content-wrapper ends -->
-                <div class="d-flex justify-content-center">
+
+                <div class="d-flex justify-content-center" id="paginationContainer">
                     {!! $batches->links() !!}
                 </div>
-            </div>
+</div>
         </div>
     </div>
 
@@ -299,7 +306,7 @@
             function changestatus(id, status) {
 
                 var url = "{{ URL('admin/batch/status') }}";
-                // var id= 
+                // var id=
                 $.ajax({
                     url: url,
                     type: "GET",
@@ -312,7 +319,7 @@
                     success: function(dataResult) {
                         dataResult = JSON.parse(dataResult);
                         if (dataResult.statusCode) {
-                           
+
                             toastr.success('status changed')
                             window.location = "{{URL('admin/batch')}}" ;
 
@@ -410,5 +417,98 @@
                 document.getElementById("studentlisttbl").innerHTML = table;
 
             }
+            function fetchSubjects1() {
+
+                var classId = $('#classname1 option:selected').val();
+                $("#subject").html('');
+                $.ajax({
+                    url: "{{url('fetchsubjects')}}",
+                    type: "POST",
+                    data: {
+                        class_id: classId,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#subject1').html('<option value="">-- Select Subject --</option>');
+                        $.each(result.subjects, function (key, value) {
+                            $("#subject1").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+             });
+            };
         </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateTableAndPagination(data) {
+            // $('#tableContainer').html(data.table);
+             $('.users-table tbody').html(data.table);
+             $('#paginationContainer').html(data.pagination);
+        }
+
+        $(document).ready(function () {
+            $('#payment-search').submit(function (e) {
+                alert('')
+                e.preventDefault();
+                const page = 1;
+                const ajaxUrl = '{{ route("admin.batches-search") }}'
+                var formData = $(this).serialize();
+
+                formData += `&page=${page}`;
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxUrl, // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    success: function (data) {
+                        // console.log(data)
+                        updateTableAndPagination(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+
+            });
+
+
+            $(document).on('click', '#paginationContainer .pagination a', function (e) {
+            e.preventDefault();
+
+            const page = $(this).attr('href').split('page=')[1];
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route("admin.batches-search") }}', // Define your route here
+                data: {
+                    tutor_name: $('select[name="tutor_name"]').val(),
+                    class_name: $('select[name="class_name"]').val(),
+                    subject_name: $('select[name="subject_name"]').val(),
+                    page: page
+                },
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                success: function (data) {
+                    updateTableAndPagination(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+
+
+        });
+    </script>
     @endsection
