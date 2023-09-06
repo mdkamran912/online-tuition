@@ -51,6 +51,7 @@
                                         <span class="fa fa-star checked"></span>
                                     @endif
                                 </div>
+                                <p><b>Class:</b>{{ $tutorlist->class_name }}</p>
                                 <p><b>Subject:</b>{{ $tutorlist->subject }}</p>
                                 <p><b>Total Topics:</b>{{ $tutorlist->total_topics }}</p>
                                 <p><b>Rate:</b> <span>&#163;</span>{{ $tutorlist->rate }}</p>
@@ -487,7 +488,7 @@
                 }
 
                 function openEnrollModal(tid, tname, sid, sname, ttopics, ratehr) {
-                    
+
                     $('#tutorenrollid').val(tid)
                     $('#tutorenroll').val(tname)
                     $('#subjectenrollid').val(sid)
@@ -655,7 +656,7 @@
 
 
 
-                // --star rating-- 
+                // --star rating--
 
                 let minrating = document.getElementById('minrating');
                 let maxRating = document.getElementById('maxrating');
