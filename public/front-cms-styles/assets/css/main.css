@@ -13742,5 +13742,7 @@ textarea:focus::placeholder {
 
 
 
-
+.badge:active{
+  color: yellow;
+}
 

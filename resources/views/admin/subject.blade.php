@@ -18,14 +18,14 @@
                         <div class="alert alert-danger">{{Session::get('fail')}}</div>
                         @endif
                 <!-- <h3 class="text-center"></h3> -->
-                <div  class="mb-3 listHeader">
+                <div  class="mb-3 listHeader page-title-box">
                         <h3>List Of Subjects</h3>
                         <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
                                 class="fa fa-plus"></span> New
                             Subject</button>
                     </div>
-
-                <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+                    <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0">
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
@@ -72,6 +72,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                    </div>
+              
             </div>
             <!-- content-wrapper ends -->
             <div class="d-flex justify-content-center">

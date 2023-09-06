@@ -1,67 +1,6 @@
 @extends('admin.layouts.main')
 @section('main-section')
-<<<<<<< Updated upstream
-            <!-- partial -->
-            <div class="main-content">
-            <style>
-                .listHeader {
-                    display: flex;
-                    justify-content: space-between;
-                }
-            </style>
-                <div class="page-content">
-                    <div class="container-fluid">
-                    @if (Session::has('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                    @endif
-                    @if (Session::has('fail'))
-                    <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                    @endif
-                    <div id="" class="mb-3 listHeader">
-                        <h3>List Of Topics</h3>
-                        <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span
-                                class="fa fa-plus"></span> New
-                            Topic</button>
-                    </div>
-                    <div class="mt-4" id="">
-                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 table-responsive">
 
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>Class</th>
-                                    <th>Subject</th>
-                                    <th>Topic</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                           
-                            <tbody name="classbody">
-                                @foreach ($topics as $topic)
-                                    
-                                <tr>
-
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$topic->class_name}}</td>
-                                    <td>{{$topic->subject_name}}</td>
-                                    <td>{{$topic->topic_name}}</td>
-                                    <td>{{$topic->topic_description}}</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            @if ($topic->topic_status == 1)
-                                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
-                                            @else
-                                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-                                            @endif
-                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
-                                        </div>
-                                    </td>
-                                    
-                                    
-                                    <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
-=======
 <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- partial -->
     <div class="main-content">
@@ -124,8 +63,8 @@
                 <hr>
 
                 <!-- <div class="mt-4" id=""> -->
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                 <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 ">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
@@ -142,7 +81,6 @@
                             @foreach ($topics as $topic)
 
                             <tr>
-
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$topic->class_name}}</td>
                                 <td>{{$topic->subject_name}}</td>
@@ -151,24 +89,25 @@
                                 <td>
                                     <div class="form-check form-switch">
                                         @if ($topic->topic_status == 1)
-                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active
+
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
                                         @else
-                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+
                                         @endif
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
                                     </div>
                                 </td>
 
 
-                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
->>>>>>> Stashed changes
 
-                                </tr>
-                                @endforeach
-                            </tbody>
+                                <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
+                              </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
-<<<<<<< Updated upstream
+
                 <!-- content-wrapper ends -->
                 <div class="d-flex justify-content-center">
                     {!! $topics->links() !!}
@@ -178,20 +117,13 @@
                 </div>
                 <!-- content-wrapper ends -->
                 
-=======
+
             </div>
         </div>
-        <!-- content-wrapper ends -->
-        <div class="d-flex justify-content-center" id="paginationContainer">
-            {!! $topics->links() !!}
-        </div>
-            </div>
 
-        </div>
-    </div>
-        <!-- content-wrapper ends -->
 
->>>>>>> Stashed changes
+        
+
     <!-- modal -->
     <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
