@@ -7,6 +7,7 @@ use App\Models\country;
 use App\Models\payments\paymentdetails;
 use App\Models\payments\paymentstudents;
 use App\Models\subjects;
+use App\Models\classes;
 use App\Models\teacherclassmapping;
 use App\Models\tutorachievements;
 use App\Models\tutorprofile;
@@ -186,11 +187,46 @@ class TutorSearchController extends Controller
 
 
     public function tutorslist(){
-        $ttrlists = tutorregistration::select('*','tutorregistrations.id as tutor_id','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name','tutorsubjectmappings.rate as rate','tutorsubjectmappings.admin_commission as admin_commission','tutorsubjectmappings.id as rate_id')
+        $ttrlists = tutorregistration::select('*','tutorregistrations.id as tutor_id', 'classes.name as class_name','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name','tutorsubjectmappings.rate as rate','tutorsubjectmappings.admin_commission as admin_commission','tutorsubjectmappings.id as rate_id')
         ->join('tutorsubjectmappings','tutorsubjectmappings.tutor_id','=','tutorregistrations.id')
         ->join('subjects','subjects.id','=','tutorsubjectmappings.subject_id')
-        ->get();
-        return view('admin.tutors', compact('ttrlists'));
+        ->join('classes','classes.id','=','subjects.class_id')
+        ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        return view('admin.tutors', get_defined_vars());
+
+    }
+    //  tutors search
+    public function tutorslistsearch(Request $request){
+        // return $request->all();
+        $query = tutorregistration::select('*','tutorregistrations.id as tutor_id','classes.name as class_name','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name','tutorsubjectmappings.rate as rate','tutorsubjectmappings.admin_commission as admin_commission','tutorsubjectmappings.id as rate_id')
+        ->join('tutorsubjectmappings','tutorsubjectmappings.tutor_id','=','tutorregistrations.id')
+        ->join('subjects','subjects.id','=','tutorsubjectmappings.subject_id')
+        ->join('classes','classes.id','=','subjects.class_id');
+        // ->get();
+        if ($request->tutor_name) {
+            $query->where('tutorregistrations.name','like', '%' . $request->tutor_name . '%');
+        }
+        if ($request->tutor_mobile) {
+            $query->where('tutorregistrations.mobile','like', '%' . $request->tutor_mobile . '%');
+        }
+        if ($request->class_name) {
+            $query->where('subjects.class_id', $request->class_name);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('tutorregistrations.is_active',$request->status_field);
+        }
+        $ttrlists = $query->paginate(10);
+        $type = 'tutors';
+        $viewTable = view('admin.partials.students-tutor-search', compact('ttrlists','type'))->render();
+        $viewPagination = $ttrlists->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
 
     }
     public function status(Request $request){
