@@ -1,6 +1,5 @@
 @extends('admin.layouts.main')
 @section('main-section')
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- partial -->
     <div class="main-content">
@@ -63,8 +62,8 @@
                 <hr>
 
                 <!-- <div class="mt-4" id=""> -->
-                 <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 ">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
@@ -81,6 +80,7 @@
                             @foreach ($topics as $topic)
 
                             <tr>
+
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$topic->class_name}}</td>
                                 <td>{{$topic->subject_name}}</td>
@@ -89,40 +89,33 @@
                                 <td>
                                     <div class="form-check form-switch">
                                         @if ($topic->topic_status == 1)
-
-                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                        <i class="ri-checkbox-circle-line align-middle text-success"></i> Active
                                         @else
-                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-
+                                        <i class="ri-close-circle-line align-middle text-danger"></i> Inactive
                                         @endif
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$topic->topic_id}}','{{$topic->topic_status}}');" class="checkbox" @if ($topic->topic_status == 1) then checked @endif>
                                     </div>
                                 </td>
 
 
-
                                 <td><button type="button" class="btn btn-sm btn-primary" onclick="edit('{{$topic->topic_id}}','{{$topic->class_id}}','{{$topic->subject_id}}','{{$topic->topic_name}}','{{$topic->topic_description}}');">Edit Record</button></td>
-                              </tr>
-                            @endforeach
-                        </tbody>
+
+                                </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
-
-                <!-- content-wrapper ends -->
-                <div class="d-flex justify-content-center">
-                    {!! $topics->links() !!}
-                </div>
-                    </div>
-
-                </div>
-                <!-- content-wrapper ends -->
-                
-
             </div>
         </div>
+        <!-- content-wrapper ends -->
+        <div class="d-flex justify-content-center" id="paginationContainer">
+            {!! $topics->links() !!}
+        </div>
+            </div>
 
-
-        
+        </div>
+    </div>
+        <!-- content-wrapper ends -->
 
     <!-- modal -->
     <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
