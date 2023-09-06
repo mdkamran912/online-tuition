@@ -168,14 +168,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
     Route::post('demo/confirm', [DemoController::class, 'democonfirm'])->name('admin.demo.confirm');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('admin.demo.update');
+    Route::post('demolist-search', [DemoController::class, 'demolistsearch'])->name('admin.demolist-search');
     // student profile from admin side
     Route::get('studentprofile/{id}', [StudentProfileController::class, 'studentprofile'])->name('admin.studentprofile');
     Route::get('students', [StudentProfileController::class, 'studentslist'])->name('admin.students');
     Route::get('students/status', [StudentProfileController::class, 'status'])->name('admin.students.status');
+    Route::post('students-search', [StudentProfileController::class, 'studentslistsearch'])->name('admin.students-search');
     // tutor profile view by admin
     Route::get('tutorprofile/{id}', [TutorSearchController::class, 'tutorprofile'])->name('admin.tutorprofile');
     Route::get('tutors', [TutorSearchController::class, 'tutorslist'])->name('admin.tutors');
     Route::get('tutors/status', [TutorSearchController::class, 'status'])->name('admin.tutors.status');
+    Route::post('tutors-search', [TutorSearchController::class, 'tutorslistsearch'])->name('admin.tutors-search');
     // Admin Commission
     Route::get('commission/update',[TutorSearchController::class,'commissionupdate'])->name('admin.commission.update');
     // Payment details
