@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\questionbank;
 use App\Models\subjects;
 use App\Models\topics;
+use App\Models\classes;
 use Illuminate\Http\Request;
 
 class QuestionBankController extends Controller
@@ -17,17 +18,62 @@ class QuestionBankController extends Controller
         ->join('classes','classes.id','questionbanks.class_id')
         ->join('subjects','subjects.id','questionbanks.subject_id')
         ->join('topics','topics.id','questionbanks.topic_id')
-        ->get();
-        return view('admin.questionbanklist',compact('questions'));
+        ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
+        return view('admin.questionbanklist',get_defined_vars());
 
     }
+
+    // search Functionality
+
+    public function questionbankSearch(Request $request){
+
+    //    return $request->all();
+        $query   = questionbank::select('*','questionbanks.id as question_id','questionbanks.is_active as question_status','classes.name as class','subjects.name as subject','topics.name as topic')
+        ->join('classes','classes.id','questionbanks.class_id')
+        ->join('subjects','subjects.id','questionbanks.subject_id')
+        ->join('topics','topics.id','questionbanks.topic_id');
+
+        if ($request->question_name) {
+
+            $query->where('questionbanks.question','like', '%' . $request->question_name . '%');
+        }
+        if ($request->class_name) {
+            $query->where('questionbanks.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('questionbanks.subject_id', $request->subject_name);
+        }
+        if ($request->topic_name) {
+            $query->where('questionbanks.topic_id', $request->topic_name);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('questionbanks.is_active',$request->status_field);
+        }
+        $questions = $query->paginate(10);
+        $type = 'questions';
+        $viewTable = view('admin.partials.students-tutor-search', compact('questions','type'))->render();
+        $viewPagination = $questions->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
+    }
+
 
     public function create(){
         $classes = (new CommonController)->classes();
         return view('admin.questionbank',compact('classes'));
     }
     public function store(Request $request){
-        
+
         $request->validate([
             'classname'=>'required',
             'subject'=>'required',
@@ -92,7 +138,7 @@ class QuestionBankController extends Controller
        $res = $data->save();
      return json_encode(array('statusCode'=>200));
     }
-    
+
     public function view($id){
         $classes = (new CommonController)->classes();
         $qdata = questionbank::select('*')

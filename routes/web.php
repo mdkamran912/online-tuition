@@ -196,22 +196,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::post('learningcontents/create', [LearningsContentsController::class, 'store'])->name('admin.learningcontents.create');
     Route::get('learningcontents/status', [LearningsContentsController::class, 'status'])->name('admin.learningcontents.status');
     Route::get('learningcontents/{id}', [LearningsContentsController::class, 'edit'])->name('admin.learningcontents.edit');
+    Route::post('learningcontents-search', [LearningsContentsController::class, 'search'])->name('admin.learningcontents-search');
     // Assignments
     Route::get('assignments', [AssignmentsController::class, 'adminindex'])->name('admin.assignments');
     Route::get('assignments/status', [AssignmentsController::class, 'status'])->name('admin.assignments.status');
     Route::get('assignments/{id}', [AssignmentsController::class, 'view'])->name('admin.assignments.view');
+    Route::post('assignments-search', [AssignmentsController::class, 'assignmentsSearch'])->name('admin.assignments-search');
     // Question Bank
     Route::get('questionbank', [QuestionBankController::class, 'index'])->name('admin.questionbank');
     Route::get('questionbank/create', [QuestionBankController::class, 'create'])->name('admin.questionbank.create');
     Route::post('questionbank/store', [QuestionBankController::class, 'store'])->name('admin.questionbank.store');
     Route::get('question/status', [QuestionBankController::class, 'status'])->name('admin.question.status');
     Route::get('questionupdate/{id}', [QuestionBankController::class, 'view'])->name('admin.questionupdate.view');
+    Route::post('questionbank-search', [QuestionBankController::class, 'questionbankSearch'])->name('admin.questionbank-search');
     // Online tests
     Route::get('onlinetestlist', [OnlineTestController::class, 'index'])->name('admin.onlinetests');
     Route::get('onlinetests', [OnlineTestController::class, 'create'])->name('admin.onlinetests.create');
     Route::post('onlinetests', [OnlineTestController::class, 'store'])->name('admin.onlinetests.store');
     Route::get('onlinetests/{id}', [OnlineTestController::class, 'edit'])->name('admin.onlinetests.edit');
     Route::get('onlinetestquestions/{id}', [OnlineTestController::class, 'viewquestions'])->name('admin.onlinetestquestions.viewquestions');
+    Route::post('onlinetestlist-search', [OnlineTestController::class, 'onlinetestSearch'])->name('admin.onlinetests-search');
     // Get questions by Topic
     Route::post('fetchquestions', [OnlineTestController::class, 'fetchquestions'])->name('fetchquestions');
     // Message By Student

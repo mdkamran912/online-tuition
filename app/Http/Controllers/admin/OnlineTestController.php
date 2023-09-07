@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\OnlineTests;
 use App\Models\questionbank;
 use App\Models\subjects;
+use App\Models\classes;
 use App\Models\topics;
 use App\Models\OnlineTest;
 use App\Models\testattempted;
 use App\Models\testresponssheet;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 
@@ -23,10 +25,58 @@ class OnlineTestController extends Controller
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
-            ->get();
+            ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
 
-        return view('admin.onlinetestlist', compact('testlists'));
+        return view('admin.onlinetestlist',get_defined_vars());
     }
+
+    public function onlinetestSearch(Request $request)
+    {
+        // return $request->all();
+        $query = OnlineTests::select('*', 'online_tests.id as test_id', 'online_tests.name as test_name', 'online_tests.description as test_description', 'online_tests.is_active as test_status', 'classes.name as class_name', 'subjects.name as subject_name', 'topics.name as topic_name')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id');
+            // ->get();
+        if ($request->test_name) {
+            $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+        }
+        if ($request->class_name) {
+            $query->where('online_tests.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('online_tests.subject_id', $request->subject_name);
+        }
+        if ($request->topic_name) {
+            $query->where('online_tests.topic_id', $request->topic_name);
+        }
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(online_tests.test_start_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(online_tests.test_end_date)'), '<=', $request->end_date);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('online_tests.is_active',$request->status_field);
+        }
+        $testlists = $query->paginate(10);
+        $type = 'testlists';
+        $viewTable = view('admin.partials.students-tutor-search', compact('testlists','type'))->render();
+        $viewPagination = $testlists->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
+    }
+
 
     public function create()
     {

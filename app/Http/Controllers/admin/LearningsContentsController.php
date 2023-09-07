@@ -5,6 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\learningcontents;
+use App\Models\classes;
+use App\Models\subjects;
+use App\Models\topics;
 use Illuminate\Http\Request;
 
 class LearningsContentsController extends Controller
@@ -16,8 +19,46 @@ class LearningsContentsController extends Controller
         ->join('classes','classes.id','learningcontents.class_id')
         ->join('subjects','subjects.id','learningcontents.subject_id')
         ->join('topics','topics.id','learningcontents.topic_id')
-        ->get();
-        return view('admin.learningcontentslist',compact('contents'));
+        ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
+        return view('admin.learningcontentslist',get_defined_vars());
+    }
+    // search functionality
+    public function search(Request $request)
+    {
+       //  return $request->all();
+        $query = learningcontents::select('*','learningcontents.id as contentid','learningcontents.is_active as contentstatus','classes.name as classname','subjects.name as subjectname','topics.name as topicname')
+        ->join('classes','classes.id','learningcontents.class_id')
+        ->join('subjects','subjects.id','learningcontents.subject_id')
+        ->join('topics','topics.id','learningcontents.topic_id');
+        // ->get();
+        if ($request->class_name) {
+            $query->where('learningcontents.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('learningcontents.subject_id', $request->subject_name);
+        }
+        if ($request->topic_name) {
+            $query->where('learningcontents.topic_id', $request->topic_name);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('learningcontents.is_active',$request->status_field);
+        }
+
+
+        $contents = $query->paginate(5);
+        $type = 'contents';
+        $viewTable = view('admin.partials.students-tutor-search', compact('contents','type'))->render();
+        $viewPagination = $contents->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
     }
 
     public function add()
@@ -55,7 +96,7 @@ class LearningsContentsController extends Controller
             $request->uploadvideo->move(public_path('uploads/videos/learningcontents'), $videolink);
             $data->video_link = $videolink;
         }
-        
+
         $data->content_description = $request->contentdescription;
         $data->video_description = $request->videodescription;
         $data->blog_link = $request->bloglink;
