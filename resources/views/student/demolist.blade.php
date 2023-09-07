@@ -13,16 +13,60 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    <h3 class="text-center">Demo List</h3>
-                    <div class="mt-4" id="">
-                        @if (Session::has('success'))
-                        <div class="alert alert-success">{{Session::get('success')}}</div>
-                        @endif
-                        @if (Session::has('fail'))
-                        <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                        @endif
-                        <table class="table table-hover table-bordered table-responsive ">
-                            <thead class="thead-dark ">
+                   
+                    
+                    @if (Session::has('success'))
+                    <div class="alert alert-success">{{Session::get('success')}}</div>
+                    @endif
+                    @if (Session::has('fail'))
+                    <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                    @endif
+
+                    <div id="" class="mb-3 listHeader page-title-box">
+                        <h3>My Learning</h3>
+                    </div>
+
+                    <div class="row ">
+                        
+                        <div class="col-md-2 mt-4"> 
+                            <select  class="form-control" name="tutor" id="tutor">
+                                <option>--Select Tutor--</option>
+                            </select>
+                        </div>
+                    
+                        <div class="col-md-2 mt-4">
+                            
+                            <select  class="form-control" name="sub" id="sub">
+                                <option>--Select Subject--</option>
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="col-md-2">                
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">                           
+                        </div>
+                        
+                        <div class="col-md-2">    
+                            <label>End Date</label>
+                                <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">   
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <select  class="form-control" name="class" id="class">
+                                <option>--Select Status--</option>
+                            </select>    
+                        </div>
+
+                        
+                        <div class="col-md-2 mt-4">
+                            <button class="btn btn-primary" style="float:right"> <span
+                                class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class=" table-responsive">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                            <thead class=" ">
                                 <tr>
                                     <th scope="col">S.No</th>
                                     <th scope="col">Tutor</th>
