@@ -31,6 +31,7 @@
                                 <div class="form-group">
                                     <input type="text"  class="form-control" name="student_name" id="sname" placeholder="Student Name">
 
+
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -71,6 +72,7 @@
                                     </select>
                                 </div>
                             </div>
+
                         </div>
                         <div class="row">
                                 <div class="col-md-2">

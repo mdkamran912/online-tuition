@@ -20,15 +20,55 @@
     @if (Session::has('fail'))
         <div class="alert alert-danger">{{ Session::get('fail') }}</div>
     @endif
-        <div id="listHeader" class="mb-3">
+        <div id="" class="mb-3 listHeader page-title-box">
             <h3>Learning Contents</h3>
-            <a class="btn btn-sm btn-primary" href="{{route('admin.addlearningcontents')}}"><span
-                    class="fa fa-plus"></span>
-                Add Content</span></a>
+            <button class="btn btn-sm btn-primary"> <a  class="text-white" href="{{route('admin.addlearningcontents')}}">Add Content</a></button>
         </div>
-        <div class="mt-4" id="">
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+        <div class="row">
+
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="class" id="class">
+                        <option>--Select Class--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="sub" id="sub">
+                        <option>--Select Subject--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="topic" id="topic">
+                        <option>--Select Topic--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="class" id="class">
+                        <option>--Select Status--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                <button class="btn btn-primary" style="float:right"> <span
+                    class="fa fa-search"></span> Search</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+
+
+        <div class="mt-4 table-responsive" id="">
+            <table class="table table-hover table-striped align-middlemb-0 ">
                 <thead>
                     <tr>
                         <th scope="col">S.No</th>
@@ -85,9 +125,6 @@
                    @endforeach
                 </tbody>
             </table>
-
-
-
         </div>
 
 

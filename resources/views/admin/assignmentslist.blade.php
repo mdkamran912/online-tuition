@@ -22,64 +22,145 @@
         <div class="alert alert-danger">{{Session::get('fail')}}</div>
         @endif
         <div id="listHeader">
-            <h3 class="mb-3">Student's Assignments</h3>
+            <h3 class="mb-3"></h3>
 
         </div>
 
-        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
-            <thead>
-                <tr>
-                    <th scope="col">S.No.</th>
-                    <th scope="col">Assignment Name</th>
-                    <th scope="col">Class/Grade</th>
-                    <th scope="col">Subject</th>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Assigned By</th>
-                    <th scope="col">Assigned On</th>
-                    <th scope="col">Assignment End Date</th>
-                    {{-- <th scope="col">Assignment To</th> --}}
-                    <th scope="col">View Submissions</th>
-                    <th>Status</th>
+        <div id="" class="mb-3 listHeader page-title-box">
+            <h3>Student's Assignments</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="text"  class="form-control" name="sname " id="sname" placeholder="Student Name">
+                        
+                </div>
+            </div>
 
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data as $datalist)
-                    
-                
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$datalist->assignment_name}}</td>
-                    <td>{{$datalist->class_name}}</td>
-                    <td>{{$datalist->subject_name}}</td>
-                    <td>{{$datalist->topic_name}}</td>
-                    <td><a href="{{url('admin/tutorprofile').'/'.$datalist->tutor_id}}">{{$datalist->tutor_name}}</td>
-                    <td>{{$datalist->assignment_start_date}}</td>
-                    <td>{{$datalist->assignment_end_date}}</td>
-                    {{-- <td>{{$datalist->assigned_to}}</td> --}}
-                    <td><div class="text-center"> <a href="{{url('admin/assignments/').'/'.$datalist->assignment_id}}" class="badge bg-primary">View</a></div></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            @if ($datalist->assignment_status == 1)
-                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
-                            @else
-                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-                            @endif
-                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$datalist->assignment_id}}','{{$datalist->assignment_status}}');" class="checkbox" @if ($datalist->assignment_status == 1) then checked
-                                        
-                            @endif>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="class" id="class">
+                        <option>--Select Class--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="sub" id="sub">
+                        <option>--Select Subject--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="topic" id="topic">
+                        <option>--Select Topic--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="assgnBy" id="assgnBy">
+                        <option>--Assigned By--</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select  class="form-control" name="class" id="class">
+                        <option>--Select Status--</option>
+                    </select>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                        <label>Start Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
                         </div>
-                    </td>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                        <label>End Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                               
+                        </div>
+                    </div>
+
                    
+                    <div class="col-md-8 mt-4">
+                        <div class="form-group">
+                        <button class="btn btn-primary" style="float:right"> <span
+                            class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                </div>
+        <hr>
 
-                </tr>
-                @endforeach
-            </tbody>
+
+
+         <div class="table-responsive">       
+            <table class="table table-hover table-striped align-middle table-nowrap mb-0 ">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No.</th>
+                        <th scope="col">Assignment Name </th>
+                        <th scope="col">Class/Grade</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Topic</th>
+                        <th scope="col">Assigned By</th>
+                        <th scope="col">Assigned On</th>
+                        <th scope="col">Assignment End Date</th>
+                        {{-- <th scope="col">Assignment To</th> --}}
+                        <th scope="col">View Submissions</th>
+                        <th>Status</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data as $datalist)
+                        
+                    
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$datalist->assignment_name}}</td>
+                        <td>{{$datalist->class_name}}</td>
+                        <td>{{$datalist->subject_name}}</td>
+                        <td>{{$datalist->topic_name}}</td>
+                        <td><a href="{{url('admin/tutorprofile').'/'.$datalist->tutor_id}}">{{$datalist->tutor_name}}</td>
+                        <td>{{$datalist->assignment_start_date}}</td>
+                        <td>{{$datalist->assignment_end_date}}</td>
+                        {{-- <td>{{$datalist->assigned_to}}</td> --}}
+                        <td><div class="text-center"> <a href="{{url('admin/assignments/').'/'.$datalist->assignment_id}}" class="badge bg-primary">View</a></div></td>
+                        <td>
+                            <div class="form-check form-switch">
+                                @if ($datalist->assignment_status == 1)
+                                <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
+                                @else
+                                <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
+                                @endif
+                                <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$datalist->assignment_id}}','{{$datalist->assignment_status}}');" class="checkbox" @if ($datalist->assignment_status == 1) then checked
+                                            
+                                @endif>
+                            </div>
+                        </td>
+                    
+
+                    </tr>
+                    @endforeach
+                </tbody>
 
 
 
-        </table>
+            </table>
+        </div>
 
 <!-- content-wrapper ends -->
 <div class="d-flex justify-content-center">
