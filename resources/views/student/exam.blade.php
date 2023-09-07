@@ -1,8 +1,18 @@
 @extends('student.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
 
             <div id="listHeader">
                 <h3 class="mb-3">My Examination</h3>
@@ -44,7 +54,7 @@
                                 <td>{{ $exam->test_start_date }}</td>
                                 <td>{{ $exam->test_end_date }}</td>
                                 <td><a href="{{ url('student/taketest') }}/{{ $exam->id }}"
-                                        class="badge badge-success">Start Test</a></td>
+                                        class="badge bg-success">Start Test</a></td>
                             </tr>
                         @endif
                     @endforeach
@@ -81,7 +91,7 @@
                             <td>{{ $extaken->test_start_date }}</td>
                             <td>{{ $extaken->test_end_date }}</td>
                             <td>{{ $extaken->test_attempted_on }}</td>
-                            <td><a href="{{url('student/exam/report')}}/{{$extaken->id}}" class="badge badge-primary"> Report</a></td>
+                            <td><a href="{{url('student/exam/report')}}/{{$extaken->id}}" class="badge bg-primary"> Report</a></td>
                         </tr>
                     @endforeach
 

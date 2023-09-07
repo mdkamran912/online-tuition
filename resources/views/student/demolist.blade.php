@@ -1,8 +1,18 @@
 @extends('student.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+            <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
                     <h3 class="text-center">Demo List</h3>
                     <div class="mt-4" id="">
                         @if (Session::has('success'))
@@ -34,15 +44,15 @@
                                     <td>{{$demo->subject}}</td>
                                     <td> 
                                         @if($demo->status == 1)
-                                        <span class="badge badge-info">{{$demo->currentstatus}}</span> 
+                                        <span class="badge bg-info">{{$demo->currentstatus}}</span> 
                                         @elseif ($demo->status == 2)
-                                        <span class="badge badge-primary">{{$demo->currentstatus}}</span> 
+                                        <span class="badge bg-primary">{{$demo->currentstatus}}</span> 
                                         @elseif ($demo->status == 3)
-                                        <span class="badge badge-success">{{$demo->currentstatus}}</span> 
+                                        <span class="badge bg-success">{{$demo->currentstatus}}</span> 
                                         @elseif ($demo->status == 4)
-                                        <span class="badge badge-success">{{$demo->currentstatus}}</span> 
+                                        <span class="badge bg-success">{{$demo->currentstatus}}</span> 
                                         @elseif ($demo->status == 5)
-                                        <span class="badge badge-danger">{{$demo->currentstatus}}</span> 
+                                        <span class="badge bg-danger">{{$demo->currentstatus}}</span> 
                                             
                                         @endif
                                     </td>
@@ -55,19 +65,19 @@
                                     @if ($demo->status == 1)
                                     <td>
                                         {{-- <a href="demoreschedule"><button class="btn btn-sm mr-1 btn-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button></a> --}}
-                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
+                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge bg-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
                                     @elseif ($demo->status == 2)
                                     <td>
                                         {{-- <a href="demoreschedule"><button class="btn btn-sm mr-1 btn-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button></a> --}}
-                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
+                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge bg-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
                                     @elseif ($demo->status == 3)
                                     <td>
                                         {{-- <button class="btn btn-sm mr-1 btn-primary" disabled><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button> --}}
-                                        <a href="{{$demo->demo_link}}"><button class="badge badge-success"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Join Class</button></a></td>
+                                        <a href="{{$demo->demo_link}}"><button class="badge bg-success"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Join Class</button></a></td>
                                     @else
                                     <td>
                                         {{-- <button class="btn btn-sm mr-1 btn-primary" disabled><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button> --}}
-                                        <button class="badge badge-secondary" disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
+                                        <button class="badge bg-secondary" disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
                                     
                                         @endif
                                         

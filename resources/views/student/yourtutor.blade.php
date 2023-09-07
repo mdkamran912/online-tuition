@@ -4,7 +4,19 @@
 @extends('student.layouts.main')
 @section('main-section')
     <!-- partial -->
-    <div class="main-panel">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
         <style>
             .card .card-title {
                 margin-bottom: 0;
@@ -15,7 +27,7 @@
                 margin-top: 4px;
             }
         </style>
-        <div class="content-wrapper">
+      
             <h3 class="text-center mb-5">Your Tutor</h3>
             <div class="row">
                 @foreach ($tutorlist as $tutorlist)

@@ -1,14 +1,24 @@
 @extends('tutor.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
             <div class="card chatPannel">
                 <div class="row g-0">
                     <div class="col-12 col-lg-5 col-xl-3 border-right">
                         <a href="{{ route('tutor.messages.students') }}"> <button
-                                class="badge badge-primary">Students</button></a>
-                        <a href="{{ route('tutor.messages.admins') }}"> <button class="badge badge-primary">Admin</button></a>
+                                class="badge bg-primary">Students</button></a>
+                        <a href="{{ route('tutor.messages.admins') }}"> <button class="badge bg-primary">Admin</button></a>
 
                         <div class="px-4 d-none d-md-block">
                             <div class="d-flex align-items-center">

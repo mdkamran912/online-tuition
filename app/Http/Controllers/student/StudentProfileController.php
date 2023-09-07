@@ -7,6 +7,7 @@ use App\Models\studentachievement;
 use App\Models\studentprofile;
 use App\Models\studentregistration;
 use App\Models\studentreviews;
+use App\Models\classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -110,7 +111,7 @@ class StudentProfileController extends Controller
     }
 
     public function studentacadd(Request $request){
-        
+
         $request->validate([
             'achievementName'=>'required',
             'achievementDesc'=>'required',
@@ -172,9 +173,39 @@ class StudentProfileController extends Controller
 
     public function studentslist(){
         $stdlists = studentregistration::select('*','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile','studentregistrations.email as student_email','studentregistrations.is_active as student_status','classes.name as class_name')
-        ->join('classes','classes.id','=','studentregistrations.class_id')->get();
-        return view('admin.students', compact('stdlists'));
+        ->join('classes','classes.id','=','studentregistrations.class_id')->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        return view('admin.students', get_defined_vars());
 
+    }
+    public function studentslistsearch(Request $request){
+        // dd($request->all());
+        $query = studentregistration::select('*','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile','studentregistrations.email as student_email','studentregistrations.is_active as student_status','classes.name as class_name')
+        ->join('classes','classes.id','=','studentregistrations.class_id');
+
+        if ($request->student_name) {
+            $query->where('studentregistrations.name','like', '%' . $request->student_name . '%');
+        }
+        if ($request->student_mobile) {
+            $query->where('studentregistrations.mobile','like', '%' . $request->student_mobile . '%');
+        }
+        if ($request->class_name) {
+            $query->where('studentregistrations.class_id', $request->class_name);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('studentregistrations.is_active',$request->status_field);
+        }
+        $stdlists = $query->paginate(10);
+        $type = 'students';
+        $viewTable = view('admin.partials.students-tutor-search', compact('stdlists','type'))->render();
+        $viewPagination = $stdlists->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
     }
     public function status(Request $request){
         $data = studentregistration::find($request->id);
@@ -189,5 +220,5 @@ class StudentProfileController extends Controller
        $res = $data->save();
      return json_encode(array('statusCode'=>200));
     }
-    
+
 }

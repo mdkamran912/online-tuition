@@ -641,7 +641,7 @@
                         <img src="{{url('new-styles/assets/images/logo-sm.png')}}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{url('new-styles/assets/images/logo-light.png')}}" alt="" height="17">
+                        <h1 style="color: white">Logo</h1>
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -704,7 +704,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Classes</span> <span class="badge badge-pill bg-danger" data-key="t-hot">Hot</span>
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Classes</span> <span class="badge badge-pill bg-danger" data-key="t-hot">Updates</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
@@ -719,10 +719,10 @@
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pages</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
+                            <a class="nav-link menu-link" href="#sidebarPagesStudents" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Students</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarPages">
+                            <div class="collapse menu-dropdown" id="sidebarPagesStudents">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="{{route('admin.students')}}" class="nav-link" data-key="t-starter"> Student List </a>
@@ -733,10 +733,10 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                            <a class="nav-link menu-link" href="#sidebarLandingTutor" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Tutors</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLanding">
+                            <div class="collapse menu-dropdown" id="sidebarLandingTutor">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="{{route('admin.tutors')}}" class="nav-link" data-key="t-one-page"> Tutor List </a>
@@ -749,10 +749,10 @@
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components">Contents</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUI">
+                            <a class="nav-link menu-link" href="#sidebarUILearning" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUI">
                                 <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-base-ui">Learning Contents</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLanding">
+                            <div class="collapse menu-dropdown" id="sidebarUILearning">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                                 <a href="{{route('admin.learningcontents')}}" class="nav-link" data-key="t-alerts">Learning Contents</a>
@@ -766,10 +766,10 @@
                                 </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                            <a class="nav-link menu-link" href="#sidebarAdvanceUIOT" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Online Tests</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLanding">
+                            <div class="collapse menu-dropdown" id="sidebarAdvanceUIOT">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                                 <a href="{{route('admin.questionbank')}}" class="nav-link" data-key="t-alerts">Question Bank</a>
@@ -784,19 +784,19 @@
 
                       
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
+                            <a class="nav-link menu-link" href="#sidebarFormsPay" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
                                 <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Payments</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarForms">
+                            <div class="collapse menu-dropdown" id="sidebarFormsPay">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a href="#" class="nav-link" data-key="t-basic-elements"> Create Payment </a>
+                                    </li> --}}
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Tutor Payment </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin.tutorpaymentslist')}}" class="nav-link" data-key="t-form-select"> Tutor Payment List </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('admin.payments')}}" class="nav-link" data-key="t-checkboxs-radios"> Student Payment List </a>
+                                        <a href="{{route('admin.payments')}}" class="nav-link" data-key="t-checkboxs-radios"> Student Payment </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link" data-key="t-pickers"> Transactions List </a>

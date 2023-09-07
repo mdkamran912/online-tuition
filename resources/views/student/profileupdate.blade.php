@@ -1,14 +1,24 @@
 @extends('student.layouts.main')
 @section('main-section')
-    <!-- partial -->
-    <div class="main-panel">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
         <style>
             .card {
                 text-align: left !important;
             }
         </style>
 
-        <div class="content-wrapper">
             @if (Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif

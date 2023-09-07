@@ -1,8 +1,18 @@
 @extends('student.layouts.main')
 @section('main-section')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+
+            <div class="page-content">
+                <div class="container-fluid">
 
                     <div id="listHeader">
                         <h3>My Learning</h3>
@@ -30,8 +40,8 @@
                                     
                                
                                 <td class="text-wrap"><div class="text-center">{{$learning->content_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->content_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    <a class="badge bg-primary" href="{{$learning->content_link}}"><b>View</b></a>
+                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
                                 </div>
                                 </td>
                                 @else
@@ -40,8 +50,8 @@
 
                                 @if($learning->video_description)
                                 <td class="text-wrap"><div class="text-center">{{$learning->video_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->video_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    <a class="badge bg-primary" href="{{$learning->video_link}}"><b>View</b></a>
+                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
                                 </div>
                                 </td>
                                 @else
@@ -50,8 +60,8 @@
                                 @if ($learning->blog_description)
                                     
                                 <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->blog_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    <a class="badge bg-primary" href="{{$learning->blog_link}}"><b>View</b></a>
+                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
                                 </div>
                                 </td>
                                 @else
