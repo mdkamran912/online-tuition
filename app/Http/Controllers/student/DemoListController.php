@@ -4,20 +4,63 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Models\democlasses;
+use App\Models\subjects;
+use App\Models\tutorregistration;
+use App\Models\status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DemoListController extends Controller
 {
     public function index(){
-        $demo = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
+
+        $demos = democlasses::select('*','democlasses.id as demo_id','classes.name as class_name','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
         ->join('subjects', 'subjects.id','=','democlasses.subject_id')
         ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->join('classes', 'classes.id','=','subjects.class_id')
         ->where('democlasses.student_id','=', session('userid')->id)
-        ->get();
-        // echo $demo;
-        // dd($demo);
-        return view('student.demolist', compact('demo'));
+        ->paginate(10);
+        $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
+        $statuses = status::select('*')->get();
+        $tutors = tutorregistration::select('*')->get();
+        return view('student.demolist',get_defined_vars());
+    }
+    public function demolistSearch(Request $request){
+        // return $request->all();
+        $query = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
+        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
+        ->join('subjects', 'subjects.id','=','democlasses.subject_id')
+        ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->where('democlasses.student_id','=', session('userid')->id);
+
+
+        if ($request->tutor) {
+            $query->where('democlasses.tutor_id', $request->tutor);
+        }
+        if ($request->subject_name) {
+            $query->where('democlasses.subject_id', $request->subject_name);
+        }
+
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(democlasses.slot_confirmed)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(democlasses.slot_confirmed)'), '<=', $request->end_date);
+        }
+        if ($request->status) {
+            $query->where('democlasses.status',$request->status );
+        }
+        $demos = $query->paginate(10);
+        $type = "student";
+        $viewTable = view('admin.partials.democlass-search', compact('demos','type'))->render();
+        $viewPagination = $demos->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
     }
     public function democancel(Request $request){
         $demo = democlasses::find($request->id);
@@ -25,7 +68,7 @@ class DemoListController extends Controller
         $demo->status = "5";
         $res = $demo->save();
         if($res){
-                
+
             return back()->with('success','Demo Cancelled Successfully');
         }
         else{
@@ -50,7 +93,7 @@ class DemoListController extends Controller
 
         $res = $demo->save();
         if($res){
-                
+
             return back()->with('success','Demo Scheduled Successfully');
         }
         else{

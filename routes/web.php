@@ -98,6 +98,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::get('demolist', [DemoListController::class, 'index'])->name('student.demolist');
     Route::post('bookdemo', [DemoListController::class, 'bookdemo'])->name('student.bookdemo');
     Route::get('democancel/{id}', [DemoListController::class, 'democancel'])->name('student.democancel');
+    Route::post('demolist-search', [DemoListController::class, 'demolistSearch'])->name('student.demolist-search');
     // Purchase Class
     Route::post('purchaseclass', [TutorSearchController::class, 'purchaseclass'])->name('student.purchaseclass');
     // Subjects
@@ -105,9 +106,11 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Syllabus
     Route::get('subjects/syllabus/{id}', [SubjectsController::class, 'getsyllabus'])->name('student.subjects.syllabus');
     // My Learning
-    Route::get('mylearnings', [MyLearningController::class, 'index'])->name('student.mylearnings');
+    Route::any('mylearnings', [MyLearningController::class, 'index'])->name('student.mylearnings');
+    // Route::post('mylearnings-search', [MyLearningController::class, 'learningSearch'])->name('student.mylearnings-search');
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
+    Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
     // Feedback by Student
     Route::post('feedback/submit',[TutorreviewsController::class,'feedbacksubmitstudent'])->name('student.feedback.submit');
     // Feedback by tutor
