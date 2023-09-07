@@ -13,83 +13,124 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-            @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
-            @endif
-            @if (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-            @endif
-            <div id="listHeader" class="mb-3">
-                <h3>Scheduled Classes</h3>
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                    @endif
+                    @if (Session::has('fail'))
+                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    @endif
                 
-            </div>
+                    <div id="" class="mb-3 listHeader page-title-box">
+                        <h3>My Learning</h3>
+                    </div>
 
-            <div class="mt-4" id="">
+                    <div class="row ">
+                        
+                       
+                        <div class="col-md-2 mt-4">
+                            
+                            <select  class="form-control" name="sub" id="sub">
+                                <option>--Select Subject--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 mt-4"> 
+                            <select  class="form-control" name="batch" id="batch">
+                                <option>--Select Batch--</option>
+                            </select>
+                        </div>
+                    
+                        
+                        
+                        <div class="col-md-2">                
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">                           
+                        </div>
+                        
+                        <div class="col-md-2">    
+                            <label>End Date</label>
+                                <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">   
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <select  class="form-control" name="class" id="class">
+                                <option>--Select Status--</option>
+                            </select>    
+                        </div>
 
-                <table class="table table-hover table-bordered table-responsive">
-                    <thead class="thead-dark ">
-                        <tr>
-                            <th scope="col">S.No.</th>
-                            <th scope="col">Meeting ID</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Topic</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($classes as $class)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $class->meeting_id }}</td>
-                                <td>{{ $class->status }}</td>
-                                <td>{{ $class->subjects }}</td>
-                                <td>{{ $class->batch }}</td>
-                                <td>{{ $class->topics }}</td>
-                                <td>{{ $class->start_time }}</td>
-                                <td>{{ $class->duration }}</td>
-                                <td>
-                                    @if ($class->is_completed == 0)
+                        
+                        <div class="col-md-2 mt-4">
+                            <button class="btn btn-primary" style="float:right"> <span
+                                class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                    <hr>
 
-                                        <a href="{{ $class->join_url }}" target="_blank"><button
-                                                class="btn btn-sm btn-success"><span class="fa fa-play-circle "></span> Join
-                                                Class</button></a>
-                                    @else
-                                        <button
-                                                class="btn btn-sm btn-warning" data-toggle="modal" data-target="#openreviewsmodal" onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span class="fa fa-check "></span> Give Feedback</button>
-                                    @endforelse
+                    <div class=" table-responsive">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                            <thead class="thead-dark ">
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Meeting ID</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Batch</th>
+                                    <th scope="col">Topic</th>
+                                    <th scope="col">Start Time</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($classes as $class)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $class->meeting_id }}</td>
+                                        <td>{{ $class->status }}</td>
+                                        <td>{{ $class->subjects }}</td>
+                                        <td>{{ $class->batch }}</td>
+                                        <td>{{ $class->topics }}</td>
+                                        <td>{{ $class->start_time }}</td>
+                                        <td>{{ $class->duration }}</td>
+                                        <td>
+                                            @if ($class->is_completed == 0)
 
-                                </td>
-                                {{-- <td><button class="btn btn-sm btn-primary"
-                                    onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
-                                        class="fa fa-search"></span> Start Class</button>
-                            </td> --}}
-                            </tr>
-                        @endforeach
+                                                <a href="{{ $class->join_url }}" target="_blank"><button
+                                                        class="btn btn-sm btn-success"><span class="fa fa-play-circle "></span> Join
+                                                        Class</button></a>
+                                            @else
+                                                <button
+                                                        class="btn btn-sm btn-warning" data-toggle="modal" data-target="#openreviewsmodal" onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span class="fa fa-check "></span> Give Feedback</button>
+                                            @endforelse
 
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-center">
-                    {{-- {!! $demos->links() !!} --}}
+                                        </td>
+                                        {{-- <td><button class="btn btn-sm btn-primary"
+                                            onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
+                                                class="fa fa-search"></span> Start Class</button>
+                                    </td> --}}
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        {{-- {!! $demos->links() !!} --}}
+                    </div>
+                    {{-- <form action="{{ route('tutor.liveclass.store') }}" method="POST">
+                        @csrf
+                        <input type="text" id="url" name="url"
+                            value="{{ url()->full() }}">{{ url()->full('code') }}
+                        <button type="submit" class="success">Submit</button>
+                    </form> --}}
+                    <br>
+
+                    {{-- <form action="{{ route('tutor.liveclass.getuser') }}" method="GET">
+                        @csrf
+                        <input type="text" id="zuser" name="zuser"><button type="submit" class="success">Submit</button>
+                    </form> --}}
+
                 </div>
-                {{-- <form action="{{ route('tutor.liveclass.store') }}" method="POST">
-                    @csrf
-                    <input type="text" id="url" name="url"
-                        value="{{ url()->full() }}">{{ url()->full('code') }}
-                    <button type="submit" class="success">Submit</button>
-                </form> --}}
-                <br>
-
-                {{-- <form action="{{ route('tutor.liveclass.getuser') }}" method="GET">
-                    @csrf
-                    <input type="text" id="zuser" name="zuser"><button type="submit" class="success">Submit</button>
-                </form> --}}
-
             </div>
-        </div>
         <!-- content-wrapper ends -->
 
         <!-- modal -->

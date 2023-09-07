@@ -13,71 +13,84 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-
-                    <div id="listHeader">
+                    <div id="" class="mb-3 listHeader page-title-box">
                         <h3>My Learning</h3>
-
                     </div>
 
-                    <table class="table table-bordered">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col">Topic</th>
-                                <th scope="col">Study Content</th>
-                                <th scope="col">Videos</th>
-                                <th scope="col">Blogs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($learnings as $learning)
+                    
+                    <div class="row ">
+                        <div class="col-md-3 mt-4">
+                            <input type="text" class="form-control" placeholder="Enter Topic">
+                        </div>
+                       
+
+                        
+                        <div class="col-md-9 mt-4">
+                            <button class="btn  btn-primary"> <span
+                                class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                            <thead >
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Topic</th>
+                                    <th scope="col">Study Content</th>
+                                    <th scope="col">Videos</th>
+                                    <th scope="col">Blogs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($learnings as $learning)
+                                    
+                            
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$learning->topic_name}}</td>
+                                    @if ($learning->content_description)
+                                        
                                 
-                           
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$learning->topic_name}}</td>
-                                @if ($learning->content_description)
-                                    
-                               
-                                <td class="text-wrap"><div class="text-center">{{$learning->content_description}}<br><br>
-                                    <a class="badge bg-primary" href="{{$learning->content_link}}"><b>View</b></a>
-                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
+                                    <td class="text-wrap"><div class="text-center">{{$learning->content_description}}&nbsp;
+                                        <a class="badge bg-primary" href="{{$learning->content_link}}"><b>View</b></a>
+                                        {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    </div>
+                                    </td>
+                                    @else
+                                    <td></td>
+                                    @endif
 
-                                @if($learning->video_description)
-                                <td class="text-wrap"><div class="text-center">{{$learning->video_description}}<br><br>
-                                    <a class="badge bg-primary" href="{{$learning->video_link}}"><b>View</b></a>
-                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
-                                @if ($learning->blog_description)
-                                    
-                                <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}<br><br>
-                                    <a class="badge bg-primary" href="{{$learning->blog_link}}"><b>View</b></a>
-                                    {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-
-
-
+                                    @if($learning->video_description)
+                                    <td class="text-wrap"><div class="text-center">{{$learning->video_description}}&nbsp;
+                                        <a class="badge bg-primary" href="{{$learning->video_link}}"><b>View</b></a>
+                                        {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    </div>
+                                    </td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    @if ($learning->blog_description)
+                                        
+                                    <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}&nbsp;
+                                        <a class="badge bg-primary" href="{{$learning->blog_link}}"><b>View</b></a>
+                                        {{-- <a class="badge bg-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
+                                    </div>
+                                    </td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+         </div> 
                 <!-- content-wrapper ends -->
-            
+             
 
     <div class="modal fade" id="popUpVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

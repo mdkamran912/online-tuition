@@ -13,84 +13,111 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-            @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
-            @endif
-            @if (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-            @endif
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                    @endif
+                    @if (Session::has('fail'))
+                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    @endif
 
-            <div id="listHeader" class="mb-3">
-                <h3>My Assignments</h3>
-            </div>
-            <div class="mt-4" id="">
+            
+                    <div id="" class="mb-3 listHeader page-title-box">
+                        <h3>My Assignments</h3>
+                    </div>
 
-                <table class="table table-hover table-bordered table-responsive">
-                    <thead class="thead-dark ">
-                        <tr>
-                            <th scope="col">S.No.</th>
-                            <th scope="col">Class.</th>
-                            <th scope="col">Subject</th>
-                            <th scope="col">Topic</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Assignment Name</th>
-                            <th scope="col">Assignment Description</th>
-                            <th scope="col">Assignment Link</th>
-                            <th scope="col">Assignment Start Date</th>
-                            <th scope="col">Assignment End Date</th>
-                            <th scope="col">View Submission</th>
-                            {{-- <th scope="col">Action</th> --}}
-                        </tr>
-                    </thead>
-                    <tbody>
+                    
+                    <div class="row ">
+                        <div class="col-md-3 mt-4">
+                            <select  class="form-control" name="std" id="std">
+                                <option>--Select Class--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <select  class="form-control" name="sub" id="sub">
+                                <option>--Select Subject--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <input type="text" class="form-control" placeholder="Enter Topic">
+                        </div>
+                       
 
+                        
+                        <div class="col-md-3 mt-4">
+                            <button class="btn  btn-primary" style="float:right"> <span
+                                class="fa fa-search"></span> Search</button>
+                        </div>
+                    </div>
+                    <hr>
 
-                        @foreach ($assignments as $assignment)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $assignment->class }}</td>
-                                <td>{{ $assignment->subject }}</td>
-                                <td>{{ $assignment->topic }}</td>
-                                <td>{{ $assignment->batch }}</td> 
-                                <td>{{ $assignment->assignment_name }}</td>
-                                <td>{{ $assignment->assignment_description }}</td>
-                                <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
-                                        target="_blank"><button class="badge bg-primary">View
-                                            Assignment</button></td>
-                                <td>{{ $assignment->assignment_start_date }}</td>
-                                <td>{{ $assignment->assignment_end_date }}</td>
-                                <td>
-                                    @php
-                                        $isSubmitted = false;
-                                        foreach ($submissions as $submission) {
-                                            if ($submission->assignment_id == $assignment->assignment_id) {
-                                                $isSubmitted = true;
-                                                break;
-                                            }
-                                        }
-                                    @endphp
-
-                                    @if ($isSubmitted)
-                                        <a class="btn btn-sm btn-success"
-                                            ><span class="fa fa-check"></span> Assignment Submitted</a>
-                                    @else
-                                        <button class="btn btn-sm btn-primary"
-                                            onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
-                                            data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                            <thead class="">
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Topic</th>
+                                    <th scope="col">Batch</th>
+                                    <th scope="col">Assignment Name</th>
+                                    <th scope="col">Assignment Description</th>
+                                    <th scope="col">Assignment Link</th>
+                                    <th scope="col">Assignment Start Date</th>
+                                    <th scope="col">Assignment End Date</th>
+                                    <th scope="col">View Submission</th>
+                                    {{-- <th scope="col">Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
 
 
-                    </tbody>
+                                @foreach ($assignments as $assignment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $assignment->class }}</td>
+                                        <td>{{ $assignment->subject }}</td>
+                                        <td>{{ $assignment->topic }}</td>
+                                        <td>{{ $assignment->batch }}</td> 
+                                        <td>{{ $assignment->assignment_name }}</td>
+                                        <td>{{ $assignment->assignment_description }}</td>
+                                        <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
+                                                target="_blank"><button class="badge bg-primary">View
+                                                    Assignment</button></td>
+                                        <td>{{ $assignment->assignment_start_date }}</td>
+                                        <td>{{ $assignment->assignment_end_date }}</td>
+                                        <td>
+                                            @php
+                                                $isSubmitted = false;
+                                                foreach ($submissions as $submission) {
+                                                    if ($submission->assignment_id == $assignment->assignment_id) {
+                                                        $isSubmitted = true;
+                                                        break;
+                                                    }
+                                                }
+                                            @endphp
 
-                </table>
-                <div class="d-flex justify-content-center">
-                    {{-- {!! $demos->links() !!} --}}
+                                            @if ($isSubmitted)
+                                                <a class="btn btn-sm btn-success"
+                                                    ><span class="fa fa-check"></span> Assignment Submitted</a>
+                                            @else
+                                                <button class="btn btn-sm btn-primary"
+                                                    onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
+                                                    data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        {{-- {!! $demos->links() !!} --}}
+                    </div>
+
                 </div>
-
-
             </div>
         </div>
         <!-- content-wrapper ends -->
