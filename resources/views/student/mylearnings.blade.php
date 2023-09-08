@@ -1,89 +1,24 @@
 @extends('student.layouts.main')
 @section('main-section')
-<<<<<<< Updated upstream
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-=======
 <meta name="csrf-token" content="{{ csrf_token() }}">
  <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
             <style>
                 .listHeader {
                     display: flex;
                     justify-content: space-between;
                 }
             </style>
->>>>>>> Stashed changes
 
                     <div id="listHeader">
                         <h3>My Learning</h3>
 
                     </div>
 
-<<<<<<< Updated upstream
-                    <table class="table table-bordered">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col">Topic</th>
-                                <th scope="col">Study Content</th>
-                                <th scope="col">Videos</th>
-                                <th scope="col">Blogs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($learnings as $learning)
-                                
-                           
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$learning->topic_name}}</td>
-                                @if ($learning->content_description)
-                                    
-                               
-                                <td class="text-wrap"><div class="text-center">{{$learning->content_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->content_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
-
-                                @if($learning->video_description)
-                                <td class="text-wrap"><div class="text-center">{{$learning->video_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->video_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
-                                @if ($learning->blog_description)
-                                    
-                                <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}<br><br>
-                                    <a class="badge badge-primary" href="{{$learning->blog_link}}"><b>View</b></a>
-                                    {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
-                                </div>
-                                </td>
-                                @else
-                                <td></td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-
-
-
-                </div>
-                <!-- content-wrapper ends -->
-            
-=======
                     <form action="{{route('student.mylearnings')}}" method="post">
                         @csrf
                         <div class="row ">
@@ -164,7 +99,6 @@
          </div>
                 <!-- content-wrapper ends -->
 
->>>>>>> Stashed changes
 
     <div class="modal fade" id="popUpVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

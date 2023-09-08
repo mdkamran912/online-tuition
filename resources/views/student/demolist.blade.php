@@ -1,20 +1,5 @@
 @extends('student.layouts.main')
 @section('main-section')
-<<<<<<< Updated upstream
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <h3 class="text-center">Demo List</h3>
-                    <div class="mt-4" id="">
-                        @if (Session::has('success'))
-                        <div class="alert alert-success">{{Session::get('success')}}</div>
-                        @endif
-                        @if (Session::has('fail'))
-                        <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                        @endif
-                        <table class="table table-hover table-bordered table-responsive ">
-                            <thead class="thead-dark ">
-=======
 <meta name="csrf-token" content="{{ csrf_token() }}">
             <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -39,7 +24,7 @@
                     @endif
 
                     <div id="" class="mb-3 listHeader page-title-box">
-                        <h3>My Learning</h3>
+                        <h3>Demo Classes</h3>
                     </div>
 
                     <form id="payment-search">
@@ -94,7 +79,6 @@
                     <div class=" table-responsive">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
                             <thead class=" ">
->>>>>>> Stashed changes
                                 <tr>
                                     <th scope="col">S.No</th>
                                     <th scope="col">Tutor</th>
@@ -118,18 +102,6 @@
                                     <td>{{$demo->subject}}</td>
                                     <td>
                                         @if($demo->status == 1)
-<<<<<<< Updated upstream
-                                        <span class="badge badge-info">{{$demo->currentstatus}}</span> 
-                                        @elseif ($demo->status == 2)
-                                        <span class="badge badge-primary">{{$demo->currentstatus}}</span> 
-                                        @elseif ($demo->status == 3)
-                                        <span class="badge badge-success">{{$demo->currentstatus}}</span> 
-                                        @elseif ($demo->status == 4)
-                                        <span class="badge badge-success">{{$demo->currentstatus}}</span> 
-                                        @elseif ($demo->status == 5)
-                                        <span class="badge badge-danger">{{$demo->currentstatus}}</span> 
-                                            
-=======
                                         <span class="badge bg-info">{{$demo->currentstatus}}</span>
                                         @elseif ($demo->status == 2)
                                         <span class="badge bg-primary">{{$demo->currentstatus}}</span>
@@ -140,7 +112,6 @@
                                         @elseif ($demo->status == 5)
                                         <span class="badge bg-danger">{{$demo->currentstatus}}</span>
 
->>>>>>> Stashed changes
                                         @endif
                                     </td>
                                     <td>{{$demo->slot_1}}</td>
@@ -164,13 +135,8 @@
                                     @else
                                     <td>
                                         {{-- <button class="btn btn-sm mr-1 btn-primary" disabled><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button> --}}
-<<<<<<< Updated upstream
-                                        <button class="badge badge-secondary" disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
-                                    
-=======
                                         <button class="badge bg-secondary" disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
 
->>>>>>> Stashed changes
                                         @endif
 
 
