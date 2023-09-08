@@ -181,6 +181,7 @@ class AssignmentsController extends Controller
     public function studentassignmentslist()
     {
         $classes = (new CommonController)->classes();
+        $subjects = subjects::where('is_active',1)->get();
         $assignments = StudentAssignmentList::select('*', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.name as assignment_name', 'subjects.name as subject', 'classes.name as class', 'topics.name as topic', 'batches.name as batch')
             ->join('subjects', 'subjects.id', 'student_assignment_lists.subject_id')
             ->join('classes', 'classes.id', 'student_assignment_lists.class_id')
@@ -189,10 +190,40 @@ class AssignmentsController extends Controller
             ->where('student_assignment_lists.is_active', 1)
             ->where('student_assignment_lists.class_id', session('userid')->class_id)
             // ->where('student_assignment_lists.student_id', session('userid')->id)
-            ->get();
+            ->paginate(10);
 
             $submissions = StudentAssignments::select('*')->where('submitted_by',session('userid')->id)->where('is_active',1)->get();
-        return view('student.assignments', compact('assignments','submissions', 'classes'));
+        return view('student.assignments',get_defined_vars());
+    }
+
+    public function studentassignmentsSearch(Request $request)
+    {
+        $query = StudentAssignmentList::select('*', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.name as assignment_name', 'subjects.name as subject', 'classes.name as class', 'topics.name as topic', 'batches.name as batch')
+            ->join('subjects', 'subjects.id', 'student_assignment_lists.subject_id')
+            ->join('classes', 'classes.id', 'student_assignment_lists.class_id')
+            ->join('topics', 'topics.id', 'student_assignment_lists.topic_id')
+            ->join('batches', 'batches.id', 'student_assignment_lists.batch_id')
+            ->where('student_assignment_lists.is_active', 1)
+            ->where('student_assignment_lists.class_id', session('userid')->class_id);
+
+        if ($request->class_name) {
+            $query->where('student_assignment_lists.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('student_assignment_lists.subject_id', $request->subject_name);
+        }
+        if ($request->topic) {
+            $query->where('topics.name','like', '%' . $request->topic . '%');
+        }
+        $assignments = $query->paginate(10);
+        $type = 'student-assignments';
+        $submissions = StudentAssignments::select('*')->where('submitted_by',session('userid')->id)->where('is_active',1)->get();
+        $viewTable = view('admin.partials.common-search', compact('assignments','type','submissions'))->render();
+        $viewPagination = $assignments->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
     }
 
     public function studentassignmentsupload(Request $request)

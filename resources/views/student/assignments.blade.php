@@ -1,5 +1,6 @@
 @extends('student.layouts.main')
 @section('main-section')
+<<<<<<< Updated upstream
     <!-- partial -->
     <div class="main-panel">
         <div class="content-wrapper">
@@ -9,12 +10,26 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
+=======
+<meta name="csrf-token" content="{{ csrf_token() }}">
+ <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <style>
+                .listHeader {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+>>>>>>> Stashed changes
 
             <div id="listHeader" class="mb-3">
                 <h3>My Assignments</h3>
             </div>
             <div class="mt-4" id="">
 
+<<<<<<< Updated upstream
                 <table class="table table-hover table-bordered table-responsive">
                     <thead class="thead-dark ">
                         <tr>
@@ -59,6 +74,90 @@
                                             }
                                         }
                                     @endphp
+=======
+
+                    <div id="" class="mb-3 listHeader page-title-box">
+                        <h3>My Assignments</h3>
+                    </div>
+
+                    <form id="payment-search">
+                        <div class="row ">
+                            <div class="col-md-3 mt-4">
+                                <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
+                                    <option value="">Select Class</option>
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 mt-4">
+                                <select name="subject_name" class="form-control" id="subject">
+                                    <option value="">Select Subject</option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 mt-4">
+                                <input type="text" class="form-control" name="topic" placeholder="Enter Topic">
+                            </div>
+
+
+
+                            <div class="col-md-3 mt-4">
+                                <button class="btn  btn-primary" style="float:right"> <span
+                                    class="fa fa-search"></span> Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                            <thead class="">
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Topic</th>
+                                    <th scope="col">Batch</th>
+                                    <th scope="col">Assignment Name</th>
+                                    <th scope="col">Assignment Description</th>
+                                    <th scope="col">Assignment Link</th>
+                                    <th scope="col">Assignment Start Date</th>
+                                    <th scope="col">Assignment End Date</th>
+                                    <th scope="col">View Submission</th>
+                                    {{-- <th scope="col">Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach ($assignments as $assignment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $assignment->class }}</td>
+                                        <td>{{ $assignment->subject }}</td>
+                                        <td>{{ $assignment->topic }}</td>
+                                        <td>{{ $assignment->batch }}</td>
+                                        <td>{{ $assignment->assignment_name }}</td>
+                                        <td>{{ $assignment->assignment_description }}</td>
+                                        <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
+                                                target="_blank"><button class="badge bg-primary">View
+                                                    Assignment</button></td>
+                                        <td>{{ $assignment->assignment_start_date }}</td>
+                                        <td>{{ $assignment->assignment_end_date }}</td>
+                                        <td>
+                                            @php
+                                                $isSubmitted = false;
+                                                foreach ($submissions as $submission) {
+                                                    if ($submission->assignment_id == $assignment->assignment_id) {
+                                                        $isSubmitted = true;
+                                                        break;
+                                                    }
+                                                }
+                                            @endphp
+>>>>>>> Stashed changes
 
                                     @if ($isSubmitted)
                                         <a class="btn btn-sm btn-success"
@@ -73,7 +172,17 @@
                         @endforeach
 
 
+<<<<<<< Updated upstream
                     </tbody>
+=======
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center" id="paginationContainer">
+                        {!! $assignments->links() !!}
+                    </div>
+>>>>>>> Stashed changes
 
                 </table>
                 <div class="d-flex justify-content-center">
@@ -146,5 +255,88 @@
                 $('#id').val(id);
                 $("#openmodal").modal('show');
             }
+            function fetchSubjects() {
+                var classId = $('#classname option:selected').val();
+                $("#subject").html('');
+                $.ajax({
+                    url: "{{ url('fetchsubjects') }}",
+                    type: "POST",
+                    data: {
+                        class_id: classId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#subject').html('<option value="">-- Select Subject --</option>');
+                        $.each(result.subjects, function(key, value) {
+                            $("#subject").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+                });
+            };
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function updateTableAndPagination(data) {
+                // $('#tableContainer').html(data.table);
+                $('.users-table tbody').html(data.table);
+                $('#paginationContainer').html(data.pagination);
+            }
+
+            $(document).ready(function () {
+                $('#payment-search').submit(function (e) {
+                    e.preventDefault();
+                    const page = 1;
+                    const ajaxUrl = '{{ route("student.assignments.search") }}'
+                    var formData = $(this).serialize();
+
+                    formData += `&page=${page}`;
+
+                    $.ajax({
+                        type: 'post',
+                        url: ajaxUrl, // Define your route here
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+
+                        success: function (data) {
+                            // console.log(data)
+                            updateTableAndPagination(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+
+                });
+
+
+                $(document).on('click', '#paginationContainer .pagination a', function (e) {
+                e.preventDefault();
+                var formData = $('#payment-search').serialize();
+                const page = $(this).attr('href').split('page=')[1];
+                formData += `&page=${page}`;
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route("student.assignments.search") }}', // Define your route here
+                    data:formData,
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    success: function (data) {
+                        updateTableAndPagination(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+            });
         </script>
     @endsection

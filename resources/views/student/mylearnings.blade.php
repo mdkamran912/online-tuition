@@ -36,14 +36,14 @@
                         </thead>
                         <tbody>
                             @foreach ($learnings as $learning)
-                                
-                           
+
+
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$learning->topic_name}}</td>
                                 @if ($learning->content_description)
-                                    
-                               
+
+
                                 <td class="text-wrap"><div class="text-center">{{$learning->content_description}}<br><br>
                                     <a class="badge badge-primary" href="{{$learning->content_link}}"><b>View</b></a>
                                     {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
@@ -63,7 +63,7 @@
                                 <td></td>
                                 @endif
                                 @if ($learning->blog_description)
-                                    
+
                                 <td class="text-wrap"><div class="text-center">{{$learning->blog_description}}<br><br>
                                     <a class="badge badge-primary" href="{{$learning->blog_link}}"><b>View</b></a>
                                     {{-- <a class="badge badge-primary" data-toggle="modal" data-target="#popUpVideoModal"><b>View</b></a> --}}
@@ -82,7 +82,7 @@
 
                 </div>
                 <!-- content-wrapper ends -->
-            
+
 =======
                     <form action="{{route('student.mylearnings')}}" method="post">
                         @csrf
