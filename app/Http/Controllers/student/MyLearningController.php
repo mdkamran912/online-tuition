@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class MyLearningController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $pdetails = paymentstudents::select('*')->where('class_id',session('userid')->id)->where('student_id',session('userid')->id)->first();
-        $learnings = learningcontents::select('learningcontents.*','topics.name as topic_name')
+        $query = learningcontents::select('learningcontents.*','topics.name as topic_name')
         // ->join('paymentstudents','paymentstudents.subject_id','learningcontents.subject_id')
         // ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
         ->join('topics','topics.id','learningcontents.topic_id')
@@ -19,9 +19,13 @@ class MyLearningController extends Controller
         ->join('subjects','subjects.id','learningcontents.subject_id')
         // ->where('paymentstudents.student_id',session('userid')->id)
         ->where('classes.id',session('userid')->class_id)
-        ->where('subjects.id',$pdetails->subject_id)
+        ->where('subjects.id',$pdetails->subject_id);
+        if($request->input('topic')){
+            $query->where('topics.name','like', '%' . $request->topic . '%');
+            $requests = $request->all();
+        }
         // ->where('paymentstudents.class_id',session('userid')->class_id)
-        ->get();
-        return view('student.mylearnings',compact('learnings'));
+       $learnings =  $query->paginate(10);
+        return view('student.mylearnings',get_defined_vars());
     }
 }

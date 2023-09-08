@@ -5,18 +5,21 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\batchstudentmapping;
+use App\Models\batches;
 use App\Models\classes;
+use App\Models\subjects;
 use App\Models\zoom_classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassController extends Controller
 {
     public function index(){
         $classes = classes::select('*')->paginate(10);
-        
+
         return view('admin.class',compact('classes'));
     }
-    
+
     public function store(Request $request){
         $request->validate([
             'classname'=> 'required'
@@ -72,16 +75,64 @@ class ClassController extends Controller
     public function studentclass(){
 
         $targetValue = session('userid')->id; // The value we want to check in the JSON array
-        
-        $classes = zoom_classes::select('*','zoom_classes.id as class_id','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id')
+
+        $classes = zoom_classes::select('*','zoom_classes.id as class_id','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id','subjects.name as subjects','batches.name as batch','topics.name as topics')
         ->join('batchstudentmappings','batchstudentmappings.batch_id','zoom_classes.batch_id')
         ->join('batches','batches.id','zoom_classes.batch_id')
         ->join('subjects','subjects.id','batches.subject_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
         ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         ->where('zoom_classes.is_active',1)
-        ->get();
-       
-        return view('student.classes',compact('classes'));
+        ->paginate(10);
+        $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
+        $batches = batches::where('is_active',1)->get();
+
+        return view('student.classes',get_defined_vars());
+
+    }
+    // search functionality
+    public function studentclassSearch(Request $request){
+
+        // return $request->all();
+
+        $targetValue = session('userid')->id; // The value we want to check in the JSON array
+
+        $query = zoom_classes::select('*','zoom_classes.id as class_id','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id','subjects.name as subjects','batches.name as batch','topics.name as topics')
+        ->join('batchstudentmappings','batchstudentmappings.batch_id','zoom_classes.batch_id')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('subjects','subjects.id','batches.subject_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
+        ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
+        ->where('zoom_classes.is_active',1);
+        // ->get();
+        if ($request->subject_name) {
+            $query->where('batches.subject_id', $request->subject_name);
+        }
+        if ($request->batch) {
+            $query->where('zoom_classes.batch_id', $request->batch);
+        }
+
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(zoom_classes.start_time)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(zoom_classes.start_time)'), '<=', $request->end_date);
+        }
+        if ($request->status) {
+            $query->where('zoom_classes.status','like', '%' . $request->status . '%');
+        }
+        $classes = $query->paginate(10);
+        $type = "student-classes";
+        $viewTable = view('admin.partials.common-search', compact('classes','type'))->render();
+        $viewPagination = $classes->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
+
 
     }
 }
+

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentAssignmentList;
 use App\Models\StudentAssignments;
+use App\Models\classes;
+use App\Models\subjects;
+use App\Models\topics;
+use App\Models\tutorregistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,8 +21,62 @@ class AssignmentsController extends Controller
             ->join('topics', 'topics.id', 'student_assignment_lists.topic_id')
             ->join('tutorregistrations', 'tutorregistrations.id', 'student_assignment_lists.assigned_by')
             ->paginate(10);
-        return view('admin.assignmentslist', compact('data'));
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
+        $tutors = tutorregistration::all();
+        return view('admin.assignmentslist', get_defined_vars());
     }
+    // search functionality
+    public function assignmentsSearch(Request $request)
+    {
+        // return $request->all();
+        $query = StudentAssignmentList::select('*', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.name as assignment_name', 'student_assignment_lists.student_id as assigned_to', 'student_assignment_lists.is_active as assignment_status', 'classes.name as class_name', 'subjects.name as subject_name', 'topics.name as topic_name', 'tutorregistrations.name as tutor_name', 'tutorregistrations.id as tutor_id')
+            ->join('classes', 'classes.id', 'student_assignment_lists.class_id')
+            ->join('subjects', 'subjects.id', 'student_assignment_lists.subject_id')
+            ->join('topics', 'topics.id', 'student_assignment_lists.topic_id')
+            ->join('tutorregistrations', 'tutorregistrations.id', 'student_assignment_lists.assigned_by');
+
+        if ($request->assaignment_name) {
+            $query->where('student_assignment_lists.name','like', '%' . $request->assaignment_name . '%');
+        }
+        if ($request->assigned_by) {
+            $query->where('student_assignment_lists.assigned_by',$request->assigned_by);
+        }
+        if ($request->class_name) {
+            $query->where('student_assignment_lists.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('student_assignment_lists.subject_id', $request->subject_name);
+        }
+        if ($request->topic_name) {
+            $query->where('student_assignment_lists.topic_id', $request->topic_name);
+        }
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(student_assignment_lists.assignment_start_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(student_assignment_lists.assignment_end_date)'), '<=', $request->end_date);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('student_assignment_lists.is_active',$request->status_field);
+        }
+        $data = $query->paginate(10);
+        $type = 'assignments';
+        $viewTable = view('admin.partials.students-tutor-search', compact('data','type'))->render();
+        $viewPagination = $data->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
+    }
+
+
 
     public function status(Request $request)
     {
