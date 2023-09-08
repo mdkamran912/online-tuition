@@ -17,6 +17,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JitsiController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\student\DashboardController;
 use App\Http\Controllers\tutor\TutorDashboardController;
 use App\Http\Controllers\tutor\TutorProfileController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\student\TutorSearchController;
 use App\Http\Controllers\tutor\ClassScheduleController;
 use App\Http\Controllers\TutorreviewsController;
 use App\Http\Controllers\ZoomClassesController;
+use App\Models\classes;
 use App\Models\tutorreviews;
 // use App\Http\Controllers\StudentregistrationController;
 use Illuminate\Support\Facades\Route;
@@ -228,6 +230,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutormessages', [MessagesController::class, 'messagesbyadmintutor'])->name('admin.messages.tutors');
     Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbyadmintutormessages'])->name('admin.messages.tutormessages');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
+    // Admin Reports
+    Route::get('classes-report',[ReportController::class, 'admin_class_report'])->name('admin.reports.class-list');
 });
 
 

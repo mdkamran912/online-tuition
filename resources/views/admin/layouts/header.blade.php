@@ -831,7 +831,7 @@
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="charts-chartjs.html" class="nav-link" data-key="t-chartjs"> Classes </a>
+                                        <a href="{{route('admin.reports.class-list')}}" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     {{-- <li class="nav-item">
                                         <a href="{{route('admin.topic')}}" class="nav-link" data-key="t-echarts"> Topic </a>
