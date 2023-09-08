@@ -27,66 +27,6 @@
 
         </div>
 
-<<<<<<< Updated upstream
-        <table class="table table-hover table-striped align-middlemb-0 table-responsive">
-            <thead>
-                <tr>
-                    <th scope="col">S.No.</th>
-                    <th scope="col">Assignment Name</th>
-                    <th scope="col">Class/Grade</th>
-                    <th scope="col">Subject</th>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Assigned By</th>
-                    <th scope="col">Assigned On</th>
-                    <th scope="col">Assignment End Date</th>
-                    {{-- <th scope="col">Assignment To</th> --}}
-                    <th scope="col">View Submissions</th>
-                    <th>Status</th>
-
-
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data as $datalist)
-                    
-                
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$datalist->assignment_name}}</td>
-                    <td>{{$datalist->class_name}}</td>
-                    <td>{{$datalist->subject_name}}</td>
-                    <td>{{$datalist->topic_name}}</td>
-                    <td><a href="{{url('admin/tutorprofile').'/'.$datalist->tutor_id}}">{{$datalist->tutor_name}}</td>
-                    <td>{{$datalist->assignment_start_date}}</td>
-                    <td>{{$datalist->assignment_end_date}}</td>
-                    {{-- <td>{{$datalist->assigned_to}}</td> --}}
-                    <td><div class="text-center"> <a href="{{url('admin/assignments/').'/'.$datalist->assignment_id}}" class="badge bg-primary">View</a></div></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            @if ($datalist->assignment_status == 1)
-                            <i class="ri-checkbox-circle-line align-middle text-success"></i> Active 
-                            @else
-                            <i class="ri-close-circle-line align-middle text-danger"></i> Inactive 
-                            @endif
-                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{$datalist->assignment_id}}','{{$datalist->assignment_status}}');" class="checkbox" @if ($datalist->assignment_status == 1) then checked
-                                        
-                            @endif>
-                        </div>
-                    </td>
-                   
-
-                </tr>
-                @endforeach
-            </tbody>
-
-
-
-        </table>
-=======
-        <div id="" class="mb-3 listHeader page-title-box">
-            <h3>Student's Assignments</h3>
-        </div>
-
         <form id="payment-search">
             <div class="row">
                 <div class="col-md-2">
@@ -234,7 +174,6 @@
 
             </table>
         </div>
->>>>>>> Stashed changes
 
 
 <!-- content-wrapper ends -->
