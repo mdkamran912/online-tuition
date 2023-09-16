@@ -7323,6 +7323,34 @@ textarea:focus::placeholder {
   overflow: hidden;
   z-index: 1;
 }
+.theme-btn-green {
+  background: #57b49d;
+  color: var(--clr-common-white);
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 25px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+  cursor: pointer;
+  margin-bottom: 0;
+  text-align: center;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  -webkit-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  white-space: nowrap;
+  border: none;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
 .theme-btn::after {
   content: "";
   position: absolute;
@@ -7340,11 +7368,28 @@ textarea:focus::placeholder {
   -webkit-transition: all 0.5s linear 0s;
   transition: all 0.5s linear 0s;
 }
+.theme-btn-green::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 500px;
+  height: 200px;
+  background-color: #0d8164;
+  border-color: transparent;
+  border-radius: 100px;
+  -webkit-transform: translate(-40px, -80px) scale(0.1);
+  transform: translate(-40px, -80px) scale(0.1);
+  opacity: 0;
+  z-index: -1;
+  -webkit-transition: all 0.5s linear 0s;
+  transition: all 0.5s linear 0s;
+}
 
-.theme-btn:hover {
+.theme-btn:hover, .theme-btn-green:hover {
   color: #fff;
 }
-.theme-btn:hover::after {
+.theme-btn:hover::after, .theme-btn-green:hover::after {
   opacity: 0.5;
   -webkit-transform-origin: 100px 100px;
   transform-origin: 100px 100px;
