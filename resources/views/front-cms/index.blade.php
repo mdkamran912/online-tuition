@@ -100,7 +100,8 @@
                                     </form>
                                 </div> -->
                                 <div class="header-btn d-none d-sm-block">
-                                    <a href="/student/login" class="header-btn theme-btn theme-btn-medium">Login & Register</a>
+                                    <a href="/student/login" class="header-btn theme-btn-green theme-btn-medium">Login</a>
+                                    <a href="/student/register" class="header-btn theme-btn theme-btn-medium">Register</a>
                                 </div>
                                 <div class="header-menu-bar d-xl-none ml-10">
                                     <span class="header-menu-bar-icon side-toggle">
