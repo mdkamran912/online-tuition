@@ -264,6 +264,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     // Demo List
     Route::get('demolist', [DemoController::class, 'tutordemolist'])->name('tutor.demolist');
     Route::post('demolist', [DemoController::class, 'tutordemoupdate'])->name('tutor.demo.update');
+    Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
+    Route::post('demolist-search', [DemoController::class, 'tutorDemolistsearch'])->name('tutor.demolist-search');
+    Route::post('demo/confirm', [DemoController::class, 'democonfirm'])->name('tutor.demo.confirm');
+    Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('tutor.demo.update');
     // Tutor Batches
     Route::get('batches', [BatchesController::class, 'tutorbatches'])->name('tutor.batches');
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
@@ -290,6 +294,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('studentmessages', [MessagesController::class, 'messagesbytutorstudents'])->name('tutor.messages.students');
     Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbytutorstudentmessages'])->name('tutor.messages.studentmessages');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbytutor'])->name('tutor.messages.send');
+   //payments
+   Route::get('payments', [PaymentsController::class, 'tutorStudentPayments'])->name('tutor.payments');
+   Route::any('paymentsearch', [PaymentsController::class, 'paymentSearchTutor'])->name('tutor.paymentsearch');
+   Route::post('payment-update', [PaymentsController::class, 'update'])->name('tutor.payments.update');
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);

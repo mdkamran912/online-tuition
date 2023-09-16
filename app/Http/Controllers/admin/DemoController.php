@@ -172,18 +172,76 @@ class DemoController extends Controller
 
     public function tutordemolist(){
 
-        $demos = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','tutorregistrations.mobile as tutor_mobile','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile','classes.name as classname')
+        $demos = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','tutorregistrations.mobile as tutor_mobile','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus','classes.name as class_name','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile','classes.name as classname')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
         ->join('subjects', 'subjects.id','=','democlasses.subject_id')
         ->join('classes', 'classes.id','=','subjects.class_id')
         ->join('statuses', 'statuses.id','=','democlasses.status')
         ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
         ->where('democlasses.tutor_id','=', session('userid')->id)
-        ->get();
+        ->paginate(10);
 
+        $subjects = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
         $statuses = status::select('*')->get();
-        return view('tutor.demolist', compact('demos','statuses'));
+        return view('tutor.demolist-new',get_defined_vars());
     }
+
+    // search functionaity tutor
+    public function tutorDemolistsearch(Request $request){
+
+
+        $query = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','tutorregistrations.mobile as tutor_mobile','subjects.name as subject','classes.name as class_name','subjects.id as subjectid','statuses.name as currentstatus','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile')
+        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
+        ->join('subjects', 'subjects.id','=','democlasses.subject_id')
+        ->join('classes', 'classes.id','=','subjects.class_id')
+        ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
+        ->where('democlasses.tutor_id','=', session('userid')->id);
+
+        // ->where('democlasses.student_id','=', session('userid')->id)
+        // ->get();
+
+
+        if ($request->student_name) {
+            $query->where('studentregistrations.name','like', '%' . $request->student_name . '%');
+        }
+        if ($request->student_mobile) {
+            $query->where('studentregistrations.mobile','like', '%' . $request->student_mobile . '%');
+        }
+        // if ($request->tutor_name) {
+        //     $query->where('tutorregistrations.name','like', '%' . $request->tutor_name . '%');
+        // }
+        // if ($request->tutor_mobile) {
+        //     $query->where('tutorregistrations.mobile','like', '%' . $request->tutor_mobile . '%');
+        // }
+        if ($request->class_name) {
+            $query->where('classes.id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('democlasses.subject_id', $request->subject_name);
+        }
+
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(democlasses.slot_confirmed)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(democlasses.slot_confirmed)'), '<=', $request->end_date);
+        }
+        if ($request->status) {
+            $query->where('democlasses.status',$request->status );
+        }
+        $demos = $query->paginate(10);
+        $type = "tutor";
+        $viewTable = view('admin.partials.democlass-search', compact('demos','type'))->render();
+        $viewPagination = $demos->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+    }
+
+
 public function tutordemoupdate(Request $request){
     // echo $request->statusupdate;
     // dd();
