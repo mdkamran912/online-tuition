@@ -660,9 +660,9 @@
                             <a class="nav-link menu-link" href="/student/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
                             </a>
-                           
+
                         </li> <!-- end Dashboard Menu -->
-                       
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                                 <i class="ri-apps-2-line"></i> <span data-key="t-apps">Apps</span>
@@ -675,7 +675,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
@@ -692,7 +692,10 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
                                     </li>
-                                   
+                                    <li class="nav-item">
+                                        <a href="{{route('student.completed-classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Completed Classes</a>
+                                    </li>
+
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -714,7 +717,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -731,12 +734,12 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.assignments.list')}}" class="nav-link" data-key="t-one-page">Assignments</a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
 
-                        
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
@@ -747,12 +750,12 @@
                                     <li class="nav-item">
                                                 <a href="{{route('student.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
                                             </li>
-                                            
+
                                         </ul>
                                     </div>
                                 </li>
 
-                      
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
                                 <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Payments</span>
@@ -762,8 +765,8 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.studentpayments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
                                     </li>
-                                    
-                                   
+
+
                                 </ul>
                             </div>
                         </li>
@@ -783,7 +786,7 @@
                                     <li class="nav-item">
                                         <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -801,13 +804,13 @@
                                     <li class="nav-item">
                                         <a href="{{route('student.myfeedback')}}" class="nav-link" data-key="t-form-select"> Feedbacks </a>
                                     </li>
-                                    
-                                   
+
+
                                 </ul>
                             </div>
                         </li>
 
-                     
+
                     </ul>
                 </div>
                 <!-- Sidebar -->

@@ -90,6 +90,26 @@ class ClassController extends Controller
         return view('student.classes',get_defined_vars());
 
     }
+    public function studentCompletedclass(){
+
+        $targetValue = session('userid')->id; // The value we want to check in the JSON array
+
+        $classes = zoom_classes::select('*','zoom_classes.id as class_id','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id','subjects.name as subjects','batches.name as batch','topics.name as topics')
+        ->join('batchstudentmappings','batchstudentmappings.batch_id','zoom_classes.batch_id')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('subjects','subjects.id','batches.subject_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
+        ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
+        ->where('zoom_classes.is_active',1)
+        ->paginate(10);
+        $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
+        $batches = batches::where('is_active',1)->get();
+
+        return view('student.completed-classes',get_defined_vars());
+
+    }
+
+
     // search functionality
     public function studentclassSearch(Request $request){
 
