@@ -326,7 +326,6 @@ class MessagesController extends Controller
     public function chatClearAdminstudent($id)
     {
 
-        // dd('test');
         $header = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
             ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
             ->where('studentregistrations.is_active', 1)->where('studentregistrations.id', $id)

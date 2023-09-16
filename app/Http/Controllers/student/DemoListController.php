@@ -78,6 +78,7 @@ class DemoListController extends Controller
     }
 
     public function bookdemo(Request $request){
+        // dd($request->message);
         $demo = new democlasses();
         $demo->student_id = session('userid')->id;
         $demo->tutor_id = $request->demotutorid;
@@ -86,6 +87,7 @@ class DemoListController extends Controller
         $demo->slot_1 = $request->demoslotfirst;
         $demo->slot_2 = $request->demoslotsecond;
         $demo->slot_3 = $request->demoslotthird;
+        $demo->remarks = $request->message;
         // $demo->slot_confirmed = "";
         // $demo->slot_confirmed_at = "";
         // $demo->slot_confirmed_by = "";

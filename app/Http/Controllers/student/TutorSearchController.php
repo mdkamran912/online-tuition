@@ -30,17 +30,18 @@ class TutorSearchController extends Controller
             ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
             ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
             ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-            ->where('teacherclassmappings.class_id', '=', session('userid')->class_id)
+            // ->where('teacherclassmappings.class_id', '=', session('userid')->class_id)
             ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
             ->get();
         // echo "<pre>";
         // dd($tutorlist);
-        $subjectlist = subjects::select('*')->get();
+        $subjectlist = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
         $countrylist = country::select('*')->get();
         if (!$tutorlist) {
             return view('student.searchtutor')->with('fail', 'No tutor found');
         }
-        return view('student.searchtutor', compact('tutorlist', 'subjectlist', 'countrylist'));
+        return view('student.searchtutor', get_defined_vars());
     }
 
     public function yourtutor()
@@ -94,6 +95,7 @@ class TutorSearchController extends Controller
 
     public function tutoradvs(Request $request)
     {
+        // dd($request->all());
         // If min rate is null
         if ($request->minrate) {
             $minrate = $request->minrate;
@@ -118,25 +120,31 @@ class TutorSearchController extends Controller
         } else {
             $maxexp = 1000000;
         }
-        $tutorlist = tutorprofile::select('tutorprofiles.id', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'))
+        $tutorlist = tutorprofile::select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
+        // select('tutorprofiles.id', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'))
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
             ->join('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
             ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-            ->whereBetween('tutorprofiles.rate', [$minrate, $maxrate])
-            ->whereBetween('tutorprofiles.experience', [$minexp, $maxexp])
-            ->where('subjects.id', 'LIKE', '%' . $request->subject . '%')
-            ->Where('tutorprofiles.country_id', 'LIKE', '%' . $request->country . '%')
-            ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name')
+                ->whereBetween('tutorprofiles.rate', [$minrate, $maxrate])
+                ->whereBetween('tutorprofiles.experience', [$minexp, $maxexp])
+            ->Where('tutorsubjectmappings.class_id',$request->class_name)
+            ->Where('tutorsubjectmappings.subject_id',$request->subject)
+            ->Where('tutorprofiles.country_id', $request->country)
+            // ->where('subjects.id', 'LIKE', '%' . $request->subject . '%')
+            // ->Where('tutorprofiles.country_id', 'LIKE', '%' . $request->country . '%')
+            ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
             ->get();
         // dd($tutorlist);
         $subjectlist = subjects::select('*')->get();
+        $classes = classes::where('is_active',1)->get();
         $countrylist = country::select('*')->get();
         if (!$tutorlist) {
             return view('student.searchtutor')->with('fail', 'No tutor found');
         }
-        return view('student.searchtutor', compact('tutorlist', 'subjectlist', 'countrylist'));
+        return view('student.searchtutor', get_defined_vars());
     }
 
     public function purchaseclass(Request $request)
