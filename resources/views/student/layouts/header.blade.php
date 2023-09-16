@@ -25,6 +25,7 @@
     <link href="{{url('new-styles/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{url('new-styles/assets/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url('css/custom.css')}}" rel="stylesheet" type="text/css" />
 
 </head>
 
