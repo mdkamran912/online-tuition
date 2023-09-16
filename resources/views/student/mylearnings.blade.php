@@ -19,6 +19,9 @@
 
                     </div>
 
+                <!-- content-wrapper ends -->
+
+
                     <form action="{{route('student.mylearnings')}}" method="post">
                         @csrf
                         <div class="row ">

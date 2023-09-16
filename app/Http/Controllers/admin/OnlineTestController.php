@@ -170,13 +170,13 @@ class OnlineTestController extends Controller
     public function studentexams()
     {
 
-
+        $classes = (new CommonController)->classes();
+        $subjects = subjects::where('is_active',1)->get();
         $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
-            ->get();
-
+            ->paginate(10);
         foreach ($exams as $exam) {
             $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
                 ->where('test_id', $exam->id)
@@ -187,7 +187,46 @@ class OnlineTestController extends Controller
         ->join('online_tests','online_tests.id','testattempteds.test_id')
         ->where('testattempteds.student_id',session('userid')->id)->where('testattempteds.is_active',1)->orderBy('testattempteds.created_at', 'desc')->get();
 
-        return view('student.exam', compact('exams','extakens'));
+        return view('student.exam',get_defined_vars());
+    }
+
+    // search functionality
+    public function studentexamsSearch(Request $request)
+    {
+        // return $request->all();
+        $classes = (new CommonController)->classes();
+        $subjects = subjects::where('is_active',1)->get();
+        $query = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id');
+            // ->get();
+
+
+        if ($request->class_name) {
+            $query->where('online_tests.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('online_tests.subject_id', $request->subject_name);
+        }
+        if ($request->topic) {
+            $query->where('topics.name','like', '%' . $request->topic . '%');
+        }
+        $exams = $query->paginate(10);
+        foreach ($exams as $exam) {
+            $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
+                ->where('test_id', $exam->id)
+                ->count();
+        }
+        $type = 'student-exams';
+        $viewTable = view('admin.partials.common-search', compact('exams','type'))->render();
+        $viewPagination = $exams->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
     }
 
     public function taketest($id)

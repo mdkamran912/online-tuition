@@ -218,8 +218,39 @@ class PaymentsController extends Controller
         ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
         ->where('paymentstudents.student_id',session('userid')->id)
         ->where('paymentstudents.student_id',session('userid')->id)
-        ->get();
+        ->paginate(10);
         // dd($payments);
         return view('student.fees',compact('payments'));
+    }
+    // students payments search functionality
+    public function studentpaymentsSearch(Request $request){
+
+        // return $request->all();
+
+        $query = paymentstudents::select('paymentstudents.*','classes.name as class','subjects.name as subject','tutorregistrations.name as tutor','paymentdetails.id as paymentdetails_id','paymentdetails.amount as amount')
+        ->join('classes','classes.id','paymentstudents.class_id')
+        ->join('subjects', 'subjects.id','paymentstudents.subject_id')
+        ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
+        ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
+        ->where('paymentstudents.student_id',session('userid')->id);
+
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(paymentdetails.payment_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(paymentdetails.payment_date)'), '<=', $request->end_date);
+        }
+
+        if ($request->transaction_id) {
+            $query->where('paymentdetails.transaction_id',  'like', '%' .$request->transaction_id . '%');
+        }
+        $payments = $query->paginate(10);
+        $type="students-payments";
+        $viewTable = view('admin.partials.common-search', compact('payments','type'))->render();
+        $viewPagination = $payments->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
     }
 }

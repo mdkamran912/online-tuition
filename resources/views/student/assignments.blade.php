@@ -1,17 +1,15 @@
 @extends('student.layouts.main')
 @section('main-section')
- <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
+
+<!-- partial -->
+<div class="main-content">
             <style>
                 .listHeader {
                     display: flex;
                     justify-content: space-between;
                 }
             </style>
-
-            <div class="page-content">
+        <div class="page-content">
                 <div class="container-fluid">
                     @if (Session::has('success'))
                         <div class="alert alert-success">{{ Session::get('success') }}</div>
@@ -20,34 +18,41 @@
                         <div class="alert alert-danger">{{ Session::get('fail') }}</div>
                     @endif
 
-            
-                    <div id="" class="mb-3 listHeader page-title-box">
+
+            <div id="" class="mb-3 listHeader page-title-box">
                         <h3>My Assignments</h3>
                     </div>
 
-                    
-                    <div class="row ">
-                        <div class="col-md-3 mt-4">
-                            <select  class="form-control" name="std" id="std">
-                                <option>--Select Class--</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <select  class="form-control" name="sub" id="sub">
-                                <option>--Select Subject--</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <input type="text" class="form-control" placeholder="Enter Topic">
-                        </div>
-                       
+                    <form id="payment-search">
+                        <div class="row ">
+                            <div class="col-md-3 mt-4">
+                                <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
+                                    <option value="">Select Class</option>
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 mt-4">
+                                <select name="subject_name" class="form-control" id="subject">
+                                    <option value="">Select Subject</option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 mt-4">
+                                <input type="text" class="form-control" name="topic" placeholder="Enter Topic">
+                            </div>
 
-                        
-                        <div class="col-md-3 mt-4">
-                            <button class="btn  btn-primary" style="float:right"> <span
-                                class="fa fa-search"></span> Search</button>
+
+
+                            <div class="col-md-3 mt-4">
+                                <button class="btn  btn-primary" style="float:right"> <span
+                                    class="fa fa-search"></span> Search</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <hr>
 
                     <div class="table-responsive">
@@ -77,7 +82,7 @@
                                         <td>{{ $assignment->class }}</td>
                                         <td>{{ $assignment->subject }}</td>
                                         <td>{{ $assignment->topic }}</td>
-                                        <td>{{ $assignment->batch }}</td> 
+                                        <td>{{ $assignment->batch }}</td>
                                         <td>{{ $assignment->assignment_name }}</td>
                                         <td>{{ $assignment->assignment_description }}</td>
                                         <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
@@ -96,6 +101,7 @@
                                                 }
                                             @endphp
 
+
                                             @if ($isSubmitted)
                                                 <a class="btn btn-sm btn-success"
                                                     ><span class="fa fa-check"></span> Assignment Submitted</a>
@@ -107,15 +113,14 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
-
                             </tbody>
 
                         </table>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        {{-- {!! $demos->links() !!} --}}
+                    <div class="d-flex justify-content-center" id="paginationContainer">
+                        {!! $assignments->links() !!}
                     </div>
+
 
                 </div>
             </div>
@@ -183,5 +188,88 @@
                 $('#id').val(id);
                 $("#openmodal").modal('show');
             }
+            function fetchSubjects() {
+                var classId = $('#classname option:selected').val();
+                $("#subject").html('');
+                $.ajax({
+                    url: "{{ url('fetchsubjects') }}",
+                    type: "POST",
+                    data: {
+                        class_id: classId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#subject').html('<option value="">-- Select Subject --</option>');
+                        $.each(result.subjects, function(key, value) {
+                            $("#subject").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+
+                    }
+                });
+            };
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function updateTableAndPagination(data) {
+                // $('#tableContainer').html(data.table);
+                $('.users-table tbody').html(data.table);
+                $('#paginationContainer').html(data.pagination);
+            }
+
+            $(document).ready(function () {
+                $('#payment-search').submit(function (e) {
+                    e.preventDefault();
+                    const page = 1;
+                    const ajaxUrl = '{{ route("student.assignments.search") }}'
+                    var formData = $(this).serialize();
+
+                    formData += `&page=${page}`;
+
+                    $.ajax({
+                        type: 'post',
+                        url: ajaxUrl, // Define your route here
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+
+                        success: function (data) {
+                            // console.log(data)
+                            updateTableAndPagination(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+
+                });
+
+
+                $(document).on('click', '#paginationContainer .pagination a', function (e) {
+                e.preventDefault();
+                var formData = $('#payment-search').serialize();
+                const page = $(this).attr('href').split('page=')[1];
+                formData += `&page=${page}`;
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route("student.assignments.search") }}', // Define your route here
+                    data:formData,
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    success: function (data) {
+                        updateTableAndPagination(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+            });
         </script>
     @endsection
