@@ -18,7 +18,7 @@
                             <th scope="col">S.No</th>
                             <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Student Name</th>                       
+                            <th scope="col">Student Name</th>
                             <th scope="col">Current Status</th>
                             <th scope="col">Date & Time</th>
                             <th scope="col">Demo Link</th>
@@ -33,7 +33,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                  <td>{{ $demo->classname }}</td>
                                   <td>{{ $demo->subject }}</td>
-                                
+
                                 <td>{{ $demo->student_name }}</td>
                                 <td>
                                     @if ($demo->status == 1)
@@ -58,7 +58,7 @@
                                     @if ($demo->status == 3)
                                     <button class="badge badge-primary"
                                     onclick="openupdatemodal('{{ $demo->demo_id }}','{{$demo->status}}','{{$demo->remarks}}')">Update</button>
-                                    
+
                                 @endif
                                 </td>
                             </tr>
@@ -91,8 +91,8 @@
                         <form action="{{ route('tutor.demo.update') }}" method="POST">
                             @csrf
                             <div class="row">
-                                
-                               
+
+
                                 <div class="col-12 col-md-12 col-sm-12 mb-3 ">
                                     <input type="hidden" id="demoid" name="demoid">
                                     <label>Status<i style="color: red">*</i></label>
