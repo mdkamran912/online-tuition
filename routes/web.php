@@ -111,6 +111,9 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
     Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
+    // completed classes
+    Route::get('completed-classes', [ClassController::class, 'studentCompletedclass'])->name('student.completed-classes');
+
     // Feedback by Student
     Route::post('feedback/submit',[TutorreviewsController::class,'feedbacksubmitstudent'])->name('student.feedback.submit');
     // Feedback by tutor
@@ -228,8 +231,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('messages', [MessagesController::class, 'messagesbyadmin'])->name('admin.messages');
     Route::get('studentmessages', [MessagesController::class, 'messagesbyadminstudents'])->name('admin.messages.students');
     Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbyadminstudentmessages'])->name('admin.messages.studentmessages');
+    Route::get('adminclearsstudentmessages/{id}', [MessagesController::class, 'chatClearAdminstudent'])->name('admin.messages.clearstudentmessages');
     Route::get('tutormessages', [MessagesController::class, 'messagesbyadmintutor'])->name('admin.messages.tutors');
     Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbyadmintutormessages'])->name('admin.messages.tutormessages');
+    Route::get('chatClearAdmintutor/{id}', [MessagesController::class, 'chatClearAdmintutor'])->name('admin.messages.cleartutormessages');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
 });
 
