@@ -302,8 +302,43 @@ class MessagesController extends Controller
         $senderRoleId = session('userid')->role_id;
         $receiverRoleId = $header->role_id;
 
-        $messages = DB::table('ch_messages')
-            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+        $messages =  ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+                    // ->whereNull('deleted_at');
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+                    // ->whereNull('deleted_at');
+            })
+            ->get();
+
+        // dd($messages);
+        return view('admin.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
+
+    public function chatClearAdminstudent($id)
+    {
+
+        // dd('test');
+        $header = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
+            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
+            ->where('studentregistrations.is_active', 1)->where('studentregistrations.id', $id)
+            ->first();
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
                 $query->where('from_id', $senderId)
                     ->where('to_id', $receiverId)
                     ->where('from_role_id', $senderRoleId)
@@ -315,11 +350,13 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->delete();
 
-        // dd($messages);
-        return view('admin.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+            return back()->with('success', 'Chat cleared successfully!');
+
     }
+
+
 
     public function messagesbyadmintutormessages($id)
     {
@@ -341,8 +378,8 @@ class MessagesController extends Controller
         $senderRoleId = session('userid')->role_id;
         $receiverRoleId = $header->role_id;
 
-        $messages = DB::table('ch_messages')
-            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+        $messages = ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
                 $query->where('from_id', $senderId)
                     ->where('to_id', $receiverId)
                     ->where('from_role_id', $senderRoleId)
@@ -359,6 +396,38 @@ class MessagesController extends Controller
 
 
         return view('admin.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
+    public function chatClearAdmintutor($id)
+    {
+
+
+        $header = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
+            ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->where('tutorregistrations.is_active', 1)->where('tutorregistrations.id', $id)
+            ->first();
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->delete();
+
+        return back()->with('success', 'Chat cleared successfully!');
+
     }
     public function messagesentbyadmin(Request $request)
     {
