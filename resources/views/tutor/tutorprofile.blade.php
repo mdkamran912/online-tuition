@@ -164,6 +164,17 @@
                                         @endforeach
                                         @endif
                                     </table>
+
+                                    <div>
+                                        <h5>Skills</h5>
+                                       <div class="skillTag">
+                                            <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                            <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                            <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                            <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                            <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                       </div>
+                                    </div>
                 
                                 </div>
                             </div>

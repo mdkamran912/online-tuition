@@ -16,7 +16,7 @@
 }
 
 .tutorCrad img {
-    width: 65%;
+    width: 50%;
     border-radius: 50%;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -532,4 +532,13 @@ input[type="range"]::-ms-thumb {
  
  .optionDiv{
    border-bottom: 1px solid lightgray;
+ }
+
+ .tutorCrad p{
+    line-height: 1;
+ }
+
+ .skillTag {
+    display: flex;
+    background-color: #4fa746;
  }
