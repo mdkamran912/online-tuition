@@ -95,6 +95,19 @@
                             class="list-group-item list-group-item-action border-0"></a>
                             
                         @elseif ($userlist->role_id == 2)
+                        <div class="dropdown">
+                            <span type="button"
+                                style="  float:right; height: 50px; font-size:20px; margin-right:5px"
+                                class="" data-bs-toggle="dropdown">
+                                <i class="ri-more-fill"></i>
+                                
+                            </span>
+
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item">Clear Chat</li>
+
+                            </ul>
+                        </div>
                         <a href="{{ url('admin/tutormessages') }}/{{ $userlist->id }}"
                             class="list-group-item list-group-item-action border-0"></a>
                             
