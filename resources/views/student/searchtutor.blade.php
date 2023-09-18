@@ -58,21 +58,22 @@
         border-radius: 6px 0 6px 6px;
     }
 
-    .btns{
-        display:flex;
+    .btns {
+        display: flex;
     }
-    .btns button{
-        margin:3px;
+
+    .btns button {
+        margin: 3px;
     }
 
     .card .card-title {
-                margin-bottom: 0;
-            }
+        margin-bottom: 0;
+    }
 
-            #enrollnow {
-                width: 90%;
-                margin-top: 4px;
-            }
+    #enrollnow {
+        width: 90%;
+        margin-top: 4px;
+    }
     </style>
 
     <div class="page-content">
