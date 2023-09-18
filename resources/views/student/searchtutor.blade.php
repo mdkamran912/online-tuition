@@ -114,16 +114,16 @@
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Price</a>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
-                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                    <li class="dropdown-item"><a tabindex="-1" href="{{url('student/sorttutor/pricing/asc')}}">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="{{url('student/sorttutor/pricing/desc')}}">Descending</a></li>
                                 </ul>
                             </li>
 
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Class</a>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
-                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                    <li class="dropdown-item"><a tabindex="-1" href="{{url('student/sorttutor/class/asc')}}">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="{{url('student/sorttutor/class/desc')}}">Descending</a></li>
                                 </ul>
                             </li>
 
@@ -132,16 +132,16 @@
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Rating</a>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
-                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                    <li class="dropdown-item"><a tabindex="-1" href="{{url('student/sorttutor/rating/asc')}}">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="{{url('student/sorttutor/rating/desc')}}">Descending</a></li>
                                 </ul>
                             </li>
 
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Experience</a>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
-                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                    <li class="dropdown-item"><a tabindex="-1" href="{{url('student/sorttutor/experience/asc')}}">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="{{url('student/sorttutor/experience/desc')}}">Descending</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -387,7 +387,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="name">Keyword</label>
-                            <input type="text" class="form-control" id="class" name="class">
+                            <input type="text" class="form-control" id="class" name="keywords">
                         </div>
                         <div class="col-md-4 col-12">
                             <label for="name">Charges</label>

@@ -13,12 +13,20 @@
             <div class="card chatPannel">
                 <div class="row g-0">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     <div class="col-12 col-lg-5 col-xl-3 border-right">
                         <a href="{{ route('admin.messages.students') }}"> <button
                                 class="badge bg-primary">Students</button></a>
                         <a href="{{ route('admin.messages.tutors') }}"> <button
                                 class="badge bg-primary">Tutors</button></a>
 =======
+=======
+
+
+
+
+
+>>>>>>> Stashed changes
 
                     <div class="col-12 col-lg-5 col-xl-3 border-right ">
 
@@ -43,6 +51,7 @@
                         {{-- Populating chat user list --}}
                         @foreach ($userlists as $userlist)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                             @if ($userlist->role_id == 1)
                                 <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
                                     class="list-group-item list-group-item-action border-0">
@@ -53,12 +62,18 @@
                                         <a href="{{ url('admin/studentmessages') }}/{{ $userlist->id }}"
                                             class="list-group-item list-group-item-action border-0">
 =======
+=======
+
+
+
+
+>>>>>>> Stashed changes
                         @if ($userlist->role_id == 1)
 
 
 
                         <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
-                            class="list-group-item list-group-item-action border-0"></a>
+                            class="list-group-item list-group-item-action border-0">
 
                         @elseif ($userlist->role_id == 2)
                         <div class="dropdown">
@@ -263,9 +278,20 @@
         </div>
 <<<<<<< Updated upstream
         <!-- content-wrapper ends -->
+<<<<<<< Updated upstream
     @endsection
 =======
     </div>
+=======
+
+    </div>
+
+
+
+</div>
+<!-- content-wrapper ends -->
+@endsection
+>>>>>>> Stashed changes
 
 
 
