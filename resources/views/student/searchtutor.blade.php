@@ -347,59 +347,6 @@
                 <header>
                     <h3 class="text-center mb-4">Search Tutor</h3>
                 </header>
-
-
-                            <form action="{{ route('student.tutoradvs') }}" method="POST"
-                                class="multi-range-field my-5 pb-5">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name">Subject</label>
-                                            <select type="text" class="form-control" id="subject" name="subject">
-                                                <option value="">--Select--</option>
-                                                @foreach ($subjectlist as $subjectlist)
-                                                    <option value="{{ $subjectlist->id }}">{{ $subjectlist->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name">Nationality</label>
-                                            <select type="text" class="form-control" id="country" name="country">
-                                                <option value="">--Select--</option>
-                                                @foreach ($countrylist as $countrylist)
-                                                    <option value="{{ $countrylist->id }}">{{ $countrylist->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <label for="name">Charges</label>
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <input type="number" placeholder="Min" class="form-control" name="minrate" id="minrate">
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <input type="number" placeholder="Max" class="form-control"
-                                            name="maxrate" id="maxrate"></select>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md-4 col-12">
-                                        <label for="name">Experience</label>
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <input type="text" class="form-control" placeholder="Min" id="minexp"
-                                            name="minexp">
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <input type="text" class="form-control" placeholder="Max" id="maxexp"
-                                            name="maxexp">
-
                 <form action="{{ route('student.tutoradvs') }}" method="POST" class="multi-range-field my-5 pb-5">
                     @csrf
                     <div class="row">
