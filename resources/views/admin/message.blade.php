@@ -67,11 +67,6 @@
                 <div class="row g-0">
 
 
-                    <div class="col-12 col-lg-5 col-xl-3 border-right ">
-
-                        <div class="m-4">
-
-
 
                     <div class="col-12 col-lg-5 col-xl-3 border-right ">
 
@@ -96,20 +91,13 @@
                         {{-- Populating chat user list --}}
                         @foreach ($userlists as $userlist)
 
-                        @if ($userlist->role_id == 1)
-
-
-
-                        <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
-                            class="list-group-item list-group-item-action border-0"></a>
-
 
                         @if ($userlist->role_id == 1)
 
 
 
                         <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
-                            class="list-group-item list-group-item-action border-0"></a>
+                            class="list-group-item list-group-item-action border-0">
 
                         @elseif ($userlist->role_id == 2)
                         <div class="dropdown">
@@ -315,5 +303,13 @@
         </div>
 
         <!-- content-wrapper ends -->
-    @endsection
+
+    </div>
+
+
+
+</div>
+<!-- content-wrapper ends -->
+@endsection
+
 

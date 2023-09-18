@@ -95,6 +95,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::get('yourtutor', [TutorSearchController::class, 'yourtutor'])->name('student.yourtutor');
     Route::get('tutorprofile/{id}', [TutorSearchController::class, 'tutorprofile'])->name('student.tutorprofile');
     Route::get('searchtutor', [TutorSearchController::class, 'index'])->name('student.searchtutor');
+    Route::get('sorttutor/{value}/{type}', [TutorSearchController::class, 'sorttutor'])->name('student.sorttutor');
     Route::post('tutoradvs', [TutorSearchController::class, 'tutoradvs'])->name('student.tutoradvs');
     // student demo
     Route::get('demolist', [DemoListController::class, 'index'])->name('student.demolist');

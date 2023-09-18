@@ -44,6 +44,65 @@ class TutorSearchController extends Controller
         return view('student.searchtutor', get_defined_vars());
     }
 
+    public function sorttutor($sort_value,$sort_type)
+    {
+
+        // $tutorlist = tutorprofile::select('tutorprofiles.*','subjects.name as subject','subjects.name as subject','tutorreviews.*',DB::raw('SUM(ratings) AS sum_of_1'))
+        $query = tutorprofile:: select('tutorprofiles.id','classes.name as class_name','tutorprofiles.experience','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
+            ->leftjoin('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+            ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->leftjoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+            ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
+            ->leftjoin('topics', 'topics.subject_id', '=', 'subjects.id')
+            ->groupby('tutorprofiles.id', 'subjects.id', 'tutorprofiles.experience','subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id');
+            // ->where('teacherclassmappings.class_id', '=', session('userid')->class_id)
+
+            if($sort_value == "pricing"){
+                if($sort_type=="asc"){
+                    $query->orderBy( 'rate','ASC');
+                }
+                if($sort_type=="desc"){
+                    $query->orderBy( 'rate','DESC');
+                }
+            }
+            if($sort_value == "class"){
+                if($sort_type=="asc"){
+                    $query->orderBy( 'class_name','ASC');
+                }
+                if($sort_type=="desc"){
+                    $query->orderBy( 'class_name','DESC');
+                }
+            }
+            if($sort_value == "rating"){
+                if($sort_type=="asc"){
+                    $query->orderBy( 'starrating','ASC');
+                }
+                if($sort_type=="desc"){
+                    $query->orderBy( 'starrating','DESC');
+                }
+            }
+            if($sort_value == "experience"){
+                if($sort_type=="asc"){
+                    $query->orderByRaw("CAST(SUBSTRING_INDEX(tutorprofiles.experience, ' ', 1) AS UNSIGNED) ASC");
+                }
+                if($sort_type=="desc"){
+                    $query->orderByRaw("CAST(SUBSTRING_INDEX(tutorprofiles.experience, ' ', 1) AS UNSIGNED) DESC");
+                }
+            }
+
+          $tutorlist =    $query->get();
+        // echo "<pre>";
+        // dd($tutorlist);
+        $subjectlist = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
+        $countrylist = country::select('*')->get();
+        if (!$tutorlist) {
+            return view('student.searchtutor')->with('fail', 'No tutor found');
+        }
+        return view('student.searchtutor', get_defined_vars());
+    }
+
     public function yourtutor()
     {
         $tutorlist = tutorprofile::select('tutorprofiles.id','classes.name as class_name', 'classes.id as class_id','tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), DB::raw('SUM(    paymentstudents.classes_purchased) as total_classes_purchased'),'tutorsubjectmappings.id as sub_map_id')
@@ -120,22 +179,31 @@ class TutorSearchController extends Controller
         } else {
             $maxexp = 1000000;
         }
-        $tutorlist = tutorprofile::select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
+        $query = tutorprofile::select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
         // select('tutorprofiles.id', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'))
-            ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-            ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
-            ->join('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
-            ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-                ->whereBetween('tutorprofiles.rate', [$minrate, $maxrate])
-                ->whereBetween('tutorprofiles.experience', [$minexp, $maxexp])
-            ->Where('tutorsubjectmappings.class_id',$request->class_name)
-            ->Where('tutorsubjectmappings.subject_id',$request->subject)
-            ->Where('tutorprofiles.country_id', $request->country)
-            // ->where('subjects.id', 'LIKE', '%' . $request->subject . '%')
-            // ->Where('tutorprofiles.country_id', 'LIKE', '%' . $request->country . '%')
-            ->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
+            ->leftjoin('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+            ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->leftjoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+            ->leftjoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
+            ->leftjoin('topics', 'topics.subject_id', '=', 'subjects.id');
+            if($request->class_name){
+                $query->where('teacherclassmappings.class_id',$request->class_name);
+            }
+            if($request->subject){
+                $query->where('tutorsubjectmappings.subject_id',$request->subject);
+            }
+            if($request->country){
+                $query->where('tutorprofiles.country_id',$request->country);
+            }
+            if($request->minrate || $request->maxrate){
+                // dd('test');
+                $query->whereBetween('tutorsubjectmappings.rate', [$minrate, $maxrate]);
+            }
+            if($request->minexp || $request->maxexp){
+                $query->whereBetween('tutorprofiles.experience', [$minexp, $maxexp]);
+            }
+            $tutorlist=  $query->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
             ->get();
         // dd($tutorlist);
         $subjectlist = subjects::select('*')->get();
