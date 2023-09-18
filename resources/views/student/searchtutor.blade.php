@@ -519,10 +519,10 @@
                             </span>
                         </div>
                     </div>
-                    <div class="row float-right">
+                    <div class="row" style="float:right">
                         <div class="col-12 col-md-12 col-sm-12 mb-2">
-                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-success">Pay Now</button>
+                            <button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-sm btn-success">Pay Now</button>
                         </div>
 
 
@@ -604,7 +604,7 @@
                         </div>
 
                         <div class="form-group col-md-12 mt-2">
-                            <label for="">Message(<span><i>optinal</i></span>)<i style="color: red;">*</i></label>
+                            <label for="">Message(<span><i>optional</i></span>)<i style="color: red;">*</i></label>
                             <textarea type="datetime-local" class="form-control" id="message" name="message"
                                 required></textarea>
 
@@ -615,6 +615,11 @@
                         <button type="submit" id="" class="btn btn-sm btn-primary" style="float:right ">Schedule
                             Demo</button>
                     </div>
+
+                </div>
+
+
+                 
 
 
 
