@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('detail_2')->nullable();
             $table->string('detail_3')->nullable();
             $table->integer('tutor_id');
+            $table->string('keywords')->nullable();
             $table->timestamps();
         });
     }
