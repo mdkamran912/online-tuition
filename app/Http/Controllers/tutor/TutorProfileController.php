@@ -23,7 +23,7 @@ class TutorProfileController extends Controller
 
     public function index()
     {
-        
+
     }
 
 
@@ -41,6 +41,7 @@ class TutorProfileController extends Controller
             ->where('tutor_id', '=', $id)->get();
 
 
+
         $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
             ->join('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
             ->where('tutorreviews.tutor_id', '=', $id)->get();
@@ -53,7 +54,11 @@ class TutorProfileController extends Controller
         }
         // echo $tutorpd;
         //     dd();
-        return view('tutor.tutorprofile', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
+        if($tutorpd){
+            $skillsArray = explode(',', $tutorpd->keywords);
+        }
+
+        return view('tutor.tutorprofile',get_defined_vars());
     }
 
     public function edit()
@@ -82,8 +87,11 @@ class TutorProfileController extends Controller
         // if (!$tutorpd) {
         //     return view('tutor.tutorprofile')->with('fail', 'Something went wrong');
         // }
-        
-        return view('tutor.profileupdate', compact('tutorpd', 'achievement', 'reviews','tutorsub','classes'));
+        if($tutorpd){
+            $skillsArray = explode(',', $tutorpd->keywords);
+        }
+
+        return view('tutor.profileupdate', get_defined_vars());
     }
 
     public function updateprofiledata(Request $request)
@@ -113,7 +121,7 @@ class TutorProfileController extends Controller
         $ppic->tutor_id = session('userid')->id;
         $ppic->gender = $request->gender;
         // $ppic->country_id = $request->country;
-        
+
         if($request->file){
         $imageName = time() . '.' . $request->file->extension();
         $request->file->move(public_path('images/tutors/profilepics'), $imageName);
@@ -128,7 +136,7 @@ class TutorProfileController extends Controller
     }
 
     public function tutoracadd(Request $request){
-        
+
         $request->validate([
             'achievementName'=>'required',
             'achievementDesc'=>'required',
@@ -146,7 +154,7 @@ class TutorProfileController extends Controller
         }
     }
     public function tutoracdel($id){
-        
+
         $achv =  DB::delete('delete from tutorachievements where id = ?',[$id]);
         if ($achv) {
             return back()->with('success', 'Achievement deleted successfully');
@@ -177,7 +185,7 @@ public function classmapping(Request $request){
     $res = $trmapping->save();
     $data = tutorsubjectmapping::select('id')->where('tutor_id',session('userid')->id)->where('subject_id',$request->subject)->where('class_id',$request->classname)->first();
     $tcmapping->subject_mapping_id = $data->id;
-    
+
     $tcmapping->save();
     if ($res) {
         return back()->with('success', 'Subject added successfully');
@@ -196,4 +204,16 @@ public function classmappingdelete($id){
         return back()->with('fail', 'Something went wrong, please try again later');
     }
 }
+
+    public function updateSkills(Request $request){
+       $request->validate([
+         'skills'=>'required'
+       ]);
+        $tutor = tutorprofile::select('*')->where('tutor_id', '=', session('userid')->id)->first();
+        if($tutor){
+            $tutor->keywords = $request->skills;
+            $tutor->save();
+            return back()->with('success', 'Skills Added successfully');
+        }
+    }
 }

@@ -153,10 +153,91 @@
                                         </tr>
                                         @endforeach
                                         @endif
+<<<<<<< Updated upstream
                                     </table>
                 
+=======
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <br>
+                            <h5>Acievements</h5>
+
+                            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Details</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($achievement ?? '')
+
+                                    @foreach ($achievement as $achievement)
+                                    <tr>
+                                        <td class="text-wrap">{{ $achievement->name }}</td>
+                                        <td class="text-wrap">{{ $achievement->description }}</td>
+                                        {{-- <td class="text-wrap">{{$achievement->date}}</td> --}}
+                                        <td>{{ \Carbon\Carbon::parse($achievement->date)->format('j-F-Y') }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <h5>Reviews</h5>
+                            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>details</th>
+                                    <th>Rating</th>
+                                </tr>
+                                @if ($reviews ?? '')
+
+                                @foreach ($reviews as $reviews)
+
+                                <tr>
+                                    <td>{{$reviews->subject}}</td>
+                                    <td>{{$reviews->name}}</td>
+
+                                    <td>
+                                        @if($reviews->ratings >=1)
+                                        <span class="fa fa-star checked"></span>
+                                        @endif
+                                        @if($reviews->ratings >=2)
+                                        <span class="fa fa-star checked"></span>
+                                        @endif
+                                        @if($reviews->ratings >=3)
+                                        <span class="fa fa-star checked"></span>
+                                        @endif
+                                        @if($reviews->ratings >=4)
+                                        <span class="fa fa-star checked"></span>
+                                        @endif
+                                        @if($reviews->ratings >=5)
+                                        <span class="fa fa-star checked"></span>
+                                        @endif
+                                    </td>
+
+                                </tr>
+                                @endforeach
+                                @endif
+                            </table>
+
+                            @if($tutorpd->keywords)
+                            <div>
+                                <h5>Skills</h5>
+                                <div class="skillTag">
+                                    @foreach ($skillsArray  as $item)
+                                       <h5><span class="badge bg-primary">{{$item}}</span></h5>
+                                    @endforeach
+>>>>>>> Stashed changes
                                 </div>
                             </div>
+                            @endif
 
                         </div>
                     </div>
@@ -164,4 +245,11 @@
                 </div>
                 <!-- content-wrapper ends -->
 
+<<<<<<< Updated upstream
 @endsection
+=======
+        </div>
+        <!-- content-wrapper ends -->
+
+        @endsection
+>>>>>>> Stashed changes

@@ -249,6 +249,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('profile', [TutorProfileController::class, 'tutorprofile'])->name('tutor.profile');
     Route::get('profileupdate', [TutorProfileController::class, 'edit'])->name('tutor.profileupdate');
     Route::post('updateprofiledata', [TutorProfileController::class, 'updateprofiledata'])->name('tutor.updateprofiledata');
+    Route::post('update-skills', [TutorProfileController::class, 'updateSkills'])->name('tutor.update-skills');
     // Tutor Achievement Mapping
     Route::post('tutoracadd', [TutorProfileController::class, 'tutoracadd'])->name('tutor.tutoracadd');
     Route::get('tutoracdel/{id}', [TutorProfileController::class, 'tutoracdel'])->name('tutor.tutoracdel');
