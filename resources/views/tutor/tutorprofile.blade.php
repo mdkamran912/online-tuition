@@ -18,11 +18,6 @@
     .skillTag h5 {
         margin: 10px;
     }
-
-    .personaldetails tr td,
-    .personaldetails tr th{
-        padding-left:10px;
-    }
     </style>
 
     <div class="page-content">
@@ -40,7 +35,7 @@
                                             alt="Generic placeholder image" class="img-fluid img-thumbnail mb-2"
                                             style="width: 150px; z-index: 1; border-radius: 50%;">
 
-                                        <a type="button" class="btn btn-outline-dark bg-primary text-white" href="profileupdate"
+                                        <a type="button" class="btn btn-outline-dark bg-primary" href="profileupdate"
                                             style="z-index: 1;">
                                             Edit profile
                                         </a>
@@ -60,7 +55,7 @@
                         <div class="card-body">
 
                             <h5>Personal Details</h5>
-                            <table class="tab table-bordered personaldetails" width="100%" id="">
+                            <table class="tab table-bordered" width="100%" id="">
                                 <tr>
 
                                     <th>Name:</th>

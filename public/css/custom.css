@@ -112,7 +112,7 @@
 
 /* change profile pic */
 
-/* .profile-pic-div {
+.profile-pic-div {
     height: 150px;
     width: 150px;
     position: absolute;
@@ -149,10 +149,7 @@
     font-size: 15px;
     cursor: pointer;
     display: none;
-} */
-
-
-
+}
 
 /* range slider css starts */
 
