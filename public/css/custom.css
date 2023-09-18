@@ -538,7 +538,4 @@ input[type="range"]::-ms-thumb {
     line-height: 1;
  }
 
- .skillTag {
-    display: flex;
-    background-color: #4fa746;
- }
+ 
