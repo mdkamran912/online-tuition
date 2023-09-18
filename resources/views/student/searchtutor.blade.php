@@ -9,12 +9,63 @@
         display: flex;
         justify-content: space-between;
     }
-    </style>
 
-    <div class="page-content">
-        <div class="container-fluid">
-            <style>
-            .card .card-title {
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .dropdown-submenu>.dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+
+    .dropdown-submenu:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu>a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+
+    .dropdown-submenu:hover>a:after {
+        border-left-color: #fff;
+    }
+
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+
+    .dropdown-submenu.pull-left>.dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
+    }
+
+    .btns{
+        display:flex;
+    }
+    .btns button{
+        margin:3px;
+    }
+
+    .card .card-title {
                 margin-bottom: 0;
             }
 
@@ -22,7 +73,11 @@
                 width: 90%;
                 margin-top: 4px;
             }
-            </style>
+    </style>
+
+    <div class="page-content">
+        <div class="container-fluid">
+           
 
             {{-- <h3 class="text-center mb-5">Choose your Tutor</h3> --}}
             @if (Session::has('success'))
@@ -33,9 +88,9 @@
             @endif
             <div class="mb-5 listHeader">
                 <h3>Choose your Tutor</h3>
-                <div>
+                <div class="btns">
 
-                    <div class="btn-group">
+                    <!-- <div class="btn-group">
                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             Sort By
@@ -47,7 +102,52 @@
                             <a class="dropdown-item" href="#">Experience</a>
 
                         </div>
+                    </div> -->
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Sort By
+                        </button>
+                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                           
+                            
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item" tabindex="-1" href="#">Price</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item" tabindex="-1" href="#">Class</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                </ul>
+                            </li>
+
+                           
+
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item" tabindex="-1" href="#">Rating</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item" tabindex="-1" href="#">Experience</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a tabindex="-1" href="#">Ascending</a></li>
+                                    <li class="dropdown-item"><a href="#">Descending</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
+
+
                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#advSearchModal"><i
                             class="fa fa-search"></i> Advance Search
                     </button>
@@ -487,7 +587,7 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="row mb-2">
                         <div class="form-group col-md-6">
                             <label for="">Prefer Slot 2<i style="color: red;">*</i></label>
