@@ -104,6 +104,8 @@
                                         {{ $tutorsu->subject ?? '' }}(£{{ $tutorsu->rate ?? '' }}/hr),
                                         @endforeach
                                         @endif
+
+
                                     </td>
 
                                 </tr>
@@ -174,16 +176,17 @@
                                 @endif
                             </table>
 
+                            @if($tutorpd->keywords)
                             <div>
                                 <h5>Skills</h5>
                                 <div class="skillTag">
-                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
-                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
-                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
-                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
-                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                    @foreach ($skillsArray  as $item)
+                                       <h5><span class="badge bg-primary">{{$item}}</span></h5>
+                                    @endforeach
+
                                 </div>
                             </div>
+                            @endif
 
                         </div>
                     </div>

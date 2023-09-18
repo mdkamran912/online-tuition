@@ -203,6 +203,13 @@ class TutorSearchController extends Controller
             if($request->minexp || $request->maxexp){
                 $query->whereBetween('tutorprofiles.experience', [$minexp, $maxexp]);
             }
+            if($request->keywords) {
+                // dd('test');
+                $inputSkills = explode(',', $request->keywords);
+                foreach ($inputSkills as $skill) {
+                    $query->orwhere('tutorprofiles.keywords', 'LIKE', '%' . trim($skill) . '%');
+                }
+            }
             $tutorlist=  $query->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
             ->get();
         // dd($tutorlist);
