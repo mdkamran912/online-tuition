@@ -65,17 +65,25 @@
         <div class="container-fluid">
             <div class="card chatPannel">
                 <div class="row g-0">
-                    
+
+
                     <div class="col-12 col-lg-5 col-xl-3 border-right ">
-                        
+
                         <div class="m-4">
-                            
+
+
+
+                    <div class="col-12 col-lg-5 col-xl-3 border-right ">
+
+                        <div class="m-4">
+
                             <a href="{{ route('admin.messages.students') }}"> <button
                                     class="badge bg-primary">Students</button></a>
                             <a href="{{ route('admin.messages.tutors') }}"> <button
                                     class="badge bg-primary">Tutors</button></a>
 
                         </div>
+
 
                         <div class="px-4 d-none d-md-block">
                             <div class="d-flex align-items-center">
@@ -87,47 +95,56 @@
                         {{-- <div style=" display: flex; flex-direction: column;   max-height: 500px;overflow-y:scroll; "> --}}
                         {{-- Populating chat user list --}}
                         @foreach ($userlists as $userlist)
+
                         @if ($userlist->role_id == 1)
 
-                        
+
 
                         <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
                             class="list-group-item list-group-item-action border-0"></a>
-                            
+
+
+                        @if ($userlist->role_id == 1)
+
+
+
+                        <a href="{{ url('admin/adminmessages') }}/{{ $userlist->id }}"
+                            class="list-group-item list-group-item-action border-0"></a>
+
                         @elseif ($userlist->role_id == 2)
                         <div class="dropdown">
                             <span type="button"
                                 style="  float:right; height: 50px; font-size:20px; margin-right:5px"
                                 class="" data-bs-toggle="dropdown">
                                 <i class="ri-more-fill"></i>
-                                
+
                             </span>
 
                             <ul class="dropdown-menu">
-                                <li class="dropdown-item">Clear Chat</li>
-
+                                <a href="{{ url('admin/chatClearAdmintutor') }}/{{ $userlist->id }}"> <li class="dropdown-item">Clear Chat</li></a>
                             </ul>
                         </div>
                         <a href="{{ url('admin/tutormessages') }}/{{ $userlist->id }}"
-                            class="list-group-item list-group-item-action border-0"></a>
-                            
+                            class="list-group-item list-group-item-action border-0">
+
                         @elseif ($userlist->role_id == 3)
                         <div class="dropdown">
                             <span type="button"
                                 style="  float:right; height: 50px; font-size:20px; margin-right:5px"
                                 class="" data-bs-toggle="dropdown">
                                 <i class="ri-more-fill"></i>
-                                
+
                             </span>
 
                             <ul class="dropdown-menu">
-                                <li class="dropdown-item">Clear Chat</li>
+                                <a href="{{ url('admin/adminclearsstudentmessages') }}/{{ $userlist->id }}"> <li class="dropdown-item">Clear Chat</li></a>
 
                             </ul>
                         </div>
-                        
+
                         <a href="{{ url('admin/studentmessages') }}/{{ $userlist->id }}"
                             class="list-group-item list-group-item-action border-0">
+
                             @endif
 
                             <div class="d-flex align-items-start m-3">
@@ -296,10 +313,7 @@
 
             </div>
         </div>
-    </div>
 
+        <!-- content-wrapper ends -->
+    @endsection
 
-
-</div>
-<!-- content-wrapper ends -->
-@endsection

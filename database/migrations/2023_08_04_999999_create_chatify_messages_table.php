@@ -22,6 +22,7 @@ class CreateChatifyMessagesTable extends Migration
             $table->string('body',5000)->nullable();
             $table->string('attachment')->nullable();
             $table->boolean('seen')->default(0);
+            $table->softDeletes()->nullable();
             $table->timestamps();
         });
     }

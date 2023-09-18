@@ -77,7 +77,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-           
+
 
             {{-- <h3 class="text-center mb-5">Choose your Tutor</h3> --}}
             @if (Session::has('success'))
@@ -109,8 +109,8 @@
                             Sort By
                         </button>
                         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                           
-                            
+
+
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Price</a>
                                 <ul class="dropdown-menu">
@@ -127,7 +127,7 @@
                                 </ul>
                             </li>
 
-                           
+
 
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" tabindex="-1" href="#">Rating</a>
@@ -348,12 +348,71 @@
                     <h3 class="text-center mb-4">Search Tutor</h3>
                 </header>
 
+
+                            <form action="{{ route('student.tutoradvs') }}" method="POST"
+                                class="multi-range-field my-5 pb-5">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Subject</label>
+                                            <select type="text" class="form-control" id="subject" name="subject">
+                                                <option value="">--Select--</option>
+                                                @foreach ($subjectlist as $subjectlist)
+                                                    <option value="{{ $subjectlist->id }}">{{ $subjectlist->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Nationality</label>
+                                            <select type="text" class="form-control" id="country" name="country">
+                                                <option value="">--Select--</option>
+                                                @foreach ($countrylist as $countrylist)
+                                                    <option value="{{ $countrylist->id }}">{{ $countrylist->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <label for="name">Charges</label>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <input type="number" placeholder="Min" class="form-control" name="minrate" id="minrate">
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <input type="number" placeholder="Max" class="form-control"
+                                            name="maxrate" id="maxrate"></select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4 col-12">
+                                        <label for="name">Experience</label>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <input type="text" class="form-control" placeholder="Min" id="minexp"
+                                            name="minexp">
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <input type="text" class="form-control" placeholder="Max" id="maxexp"
+                                            name="maxexp">
+
                 <form action="{{ route('student.tutoradvs') }}" method="POST" class="multi-range-field my-5 pb-5">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <label for="name">Class</label>
-                            <select type="text" class="form-control" id="class" name="class"></select>
+                            <select type="text" class="form-control" id="class" onchange="fetchSubjects()" name="class_name">
+                                <option value="">--Select--</option>
+                                @foreach ( $classes as  $class)
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                @endforeach
+                            </select>
+
+
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -403,6 +462,7 @@
                         </div>
                         <div class="col-md-4 col-12">
                             <input type="text" class="form-control" placeholder="Max" id="maxexp" name="maxexp">
+
 
                         </div>
                     </div>
@@ -588,6 +648,9 @@
                         </div>
                     </div>
 
+                </div>
+
+
                     <div class="row mb-2">
                         <div class="form-group col-md-6">
                             <label for="">Prefer Slot 2<i style="color: red;">*</i></label>
@@ -618,6 +681,7 @@
 
 
                 </form>
+
             </div>
         </div>
     </div>
@@ -842,41 +906,73 @@ setMaxRating();
 minrating.addEventListener('input', setMinRating);
 maxRating.addEventListener('input', setMaxRating);
 
-minrating.addEventListener('mousemove', (e) => {
-    minrating.classList.add('hover');
-});
-minrating.addEventListener('mouseout', (e) => {
-    minrating.classList.remove('hover');
-});
-minrating.addEventListener('mousedown', (e) => {
-    minrating.classList.add('active');
-});
-minrating.addEventListener('mouseup', (e) => {
-    minrating.classList.remove('active');
-});
-minrating.addEventListener('touchstart', (e) => {
-    minrating.classList.add('active');
-});
-minrating.addEventListener('touchend', (e) => {
-    minrating.classList.remove('active');
-});
-maxRating.addEventListener('mouseover', (e) => {
-    maxRating.classList.add('hover');
-});
-maxRating.addEventListener('mouseout', (e) => {
-    maxRating.classList.remove('hover');
-});
-maxRating.addEventListener('mousedown', (e) => {
-    maxRating.classList.add('active');
-});
-maxRating.addEventListener('mouseup', (e) => {
-    maxRating.classList.remove('active');
-});
-maxRating.addEventListener('touchstart', (e) => {
-    maxRating.classList.add('active');
-});
-maxRating.addEventListener('touchend', (e) => {
-    maxRating.classList.remove('active');
-});
+
+                minrating.addEventListener('mousemove', (e) => {
+                    minrating.classList.add('hover');
+                });
+                minrating.addEventListener('mouseout', (e) => {
+                    minrating.classList.remove('hover');
+                });
+                minrating.addEventListener('mousedown', (e) => {
+                    minrating.classList.add('active');
+                });
+                minrating.addEventListener('mouseup', (e) => {
+                    minrating.classList.remove('active');
+                });
+                minrating.addEventListener('touchstart', (e) => {
+                    minrating.classList.add('active');
+                });
+                minrating.addEventListener('touchend', (e) => {
+                    minrating.classList.remove('active');
+                });
+                maxRating.addEventListener('mouseover', (e) => {
+                    maxRating.classList.add('hover');
+                });
+                maxRating.addEventListener('mouseout', (e) => {
+                    maxRating.classList.remove('hover');
+                });
+                maxRating.addEventListener('mousedown', (e) => {
+                    maxRating.classList.add('active');
+                });
+                maxRating.addEventListener('mouseup', (e) => {
+                    maxRating.classList.remove('active');
+                });
+                maxRating.addEventListener('touchstart', (e) => {
+                    maxRating.classList.add('active');
+                });
+                maxRating.addEventListener('touchend', (e) => {
+                    maxRating.classList.remove('active');
+                });
+            </script>
+<script>
+    function fetchSubjects() {
+
+        var classId = $('#class option:selected').val();
+        $("#subject").html('');
+        $("#topic").html('');
+        $.ajax({
+            url: "{{ url('fetchsubjects') }}",
+            type: "POST",
+            data: {
+                class_id: classId,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#subject').html('<option value="">-- Select Subject --</option>');
+                $.each(result.subjects, function(key, value) {
+                    $("#subject").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+
+            }
+
+        });
+
+    };
+
 </script>
+
+
 @endsection
+

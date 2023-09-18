@@ -83,7 +83,7 @@
                                     <th scope="col">Tutor Mobile</th>
                                     <th scope="col">Class</th>
                                     <th scope="col">Subject</th>
-                                    <th scope="col">Rate/Hr</th>
+                                    <th scope="col">Rate/Hr (£)</th>
                                     <th scope="col">Commission/Hr</th>
                                     <th scope="col">Current Status</th>
                                     {{-- <th scope="col">Action</th> --}}
@@ -97,8 +97,8 @@
                                         <td>{{ $ttrlist->tutor_mobile }}</td>
                                         <td>{{ $ttrlist->class_name }}</td>
                                         <td>{{ $ttrlist->subject_name }}</td>
-                                        <td>{{ $ttrlist->rate }}</td>
-                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }} <span class="badge bg-primary ml-3"> Update</span> </a>
+                                        <td>£ {{ $ttrlist->rate }}</td>
+                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a>
                                         </td>
                                         <td>
                                             <div class="form-check form-switch">
