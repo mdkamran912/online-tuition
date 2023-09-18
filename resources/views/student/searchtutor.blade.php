@@ -57,12 +57,15 @@
         -moz-border-radius: 6px 0 6px 6px;
         border-radius: 6px 0 6px 6px;
     }
-    </style>
 
-    <div class="page-content">
-        <div class="container-fluid">
-            <style>
-            .card .card-title {
+    .btns{
+        display:flex;
+    }
+    .btns button{
+        margin:3px;
+    }
+
+    .card .card-title {
                 margin-bottom: 0;
             }
 
@@ -70,7 +73,11 @@
                 width: 90%;
                 margin-top: 4px;
             }
-            </style>
+    </style>
+
+    <div class="page-content">
+        <div class="container-fluid">
+           
 
             {{-- <h3 class="text-center mb-5">Choose your Tutor</h3> --}}
             @if (Session::has('success'))
@@ -81,7 +88,7 @@
             @endif
             <div class="mb-5 listHeader">
                 <h3>Choose your Tutor</h3>
-                <div>
+                <div class="btns">
 
                     <!-- <div class="btn-group">
                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
@@ -97,7 +104,7 @@
                         </div>
                     </div> -->
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1"
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Sort By
                         </button>
