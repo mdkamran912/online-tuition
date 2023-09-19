@@ -720,7 +720,115 @@
                     </li>
 
 
+                        <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
+                         {{--<li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
+                                <i class="ri-pages-line"></i> <span data-key="t-pages">My Purchases</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarPages">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <li class="nav-item">
+                                            <a href="{{route('tutor.searchtutor')}}" class="nav-link" data-key="t-starter">Purchase New Tutor </a>
+                                        </li>
+                                        <a href="{{route('tutor.yourtutor')}}" class="nav-link" data-key="t-starter"> Tutor </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
+                                    </li>
 
+                                </ul>
+                            </div>
+                        </li> --}}
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                                <i class="ri-rocket-line"></i> <span data-key="t-landing">Study Materials</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLanding">
+                                <ul class="nav nav-sm flex-column">
+                                    {{-- <li class="nav-item">
+                                        <a href="{{route('tutor.mylearnings')}}" class="nav-link" data-key="t-one-page">Learning Contents</a>
+                                    </li> --}}
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.assignments')}}" class="nav-link" data-key="t-one-page">Assignments</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                         {{--<li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                                <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Online Tests</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                                <a href="{{route('tutor.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                            </li> --}}
+
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
+                                <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Payments</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarForms">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.payments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarCharts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCharts">
+                                <i class="ri-pie-chart-line"></i> <span data-key="t-charts">Reports</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarCharts">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Payments </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Classes </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Classes</span> <span class="badge badge-pill bg-danger" data-key="t-hot">Updates</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.batches')}}" target="_blank" class="nav-link" data-key="t-horizontal">Batches</a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
 
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
 
