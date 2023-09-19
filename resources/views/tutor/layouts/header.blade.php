@@ -25,7 +25,8 @@
     <link href="{{url('new-styles/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{url('new-styles/assets/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- <link href="{{url('css/custom.css')}}" rel="stylesheet" type="text/css" /> -->
+    <link href="{{url('css/custom.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')}}">
 
 
 </head>

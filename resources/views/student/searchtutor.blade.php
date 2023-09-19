@@ -604,7 +604,7 @@
                         </div>
 
                         <div class="form-group col-md-12 mt-2">
-                            <label for="">Message(<span><i>optional</i></span>)<i style="color: red;">*</i></label>
+                            <label for="">Message(<span><i>Optional</i></span>)</label>
                             <textarea type="datetime-local" class="form-control" id="message" name="message"
                                 required></textarea>
 
