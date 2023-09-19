@@ -651,6 +651,8 @@
                 </button>
             </div>
 
+
+
             <div id="scrollbar">
                 <div class="container-fluid">
 
@@ -663,9 +665,9 @@
                             <a class="nav-link menu-link" href="/tutor/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
                             </a>
-                           
+
                         </li> <!-- end Dashboard Menu -->
-                       
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                                 <i class="ri-apps-2-line"></i> <span data-key="t-apps">Apps</span>
@@ -678,13 +680,15 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
                                     </li>
-                                   
+
                                 </ul>
 
                             </div>
                         </li>
 
-                    
+
+
+
 
 
                         <li class="nav-item">
@@ -702,15 +706,22 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.batches')}}" target="_blank" class="nav-link" data-key="t-horizontal">Batches</a>
                                     </li>
-                                    
-                                   
+
+
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('tutor.liveclass.classlist')}}">
+                            <i class="ti-stats-up menu-icon"></i>
+                            <span class="menu-title">Upcoming Classes</span>
+                        </a>
+                    </li>
+
+
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
-{{-- 
-                        <li class="nav-item">
+                         {{--<li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">My Purchases</span>
                             </a>
@@ -725,7 +736,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li> --}}
@@ -742,14 +753,12 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.assignments')}}" class="nav-link" data-key="t-one-page">Assignments</a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
 
-{{--                         
-
-                        <li class="nav-item">
+                         {{--<li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Online Tests</span>
                             </a>
@@ -758,12 +767,12 @@
                                     <li class="nav-item">
                                                 <a href="{{route('tutor.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
                                             </li>
-                                            
+
                                         </ul>
                                     </div>
-                                </li> --}}
+                            </li> --}}
 
-                      
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
                                 <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Payments</span>
@@ -773,8 +782,8 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.payments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
                                     </li>
-                                    
-                                   
+
+
                                 </ul>
                             </div>
                         </li>
@@ -794,60 +803,11 @@
                                     <li class="nav-item">
                                         <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarFormsChat" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
-                                <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Chat & Feedbacks</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarFormsChat">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{route('tutor.messages')}}" class="nav-link" data-key="t-form-select"> Chat/Messages </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('tutor.feedback.list')}}" class="nav-link" data-key="t-form-select"> Feedbacks </a>
-                                    </li>
-                                    
-                                   
-                                </ul>
-                            </div>
-                        </li>
-
-                </ul>
-            </nav>
-
-                    <div id="two-column-menu">
-                    </div>
-                    <ul class="navbar-nav" id="navbar-nav">
-                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="/tutor/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
-                            </a>
-
-                        </li> <!-- end Dashboard Menu -->
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
-                                <i class="ri-apps-2-line"></i> <span data-key="t-apps">Apps</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarApps">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link" data-key="t-calendar"> Calendar </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('tutor.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
-                                    </li>
 
                                 </ul>
                             </div>
                         </li>
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
@@ -861,14 +821,18 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.batches')}}" target="_blank" class="nav-link" data-key="t-horizontal">Batches</a>
+                                    </li>
+
 
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
-{{--
-                        <li class="nav-item">
+
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">My Purchases</span>
                             </a>
@@ -905,7 +869,7 @@
                             </div>
                         </li>
 
-{{--
+                        {{--
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
@@ -977,7 +941,10 @@
                         </li>
 
 
-                    </ul>
+                </ul>
+            </nav>
+
+
                 </div>
                 <!-- Sidebar -->
             </div>
