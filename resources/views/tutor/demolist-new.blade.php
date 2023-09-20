@@ -111,7 +111,7 @@
                                         <tr>
                                             <th scope="col">S.No</th>
                                             <th scope="col">Student Name</th>
-                                            <th scope="col">Student Mobile</th>
+                                            {{-- <th scope="col">Student Mobile</th> --}}
                                             {{-- <th scope="col">Tutor Name</th>
                                             <th scope="col">Tutor Mobile</th> --}}
                                             <th scope="col">class</th>
@@ -132,7 +132,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td><a href="studentprofile/{{$demo->student_id}}">{{ $demo->student_name }}</a></td>
-                                                <td>{{ $demo->student_mobile }}</td>
+                                                {{-- <td>{{ $demo->student_mobile }}</td> --}}
                                                 {{-- <td><a href="tutorprofile/{{$demo->tutor_id}}">{{ $demo->tutor }}</a></td>
                                                 <td>{{ $demo->tutor_mobile }}</td> --}}
                                                 <td>{{ $demo->class_name }}</td>
@@ -156,10 +156,22 @@
                                                 <td>{{ $demo->slot_confirmed }}</td>
                                                 <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
                                                 <td>{{ $demo->remarks }}</td>
-                                                <td><button class="btn btn-sm btn-success"
+                                                <td>
+                                                    @if ($demo->status == 1)
+                                                        
+                                                    
+                                                    <button class="btn btn-sm btn-success"
                                                         onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
                                                     <button class="btn btn-sm btn-primary"
                                                         onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
+                                                        @endif
+
+                                                        @if ($demo->status == 3)
+                                                        
+                                                    
+                                                    <button class="btn btn-sm btn-primary"
+                                                        onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
+                                                        @endif
                                                 </td>
                                             </tr>
                                         @endforeach

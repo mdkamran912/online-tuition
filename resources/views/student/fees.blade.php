@@ -52,6 +52,7 @@
                             <tr>
                                 <th scope="col">S.No.</th>
                                 <th scope="col">Trans.No.</th>
+                                <th scope="col">Trans. Date</th>
                                 <th scope="col">Class</th>
                                 <th scope="col">Subject</th>
                                 <th scope="col">Tutor</th>
@@ -66,6 +67,7 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td><a href="#" class="" onclick="showinvoice('{{$payment->paymentdetails_id}}')"> {{$payment->transaction_id}}</a></td>
+                                        <td>{{$payment->created_at}}</td>
                                         <td>{{$payment->class}}</td>
                                         <td>{{$payment->subject}}</td>
                                         <td>{{$payment->tutor}}</td>
