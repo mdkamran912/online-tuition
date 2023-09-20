@@ -17,6 +17,64 @@
     .adminTutorBtn a {
         margin-right: 3px;
     }
+
+    .chat-online {
+        color: #34ce57;
+    }
+
+    .chat-offline {
+        color: #e4606d;
+    }
+
+    .chat-messages {
+        display: flex;
+        flex-direction: column;
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
+    .chat-message-left,
+    .chat-message-right {
+        display: flex;
+        flex-shrink: 0;
+    }
+
+    .chat-message-left {
+        margin-right: auto;
+    }
+
+    .chat-message-right {
+        flex-direction: row-reverse;
+        margin-left: auto;
+    }
+
+    .py-3 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .px-4 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+    .flex-grow-0 {
+        flex-grow: 0 !important;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6 !important;
+    }
+
+    .border-right {
+        border-right: 1px solid lightgrey !important;
+    }
+
+    .userlists div{
+        display:flex;
+        justify-content: start
+       
+    }
     </style>
 
     <div class="page-content">
@@ -59,10 +117,10 @@
                                         class="rounded-circle mr-1" alt="Richard" width="40" height="40">
                                     @endif
 
-                                    <div class="flex-grow-1 ml-3">
+                                    <div class="userlists" style="margin-left:10px">
                                         {{ $userlist->name }}
-                                        <div class="small"><span class="fa fa-circle chat-online"></span>
-                                            Online</div>
+                                        <div class="small"><span class="fa fa-circle chat-online"> </span>
+                                             Online</div>
                                     </div>
                                 </div>
                             </a>
@@ -85,7 +143,7 @@
                                     @endif
 
                                 </div>
-                                <div class="flex-grow-1 pl-3">
+                                <div class="" style="margin-left:10px;">
                                     <strong>{{ $header->name }}</strong>
                                     {{-- <div class="text-muted small"><em>Typing...</em></div> --}}
                                 </div>

@@ -48,21 +48,20 @@
 
                             <div class="col-12 col-md-12 col-sm-12">
                                 <p><b>Total Questions :</b> {{$questionsCount}}</p>
-                                <p class="text-success"><b>Total Attempted :</b> {{$responsesCount}}</p>
-                                <p class="text-danger"><b>Total Non-Attempted :</b> {{$questionsCount - $responsesCount}}</p>
+                                <p class="text-success"><b> Attempted :</b> {{$responsesCount}}</p>
+                                <p class="text-danger"><b> Non-Attempted :</b> {{$questionsCount - $responsesCount}}</p>
                                 {{-- <img src="assets/images/icons8-target.gif" width="100" height="100"><br><br> --}}
 
                             </div>
                             <div class="col-12 col-md-12 col-sm-12">
-                                <p class="text-success"><b>Total Correct :</b> {{$correctResponsesCount}}</p>
-                                <p class="text-danger"><b>Total Incorrect :</b>
+                                <p class="text-success"><b> Correct :</b> {{$correctResponsesCount}}</p>
+                                <p class="text-danger"><b>Incorrect :</b>
                                     {{$responsesCount - $correctResponsesCount}}</p>
                                 <p class="text-success " style="font-size:16px"><b>Total Marks Obtained
-                                        :</b>{{$correctResponsesCount}}/{{$questionsCount}}</p>
+                                        : </b>{{$correctResponsesCount}}/{{$questionsCount}}</p>
                             </div>
 
-                            <!-- <h3 class="w-100  text-center" style="border-bottom: 1px solid rgb(193, 193, 193)">You've scored
-                    {{$correctResponsesCount}}/{{$questionsCount}} </h3> -->
+                           
                         </div>
 
 
