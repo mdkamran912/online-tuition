@@ -123,19 +123,19 @@
                                     @if ($demo->status == 1)
                                     <td>
                                         {{-- <a href="demoreschedule"><button class="btn btn-sm mr-1 btn-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button></a> --}}
-                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
+                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge bg-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
                                     @elseif ($demo->status == 2)
                                     <td>
                                         {{-- <a href="demoreschedule"><button class="btn btn-sm mr-1 btn-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button></a> --}}
-                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
+                                        <a href="democancel/{{$demo->demo_id}}"><button class="badge bg-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button></a></td>
                                     @elseif ($demo->status == 3)
                                     <td>
                                         {{-- <button class="btn btn-sm mr-1 btn-primary" disabled><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button> --}}
-                                        <a href="{{$demo->demo_link}}"><button class="badge badge-success"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Join Class</button></a></td>
+                                        <a href="{{$demo->demo_link}}"><button class="badge bg-success"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Join Class</button></a></td>
                                     @else
                                     <td>
                                         {{-- <button class="btn btn-sm mr-1 btn-primary" disabled><i class="fa fa-calendar" aria-hidden="true"></i> Reschedule</button> --}}
-                                        <button class="badge bg-secondary" disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
+                                        <button class="badge" style="background-color: grey"  disabled><i class="fa fa-times" aria-hidden="true"></i> Cancelled</button></td>
 
                                         @endif
 
