@@ -154,5 +154,12 @@ class ClassController extends Controller
 
 
     }
+
+    public function student_attendance_report(){
+        return view('student.attendance-report');
+    }
+    public function student_class_report(){
+        return view('student.class-report');
+    }
 }
 

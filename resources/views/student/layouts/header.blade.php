@@ -782,10 +782,10 @@
                                         <a href="#" class="nav-link" data-key="t-chartjs"> Payments </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link" data-key="t-chartjs"> Classes </a>
+                                        <a href="{{route('student.class.report')}}" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
+                                        <a href="{{route('student.attendance.report')}}" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
 
                                 </ul>

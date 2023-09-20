@@ -143,6 +143,9 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::post('/save-responses', [OnlineTestController::class, 'saveResponses'])->name('student.save.responses');
     // Route::post('/save-responses', 'OnlineTestController@saveResponses')->name('student.save.responses');
 
+    Route::get('attendance-reports',[ClassController::class,'student_attendance_report'])->name('student.attendance.report');
+    Route::get('class-reports',[ClassController::class,'student_class_report'])->name('student.class.report');
+
 });
 
 // Admin Routes
