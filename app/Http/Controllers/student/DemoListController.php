@@ -20,6 +20,7 @@ class DemoListController extends Controller
         ->join('statuses', 'statuses.id','=','democlasses.status')
         ->join('classes', 'classes.id','=','subjects.class_id')
         ->where('democlasses.student_id','=', session('userid')->id)
+        ->orderBy('democlasses.created_at', 'desc')
         ->paginate(10);
         $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
         $statuses = status::select('*')->get();
