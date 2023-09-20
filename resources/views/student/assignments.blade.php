@@ -1,6 +1,7 @@
 @extends('student.layouts.main')
 @section('main-section')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <!-- partial -->
     <div class="main-panel">
         <div class="content-wrapper">
@@ -16,11 +17,21 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
+=======
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<!-- partial -->
+<div class="main-content">
+>>>>>>> Stashed changes
             <style>
                 .listHeader {
                     display: flex;
                     justify-content: space-between;
                 }
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
             </style>
 >>>>>>> Stashed changes
 
@@ -238,8 +249,13 @@
 
                             <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
                                     class="fa fa-upload"> </span> Upload</button>
+<<<<<<< Updated upstream
                             <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
                                     class="fa fa-times"></span> Close</button>
+=======
+
+                        </div>
+>>>>>>> Stashed changes
 
 
 
