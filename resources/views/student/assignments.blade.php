@@ -1,6 +1,7 @@
 @extends('student.layouts.main')
 @section('main-section')
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- partial -->
 <div class="main-content">
             <style>
@@ -9,19 +10,17 @@
                     justify-content: space-between;
                 }
 
-                
+
             </style>
-        <div class="page-content">
-                <div class="container-fluid">
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
-                    @if (Session::has('fail'))
-                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-                    @endif
 
 
-            <div id="" class="mb-3 listHeader page-title-box">
+            <div id="listHeader" class="mb-3">
+                <h3>My Assignments</h3>
+            </div>
+            <div class="mt-4" id="">
+
+
+                    <div id="" class="mb-3 listHeader page-title-box">
                         <h3>My Assignments</h3>
                     </div>
 
@@ -103,18 +102,19 @@
                                                 }
                                             @endphp
 
+                                    @if ($isSubmitted)
+                                        <a class="btn btn-sm btn-success"
+                                            ><span class="fa fa-check"></span> Assignment Submitted</a>
+                                    @else
+                                        <button class="btn btn-sm btn-primary"
+                                            onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
+                                            data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
 
-                                            @if ($isSubmitted)
-                                                <a class="btn btn-sm btn-success"
-                                                    ><span class="fa fa-check"></span> Assignment Submitted</a>
-                                            @else
-                                                <button class="btn btn-sm btn-primary"
-                                                    onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
-                                                    data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+
                             </tbody>
 
                         </table>
@@ -123,8 +123,12 @@
                         {!! $assignments->links() !!}
                     </div>
 
-
+                </table>
+                <div class="d-flex justify-content-center">
+                    {{-- {!! $demos->links() !!} --}}
                 </div>
+
+
             </div>
         </div>
         <!-- content-wrapper ends -->
@@ -171,12 +175,9 @@
                             </div>
 
 
-                           <div style="float:right">
-                           <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal();">Close</button>
-
-                           <button type="submit" id="" class="btn btn-sm btn-success"><span
+                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
                                     class="fa fa-upload"> </span> Upload</button>
-                            
+
                         </div>
 
 
@@ -214,10 +215,6 @@
                     }
                 });
             };
-
-            function closeModal(){
-                $('#openmodal').modal('hide');
-            }
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
