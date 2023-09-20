@@ -101,10 +101,10 @@
                             <th>Mobile</th>
                             <th>Email</th>
                             <th>Total Amount</th>
-                            <th>Net Amount Received</th>
+                            <th>Net Amount Paid</th>
                             <th>Admin Commission(%)</th>
                             <th>Admin Commission(&pound;)</th>
-                            <th>Account</th>
+                            <th>Account No.</th>
                             <th>Transaction No.</th>
                             <th>Transaction Date</th>
                             <th>Status</th>
