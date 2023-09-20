@@ -595,9 +595,6 @@
                         </div>
                     </div>
 
-                </div>
-
-
                     <div class="row mb-2">
                         <div class="form-group col-md-6">
                             <label for="">Prefer Slot 2<i style="color: red;">*</i></label>
@@ -624,6 +621,12 @@
                         <button type="submit" id="" class="btn btn-sm btn-primary" style="float:right ">Schedule
                             Demo</button>
                     </div>
+
+                </div>
+
+
+                   
+                   
 
                 </div>
 

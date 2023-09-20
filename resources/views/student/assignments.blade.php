@@ -169,10 +169,13 @@
                             </div>
 
 
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
+                           <div style="float:right">
+                           <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal();">Close</button>
+
+                           <button type="submit" id="" class="btn btn-sm btn-success"><span
                                     class="fa fa-upload"> </span> Upload</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                    class="fa fa-times"></span> Close</button>
+                            
+                        </div>
 
 
 
@@ -209,6 +212,10 @@
                     }
                 });
             };
+
+            function closeModal(){
+                $('#openmodal').modal('hide');
+            }
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
