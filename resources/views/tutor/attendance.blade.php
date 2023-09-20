@@ -13,47 +13,85 @@
 
     <div class="page-content">
         <div class="container-fluid">
+
+
             @if (Session::has('success'))
-            <div class="alert alert-success">{{ Session::get('success') }}</div>
+            <div class="alert alert-success">{{Session::get('success')}}</div>
             @endif
             @if (Session::has('fail'))
-            <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+            <div class="alert alert-danger">{{Session::get('fail')}}</div>
             @endif
 
             <div id="" class="mb-3 listHeader page-title-box">
-                <h3>Assignments </h3>
-                <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span class="fa fa-plus"></span> Add New
-                    Assignment</button>
+                <h3>Attendance</h3>
             </div>
-            <div class="mt-4 table-responsive" id="">
-                <table class="table table-hover table-striped align-middlemb-0 ">
-                    <thead>
+
+            <form id="payment-search" class="">
+
+<div class="form-group mt-">
+    <div class="row">
+    <div class="col-md-3">
+            <label>Student Name</label>
+            <input type="text" class="form-control" name="transaction_id">
+
+        </div>
+        <div class="col-md-3">
+            <label>Start Date</label>
+            <input type="date" name="start_date" class="form-control">
+
+        </div>
+        <div class="col-md-3">
+            <label>End Date</label>
+            <input type="date" name="end_date" class="form-control">
+
+        </div>
+
+        <div class="col-md-3">
+            <label>Status</label>
+            <select type="text" class="form-control" name=""></select>
+
+        </div>
+        
+
+    </div>
+    <div class="row mt-2">
+                <div class="col-md-12">
+                    <button class="btn  btn-primary" style="float:right">Search</button>
+                </div>
+            </div>
+</div>
+</form>
+<hr>
+
+
+            <div class=" table-responsive">
+                <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
+                    <thead class=" ">
                         <tr>
-                            <th scope="col">S.No.</th>
-                            <th scope="col">Class.</th>
+                            <th scope="col">S.No</th>
+                            <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Topic</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Assignment Name</th>
-                            <th scope="col">Assignment Description</th>
-                            <th scope="col">Assignment Link</th>
-                            <th scope="col">Assignment Start Date</th>
-                            <th scope="col">Assignment End Date</th>
-                            <th scope="col">View Submission</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Tutor</th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
+
                     </tbody>
-
                 </table>
-            </div>
-        </div>
-        <!-- content-wrapper ends -->
 
-        
+
+
+            </div>
+
+
+
+
+        </div>
     </div>
+</div>
 
         <script>
         function openmodal() {
