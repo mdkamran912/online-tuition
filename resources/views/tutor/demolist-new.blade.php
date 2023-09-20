@@ -22,37 +22,27 @@
                         <div class="alert alert-danger">{{ Session::get('fail') }}</div>
                     @endif
                     <div class="page-title-box">
-                        <h3 class="text-center">Demo List</h3>
+                        <h3 class="text-center">Demo List </h3>
                     </div>
                     <form id="payment-search">
                         <div class="row py-3">
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <input type="text"  class="form-control" name="student_name" id="sname" placeholder="Student Name">
 
 
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-3">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="student_mobile" id="smob" placeholder="Student Mobile">
 
                                 </div>
-                            </div>
+                            </div> -->
 
-                            {{-- <div class="col-md-2">
-                                <div class="form-group">
-                                    <input type="text"  class="form-control" name="tutor_name" id="tname" placeholder="Tutor Name">
-
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="tutor_mobile" id="tmob" placeholder="Tutor Mobile">
-                                </div>
-                            </div> --}}
-                            <div class="col-md-2">
+                          
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
                                         <option value="">Select Class</option>
@@ -62,7 +52,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <select name="subject_name" class="form-control" id="subject">
                                         <option value="">Select Subject</option>
@@ -72,25 +62,7 @@
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                    <label>Start Date</label>
-                                        <input type="date" class="form-control" name="start_date" id="smob" placeholder="Student Mobile">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                    <label>End Date</label>
-                                        <input type="date" class="form-control" name="end_date" id="smob" placeholder="Student Mobile">
-
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2 mt-4">
+                            <div class="col-md-3 ">
                                     <div class="form-group">
                                         <select  class="form-control" name="status" id="ststus">
                                             <option value="">-- Status --</option>
@@ -100,6 +72,25 @@
                                         </select>
                                     </div>
                                 </div>
+
+                        </div>
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                    <label>Start Date</label>
+                                        <input type="date" class="form-control" name="start_date" id="smob" placeholder="Student Mobile">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                    <label>End Date</label>
+                                        <input type="date" class="form-control" name="end_date" id="smob" placeholder="Student Mobile">
+
+                                    </div>
+                                </div>
+
+                                
                                 <div class="col-md-6 mt-4">
                                     <div class="form-group">
                                     <button class="btn btn-primary" style="float:right"> <span
@@ -243,11 +234,14 @@
                             </div>
 
 
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
+                           <div style="float:right">
+                           <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            onclick="closeModal2();">Close</button>
+                           <button type="submit" id="" class="btn btn-sm btn-success"><span
                                     class="fa fa-check"></span> Comfirm</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                    class="fa fa-times"></span> Close</button>
+                                    
 
+                           </div>
 
 
                         </form>
@@ -276,7 +270,7 @@
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <input type="hidden" value="" id="demoupdateid" name="demoupdateid">
                                     <label>Preferred Slot-1<i style="color: red">*</i></label>
-                                    <input type="datetime-local" class="form-control" id="slotupdate1"
+                                    <input type="date" class="form-control" id="slotupdate1"
                                         name="slotupdate1">
                                     <span class="text-danger">
                                         @error('slotupdate1')
@@ -286,7 +280,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <label>Preferred Slot-2</label>
-                                    <input type="datetime-local" class="form-control" id="slotupdate2"
+                                    <input type="date" class="form-control" id="slotupdate2"
                                         name="slotupdate2">
                                     <span class="text-danger">
                                         @error('slotupdate2')
@@ -296,7 +290,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <label>Preferred Slot-3</label>
-                                    <input type="datetime-local" class="form-control" id="slotupdate3"
+                                    <input type="date" class="form-control" id="slotupdate3"
                                         name="slotupdate3">
                                     <span class="text-danger">
                                         @error('slotupdate3')
@@ -322,10 +316,14 @@
                                 </div>
                             </div>
 
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
+                           <div style="float:right">
+
+                            
+                           <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            onclick="closeModal();">Close</button>
+                                <button type="submit" id="" class="btn btn-sm btn-success "><span
                                     class="fa fa-check"></span> Update</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
-                                data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                            </div>
 
                         </form>
                     </div>
@@ -334,6 +332,14 @@
         </div>
 
         <script>
+
+            function closeModal(){
+                $('#editModal').modal('hide');
+            }
+            function closeModal2(){
+                $('#confirmModal').modal('hide');
+            }
+            
             function openconfirmmodal(id) {
                 $.ajax({
                     url: "{{ url('tutor/demodetails') }}/" + id,
