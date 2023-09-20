@@ -807,7 +807,7 @@
                                         <a href="#" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link" data-key="t-chartjs"> Attendance </a>
+                                        <a href="{{route('tutor.attendance')}}" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
 
                                 </ul>

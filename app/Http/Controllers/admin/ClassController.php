@@ -161,5 +161,9 @@ class ClassController extends Controller
     public function student_class_report(){
         return view('student.class-report');
     }
+
+    public function tutorattendance(){
+        return view('tutor.attendance');
+    }
 }
 

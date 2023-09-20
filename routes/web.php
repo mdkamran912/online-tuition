@@ -278,6 +278,8 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
     // Tutor Classes
     Route::get('classes', [ClassController::class, 'tutorclasses'])->name('tutor.classes');
+    // Tutor Classes
+    Route::get('attendance', [ClassController::class, 'tutorattendance'])->name('tutor.attendance');
     // Tutor Assignments
     Route::get('assignments', [AssignmentsController::class, 'tutorassignments'])->name('tutor.assignments');
     Route::post('assignments', [AssignmentsController::class, 'tutorassignmentscreate'])->name('tutor.assignments.create');
