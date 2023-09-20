@@ -24,68 +24,68 @@ class ZoomClassesController extends Controller
     public function index()
     {
 
-            $tokenurl = parse_url(url()->full(), PHP_URL_QUERY);
-            $access_code = substr($tokenurl, 5);
-            $accessToken = "";
-            $accountID = 'metacitinasar@gmail.com';
-            $clientId = 'oFed_e_zQi6wE8183XRI0A';
-            $clientSecret = '1hYXjFPAXUJ8uYOQDUGTJJNjzVGdaxTu';
+            // $tokenurl = parse_url(url()->full(), PHP_URL_QUERY);
+            // $access_code = substr($tokenurl, 5);
+            // $accessToken = "";
+            // $accountID = 'metacitinasar@gmail.com';
+            // $clientId = 'oFed_e_zQi6wE8183XRI0A';
+            // $clientSecret = '1hYXjFPAXUJ8uYOQDUGTJJNjzVGdaxTu';
 
-            $url = 'https://zoom.us/oauth/token';
+            // $url = 'https://zoom.us/oauth/token';
 
-            $client = new Client();
+            // $client = new Client();
 
-            $headers = [
-                'Host' => 'zoom.us',
-                'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
-            ];
+            // $headers = [
+            //     'Host' => 'zoom.us',
+            //     'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
+            // ];
 
-            $formData = [
-                'grant_type' => 'authorization_code',
-                'account_id' => $accountID,
-                'code' => $access_code,
-                'redirect_uri' => 'http://127.0.0.1:8000/tutor/liveclass',
-            ];
+            // $formData = [
+            //     'grant_type' => 'authorization_code',
+            //     'account_id' => $accountID,
+            //     'code' => $access_code,
+            //     'redirect_uri' => 'http://127.0.0.1:8000/tutor/liveclass',
+            // ];
 
-            try {
-                $response = $client->post($url, [
-                    'headers' => $headers,
-                    'form_params' => $formData,
-                ]);
+            // try {
+            //     $response = $client->post($url, [
+            //         'headers' => $headers,
+            //         'form_params' => $formData,
+            //     ]);
 
-                $data = json_decode($response->getBody(), true);
-                // Now you can access the Zoom access token from the response data.
-                $accessToken = $data['access_token'];
+            //     $data = json_decode($response->getBody(), true);
+            //     // Now you can access the Zoom access token from the response data.
+            //     $accessToken = $data['access_token'];
 
-                // You can return or process the access token as needed.
-                // echo $accessToken;
-                // return $accessToken;
-            } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-                // Handle any exceptions or errors here.
-                // For example, you can log the error or throw a custom exception.
-                // Note: Don't forget to handle the error cases appropriately in a production environment.
-                // return null;
-                // return null;
-            }
+            //     // You can return or process the access token as needed.
+            //     // echo $accessToken;
+            //     // return $accessToken;
+            // } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            //     // Handle any exceptions or errors here.
+            //     // For example, you can log the error or throw a custom exception.
+            //     // Note: Don't forget to handle the error cases appropriately in a production environment.
+            //     // return null;
+            //     // return null;
+            // }
 
-            if ($accessToken) {
+            // if ($accessToken) {
 
-                $setdata = access_token::select('*')->where('user_id', session('userid')->id)->first();
-                if ($setdata) {
-                    $setdata = access_token::find($setdata->id);
-                    $setdata->authorization_code = $access_code;
-                    $setdata->access_token = $accessToken;
-                    $setdata->save();
-                    // $accessToken = $setdata->access_token;
-                } else {
-                    $setdata = new access_token();
-                    $setdata->user_id = session('userid')->id;
-                    $setdata->authorization_code = $access_code;
-                    $setdata->access_token = $accessToken;
-                    // $setdata->refresh_token = $refreshToken;
-                    $setdata->save();
-                }
-            }
+            //     $setdata = access_token::select('*')->where('user_id', session('userid')->id)->first();
+            //     if ($setdata) {
+            //         $setdata = access_token::find($setdata->id);
+            //         $setdata->authorization_code = $access_code;
+            //         $setdata->access_token = $accessToken;
+            //         $setdata->save();
+            //         // $accessToken = $setdata->access_token;
+            //     } else {
+            //         $setdata = new access_token();
+            //         $setdata->user_id = session('userid')->id;
+            //         $setdata->authorization_code = $access_code;
+            //         $setdata->access_token = $accessToken;
+            //         // $setdata->refresh_token = $refreshToken;
+            //         $setdata->save();
+            //     }
+            // }
             //////////////////   // Getting Admin Details
             // $url = 'https://api.zoom.us/v2/users/metacitinasar@gmail.com';
 
@@ -99,19 +99,19 @@ class ZoomClassesController extends Controller
             // ]);
 
             // $data = json_decode($response->getBody(), true);
-            $tempdata = access_token::select('*')->where('user_id', session('userid')->id)->first();
-            // Getting Meeting List Details
-            $url = 'https://api.zoom.us/v2/users/metacitinasar@gmail.com/meetings?type=scheduled&page_size=30&page_number=1';
-            $client = new Client();
-            $headers = [
-                'Authorization' => 'Bearer ' . $tempdata->access_token,
-            ];
-            $response = $client->get($url, [
-                'headers' => $headers,
-            ]);
+            // $tempdata = access_token::select('*')->where('user_id', session('userid')->id)->first();
+            // // Getting Meeting List Details
+            // $url = 'https://api.zoom.us/v2/users/metacitinasar@gmail.com/meetings?type=scheduled&page_size=30&page_number=1';
+            // $client = new Client();
+            // $headers = [
+            //     'Authorization' => 'Bearer ' . $tempdata->access_token,
+            // ];
+            // $response = $client->get($url, [
+            //     'headers' => $headers,
+            // ]);
 
-            $data = json_decode($response->getBody(), true);
-            $meetings = $data['meetings'];
+            // $data = json_decode($response->getBody(), true);
+            // $meetings = $data['meetings'];
 
             // Loop through the meetings
 
@@ -243,7 +243,15 @@ class ZoomClassesController extends Controller
 
     public function classlist()
     {
-        // return redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=oFed_e_zQi6wE8183XRI0A&redirect_uri=http://127.0.0.1:8000/tutor/liveclass');
+        $liveclasses = zoom_classes::select('*','zoom_classes.id as liveclass_id','batches.name as batch','subjects.name as subjects','topics.name as topics')
+        ->join('batches','batches.id','zoom_classes.batch_id')
+        ->join('topics','topics.id','zoom_classes.topic_id')
+        ->join('subjects','subjects.id','topics.subject_id')
+        ->where('zoom_classes.is_completed',0)
+        ->where('zoom_classes.is_active',1)
+        ->get();
+        $classes = (new CommonController)->classes();
+        return view('tutor.liveclasses', compact('liveclasses','classes'));
     }
 
     public function scheduleclass(Request $request){
