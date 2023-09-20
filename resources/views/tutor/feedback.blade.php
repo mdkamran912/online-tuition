@@ -1,33 +1,33 @@
 @extends('tutor.layouts.main')
 @section('main-section')
- <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-            <style>
-                .listHeader {
-                    display: flex;
-                    justify-content: space-between;
-                }
-            </style>
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <style>
+    .listHeader {
+        display: flex;
+        justify-content: space-between;
+    }
+    </style>
 
-            <div class="page-content">
-                <div class="container-fluid">
+    <div class="page-content">
+        <div class="container-fluid">
             @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
+            <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
             @if (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+            <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
 
-            <div id="listHeader" class="mb-3">
+            <div id="" class="mb-3 listHeader">
                 <h3>Feedback </h3>
                 <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span class="fa fa-plus"></span> Add
                     Review</button>
             </div>
-            <div class="mt-4" id="">
+            <div class="mt-4 table-responsive" id="">
 
-                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                <table class="table table-hover table-striped align-middlemb-0 ">
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
@@ -79,12 +79,12 @@
                                     <select type="text" class="form-control" id="class" name="class"
                                         onchange="fetchSubjects()">
                                         @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger">
                                         @error('class')
-                                            {{ 'Class is required' }}
+                                        {{ 'Class is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -96,7 +96,7 @@
                                     </select>
                                     <span class="text-danger">
                                         @error('subject')
-                                            {{ 'Subject is required' }}
+                                        {{ 'Subject is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -109,7 +109,7 @@
                                     </select>
                                     <span class="text-danger">
                                         @error('batchid')
-                                            {{ 'Batch is required' }}
+                                        {{ 'Batch is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -144,6 +144,16 @@
                                     </textarea>
                                 </div>
 
+
+
+                            </div>
+
+                            <div style="float:right">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="closeModal();">Close</button>
+                                <button type="submit" id="" class="btn btn-sm btn-success "><span
+                                        class="fa fa-check"></span>
+                                    Submit</button>
                             </div>
                         </form>
 
@@ -154,109 +164,113 @@
         </div>
 
         <script>
-            function openmodal() {
-                $("#openmodal").modal('show');
-            }
+        function openmodal() {
+            $("#openmodal").modal('show');
+        }
 
-            function fetchSubjects() {
+        function closeModal() {
+            $('#openmodal').modal('hide');
+        }
 
-                var classId = $('#class option:selected').val();
-                $("#subject").html('');
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchsubjects') }}",
-                    type: "POST",
-                    data: {
-                        class_id: classId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#subject').html('<option value="">-- Select Type --</option>');
-                        $.each(result.subjects, function(key, value) {
-                            $("#subject").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
+        function fetchSubjects() {
 
-                    }
+            var classId = $('#class option:selected').val();
+            $("#subject").html('');
+            $("#topic").html('');
+            $.ajax({
+                url: "{{ url('fetchsubjects') }}",
+                type: "POST",
+                data: {
+                    class_id: classId,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#subject').html('<option value="">-- Select Type --</option>');
+                    $.each(result.subjects, function(key, value) {
+                        $("#subject").append('<option value="' + value
+                            .id + '">' + value.name + '</option>');
+                    });
 
-                });
+                }
 
-            };
+            });
 
-            function fetchTopics() {
+        };
 
-                var subjectId = $('#subject option:selected').val();
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchtopics') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#topic').html('<option value="">-- Select Type --</option>');
-                        $.each(result.topics, function(key, value) {
-                            $("#topic").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
+        function fetchTopics() {
 
-                    }
+            var subjectId = $('#subject option:selected').val();
+            $("#topic").html('');
+            $.ajax({
+                url: "{{ url('fetchtopics') }}",
+                type: "POST",
+                data: {
+                    subject_id: subjectId,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#topic').html('<option value="">-- Select Type --</option>');
+                    $.each(result.topics, function(key, value) {
+                        $("#topic").append('<option value="' + value
+                            .id + '">' + value.name + '</option>');
+                    });
 
-                });
+                }
 
-            };
+            });
 
-            function batchbysubject() {
+        };
 
-                var subjectId = $('#subject option:selected').val();
-                $("#batchid").html('');
-                $.ajax({
-                    url: "{{ url('batchbysubject') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#batchid').html('<option value="">-- Select Type --</option>');
-                        $.each(result.batches, function(key, value) {
-                            $("#batchid").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
+        function batchbysubject() {
 
-                    }
+            var subjectId = $('#subject option:selected').val();
+            $("#batchid").html('');
+            $.ajax({
+                url: "{{ url('batchbysubject') }}",
+                type: "POST",
+                data: {
+                    subject_id: subjectId,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#batchid').html('<option value="">-- Select Type --</option>');
+                    $.each(result.batches, function(key, value) {
+                        $("#batchid").append('<option value="' + value
+                            .id + '">' + value.name + '</option>');
+                    });
 
-                });
+                }
 
-            };
+            });
 
-            function studentsByBatch() {
+        };
 
-                var batchId = $('#batchid option:selected').val();
-                $("#sname").html('');
-                $.ajax({
-                    url: "{{ url('studentsbybatch') }}",
-                    type: "POST",
-                    data: {
-                        batch_id: batchId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#sname').html('<option value="">-- Select Type --</option>');
-                        $.each(result.students, function(key, value) {
-                            $("#sname").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
+        function studentsByBatch() {
 
-                    }
+            var batchId = $('#batchid option:selected').val();
+            $("#sname").html('');
+            $.ajax({
+                url: "{{ url('studentsbybatch') }}",
+                type: "POST",
+                data: {
+                    batch_id: batchId,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#sname').html('<option value="">-- Select Type --</option>');
+                    $.each(result.students, function(key, value) {
+                        $("#sname").append('<option value="' + value
+                            .id + '">' + value.name + '</option>');
+                    });
 
-                });
+                }
 
-            };
+            });
+
+        };
         </script>
-    @endsection
+        @endsection
