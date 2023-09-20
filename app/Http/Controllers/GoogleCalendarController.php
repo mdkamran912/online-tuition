@@ -100,6 +100,7 @@ class GoogleCalendarController extends Controller
     }
     public function scheduleclass(Request $request){
 
+        // dd($request);
         // try {
             // Initialize the Google API client with OAuth 2.0 credentials
             $client = new Google_Client();
@@ -172,32 +173,32 @@ class GoogleCalendarController extends Controller
             ]);
             $calendarId = 'primary';
             $response = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
-            dd($response);
+            // dd($response);
 
-            if ($response->successful()) {
-                $response = json_decode($response);
-                $data = new zoom_classes();
-
+            if ($response->status == 'confirmed') {
+                // $response = json_decode($response);
+                $data = new zoom_classes(); // zoom_classes -> Currently we are using gmeet to host meeting
+                
                 $data->tutor_id = session('userid')->id;
                 $data->batch_id = $request->batchid;
-                $data->uuid = $response->uuid;
-                $data->meeting_id = $response->id;
-                $data->host_id = $response->host_id;
-                $data->host_email = $response->host_email;
+                $data->uuid = $response->id;
+                $data->meeting_id = $response->hangoutLink;
+                $data->host_id = 'info@sofabespoke.co.uk';
+                $data->host_email = 'info@sofabespoke.co.uk';
                 $data->topic_id = $request->topic;
-                $data->topic_name = $response->topic;
-                $data->type = $response->type;
+                $data->topic_name = $response->description;
+                $data->type = 2;
                 $data->status = $response->status;
-                $data->start_time = $response->start_time;
-                $data->duration = $response->duration;
-                $data->timezone = $response->timezone;
-                $data->agenda = $response->agenda;
-                $data->start_url = $response->start_url;
-                $data->join_url = $response->join_url;
-                $data->password = $response->password;
-                $data->h323_password = $response->h323_password;
-                $data->pstn_password = $response->pstn_password;
-                $data->encrypted_password = $response->encrypted_password;
+                $data->start_time = date('c', strtotime($classstarttime));
+                $data->duration = $classduration;
+                $data->timezone = 'Asia/Kolkata';
+                $data->agenda = $response->description;
+                $data->start_url = $response->hangoutLink;
+                $data->join_url = $response->hangoutLink;
+                $data->password = $classpassword;
+                $data->h323_password = $classpassword;
+                $data->pstn_password = $classpassword;
+                $data->encrypted_password = $classpassword;
 
                   $res = $data->save();
                   if ($res) {

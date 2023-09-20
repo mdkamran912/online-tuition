@@ -291,10 +291,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('liveclass/create', [ZoomClassesController::class, 'create'])->name('tutor.liveclass.create');
     Route::post('liveclass/store', [ZoomClassesController::class, 'store'])->name('tutor.liveclass.store');
     Route::get('getuser', [ZoomClassesController::class, 'getzoomuser'])->name('tutor.liveclass.getuser');
-    Route::get('getclasslist', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
+    Route::get('getclasslist', [GoogleCalendarController::class, 'classlist'])->name('tutor.liveclass.classlist');
     // Route::get('getclass-bkp', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
     Route::get('getclass', [GoogleCalendarController::class, 'classlist'])->name('tutor.meet.classlist');
-    Route::post('classschedule-bkp', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass-bkp');
+    // Route::post('classschedule-bkp', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass-bkp');
     Route::any('classschedule', [GoogleCalendarController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass');
     // Feedback by tutor
     Route::get('feedback', [FeedbackController::class, 'index'])->name('tutor.feedback.list');

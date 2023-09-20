@@ -702,23 +702,21 @@
                                         <a href="{{route('tutor.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('tutor.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
+                                        <a href="{{route('tutor.liveclass.classlist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Upcoming Classes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('tutor.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Completed Classes</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{route('tutor.batches')}}" target="_blank" class="nav-link" data-key="t-horizontal">Batches</a>
                                     </li>
+                                    
 
 
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('tutor.liveclass.classlist')}}">
-                            <i class="ti-stats-up menu-icon"></i>
-                            <span class="menu-title">Upcoming Classes</span>
-                        </a>
-                    </li>
 
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
 
