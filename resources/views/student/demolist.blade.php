@@ -89,7 +89,7 @@
                                     <th scope="col">Prefer Slot-2</th>
                                     <th scope="col">Prefer Slot-3</th>
                                     <th scope="col">Confirm Slot</th>
-                                    {{-- <th scope="col">Class Link</th> --}}
+                                    <th scope="col">Remarks</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -118,6 +118,7 @@
                                     <td>{{$demo->slot_2}}</td>
                                     <td>{{$demo->slot_3}}</td>
                                     <td>{{$demo->slot_confirmed}}</td>
+                                    <td>{{$demo->remarks}}</td>
                                     {{-- <td><a href="{{$demo->demo_link}}">{{$demo->demo_link}}</a></td> --}}
 
                                     @if ($demo->status == 1)
