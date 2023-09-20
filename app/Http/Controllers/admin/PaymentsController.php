@@ -11,6 +11,7 @@ use App\Models\studentregistration;
 use App\Models\tutorregistration;
 use App\Models\payments\paymentstudents;
 use Illuminate\Http\Request;
+use App\Models\payout;
 use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller
@@ -340,4 +341,40 @@ class PaymentsController extends Controller
             'pagination' => $viewPagination
         ]);
     }
+    public function tutorpayouts(){
+        $tutorpayouts = payout::select('payouts.*','tutorregistrations.name','statuses.name as status_name','tutorregistrations.mobile','tutorregistrations.email')
+        ->join('tutorregistrations','tutorregistrations.id','payouts.tutor_id')->join('statuses','statuses.id','payouts.status')
+        ->where('payouts.tutor_id',session('userid')->id)->paginate(10);
+        $statuses = (new CommonController)->status();
+        return view('tutor.payouts',get_defined_vars());
+    }
+    public function tutorpayoutsSearch(Request $request){
+
+        $query = payout::select('payouts.*','tutorregistrations.name','statuses.name as status_name','tutorregistrations.mobile','tutorregistrations.email')
+                 ->join('tutorregistrations','tutorregistrations.id','payouts.tutor_id')->join('statuses','statuses.id','payouts.status')
+                 ->where('payouts.tutor_id',session('userid')->id);
+                //  ->get();
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(payouts.transaction_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(payouts.transaction_date)'), '<=', $request->end_date);
+        }
+        if ($request->tansaction_no) {
+            $query->where('payouts.transaction_no','like', '%' .$request->tansaction_no . '%');
+        }
+        if ($request->status) {
+            $query->where('payouts.status',$request->status);
+        }
+        $payouts = $query->paginate(10);
+        $type="tutor";
+        $viewTable = view('admin.partials.payments-search', compact('payouts','type'))->render();
+        $viewPagination = $payouts->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+    }
+
+
 }

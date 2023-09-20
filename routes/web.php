@@ -299,6 +299,9 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
    Route::get('payments', [PaymentsController::class, 'tutorStudentPayments'])->name('tutor.payments');
    Route::any('paymentsearch', [PaymentsController::class, 'paymentSearchTutor'])->name('tutor.paymentsearch');
    Route::post('payment-update', [PaymentsController::class, 'update'])->name('tutor.payments.update');
+   // Payouts
+   Route::get('payouts',[PaymentsController::class,'tutorpayouts'])->name('tutor.payouts');
+   Route::post('payouts-search',[PaymentsController::class,'tutorpayoutsSearch'])->name('tutor.payouts-search');
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);
