@@ -34,42 +34,48 @@
                     Payment</button> -->
             </div>
 
-           
-            <div class="row">
-                <div class="col-md-3 mt-4">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="tranx " id="tranx" placeholder="Transaction No.">
+            <form id="payment-search">
+                <div class="row">
+                    <div class="col-md-3 mt-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="tansaction_no" id="tranx" placeholder="Transaction No.">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Start Date</label>
-                        <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" name="start_date" id="smob" placeholder="Student Mobile">
 
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>End Date</label>
-                        <input type="date" class="form-control" name="smob " id="smob" placeholder="Student Mobile">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="date" class="form-control" name="end_date" id="smob" placeholder="Student Mobile">
 
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3 mt-4">
-                    <div class="form-group">
-                        <select class="form-control" name="byststus" id="byststus">
-                            <option>--Status--</option>
-                        </select>
+                    <div class="col-md-3 mt-4">
+                        <div class="form-group">
+                            <select class="form-control" name="status" id="byststus">
+                                <option value="">--Status--</option>
+                                @foreach ($statuses as $status)
+                                <option value="{{$status->id}}">{{$status->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="form-group">
+                            <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
+                                Search</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12 mt-2">
-                    <div class="form-group">
-                        <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
-                            Search</button>
-                    </div>
-                </div>
-            </div>
+            </form>
+
+
             <hr>
 
             <div class="mt-4 table-responsive">
@@ -93,24 +99,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="{{route('admin.tutorpayments')}}">Benjamin</td>
-                            <td>12345353453</td>
-                            <td>benjamin@gmail.com</td>
-                            <td>&pound;1230</td>
-                            <td>&pound;1107</td>
-                            <td>10%</td>
-                            <td>&pound;123</td>
-                            <td>1234567890987654</td>
-                            <td>TNX0000000000001</td>
-                            <td>02 Aug 2023</td>
-                            <td class="text-success">Success</td>
-                        </tr>
-
-
+                        @foreach ($tutorpayouts as $payout )
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$payout->name}}</td>
+                                <td>{{$payout->mobile}}</td>
+                                <td>{{$payout->email}}</td>
+                                <td>&pound;{{$payout->total_amount}}%</td>
+                                <td>&pound;{{$payout->net_amount_received}}</td>
+                                <td>{{$payout->admin_commission_percentage}}%</td>
+                                <td>&pound;{{$payout->admin_commission_amount}}</td>
+                                <td>{{$payout->account_no}}</td>
+                                <td>{{$payout->transaction_no}}</td>
+                                <td>{{ \Carbon\Carbon::parse($payout->transaction_date)->format('d M Y') }}</td>
+                                <td class="text-success">{{$payout->status_name}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                </table>
+
+            </table>
             </div>
             <!-- content-wrapper ends -->
 
@@ -118,7 +125,75 @@
 
     </div>
     <!-- content-wrapper ends -->
+    <div class="d-flex justify-content-center" id="paginationContainer">
+        {!! $tutorpayouts->links() !!}
+    </div>
+
 </div>
 
-           
-            @endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateTableAndPagination(data) {
+            // $('#tableContainer').html(data.table);
+            $('.users-table tbody').html(data.table);
+            $('#paginationContainer').html(data.pagination);
+        }
+
+        $(document).ready(function() {
+            $('#payment-search').submit(function(e) {
+                alert('test');
+                e.preventDefault();
+                const page = 1;
+                const ajaxUrl = "{{ route('tutor.payouts-search') }}";
+                var formData = $(this).serialize();
+
+                formData += `&page=${page}`;
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxUrl, // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    success: function(data) {
+                        // console.log(data)
+                        updateTableAndPagination(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+
+            });
+
+
+            $(document).on('click', '#paginationContainer .pagination a', function(e) {
+                e.preventDefault();
+                var formData = $('#payment-search').serialize();
+                const page = $(this).attr('href').split('page=')[1];
+                formData += `&page=${page}`;
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route("tutor.payouts-search") }}', // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        updateTableAndPagination(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
+
+
+@endsection
