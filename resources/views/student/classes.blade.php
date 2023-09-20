@@ -103,6 +103,7 @@
                                         <td>{{ $class->start_time }}</td>
                                         <td>{{ $class->duration }}</td>
                                         <td>
+                                    
                                             @if ($class->is_completed == 0)
 
                                                 <a href="{{ $class->join_url }}" target="_blank"><button
@@ -168,7 +169,7 @@
                             <input type="hidden" id="tutor_id" name="tutor_id">
                             <div class="row">
 
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                <div class="col-12 col-md-12 col-ms-12 mb-3">
                                     <label>Rating<span style="color:red">*</span></label>
                                     <select type="text" class="form-control" id="rating" name="rating" required>
                                         <option value="0">0</option>
@@ -192,7 +193,7 @@
                                     @enderror
                                 </span>
 
-                                <div class="col-12 col-md-6 col-ms-6 mb-3">
+                                <div class="col-12 col-md-12 col-ms-12 mb-3">
                                     <label>Comments<span style="color:red">*</span></label>
                                     <textarea type="text" class="form-control" id="comments" name="comments" required>
                                     </textarea>
@@ -204,10 +205,14 @@
                                 </span>
 
                             </div>
-                            <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
+                            <div style="float:right">
+                            
+                        
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal();">Close</button>
+                            <button type="submit" id="" class="btn btn-sm btn-success "><span
                                 class="fa fa-check"></span> Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
-                            data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                            </div>
+                           
                         </form>
 
 
@@ -215,6 +220,12 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Button trigger modal -->
+
+
+
 
         <script>
             function openfeedbackmodal(id,subjectid,tutorid) {
@@ -224,6 +235,9 @@
                 $('#openreviewsmodal').modal('show');
 
 
+            }
+            function closeModal(){
+                $('#openreviewsmodal').modal('hide');
             }
             function batchbysubject() {
                 var subjectId = $('#subject option:selected').val();
