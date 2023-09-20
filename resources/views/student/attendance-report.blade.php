@@ -24,25 +24,21 @@
                     @endif
 
                     <div id="" class="mb-3 listHeader page-title-box">
-                        <h3>Demo Classes</h3>
+                        <h3>Attendance</h3>
                     </div>
 
-                    <hr>
+                    
                     <div class=" table-responsive">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
                             <thead class=" ">
                                 <tr>
                                     <th scope="col">S.No</th>
-                                    <th scope="col">Tutor</th>
                                     <th scope="col">Class</th>
                                     <th scope="col">Subject</th>
-                                    <th scope="col">Current Status</th>
-                                    <th scope="col">Prefer Slot-1</th>
-                                    <th scope="col">Prefer Slot-2</th>
-                                    <th scope="col">Prefer Slot-3</th>
-                                    <th scope="col">Confirm Slot</th>
+                                    <th scope="col">Tutor</th>
+                                    <th scope="col">Date & Time</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Remarks</th>
-                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,9 +49,7 @@
 
 
                     </div>
-                    <div class="d-flex justify-content-center" id="paginationContainer">
-                        {{-- {!! $demos->links() !!} --}}
-                    </div>
+                   
 
 
 
