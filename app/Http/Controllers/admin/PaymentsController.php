@@ -340,4 +340,9 @@ class PaymentsController extends Controller
             'pagination' => $viewPagination
         ]);
     }
+    public function tutorpayouts(){
+        return view('tutor.payouts');
+    }
+
+   
 }

@@ -783,6 +783,9 @@
                             <div class="collapse menu-dropdown" id="sidebarForms">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
+                                        <a href="{{route('tutor.payouts')}}" class="nav-link" data-key="t-form-select"> Payouts </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{route('tutor.payments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
                                     </li>
 
