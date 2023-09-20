@@ -155,21 +155,25 @@
 
                                     <td>
                                         @if($reviews->ratings >=1)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=2)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=3)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=4)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=5)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                     </td>
+
+                                    
+
+                                    
 
                                 </tr>
                                 @endforeach

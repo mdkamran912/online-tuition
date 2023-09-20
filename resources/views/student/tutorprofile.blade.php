@@ -9,6 +9,21 @@
                     display: flex;
                     justify-content: space-between;
                 }
+
+                .headline h2, .headline p{
+                    display:flex;
+                    justify-content: start;
+                }
+
+                .skillTag {
+                display: flex;
+
+                }
+
+                .skillTag h5 {
+                    margin: 10px;
+                }
+
             </style>
 
             <div class="page-content">
@@ -26,14 +41,11 @@
                                             class="img-fluid img-thumbnail mb-2"
                                             style="width: 150px; z-index: 1; border-radius: 50%;">
 
-                                        <a hidden type="button" class="btn btn-outline-dark bg-primary"
-                                            href="editTutorProfile.html" style="z-index: 1;">
-                                            Edit profile
-                                        </a>
+                                        
 
                                     </div>
                                 </div>
-                                <div class="col-9 text-left">
+                                <div class="col-9 headline">
                                     <h2 style="margin-top: 60px;">{{$tutorpd->name}}</h2>
                                     <p><i>{{$tutorpd->headline}}</i> </p>
                                 </div>
@@ -132,25 +144,41 @@
         
                                     <td>
                                         @if($reviews->ratings >=1)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=2)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=3)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=4)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                         @if($reviews->ratings >=5)
-                                        <span class="fa fa-star checked"></span>
+                                        <span class="ri-star-fill checked"></span>
                                         @endif
                                     </td>
+
+                                    
         
                                 </tr>
                                 @endforeach
                             </table>
+                            <br>
+
+                            <div>
+                                <h5>Skills</h5>
+                                <hr>
+                                <div class="skillTag">
+                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                    <h5><span class="badge bg-primary">Mathematics</span></h5>
+                                </div>
+                            </div>
+
 
 
 
