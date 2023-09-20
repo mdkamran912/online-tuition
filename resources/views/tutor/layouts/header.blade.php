@@ -719,9 +719,6 @@
                         </a>
                     </li>
 
-
-
-
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Purchase</span></li>
 
                         {{-- <li class="nav-item">
