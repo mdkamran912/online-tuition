@@ -282,7 +282,7 @@
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <input type="hidden" value="" id="demoupdateid" name="demoupdateid">
                                     <label>Preferred Slot-1<i style="color: red">*</i></label>
-                                    <input type="date" class="form-control" id="slotupdate1"
+                                    <input type="datetime-local" class="form-control" id="slotupdate1"
                                         name="slotupdate1">
                                     <span class="text-danger">
                                         @error('slotupdate1')
@@ -292,7 +292,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <label>Preferred Slot-2</label>
-                                    <input type="date" class="form-control" id="slotupdate2"
+                                    <input type="datetime-local" class="form-control" id="slotupdate2"
                                         name="slotupdate2">
                                     <span class="text-danger">
                                         @error('slotupdate2')
@@ -302,7 +302,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-sm-6 mb-3 ">
                                     <label>Preferred Slot-3</label>
-                                    <input type="date" class="form-control" id="slotupdate3"
+                                    <input type="datetime-local" class="form-control" id="slotupdate3"
                                         name="slotupdate3">
                                     <span class="text-danger">
                                         @error('slotupdate3')
