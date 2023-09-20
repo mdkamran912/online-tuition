@@ -16,6 +16,7 @@ use App\Http\Controllers\CommonController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JitsiController;
+use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\student\DashboardController;
@@ -290,8 +291,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('liveclass/create', [ZoomClassesController::class, 'create'])->name('tutor.liveclass.create');
     Route::post('liveclass/store', [ZoomClassesController::class, 'store'])->name('tutor.liveclass.store');
     Route::get('getuser', [ZoomClassesController::class, 'getzoomuser'])->name('tutor.liveclass.getuser');
-    Route::get('getclass', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
-    Route::post('classschedule', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass');
+    Route::get('getclass-bkp', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
+    Route::get('getclass', [GoogleCalendarController::class, 'classlist'])->name('tutor.meet.classlist');
+    Route::post('classschedule-bkp', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass-bkp');
+    Route::any('classschedule', [GoogleCalendarController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass');
     // Feedback by tutor
     Route::get('feedback', [FeedbackController::class, 'index'])->name('tutor.feedback.list');
     // Message By Tutor
@@ -310,3 +313,4 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);
+Route::get('oauth2callback', [GoogleCalendarController::class,'oauthCallback'])->name('oauth2callback');
