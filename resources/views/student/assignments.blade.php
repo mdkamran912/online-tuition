@@ -4,6 +4,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- partial -->
 <div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
             <style>
                 .listHeader {
                     display: flex;
@@ -13,10 +15,6 @@
 
             </style>
 
-
-            <div id="listHeader" class="mb-3">
-                <h3>My Assignments</h3>
-            </div>
             <div class="mt-4" id="">
 
 
