@@ -14,10 +14,7 @@
     float: right;
 }
 
-    .btns {
-        display:flex;
-       
-    }
+    
    
             </style>
 
