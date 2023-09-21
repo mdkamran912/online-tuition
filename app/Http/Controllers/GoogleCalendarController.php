@@ -121,6 +121,7 @@ class GoogleCalendarController extends Controller
             return redirect()->away($authUrl);
         }
         $client->setAccessToken($request->session()->get('access_token'));
+        
         $service = new Google_Service_Calendar($client);
 
         $class = $request->input('class');
@@ -173,9 +174,27 @@ class GoogleCalendarController extends Controller
             'attendees' => $attendees,
         ]);
         $calendarId = 'primary';
-        $response = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
-        // dd($response);
-
+        // $response = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
+        try {
+            // Code that makes the API request to Google Calendar
+            $response = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
+        
+            // Process the response here
+        } catch (\Google\Service\Exception $e) {
+            // Handle Google API exceptions
+            $errorResponse = json_decode($e->getMessage());
+            $authUrl = $client->createAuthUrl();
+            return redirect()->away($authUrl);
+            // Log or handle the error here
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            // Log or handle the error here
+            $authUrl = $client->createAuthUrl();
+            return redirect()->away($authUrl);
+        }
+        
+        
+        
         if ($response->status == 'confirmed') {
             // $response = json_decode($response);
             $data = new zoom_classes(); // zoom_classes -> Currently we are using gmeet to host meeting

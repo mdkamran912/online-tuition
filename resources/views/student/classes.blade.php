@@ -10,6 +10,16 @@
         display: flex;
         justify-content: space-between;
     }
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blinking-icon {
+  animation: blink 1s infinite;
+}
+
     </style>
 
     <div class="page-content">
@@ -82,7 +92,7 @@
                     <thead class="thead-dark ">
                         <tr>
                             <th scope="col">S.No.</th>
-                            <th scope="col">Meeting ID</th>
+                            {{-- <th scope="col">Meeting ID</th> --}}
                             <th scope="col">Status</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Batch</th>
@@ -96,22 +106,38 @@
                         @foreach ($classes as $class)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $class->meeting_id }}</td>
-                            <td>{{ $class->status }}</td>
+                            {{-- <td>{{ $class->meeting_id }}</td> --}}
+                            {{-- <td>{{ $class->status }}</td> --}}
+                            <td>
+                                @if ($class->status == 'confirmed' || $class->status == 'Confirmed')
+                                    <span class="badge bg-success">Confirmed</span>
+                                @elseif ($class->status == 'waiting' || $class->status == 'Waiting')
+                                    <span class="badge bg-primary">Waiting Confirmation</span>
+                                @elseif ($class->status == 'started' || $class->status == 'Started')
+                                    <span class="badge blinking-icon" style="background: red"><i class="ri-record-circle-line "></i> Live..</span>
+                                @elseif ($class->status == 'cancelled' || $class->status == 'Cancelled')
+                                    <span class="badge bg-danger">Cancelled</span>
+                                @elseif ($class->status == 'completed' || $class->status == 'Completed')
+                                    <span class="badge bg-success">Completed</span>
+                                {{-- @elseif ($liveclasses->status == 8)
+                                    <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
+                                @endif
+                            </td>
                             <td>{{ $class->subjects }}</td>
                             <td>{{ $class->batch }}</td>
                             <td>{{ $class->topics }}</td>
                             <td>{{ $class->start_time }}</td>
-                            <td>{{ $class->duration }}</td>
+                            <td>{{ $class->duration }} min</td>
                             <td>
 
-                                @if ($class->is_completed == 0)
+                                @if ($class->status == 'started' || $class->status == 'Started')
 
                                 <a href="{{ $class->join_url }}" target="_blank"><button
                                         class="btn btn-sm btn-success"><span class="fa fa-play-circle "></span> Join
                                         Class</button></a>
-                                @else
-                                <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                @endif
+                                @if ($class->is_completed == 1 || $class->status == 'completed' || $class->status == 'Completed')                               
+                                <button class="btn btn-sm btn-primary" data-toggle="modal"
                                     data-target="#openreviewsmodal"
                                     onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span
                                         class="fa fa-check "></span> Give Feedback</button>
