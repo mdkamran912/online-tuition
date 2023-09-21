@@ -223,8 +223,9 @@
 
                         <div class="col-12 col-md-12 col-ms-12 mb-3">
                             <label>Comments<span style="color:red">*</span></label>
-                            <textarea type="text" class="form-control" id="comments" name="comments" required>
-                                    </textarea>
+                           
+                            <textarea class="form-control" id="comments" name="comments" required></textarea>
+                            
                         </div>
                         <span class="text-danger">
                             @error('comments')
