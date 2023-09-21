@@ -83,7 +83,7 @@
                             <th scope="col">Topic</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">Duration</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Recordings</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,8 +99,7 @@
                             <td>{{ $class->duration }}</td>
                             <td>
                                 @if ($class->is_completed == 1)
-                                <a href="{{$class->recording_link}}"><button class="btn btn-sm btn-success"><span
-                                        class="fa fa-check "></span> Watch</button></a>
+                                <a href="{{$class->recording_link}}"><button class="btn btn-sm" style="background: green"><i class="ri-play-circle-line"></i> Play</button></a>
                                 @endforelse
 
                             </td>
