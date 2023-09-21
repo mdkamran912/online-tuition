@@ -20,6 +20,7 @@ class DemoController extends Controller
         ->join('classes', 'classes.id','=','subjects.class_id')
         ->join('statuses', 'statuses.id','=','democlasses.status')
         ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
+        ->orderby('democlasses.created_at','desc')
         // ->where('democlasses.student_id','=', session('userid')->id)
         ->paginate(10);
         $subjects = subjects::where('is_active',1)->get();
@@ -125,29 +126,7 @@ class DemoController extends Controller
         return json_encode(array($demo));
     }
 
-    public function democonfirm(Request $request){
-        $request->validate([
-            'slot'=>'required',
-            'demolink'=>'required'
-        ]);
-
-        $dcnf = democlasses::find($request->confirmid);
-
-        $dcnf->slot_confirmed = $request->slot;
-        $dcnf->slot_confirmed_at = Carbon::now();
-        $dcnf->slot_confirmed_by = session('userid')->id;
-        $dcnf->demo_link = $request->demolink;
-        $dcnf->remarks = $request->demoremarks;
-        $dcnf->status = 3;
-
-       $res= $dcnf->save();
-       if($res){
-        return back()->with('success','Slot confirmed successfully');
-    }
-    else{
-        return back()->with('fail','Something went wrong. Please try again later');
-    }
-    }
+ 
     public function demoupdate(Request $request){
         $request->validate([
             'slotupdate1'=>'required',

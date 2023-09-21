@@ -121,7 +121,7 @@
                                             <th scope="col">Prefered Slot-2</th>
                                             <th scope="col">Prefered Slot-3</th>
                                             <th scope="col">Confirmed Slot</th>
-                                            <th scope="col">Demo Link</th>
+                                            {{-- <th scope="col">Demo Link</th> --}}
                                             <th scope="col">Remarks</th>
                                             {{-- <th scope="col">Change Status</th> --}}
                                             <th scope="col">Action</th>
@@ -154,23 +154,23 @@
                                                 <td>{{ $demo->slot_2 }}</td>
                                                 <td>{{ $demo->slot_3 }}</td>
                                                 <td>{{ $demo->slot_confirmed }}</td>
-                                                <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
+                                                {{-- <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td> --}}
                                                 <td>{{ $demo->remarks }}</td>
                                                 <td>
                                                     @if ($demo->status == 1)
                                                         
                                                     
-                                                    <button class="btn btn-sm btn-success"
-                                                        onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
                                                     <button class="btn btn-sm btn-primary"
+                                                        onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
+                                                    <button class="btn btn-sm btn-danger"
                                                         onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
                                                         @endif
 
                                                         @if ($demo->status == 3)
                                                         
                                                     
-                                                    <button class="btn btn-sm btn-primary"
-                                                        onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
+                                                    <a href="{{$demo->demo_link}}"><button class="btn btn-sm btn-success"
+                                                        >Start Class</button></a>
                                                         @endif
                                                 </td>
                                             </tr>
@@ -228,7 +228,7 @@
                                 </span>
 
 
-                                <div class="col-12 col-md-12 col-ms-12">
+                                {{-- <div class="col-12 col-md-12 col-ms-12">
                                     <label>Demo Link<i style="color: red;">*</i></label>
                                     <input type="text" class="form-control" id="demolink" name="demolink"
                                         placeholder="Paste Demo Link Here">
@@ -237,7 +237,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                </div>
+                                </div> --}}
                                 <div class="col-12 col-md-12 col-ms-12">
                                     <label>Remarks</label>
                                     <textarea type="text" class="form-control" id="demoremarks" name="demoremarks" value="" placeholder="Remarks"></textarea>

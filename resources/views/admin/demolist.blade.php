@@ -165,10 +165,22 @@
                                                 <td>{{ $demo->slot_confirmed }}</td>
                                                 <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
                                                 <td>{{ $demo->remarks }}</td>
-                                                <td><button class="btn btn-sm btn-success"
-                                                        onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
+                                                <td>
+                                                    @if ($demo->status == 1)
+                                                        
+                                                    
                                                     <button class="btn btn-sm btn-primary"
+                                                        onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
+                                                    <button class="btn btn-sm btn-danger"
                                                         onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
+                                                        @endif
+
+                                                        @if ($demo->status == 3)
+                                                        
+                                                    
+                                                    <a href="{{$demo->demo_link}}"><button class="btn btn-sm btn-success"
+                                                        >Start Class</button></a>
+                                                        @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -225,7 +237,7 @@
                                 </span>
 
 
-                                <div class="col-12 col-md-12 col-ms-12">
+                                {{-- <div class="col-12 col-md-12 col-ms-12">
                                     <label>Demo Link<i style="color: red;">*</i></label>
                                     <input type="text" class="form-control" id="demolink" name="demolink"
                                         placeholder="Paste Demo Link Here">
@@ -234,7 +246,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                </div>
+                                </div> --}}
                                 <div class="col-12 col-md-12 col-ms-12">
                                     <label>Remarks</label>
                                     <textarea type="text" class="form-control" id="demoremarks" name="demoremarks" value="" placeholder="Remarks"></textarea>
@@ -244,7 +256,7 @@
 
 
                             <button type="submit" id="" class="btn btn-sm btn-success float-right"><span
-                                    class="fa fa-check"></span> Comfirm</button>
+                                    class="fa fa-check"></span> Confirm</button>
                             <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
                                     class="fa fa-times"></span> Close</button>
 

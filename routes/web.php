@@ -182,7 +182,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::post('bookdemo', [DemoController::class, 'bookdemo'])->name('admin.bookdemo');
     Route::get('democancel/{id}', [DemoController::class, 'democancel'])->name('admin.democancel');
     Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
-    Route::post('demo/confirm', [DemoController::class, 'democonfirm'])->name('admin.demo.confirm');
+    Route::post('demo/confirm', [GoogleCalendarController::class, 'democonfirm'])->name('admin.demo.confirm');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('admin.demo.update');
     Route::post('demolist-search', [DemoController::class, 'demolistsearch'])->name('admin.demolist-search');
     // student profile from admin side
@@ -272,7 +272,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::post('demolist', [DemoController::class, 'tutordemoupdate'])->name('tutor.demo.update');
     Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
     Route::post('demolist-search', [DemoController::class, 'tutorDemolistsearch'])->name('tutor.demolist-search');
-    Route::post('demo/confirm', [DemoController::class, 'democonfirm'])->name('tutor.demo.confirm');
+    Route::post('demo/confirm', [GoogleCalendarController::class, 'democonfirm'])->name('tutor.demo.confirm');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('tutor.demo.update');
     // Tutor Batches
     Route::get('batches', [BatchesController::class, 'tutorbatches'])->name('tutor.batches');
