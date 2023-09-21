@@ -83,6 +83,8 @@ class ClassController extends Controller
         ->join('topics','topics.id','zoom_classes.topic_id')
         ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         ->where('zoom_classes.is_active',1)
+        ->where('zoom_classes.status','like', '%waiting%')
+        ->where('zoom_classes.is_completed',0)
         ->paginate(10);
         $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
         $batches = batches::where('is_active',1)->get();
@@ -101,6 +103,8 @@ class ClassController extends Controller
         ->join('topics','topics.id','zoom_classes.topic_id')
         ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         ->where('zoom_classes.is_active',1)
+        ->where('zoom_classes.status','like', '%completed%')
+        ->where('zoom_classes.is_completed',1)
         ->paginate(10);
         $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
         $batches = batches::where('is_active',1)->get();
