@@ -76,7 +76,7 @@
                                                         <p class="fw-medium text-muted mb-0">Demo Pending</p>
                                                        <div>
                                                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$pending_demos ?? '0'}}">{{$pending_demos ?? '0'}}</span></h4>
-                                                            <a href="" class="text-decoration-underline">View details</a>
+                                                            <a href="{{url('tutor/demolist')}}" class="text-decoration-underline">View details</a>
                                                         </div>
                                                     </div>
                                                     <div>
@@ -99,7 +99,7 @@
                                                         <p class="fw-medium text-muted mb-0">Classes Taken</p>
                                                         <div>
                                                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$classes_taken ?? '0'}}">{{$classes_taken ?? '0'}}</span></h4>
-                                                            <a href="" class="text-decoration-underline">View details</a>
+                                                            <a href="{{url('tutor/getclasslist')}}" class="text-decoration-underline">View details</a>
                                                         </div>
                                                     </div>
                                                     <div>
@@ -124,7 +124,7 @@
                                                         <p class="fw-medium text-muted mb-0">Total Earning</p>
                                                         <div>
                                                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">£<span class="counter-value" data-target="{{$moneyEarned->total_earned ?? "0"}}">{{$moneyEarned->total_earned ?? "0"}}</span></h4>
-                                                            <a href="" class="text-decoration-underline">View details</a>
+                                                            <a href="{{url('tutor/payments')}}" class="text-decoration-underline">View details</a>
                                                         </div></div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">
@@ -146,7 +146,7 @@
                                                         <p class="fw-medium text-muted mb-0">Students Enrolled</p>
                                                         <div>
                                                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$moneyEarned->student_count ?? "0"}}">{{$moneyEarned->student_count ?? "0"}}</span></h4>
-                                                            <a href="" class="text-decoration-underline">View details</a>
+                                                            <a href="{{url('tutor/batches')}}" class="text-decoration-underline">View details</a>
                                                         </div></div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">

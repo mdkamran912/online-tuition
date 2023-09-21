@@ -90,7 +90,7 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td><a href="studentprofile/{{$demo->student_id}}">{{ $demo->student_name }}</a></td>
-            <td>{{ $demo->student_mobile }}</td>
+            {{-- <td>{{ $demo->student_mobile }}</td> --}}
             {{-- <td><a href="tutorprofile/{{$demo->tutor_id}}">{{ $demo->tutor }}</a></td>
             <td>{{ $demo->tutor_mobile }}</td> --}}
             <td>{{ $demo->class_name }}</td>
