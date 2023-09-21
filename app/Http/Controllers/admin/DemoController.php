@@ -244,15 +244,8 @@ else{
 }
 public function demostatusupdate(Request $request)
 {
-
-    // echo 'Test';
-    // echo $request->id;
-    // echo $request->status;
-    // dd();
     $data = democlasses::find($request->id);
-    
     $data->status = '8';
-
     $res = $data->save();
     return json_encode(array('statusCode' => 200));
 }

@@ -275,6 +275,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::post('demolist-search', [DemoController::class, 'tutorDemolistsearch'])->name('tutor.demolist-search');
     Route::post('demo/confirm', [GoogleCalendarController::class, 'democonfirm'])->name('tutor.demo.confirm');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('tutor.demo.update');
+    Route::get('demo/status/update', [DemoController::class, 'demostatusupdate'])->name('tutor.demo.status.update');
     // Tutor Batches
     Route::get('batches', [BatchesController::class, 'tutorbatches'])->name('tutor.batches');
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
