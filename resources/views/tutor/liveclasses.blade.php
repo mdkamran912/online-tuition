@@ -9,6 +9,16 @@
                     display: flex;
                     justify-content: space-between;
                 }
+
+                .moveRight {
+    float: right;
+}
+
+    .btns {
+        display:flex;
+       
+    }
+   
             </style>
 
             <div class="page-content">
@@ -19,14 +29,14 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <div id="listHeader" class="mb-3">
-                <h3>Upcoming Classes</h3>
+            <div id="" class="mb-3 listHeader page-title-box">
+                <h3>Upcoming Classes </h3>
                 <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><span class="fa fa-plus-circle"> </span> Schedule Class</button>
             </div>
             
-            <div class="mt-4" id="">
+            <div class="mt-4 table-responsive" id="">
 
-                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0 ">
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
@@ -51,10 +61,15 @@
                                 <td>{{ $liveclass->topics }}</td>
                                 <td>{{ $liveclass->start_time }}</td>
                                 <td>{{ $liveclass->duration }}</td>
-                                <td><a href="{{$liveclass->start_url}}" target="_blank"><button class="btn btn-sm btn-success"><span
-                                            class="fa fa-play-circle "></span> Start Class</button></a>
-                                            <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}"><button class="btn btn-sm btn-success"><span
-                                                class="fa fa-check "></span> Mark Completed</button></a>
+                                <td class="btns gap-2 text-nowrap">
+                                    <a href="{{$liveclass->start_url}}" target="_blank" >
+                                        <button class="btn btn-sm btn-primary "><span
+                                            class="fa fa-play-circle "></span> Start Class</button>
+                                    </a>
+                                    <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}">
+                                        <button class="btn btn-sm btn-success"><span
+                                                class="fa fa-check "></span> Mark Completed</button>
+                                    </a>
                                 </td>
                                 {{-- <td><button class="btn btn-sm btn-primary"
                                     onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
@@ -237,10 +252,13 @@
                             </div>
 
 
-                            <button type="submit" id=""
-                                class="btn btn-sm btn-success float-right">Submit</button>
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
-                                data-dismiss="modal">Close</button>
+                            <div style="float:right">
+                            <button type="button" class="btn btn-sm btn-danger mr-1 "
+                                    data-dismiss="modal" onclick="closeModal();">Close</button>
+                                <button type="submit" id=""
+                                    class="btn btn-sm btn-success ">Submit</button>
+                                
+                            </div>
 
 
 
@@ -251,6 +269,9 @@
         </div>
 
         <script>
+             function closeModal(){
+                $('#scheduleclassmodal').modal('hide');
+            }
             function openclassmodal(batchid, subjectid) {
                 $('#batchid').val(batchid);
                 $("#topic").html('');
