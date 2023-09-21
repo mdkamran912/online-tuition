@@ -9,6 +9,11 @@
         display: flex;
         justify-content: space-between;
     }
+
+    .form-check-input:checked{
+        background-color: #57b49d !important;
+        border-color: #57b49d !important;
+    }
     </style>
 
     <div class="page-content">
@@ -19,7 +24,7 @@
             @if (Session::has('fail'))
             <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <h3 class="text-center">Completed Classes</h3>
+            <h3 class="text-center">Completed Classes </h3>
             <div class="mt-4" id="">
 
                 <table class="table table-hover table-striped align-middlemb-0 table-responsive">
@@ -98,11 +103,114 @@
                 </div>
             </div>
         </div>
+
+
+        <!--Student List modal -->
+        <div class="modal fade" id="studentlistmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+
+                    <div class="modal-body">
+
+
+                        <header>
+
+                            <h3 class="text-center mb-4" id="header">Attendance(Batch Name)</h3>
+
+                        </header>
+
+                        <form action="" method="">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-ms-12 mb-3">
+                                    {{-- <select id="studentlist" name="studentlist[]" multiple>
+
+                         </select> --}}
+                                    <style>
+                                    .newclass td,
+                                    .newclass th {
+                                        padding: 2px !important
+                                    }
+
+                                    
+                                    </style>
+                                    <table class="table table-bordered newclass" style="margin: 0%;">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Student Name</th>
+                                                <th>Present</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="studentlist">
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Deepesh</td>
+                                                <td class="text-center ">
+                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Deepesh</td>
+                                                <td class="text-center ">
+                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Deepesh</td>
+                                                <td class="text-center ">
+                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Deepesh</td>
+                                                <td class="text-center ">
+                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div style="float:right">
+                            <button type="button" class="btn btn-sm btn-danger "
+                                    data-dismiss="modal" onclick="closeModal();">
+                                    Close</button>
+                                <button type="button" class="btn btn-sm btn-success  "
+                                    data-dismiss="modal">
+                                    Submit</button>
+
+                               
+                            </div>
+                                
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script>
         function openAttModal() {
-            $("#openmodal").modal('show');
+            $("#studentlistmodal").modal('show');
+        }
+
+        function closeModal() {
+            $("#studentlistmodal").modal('hidden');
         }
         </script>
+
+
+
 
 
         @endsection
