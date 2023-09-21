@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('studentreviews', function (Blueprint $table) {
             $table->id();
+            $table->integer('tutor_id');
             $table->string('name');
             $table->string('ratings');
             $table->integer('subject_id');

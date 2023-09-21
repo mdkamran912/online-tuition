@@ -1,5 +1,10 @@
 @extends('tutor.layouts.main')
 @section('main-section')
+
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
@@ -71,7 +76,7 @@
 
                         </style>
 
-                        <form action="" method="">
+                        <form id="submit-feedback">
                             <input type="hidden" id="id" name="id">
                             <div class="row">
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
@@ -116,7 +121,7 @@
 
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
                                     <label>Student's Name<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="sname" name="sname">
+                                    <select type="text" class="form-control" id="sname" name="student">
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
@@ -162,7 +167,7 @@
                 </div>
             </div>
         </div>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
         function openmodal() {
             $("#openmodal").modal('show');
@@ -250,6 +255,7 @@
 
         function studentsByBatch() {
 
+
             var batchId = $('#batchid option:selected').val();
             $("#sname").html('');
             $.ajax({
@@ -261,16 +267,49 @@
                 },
                 dataType: 'json',
                 success: function(result) {
-                    $('#sname').html('<option value="">-- Select Type --</option>');
+                    $('#sname').html('<option value="">-- Select student --</option>');
                     $.each(result.students, function(key, value) {
                         $("#sname").append('<option value="' + value
                             .id + '">' + value.name + '</option>');
                     });
-
                 }
 
             });
 
         };
         </script>
-        @endsection
+
+        <script>
+             $(document).ready(function() {
+            $('#submit-feedback').submit(function(e) {
+                alert('test');
+                e.preventDefault();
+                const page = 1;
+                const ajaxUrl = "{{ route('tutor.feedback.student') }}";
+                var formData = $(this).serialize();
+
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxUrl, // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    success: function(data) {
+                        // console.log(data)
+                        updateTableAndPagination(data);
+                    },
+                    error: function(response) {
+                        console.log(response.errors)
+
+
+                    }
+                });
+
+            });
+
+        });
+        </script>
+@endsection

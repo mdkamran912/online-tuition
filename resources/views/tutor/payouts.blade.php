@@ -141,7 +141,6 @@
 
         $(document).ready(function() {
             $('#payment-search').submit(function(e) {
-                alert('test');
                 e.preventDefault();
                 const page = 1;
                 const ajaxUrl = "{{ route('tutor.payouts-search') }}";
