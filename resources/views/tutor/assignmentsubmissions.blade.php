@@ -42,11 +42,20 @@
                         <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge bg-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
                         <td>{{$data->student_name}}</td>
                         <td>{{$data->submitted_on}}</td>
-                        <td><a href="{{$data->submission_link}}"><button class="badge bg-primary"><span class="fa fa-search"></span> View Submission</button></td>
-                        
+                        <td>
+                            @if (Str::startsWith($data->submission_link, 'http') || Str::startsWith($data->submission_link, 'https') || Str::startsWith($data->submission_link, 'www'))
+                            <a href="//{{$data->submission_link}}"
+                                target="_blank"><button class="badge bg-primary"><span class="fa fa-search"></span> View Submission</button>
+                            @else
+                            <a href="{{ url('uploads/documents/assignments') }}/{{$data->submission_link}}"
+                                target="_blank"><button class="badge bg-primary"><span class="fa fa-search"></span> View Submission</button>
+                            @endif
+
+                        </td>
+
                     </tr>
                 @endforeach
-               
+
             </tbody>
 
 
@@ -57,7 +66,7 @@
 
 
     </div>
-    
+
 
 <!-- login modal -->
 
