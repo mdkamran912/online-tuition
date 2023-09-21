@@ -115,6 +115,8 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
     Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
+    Route::get('liveclass/join/update',[ZoomClassesController::class,'liveclassjoinupdate'])->name('tutor.liveclass.join.update');
+    
     // completed classes
     Route::get('completed-classes', [ClassController::class, 'studentCompletedclass'])->name('student.completed-classes');
 

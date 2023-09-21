@@ -132,9 +132,11 @@
 
                                 @if ($class->status == 'started' || $class->status == 'Started')
 
-                                <a href="{{ $class->join_url }}" target="_blank"><button
-                                        class="btn btn-sm btn-success"><span class="fa fa-play-circle "></span> Join
-                                        Class</button></a>
+                                {{-- <a href="{{ $class->join_url }}" target="_blank"><button --}}
+                                    <button
+                                        class="btn btn-sm btn-success" onclick="joinclass('{{$class->class_id}}','{{$class->join_url}}')">Join
+                                        Class</button>
+                                    {{-- </a> --}}
                                 @endif
                                 @if ($class->is_completed == 1 || $class->status == 'completed' || $class->status == 'Completed')                               
                                 <button class="btn btn-sm btn-primary" data-toggle="modal"
@@ -176,7 +178,7 @@
 </div>
 <!-- content-wrapper ends -->
 
-<!-- modal -->
+<!-- feedback modal -->
 <div class="modal fade" id="openreviewsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -352,5 +354,34 @@ $(document).ready(function() {
 
 
 });
+
+function joinclass(id,link) {
+
+var url = "{{ URL('student/liveclass/join/update') }}";
+// var id=
+$.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    data: {
+        _token: '{{ csrf_token() }}',
+        id: id,
+        
+    },
+    success: function(dataResult) {
+        dataResult = JSON.parse(dataResult);
+        if (dataResult.statusCode) {
+
+            toastr.success('status changed')
+            window.location = link;
+
+        } else {
+            alert("Something went wrong. Please try again later");
+        }
+
+    }
+});
+
+}
 </script>
 @endsection
