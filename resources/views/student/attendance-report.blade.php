@@ -70,7 +70,7 @@
                             <th scope="col">Tutor</th>
                             <th scope="col">Date & Time</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Remarks</th>
+                            {{-- <th scope="col">Remarks</th> --}}
                         </tr>
                     </thead>
                     <tbody>

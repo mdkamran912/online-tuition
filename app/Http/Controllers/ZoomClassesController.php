@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Http;
 use MacsiDigital\Zoom\Facades\Zoom;
 use App\Http\Controllers\Controller;
 use App\Models\access_token;
+use App\Models\attendance;
+use App\Models\students\studentattendance;
+use App\Models\subjects;
 use App\Models\topics;
 use GuzzleHttp\Client;
 
@@ -380,5 +383,38 @@ class ZoomClassesController extends Controller
     $data->status = 'Started';
     $res = $data->save();
     return json_encode(array('statusCode' => 200));
+    }
+
+    public function liveclassjoinupdate(Request $request){
+        
+        $class = zoom_classes::find($request->id);
+        $tpc = topics::find($class->topic_id);
+        $sub = subjects::find($tpc->subject_id);
+        
+        $chk = studentattendance::select('*')
+        ->where('class_id',$sub->class_id)
+        ->where('subject_id',$sub->id)
+        ->where('batch_id',$class->batch_id)
+        ->where('topic_id',$class->topic_id)
+        ->where('tutor_id',$class->tutor_id)
+        ->where('student_id',session('userid')->id)
+        ->first();
+        
+        if($chk){
+            $data = studentattendance::find($chk->id);
+        }else{
+            $data = new studentattendance();
+        }
+        $data->student_id = session('userid')->id;
+        $data->class_id = $sub->class_id;
+        $data->subject_id = $sub->id;
+        $data->tutor_id = $class->tutor_id;
+        $data->topic_id = $class->topic_id;
+        $data->class_starts_at = $class->start_time;
+        // $data->class_ends_at = ;
+        $data->status = 1;
+        $data->batch_id = $class->batch_id;
+        $res = $data->save();
+        return json_encode(array('statusCode' => 200));
     }
 }
