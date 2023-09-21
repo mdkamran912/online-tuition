@@ -130,7 +130,7 @@
                                             <th scope="col">Prefered Slot-2</th>
                                             <th scope="col">Prefered Slot-3</th>
                                             <th scope="col">Confirmed Slot</th>
-                                            <th scope="col">Demo Link</th>
+                                            {{-- <th scope="col">Demo Link</th> --}}
                                             <th scope="col">Remarks</th>
                                             {{-- <th scope="col">Change Status</th> --}}
                                             <th scope="col">Action</th>
@@ -157,13 +157,15 @@
                                                         <span class="badge bg-success">{{ $demo->currentstatus }}</span>
                                                     @elseif ($demo->status == 5)
                                                         <span class="badge bg-danger">{{ $demo->currentstatus }}</span>
+                                                    @elseif ($demo->status == 8)
+                                                        <span class="badge bg-primary">{{ $demo->currentstatus }}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $demo->slot_1 }}</td>
                                                 <td>{{ $demo->slot_2 }}</td>
                                                 <td>{{ $demo->slot_3 }}</td>
                                                 <td>{{ $demo->slot_confirmed }}</td>
-                                                <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td>
+                                                {{-- <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td> --}}
                                                 <td>{{ $demo->remarks }}</td>
                                                 <td>
                                                     @if ($demo->status == 1)
@@ -178,8 +180,14 @@
                                                         @if ($demo->status == 3)
                                                         
                                                     
+                                                    <button class="btn btn-sm btn-primary" onclick="updatedemostatus({{ $demo->demo_id }})"
+                                                        ><i class="ri-play-circle-fill"></i> Start Class</button>
+                                                        @endif
+                                                        @if ($demo->status == 8)
+                                                        
+                                                    
                                                     <a href="{{$demo->demo_link}}"><button class="btn btn-sm btn-success"
-                                                        >Start Class</button></a>
+                                                        ><i class="ri-vidicon-fill"></i> Join Class</button></a>
                                                         @endif
                                                 </td>
                                             </tr>
@@ -481,5 +489,33 @@
 
 
             });
+            function updatedemostatus(id) {
+
+var url = "{{ URL('admin/demo/status/update') }}";
+// var id=
+$.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    data: {
+        _token: '{{ csrf_token() }}',
+        id: id,
+        status: status
+    },
+    success: function(dataResult) {
+        dataResult = JSON.parse(dataResult);
+        if (dataResult.statusCode) {
+
+            toastr.success('status changed')
+            window.location = "{{URL('admin/demolist')}}" ;
+
+        } else {
+            alert("Something went wrong. Please try again later");
+        }
+
+    }
+});
+
+}
         </script>
     @endsection

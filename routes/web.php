@@ -184,6 +184,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
     Route::post('demo/confirm', [GoogleCalendarController::class, 'democonfirm'])->name('admin.demo.confirm');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('admin.demo.update');
+    Route::get('demo/status/update', [DemoController::class, 'demostatusupdate'])->name('admin.demo.status.update');
     Route::post('demolist-search', [DemoController::class, 'demolistsearch'])->name('admin.demolist-search');
     // student profile from admin side
     Route::get('studentprofile/{id}', [StudentProfileController::class, 'studentprofile'])->name('admin.studentprofile');
