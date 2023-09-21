@@ -1,36 +1,34 @@
 @extends('tutor.layouts.main')
 @section('main-section')
- <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-            <style>
-                .listHeader {
-                    display: flex;
-                    justify-content: space-between;
-                }
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <style>
+    .listHeader {
+        display: flex;
+        justify-content: space-between;
+    }
 
-                .moveRight {
-    float: right;
-}
+    .moveRight {
+        float: right;
+    }
+    </style>
 
-    
-   
-            </style>
-
-            <div class="page-content">
-                <div class="container-fluid">
+    <div class="page-content">
+        <div class="container-fluid">
             @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
+            <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
             @if (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+            <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Upcoming Classes </h3>
-                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><i class="ri-calendar-todo-fill"></i> Schedule Class</button>
+                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><i class="ri-calendar-todo-fill"></i>
+                    Schedule Class</button>
             </div>
-            
+
             <div class="mt-4 table-responsive" id="">
 
                 <table class="table table-hover table-striped align-middle mb-0 ">
@@ -49,52 +47,56 @@
                     </thead>
                     <tbody>
                         @foreach ($liveclasses as $liveclass)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
-                                {{-- <td>{{ $liveclass->status }}</td> --}}
-                                <td>
-                                    @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
-                                        <span class="badge bg-success">Confirmed</span>
-                                    @elseif ($liveclass->status == 'waiting' || $liveclass->status == 'Waiting')
-                                        <span class="badge bg-primary">Waiting Confirmation</span>
-                                    @elseif ($liveclass->status == 'started' || $liveclass->status == 'Started')
-                                        <span class="badge bg-success">Started</span>
-                                    @elseif ($liveclass->status == 'cancelled' || $liveclass->status == 'Cancelled')
-                                        <span class="badge bg-danger">Cancelled</span>
-                                    {{-- @elseif ($liveclasses->status == 5)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
+                            {{-- <td>{{ $liveclass->status }}</td> --}}
+                            <td>
+                                @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
+                                <span class="badge bg-success">Confirmed</span>
+                                @elseif ($liveclass->status == 'waiting' || $liveclass->status == 'Waiting')
+                                <span class="badge bg-primary">Waiting Confirmation</span>
+                                @elseif ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                <span class="badge bg-success">Started</span>
+                                @elseif ($liveclass->status == 'cancelled' || $liveclass->status == 'Cancelled')
+                                <span class="badge bg-danger">Cancelled</span>
+                                {{-- @elseif ($liveclasses->status == 5)
                                         <span class="badge bg-danger">{{ $liveclasses->currentstatus }}</span>
-                                    @elseif ($liveclasses->status == 8)
-                                        <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
-                                    @endif
-                                </td>
-                                <td>{{ $liveclass->subjects }}</td>
-                                <td>{{ $liveclass->batch }}</td>
-                                <td>{{ $liveclass->topics }}</td>
-                                <td>{{ $liveclass->start_time }}</td>
-                                <td>{{ $liveclass->duration }} min</td>
+                                @elseif ($liveclasses->status == 8)
+                                <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
+                                @endif
+                            </td>
+                            <td>{{ $liveclass->subjects }}</td>
+                            <td>{{ $liveclass->batch }}</td>
+                            <td>{{ $liveclass->topics }}</td>
+                            <td>{{ $liveclass->start_time }}</td>
+                            <td>{{ $liveclass->duration }} min</td>
 
-                                <td class="btns gap-2 text-nowrap">
-                                    @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
-                                    <button class="btn btn-sm btn-success " onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
-                                            class="fa fa-play-circle "></span> Start Class</button>
-                                    @endif
-                                    @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
-                                    <button class="btn btn-sm btn-success " onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
+                            <td class="btns gap-2 text-nowrap">
+                                @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
+                                <button class="btn btn-sm btn-success "
+                                    onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
+                                        class="fa fa-play-circle "></span> Start Class</button>
+                                @endif
+                                @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                <button class="btn btn-sm btn-success "
+                                    onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
                                         class="fa fa-play-circle "></span> Join Class</button>
-                                    @endif
-                                    @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
-                                    <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}">
+                                @endif
+                                @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                <!-- <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}">
                                         <button class="btn btn-sm btn-primary"><span
                                                 class="fa fa-check "></span> Mark Completed</button>
-                                    </a>
-                                    @endif
-                                </td>
-                                {{-- <td><button class="btn btn-sm btn-primary"
+                                    </a> -->
+                                <button class="btn btn-sm btn-primary" onclick="openMarkModal();"><span
+                                        class="fa fa-check "></span> Mark Completed</button>
+                                @endif
+                            </td>
+                            {{-- <td><button class="btn btn-sm btn-primary"
                                     onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
-                                        class="fa fa-search"></span> Start Class</button>
+                                class="fa fa-search"></span> Start Class</button>
                             </td> --}}
-                            </tr>
+                        </tr>
                         @endforeach
 
                     </tbody>
@@ -103,16 +105,15 @@
                     {{-- {!! $demos->links() !!} --}}
                 </div>
                 {{-- <form action="{{ route('tutor.liveclass.store') }}" method="POST">
-                    @csrf
-                    <input type="text" id="url" name="url"
-                        value="{{ url()->full() }}">{{ url()->full('code') }}
-                    <button type="submit" class="success">Submit</button>
+                @csrf
+                <input type="text" id="url" name="url" value="{{ url()->full() }}">{{ url()->full('code') }}
+                <button type="submit" class="success">Submit</button>
                 </form> --}}
                 <br>
 
                 {{-- <form action="{{ route('tutor.liveclass.getuser') }}" method="GET">
-                    @csrf
-                    <input type="text" id="zuser" name="zuser"><button type="submit" class="success">Submit</button>
+                @csrf
+                <input type="text" id="zuser" name="zuser"><button type="submit" class="success">Submit</button>
                 </form> --}}
 
             </div>
@@ -141,10 +142,10 @@
 
                          </select> --}}
                                     <style>
-                                        .newclass td,
-                                        .newclass th {
-                                            padding: 2px !important
-                                        }
+                                    .newclass td,
+                                    .newclass th {
+                                        padding: 2px !important
+                                    }
                                     </style>
                                     <table class="table table-bordered newclass" style="margin: 0%;">
                                         <thead>
@@ -161,8 +162,8 @@
                             </div>
 
 
-                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"><span
-                                    class="fa fa-times"></span> Close</button>
+                            <button type="button" class="btn btn-sm btn-danger mr-1 moveRight"
+                                data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
 
 
 
@@ -196,12 +197,12 @@
                                     <select type="text" class="form-control" id="class" name="class"
                                         onchange="fetchSubjects()">
                                         @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger">
                                         @error('class')
-                                            {{ 'Class is required' }}
+                                        {{ 'Class is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -213,7 +214,7 @@
                                     </select>
                                     <span class="text-danger">
                                         @error('subject')
-                                            {{ 'Subject is required' }}
+                                        {{ 'Subject is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -224,7 +225,7 @@
                                     </select>
                                     <span class="text-danger">
                                         @error('batchid')
-                                            {{ 'Batch is required' }}
+                                        {{ 'Batch is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -235,7 +236,7 @@
                                     </select>
                                     <span class="text-danger">
                                         @error('topic')
-                                            {{ 'Topic is required' }}
+                                        {{ 'Topic is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -245,7 +246,7 @@
                                         name="classstarttime">
                                     <span class="text-danger">
                                         @error('classstarttime')
-                                            {{ 'Class start time is required' }}
+                                        {{ 'Class start time is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -255,7 +256,7 @@
                                     <input type="tet" class="form-control" id="classduration" name="classduration">
                                     <span class="text-danger">
                                         @error('classduration')
-                                            {{ 'Class duration is required' }}
+                                        {{ 'Class duration is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -264,7 +265,7 @@
                                     <input type="tet" class="form-control" id="classpassword" name="classpassword">
                                     <span class="text-danger">
                                         @error('classpassword')
-                                            {{ 'Class password is required' }}
+                                        {{ 'Class password is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -272,11 +273,10 @@
 
 
                             <div style="float:right">
-                            <button type="button" class="btn btn-sm btn-danger mr-1 "
-                                    data-dismiss="modal" onclick="closeModal();">Close</button>
-                                <button type="submit" id=""
-                                    class="btn btn-sm btn-success ">Submit</button>
-                                
+                                <button type="button" class="btn btn-sm btn-danger mr-1 " data-dismiss="modal"
+                                    onclick="closeModal();">Close</button>
+                                <button type="submit" id="" class="btn btn-sm btn-success ">Submit</button>
+
                             </div>
 
 
@@ -286,205 +286,239 @@
                 </div>
             </div>
         </div>
-<!--recording warning modal -->
-<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
+        <!--recording warning modal -->
+        <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
 
-        <div class="modal-body">
+                    <div class="modal-body">
 
 
-            <header>
-                <h3 class="text-center mb-4 text-danger"><u>Warning!</u></h3>
-            </header>
+                        <header>
+                            <h3 class="text-center mb-4 text-danger"><u>Warning!</u></h3>
+                        </header>
 
-            <h4 class="">Please Make Sure To Start The <span style="color: red"><i class="ri-record-circle-fill"></i> Recording</span></h4>
-            <br>
-            <p class=""><span class="text-primary"><b>Hint To Start Recording :</b></span> <br>Step 1: Start The Class<br>Step 2: Click On 3 vertical dots(<i class="ri-more-2-fill"></i>)<br>Step 3: Manage Recordings<br>Step 4: Start Recording<br>Step 5: Start(Sometimes A Consent Message Will Display)</p>
-            <div id='warningbtn' style="float:right">
-                
+                        <h4 class="">Please Make Sure To Start The <span style="color: red"><i
+                                    class="ri-record-circle-fill"></i> Recording</span></h4>
+                        <br>
+                        <p class=""><span class="text-primary"><b>Hint To Start Recording :</b></span> <br>Step 1: Start
+                            The Class<br>Step 2: Click On 3 vertical dots(<i class="ri-more-2-fill"></i>)<br>Step 3:
+                            Manage Recordings<br>Step 4: Start Recording<br>Step 5: Start(Sometimes A Consent Message
+                            Will Display)</p>
+                        <div id='warningbtn' style="float:right">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="markcompleted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Video Link</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <input type="text" class="form-control" placeholder="Paste Video Link Here">
+                            </div>
+                        </div>
+                        <div style="float:right; margin-top:5px">
+                            <button class="btn btn-sm btn-success">Submit</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-        <script>
-             function closeModal(){
-                $('#scheduleclassmodal').modal('hide');
-            }
-            function openclassmodal(batchid, subjectid) {
-                $('#batchid').val(batchid);
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchtopics') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectid,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#topic').html('<option value="">-- Select Topic --</option>');
-                        $.each(result.topics, function(key, value) {
-                            $("#topic").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
 
-                    }
 
+    <script>
+    function closeModal() {
+        $('#scheduleclassmodal').modal('hide');
+    }
+
+    function openMarkModal() {
+        $('#markcompleted').modal('show');
+    }
+
+    function openclassmodal(batchid, subjectid) {
+        $('#batchid').val(batchid);
+        $("#topic").html('');
+        $.ajax({
+            url: "{{ url('fetchtopics') }}",
+            type: "POST",
+            data: {
+                subject_id: subjectid,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#topic').html('<option value="">-- Select Topic --</option>');
+                $.each(result.topics, function(key, value) {
+                    $("#topic").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
                 });
-
-                $('#scheduleclassmodal').modal('show')
-
-            }
-
-            function openstudentmodal(id) {
-                var classId = $('#classname option:selected').val();
-                $("#subject").html('');
-                $.ajax({
-                    url: "{{ url('tutor/batches/students') }}/" + id,
-                    type: "GET",
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        // console.log(result)
-                        $('#studentlist').html('');
-                        $.each(result, function(key, value) {
-                            // $("#studentlist").append(value.name);
-                        });
-                        var table = "";
-                        var p = 0;
-                        for (var i in result) {
-                            p++;
-                            table += "<tr>";
-                            table += "<td hidden>" +
-                                result[i].id + "</td>" +
-                                "<td>" + p + "</td>" +
-                                "<td>" + result[i].name + "</td>";
-                            table += "</tr>";
-                        }
-
-                        document.getElementById("studentlist").innerHTML = table;
-                    }
-
-                });
-                // $('#studentlist').val()
-                $('#studentlistmodal').modal('show')
 
             }
 
-            function fetchSubjects() {
+        });
 
-                var classId = $('#class option:selected').val();
-                $("#subject").html('');
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchsubjects') }}",
-                    type: "POST",
-                    data: {
-                        class_id: classId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#subject').html('<option value="">-- Select Type --</option>');
-                        $.each(result.subjects, function(key, value) {
-                            $("#subject").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
-
-            function fetchTopics() {
-
-                var subjectId = $('#subject option:selected').val();
-                $("#topic").html('');
-                $.ajax({
-                    url: "{{ url('fetchtopics') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#topic').html('<option value="">-- Select Type --</option>');
-                        $.each(result.topics, function(key, value) {
-                            $("#topic").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
-
-            function batchbysubject() {
-
-                var subjectId = $('#subject option:selected').val();
-                $("#batchid").html('');
-                $.ajax({
-                    url: "{{ url('batchbysubject') }}",
-                    type: "POST",
-                    data: {
-                        subject_id: subjectId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#batchid').html('<option value="">-- Select Type --</option>');
-                        $.each(result.batches, function(key, value) {
-                            $("#batchid").append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
-                        });
-
-                    }
-
-                });
-
-            };
-        //     function warningModal(link){
-        //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
-        //     $('#warningModal').modal('show');
-            
-        // }
-        function warningModal(id,link) {
-
-var url = "{{ URL('tutor/liveclass/status/update') }}";
-// var id=
-$.ajax({
-    url: url,
-    type: "GET",
-    cache: false,
-    data: {
-        _token: '{{ csrf_token() }}',
-        id: id,
-        status: status
-    },
-    success: function(dataResult) {
-        dataResult = JSON.parse(dataResult);
-        if (dataResult.statusCode) {
-
-            toastr.success('status changed')
-            document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
-            $('#warningModal').modal('show');
-
-        } else {
-            alert("Something went wrong. Please try again later");
-        }
+        $('#scheduleclassmodal').modal('show')
 
     }
-});
 
-}
-        </script>
+    function openstudentmodal(id) {
+        var classId = $('#classname option:selected').val();
+        $("#subject").html('');
+        $.ajax({
+            url: "{{ url('tutor/batches/students') }}/" + id,
+            type: "GET",
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                // console.log(result)
+                $('#studentlist').html('');
+                $.each(result, function(key, value) {
+                    // $("#studentlist").append(value.name);
+                });
+                var table = "";
+                var p = 0;
+                for (var i in result) {
+                    p++;
+                    table += "<tr>";
+                    table += "<td hidden>" +
+                        result[i].id + "</td>" +
+                        "<td>" + p + "</td>" +
+                        "<td>" + result[i].name + "</td>";
+                    table += "</tr>";
+                }
+
+                document.getElementById("studentlist").innerHTML = table;
+            }
+
+        });
+        // $('#studentlist').val()
+        $('#studentlistmodal').modal('show')
+
+    }
+
+    function fetchSubjects() {
+
+        var classId = $('#class option:selected').val();
+        $("#subject").html('');
+        $("#topic").html('');
+        $.ajax({
+            url: "{{ url('fetchsubjects') }}",
+            type: "POST",
+            data: {
+                class_id: classId,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#subject').html('<option value="">-- Select Type --</option>');
+                $.each(result.subjects, function(key, value) {
+                    $("#subject").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+
+            }
+
+        });
+
+    };
+
+    function fetchTopics() {
+
+        var subjectId = $('#subject option:selected').val();
+        $("#topic").html('');
+        $.ajax({
+            url: "{{ url('fetchtopics') }}",
+            type: "POST",
+            data: {
+                subject_id: subjectId,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#topic').html('<option value="">-- Select Type --</option>');
+                $.each(result.topics, function(key, value) {
+                    $("#topic").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+
+            }
+
+        });
+
+    };
+
+    function batchbysubject() {
+
+        var subjectId = $('#subject option:selected').val();
+        $("#batchid").html('');
+        $.ajax({
+            url: "{{ url('batchbysubject') }}",
+            type: "POST",
+            data: {
+                subject_id: subjectId,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#batchid').html('<option value="">-- Select Type --</option>');
+                $.each(result.batches, function(key, value) {
+                    $("#batchid").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+
+            }
+
+        });
+
+    };
+    //     function warningModal(link){
+    //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
+    //     $('#warningModal').modal('show');
+
+    // }
+    function warningModal(id, link) {
+
+        var url = "{{ URL('tutor/liveclass/status/update') }}";
+        // var id=
+        $.ajax({
+            url: url,
+            type: "GET",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                status: status
+            },
+            success: function(dataResult) {
+                dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode) {
+
+                    toastr.success('status changed')
+                    document.getElementById('warningbtn').innerHTML =
+                        `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
+                    $('#warningModal').modal('show');
+
+                } else {
+                    alert("Something went wrong. Please try again later");
+                }
+
+            }
+        });
+
+    }
+    </script>
     @endsection
