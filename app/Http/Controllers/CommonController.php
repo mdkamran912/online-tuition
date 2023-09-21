@@ -6,6 +6,7 @@ use App\Models\batches;
 use App\Models\classes;
 use App\Models\status;
 use App\Models\studentregistration;
+use App\Models\batchstudentmapping;
 use App\Models\subjects;
 use App\Models\topics;
 use Illuminate\Http\Request;
@@ -55,6 +56,7 @@ class CommonController extends Controller
     public function studentsbybatch(Request $request)
     {
         $targetValue = 1;
+        // dd($request->batchId);
         //     $data['students'] = studentregistration::select('*')
         //     ->join('batchstudentmappings', 'studentregistrations.student_id', '=', 'batchstudentmappings.student_id')
         // ->whereIn('batchstudentmappings.student_id', $studentIdsArray)
@@ -64,17 +66,21 @@ class CommonController extends Controller
         // ->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetValue\"')")
         // ->where('batchstudentmappings.batch_id', $request->batch_id)
         // ->get();
-       
-        $targetStudentData = ["1", "3"];
+        $batchesstudents = batchstudentmapping::where('batch_id',$request->batch_id)->where('tutor_id', session('userid')->id)->first();
 
+        $targetStudentData = json_decode($batchesstudents->student_data);
+        // $targetStudentData = ["1", "3"];
+// dd($targetStudentData);
         $results['students'] = StudentRegistration::
-            join('batchstudentmappings', function ($join) use ($targetStudentData) {
-                $join->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"studentregistrations.id[0]\"')"); // For the first element
-                for ($i = 1; $i < count($targetStudentData); $i++) {
-                    $join->orWhereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetStudentData[$i]\"')");
-                }
-            })
-            ->select('studentregistrations.*', 'batchstudentmappings.*')
+            whereIn('id',$targetStudentData)
+            // join('batchstudentmappings', function ($join) use ($targetStudentData) {
+            //     $join->whereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"studentregistrations.id[0]\"')"); // For the first element
+            //     for ($i = 1; $i < count($targetStudentData); $i++) {
+            //         $join->orWhereRaw("JSON_CONTAINS(batchstudentmappings.student_data, '\"$targetStudentData[$i]\"')");
+            //     }
+            // })
+            ->select('studentregistrations.*')
+            // 'batchstudentmappings.*'
             // ->where('batchstudentmappings','batchstudentmappings.batch_id',$request->batchid)
             ->get();
         // dd($results);

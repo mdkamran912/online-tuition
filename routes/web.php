@@ -288,6 +288,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::any('classschedule', [GoogleCalendarController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass');
     // Feedback by tutor
     Route::get('feedback', [FeedbackController::class, 'index'])->name('tutor.feedback.list');
+    Route::post('tutorfeedback-student', [FeedbackController::class, 'tutorsubmitstudentreview'])->name('tutor.feedback.student');
     // Message By Tutor
     Route::get('messages', [MessagesController::class, 'messagesbytutor'])->name('tutor.messages');
     Route::get('adminmessages', [MessagesController::class, 'messagesbytutoradmins'])->name('tutor.messages.admins');
