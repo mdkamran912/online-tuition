@@ -374,4 +374,11 @@ class ZoomClassesController extends Controller
             return back()->with('fail', 'Something went wrong. Please try again later');
         }
     }
+
+    public function liveclassstatusupdate(Request $request){
+        $data = zoom_classes::find($request->id);
+    $data->status = 'Started';
+    $res = $data->save();
+    return json_encode(array('statusCode' => 200));
+    }
 }

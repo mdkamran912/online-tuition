@@ -26,7 +26,7 @@
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
-                            <th scope="col">Meeting ID</th>
+                            {{-- <th scope="col">Meeting ID</th> --}}
                             <th scope="col">Subject</th>
                             <th scope="col">Batch</th>
                             <th scope="col">Topic</th>
@@ -40,14 +40,29 @@
                         @foreach ($liveclasses as $liveclass)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $liveclass->meeting_id }}</td>
+                            {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
                             <td>{{ $liveclass->subjects }}</td>
                             <td>{{ $liveclass->batch }}</td>
                             <td>{{ $liveclass->topics }}</td>
                             <td>{{ $liveclass->start_time }}</td>
                             <td>{{ $liveclass->duration }}</td>
-                            <td>{{ $liveclass->status }}</td>
-                            <td><button class="btn btn-primary" onclick="openAttModal();">Attendance</button></td>
+                            {{-- <td>{{ $liveclass->status }}</td> --}}
+                            <td>
+                                @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
+                                    <span class="badge bg-success">Confirmed</span>
+                                @elseif ($liveclass->status == 'waiting' || $liveclass->status == 'Waiting')
+                                    <span class="badge bg-primary">Waiting Confirmation</span>
+                                @elseif ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                    <span class="badge bg-success">Started</span>
+                                @elseif ($liveclass->status == 'cancelled' || $liveclass->status == 'Cancelled')
+                                    <span class="badge bg-danger">Cancelled</span>
+                                @elseif ($liveclass->status == 'completed' || $liveclass->status == 'Completed')
+                                    <span class="badge bg-success">Completed</span>
+                                {{-- @elseif ($liveclasses->status == 8)
+                                    <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
+                                @endif
+                            </td>
+                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal();">Attendance</button></td>
 
                         </tr>
                         @endforeach

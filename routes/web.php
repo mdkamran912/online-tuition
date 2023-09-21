@@ -287,13 +287,14 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('assignments', [AssignmentsController::class, 'tutorassignments'])->name('tutor.assignments');
     Route::post('assignments', [AssignmentsController::class, 'tutorassignmentscreate'])->name('tutor.assignments.create');
     Route::get('assignments/{id}', [AssignmentsController::class, 'tutorview'])->name('tutor.assignments.view');
-    // Live Classes(Zoom Meeting)
+    // Live Classes(GMeet Meeting)
     Route::get('liveclass', [ZoomClassesController::class, 'index'])->name('tutor.liveclass');
     Route::get('liveclass/completed/{id}', [ZoomClassesController::class, 'completed'])->name('tutor.liveclass.completed');
     Route::get('liveclass/create', [ZoomClassesController::class, 'create'])->name('tutor.liveclass.create');
     Route::post('liveclass/store', [ZoomClassesController::class, 'store'])->name('tutor.liveclass.store');
     Route::get('getuser', [ZoomClassesController::class, 'getzoomuser'])->name('tutor.liveclass.getuser');
     Route::get('getclasslist', [GoogleCalendarController::class, 'classlist'])->name('tutor.liveclass.classlist');
+    Route::get('liveclass/status/update',[ZoomClassesController::class,'liveclassstatusupdate'])->name('tutor.liveclass.status.update');
     // Route::get('getclass-bkp', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
     Route::get('getclass', [GoogleCalendarController::class, 'classlist'])->name('tutor.meet.classlist');
     // Route::post('classschedule-bkp', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass-bkp');

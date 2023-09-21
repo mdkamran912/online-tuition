@@ -28,7 +28,7 @@
             @endif
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Upcoming Classes </h3>
-                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><span class="fa fa-plus-circle"> </span> Schedule Class</button>
+                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><i class="ri-calendar-todo-fill"></i> Schedule Class</button>
             </div>
             
             <div class="mt-4 table-responsive" id="">
@@ -37,7 +37,7 @@
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
-                            <th scope="col">Meeting ID</th>
+                            {{-- <th scope="col">Meeting ID</th> --}}
                             <th scope="col">Status</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Batch</th>
@@ -51,22 +51,44 @@
                         @foreach ($liveclasses as $liveclass)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $liveclass->meeting_id }}</td>
-                                <td>{{ $liveclass->status }}</td>
+                                {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
+                                {{-- <td>{{ $liveclass->status }}</td> --}}
+                                <td>
+                                    @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
+                                        <span class="badge bg-success">Confirmed</span>
+                                    @elseif ($liveclass->status == 'waiting' || $liveclass->status == 'Waiting')
+                                        <span class="badge bg-primary">Waiting Confirmation</span>
+                                    @elseif ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                        <span class="badge bg-success">Started</span>
+                                    @elseif ($liveclass->status == 'cancelled' || $liveclass->status == 'Cancelled')
+                                        <span class="badge bg-danger">Cancelled</span>
+                                    {{-- @elseif ($liveclasses->status == 5)
+                                        <span class="badge bg-danger">{{ $liveclasses->currentstatus }}</span>
+                                    @elseif ($liveclasses->status == 8)
+                                        <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
+                                    @endif
+                                </td>
                                 <td>{{ $liveclass->subjects }}</td>
                                 <td>{{ $liveclass->batch }}</td>
                                 <td>{{ $liveclass->topics }}</td>
                                 <td>{{ $liveclass->start_time }}</td>
-                                <td>{{ $liveclass->duration }}</td>
+                                <td>{{ $liveclass->duration }} min</td>
+
                                 <td class="btns gap-2 text-nowrap">
-                                    <a href="{{$liveclass->start_url}}" target="_blank" >
-                                        <button class="btn btn-sm btn-primary "><span
+                                    @if ($liveclass->status == 'confirmed' || $liveclass->status == 'Confirmed')
+                                    <button class="btn btn-sm btn-success " onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
                                             class="fa fa-play-circle "></span> Start Class</button>
-                                    </a>
+                                    @endif
+                                    @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
+                                    <button class="btn btn-sm btn-success " onclick="warningModal('{{$liveclass->liveclass_id}}','{{$liveclass->start_url}}')"><span
+                                        class="fa fa-play-circle "></span> Join Class</button>
+                                    @endif
+                                    @if ($liveclass->status == 'started' || $liveclass->status == 'Started')
                                     <a href="{{url('tutor/liveclass/completed').'/'.$liveclass->liveclass_id}}">
-                                        <button class="btn btn-sm btn-success"><span
+                                        <button class="btn btn-sm btn-primary"><span
                                                 class="fa fa-check "></span> Mark Completed</button>
                                     </a>
+                                    @endif
                                 </td>
                                 {{-- <td><button class="btn btn-sm btn-primary"
                                     onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
@@ -264,7 +286,30 @@
                 </div>
             </div>
         </div>
+<!--recording warning modal -->
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
 
+
+        <div class="modal-body">
+
+
+            <header>
+                <h3 class="text-center mb-4 text-danger"><u>Warning!</u></h3>
+            </header>
+
+            <h4 class="">Please Make Sure To Start The <span style="color: red"><i class="ri-record-circle-fill"></i> Recording</span></h4>
+            <br>
+            <p class=""><span class="text-primary"><b>Hint To Start Recording :</b></span> <br>Step 1: Start The Class<br>Step 2: Click On 3 vertical dots(<i class="ri-more-2-fill"></i>)<br>Step 3: Manage Recordings<br>Step 4: Start Recording<br>Step 5: Start(Sometimes A Consent Message Will Display)</p>
+            <div id='warningbtn' style="float:right">
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
         <script>
              function closeModal(){
                 $('#scheduleclassmodal').modal('hide');
@@ -407,5 +452,39 @@
                 });
 
             };
+        //     function warningModal(link){
+        //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
+        //     $('#warningModal').modal('show');
+            
+        // }
+        function warningModal(id,link) {
+
+var url = "{{ URL('tutor/liveclass/status/update') }}";
+// var id=
+$.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    data: {
+        _token: '{{ csrf_token() }}',
+        id: id,
+        status: status
+    },
+    success: function(dataResult) {
+        dataResult = JSON.parse(dataResult);
+        if (dataResult.statusCode) {
+
+            toastr.success('status changed')
+            document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
+            $('#warningModal').modal('show');
+
+        } else {
+            alert("Something went wrong. Please try again later");
+        }
+
+    }
+});
+
+}
         </script>
     @endsection
