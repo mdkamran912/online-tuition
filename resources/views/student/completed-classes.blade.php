@@ -10,6 +10,8 @@
         display: flex;
         justify-content: space-between;
     }
+
+   
     </style>
 
     <div class="page-content">
@@ -24,6 +26,8 @@
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Completed Classes</h3>
             </div>
+
+            
 
             <form id="payment-search">
                 <div class="row ">
@@ -99,7 +103,8 @@
                             <td>{{ $class->duration }}</td>
                             <td>
                                 @if ($class->is_completed == 1)
-                                <a href="{{$class->recording_link}}"><button class="btn btn-sm" style="background: green"><i class="ri-play-circle-line"></i> Play</button></a>
+                                <!-- <a href="{{$class->recording_link}}"><button class="btn btn-sm" style="background: #57b49d"><i class="ri-play-circle-line"></i> Play</button></a> -->
+                                <button class="btn btn-sm" style="background: #57b49d" onclick="play();"><i class="ri-play-circle-line"></i> Play</button>
                                 @endforelse
 
                             </td>
@@ -204,6 +209,21 @@
     </div>
 </div>
 
+<div class="modal fade" id="playModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+
+                                
+             <iframe src="https://drive.google.com/file/d/1t-BI3eKKeeLpUpcoUFfB3nXF3hw1TPcd/preview" width="100%" height="480" allow="autoplay" allowfullscreen ="true"></iframe>   
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function openfeedbackmodal(id, subjectid, tutorid) {
     $('#id').val(id)
@@ -243,6 +263,10 @@ function updateTableAndPagination(data) {
     // $('#tableContainer').html(data.table);
     $('.users-table tbody').html(data.table);
     $('#paginationContainer').html(data.pagination);
+}
+
+function play(){
+    $('#playModal').modal('show');
 }
 
 $(document).ready(function() {
