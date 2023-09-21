@@ -103,15 +103,11 @@
                             <td>{{ $class->duration }}</td>
                             <td>
                                 @if ($class->is_completed == 1)
-                                <!-- <a href="{{$class->recording_link}}"><button class="btn btn-sm" style="background: #57b49d"><i class="ri-play-circle-line"></i> Play</button></a> -->
-                                <button class="btn btn-sm" style="background: #57b49d" onclick="play();"><i class="ri-play-circle-line"></i> Play</button>
+                                <button class="btn btn-sm btn-success" onclick="play('{{$class->recording_link}}');"><i class="ri-play-circle-line"></i> Play</button>
                                 @endforelse
 
                             </td>
-                            {{-- <td><button class="btn btn-sm btn-primary"
-                                            onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
-                                class="fa fa-search"></span> Start Class</button>
-                            </td> --}}
+                            
                         </tr>
                         @endforeach
 
@@ -214,12 +210,9 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             
-            <div class="modal-body">
-
-                                
-             <iframe src="https://drive.google.com/file/d/1t-BI3eKKeeLpUpcoUFfB3nXF3hw1TPcd/preview" width="100%" height="480" allow="autoplay" allowfullscreen ="true"></iframe>   
-
+            <div class="modal-body" id="iframeid">
             </div>
+            <p id="link_test"></p>
         </div>
     </div>
 </div>
@@ -265,8 +258,12 @@ function updateTableAndPagination(data) {
     $('#paginationContainer').html(data.pagination);
 }
 
-function play(){
-    $('#playModal').modal('show');
+function play(link){
+    // document.getElementById('iframeid').innerHTML = `<iframe src="${link}" width="100%" height="480" allow="autoplay" allowfullscreen ="true"></iframe>`                   
+    // document.getElementById('link_test').innerHTML = `${link}`                   
+    
+    // $('#playModal').modal('show');
+    window.location = link;
 }
 
 $(document).ready(function() {
