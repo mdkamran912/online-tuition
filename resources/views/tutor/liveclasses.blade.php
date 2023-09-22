@@ -497,35 +497,7 @@
         });
 
     };
-    //     function warningModal(link){
-    //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
-    //     $('#warningModal').modal('show');
 
-    // }
-    function warningModal(id, link) {
-
-        var url = "{{ URL('tutor/liveclass/status/update') }}";
-        // var id=
-        $.ajax({
-            url: url,
-            type: "GET",
-            cache: false,
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: id,
-                status: status
-            },
-            success: function(dataResult) {
-                dataResult = JSON.parse(dataResult);
-                if (dataResult.statusCode) {
-
-
-
-            }
-
-        });
-
-    };
     //     function warningModal(link){
     //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
     //     $('#warningModal').modal('show');
