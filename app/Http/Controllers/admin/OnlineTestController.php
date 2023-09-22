@@ -342,4 +342,8 @@ class OnlineTestController extends Controller
         // dd($correctResponsesCount);
         return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
     }
+
+    public function onlinetestresponseslist(){
+        return view('admin.onlinetestresponses');
+    }
 }

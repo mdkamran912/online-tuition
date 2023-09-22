@@ -780,6 +780,9 @@
                                             <li class="nav-item">
                                                 <a href="{{route('admin.onlinetests')}}" class="nav-link" data-key="t-alerts">Tests</a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a href="{{route('admin.onlinetests.responses')}}" class="nav-link" data-key="t-alerts">Test Responses</a>
+                                            </li>
                                     
                                         </ul>
                                     </div>
