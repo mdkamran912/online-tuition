@@ -76,7 +76,7 @@
                         <td></td>
                         <td></td>
                         <td></td>                     
-                        <td><a href="{{url('admin/onlinetests/responses/student')}}/1"><button class="btn btn-sm btn-primary">View</button></a></td>
+                        <td><button class="btn btn-sm btn-primary">View</button></td>
                     </tr>
 
 

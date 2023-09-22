@@ -235,6 +235,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('onlinetestlist', [OnlineTestController::class, 'index'])->name('admin.onlinetests');
     Route::get('onlinetestresponseslist', [OnlineTestController::class, 'onlinetestresponseslist'])->name('admin.onlinetests.responses.list');
     Route::get('onlinetests/responses/{id}', [OnlineTestController::class, 'onlinetestresponse'])->name('admin.onlinetests.responses');
+    Route::get('onlinetests/responses/student/{id}', [OnlineTestController::class, 'onlinetestresponsestudent'])->name('admin.onlinetests.responses.student');
     Route::get('onlinetests', [OnlineTestController::class, 'create'])->name('admin.onlinetests.create');
     Route::post('onlinetests', [OnlineTestController::class, 'store'])->name('admin.onlinetests.store');
     Route::get('onlinetests/{id}', [OnlineTestController::class, 'edit'])->name('admin.onlinetests.edit');
