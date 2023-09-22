@@ -344,6 +344,9 @@ class OnlineTestController extends Controller
     }
 
     public function onlinetestresponseslist(){
+        return view('admin.onlinetestresponselist');
+    }
+    public function onlinetestresponse(){
         return view('admin.onlinetestresponses');
     }
 }
