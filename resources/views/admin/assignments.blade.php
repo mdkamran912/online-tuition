@@ -43,10 +43,11 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td><div class="text-center"><b> {{$data->assignment_name}}</b><br><br><a class="badge bg-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
+                        <td class="text-nowrap"><div class="text-center"><b> {{$data->assignment_name}}</b>&nbsp;<a class="badge bg-primary" href ="{{$data->assignment_link}}" target="_blank">View</a></td>
                         <td><a href="{{url('admin/studentprofile').'/'.$data->student_id}}" target="_blank">{{$data->student_name}}</a></td>
                         <td>{{$data->submitted_on}}</td>
-                        <td><a href="{{url('admin/studentprofile').'/'.$data->student_id}}" target="_blank">{{$data->student_name}}</a></td>
+                        <!-- <td><a href="{{url('admin/studentprofile').'/'.$data->student_id}}" target="_blank">{{$data->student_name}}</a></td> -->
+                        <td><button class="badge bg-primary">View</button></td>
                         {{-- <td>
                             <div class="toggle-button-cover">
                                 <div class="button-cover">
