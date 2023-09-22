@@ -57,6 +57,7 @@
 <script src="{{url('js/template.js')}}"></script>
 <script src="{{url('js/settings.js')}}"></script>
 <script src="{{url('js/todolist.js')}}"></script>
+<!-- <script src="{{url('js/ckeditor.js')}}"></script> -->
 
 <!-- endinject -->
 <!-- Custom js for this page-->

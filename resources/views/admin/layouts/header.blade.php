@@ -11,12 +11,14 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{url('new-styles/assets/images/favicon.ico')}}">
+    <!-- <script src="{{url('js/ckeditor.js')}}"></script> -->
 
     <!-- plugin css -->
     <link href="{{url('new-styles/assets/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- Layout config Js -->
     <script src="{{url('new-styles/assets/js/layout.js')}}"></script>
+
     <!-- Bootstrap Css -->
     <link href="{{url('new-styles/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -25,7 +27,7 @@
     <link href="{{url('new-styles/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{url('new-styles/assets/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
-    
+
 
 </head>
 

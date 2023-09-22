@@ -20,6 +20,7 @@
         }
         
     </style>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>  
     
 
 
@@ -117,11 +118,13 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <label for="">Question<i style="color:red">*</i></label>
-                        <textarea type="text" class="form-control" rows="5" id="question" name="question">
+                        <!-- <textarea type="text" class="form-control" rows="5" id="question" name="question">
                             {{$qdata->question ?? ''}}
-                        </textarea>
+                        </textarea> -->
+
+                        <textarea name="editor1"></textarea><br/>
 
                         </select>
                         <span class="text-danger">
@@ -240,12 +243,25 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12 col-sm-12 col-12">
+                    <div style="display:flex; justify-content: end;">
                         <button type="submit" id="" class="btn btn-success btn-sm float-right">Save Question</button>
-                    </div>
+                    </div></div>
                 </div>
             </form>
         </div>
         <!-- content-wrapper ends -->
+
+        <script>  
+    CKEDITOR.replace('editor1');  
+    CKEDITOR.replace('editor2');  
+  
+    function getData() {  
+        //Get data written in first Editor   
+        var editor_data = CKEDITOR.instances['editor1'].getData();  
+        //Set data in Second Editor which is written in first Editor  
+        CKEDITOR.instances['editor2'].setData(editor_data);  
+    }  
+</script>  
 
         <script>
             function changestatus(id, status) {
