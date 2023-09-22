@@ -44,8 +44,6 @@
                     <tbody>
                         @foreach ($liveclasses as $liveclass)
 
-
-
                         <tr>
 
                             <td>{{ $loop->iteration }}</td>
@@ -74,7 +72,7 @@
                             @php
                                 $formattedStartTime = date('Y-m-d\TH:i:s\Z', strtotime($liveclass->start_time));
                             @endphp
-                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal({{ $liveclass->batch_id }},{{ $liveclass->class_id }},{{$liveclass->subject_id}},{{$liveclass->topic_id}},'{{ $formattedStartTime }}');">Attendance</button></td>
+                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal({{ $liveclass->batch_id }},{{ $liveclass->class_id }},{{$liveclass->subject_id}},{{$liveclass->topic_id}},'{{ $formattedStartTime }}',{{$liveclass->id}});">Attendance</button></td>
 
                         </tr>
 
@@ -208,6 +206,7 @@
                             <input type="hidden" id="post_topic_id" name="post_topic_id">
                             <input type="hidden" id="post_batch_id" name="post_batch_id">
                             <input type="hidden" id="post_start_time" name="post_start_time">
+                            <input type="hidden" id="post_meeting_id" name="post_meeting_id">
 
 
 
@@ -233,7 +232,7 @@
 
 
         <script>
-        function openAttModal(batch_id,class_id,subject_id,topic_id,start_time) {
+        function openAttModal(batch_id,class_id,subject_id,topic_id,start_time,meeting_id) {
             $.ajax({
                     url: "{{ url('tutor/batches/attendance') }}/" + batch_id,
                     type: "GET",
@@ -243,6 +242,7 @@
                         subject_id: subject_id,
                         topic_id: topic_id,
                         start_time: start_time,
+                        meeting_id: meeting_id,
                         _token: '{{ csrf_token() }}'
                     },
                     dataType: 'json',
@@ -270,6 +270,7 @@
                             $('#post_topic_id').val(result.topic_id);
                             $('#post_batch_id').val(result.batch_id);
                             $('#post_start_time').val(result.start_time);
+                            $('#post_meeting_id').val(result.meeting_id);
                         });
 
                     }
@@ -282,10 +283,5 @@
             $("#studentlistmodal").modal('hidden');
         }
         </script>
-
-
-
-
-
-        @endsection
+    @endsection
 

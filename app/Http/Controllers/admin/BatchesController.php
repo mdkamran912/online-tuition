@@ -54,7 +54,7 @@ class BatchesController extends Controller
         if($request->tutor_name) {
             $query->where('batches.tutor_id',$request->tutor_name);
         }
-
+       
         $batches = $query->paginate(10);
         $viewTable = view('admin.partials.batches-search',compact('batches'))->render();
         $viewPagination = $batches->links()->render();
@@ -196,6 +196,7 @@ class BatchesController extends Controller
                                     ->where('studentattendances.subject_id', $request->subject_id)
                                     ->where('studentattendances.batch_id', $request->batch_id)
                                     ->where('studentattendances.topic_id', $request->topic_id)
+                                    ->where('studentattendances.meeting_id', $request->meeting_id)
                                     ->where('studentattendances.tutor_id', session('userid')->id);
                             })
                             ->whereIn('studentregistrations.id', $explode_id)
@@ -207,7 +208,8 @@ class BatchesController extends Controller
             'class_id' => $request->class_id,
             'topic_id' => $request->topic_id,
             'batch_id' => $request->batch_id,
-            'start_time' => $request->start_time
+            'start_time' => $request->start_time,
+            'meeting_id' => $request->meeting_id
         ]);
     }
 
@@ -224,6 +226,7 @@ class BatchesController extends Controller
             ->where('subject_id',$request->post_subject_id)
             ->where('batch_id',$request->post_batch_id)
             ->where('topic_id',$request->post_topic_id)
+            ->where('meeting_id',$request->post_meeting_id)
             ->where('tutor_id',session('userid')->id)
             ->where('student_id',$student_id)
             ->first();
@@ -240,6 +243,7 @@ class BatchesController extends Controller
                 $data->tutor_id = session('userid')->id;
                 $data->topic_id = $request->post_topic_id;
                 $data->class_starts_at = $request->post_start_time;
+                $data->meeting_id = $request->post_meeting_id;
                 $data->status = $status;
                 $data->batch_id = $request->post_batch_id;
                 $data->save();

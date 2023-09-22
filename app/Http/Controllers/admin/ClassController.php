@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\batchstudentmapping;
+use App\Models\students\studentattendance;
 use App\Models\batches;
 use App\Models\classes;
 use App\Models\subjects;
@@ -61,7 +62,7 @@ class ClassController extends Controller
     }
 
     public function tutorclasses(){
-        $liveclasses = zoom_classes::select('*','batches.name as batch','subjects.name as subjects','topics.name as topics')
+        $liveclasses = zoom_classes::select('zoom_classes.*','batches.name as batch','subjects.name as subjects','topics.name as topics')
         ->join('batches','batches.id','zoom_classes.batch_id')
         ->join('topics','topics.id','zoom_classes.topic_id')
         ->join('subjects','subjects.id','topics.subject_id')
@@ -159,6 +160,8 @@ class ClassController extends Controller
 
     }
 
+
+
     public function student_attendance_report(){
         return view('student.attendance-report');
     }
@@ -167,7 +170,50 @@ class ClassController extends Controller
     }
 
     public function tutorattendance(){
-        return view('tutor.attendance');
+        $studentAttendances =  studentattendance::select("studentattendances.class_starts_at","studentattendances.status",'studentregistrations.name as student_name','subjects.name as subject_name','classes.name as class_name','batches.name as batch_name')
+            ->leftjoin('studentregistrations','studentregistrations.id','studentattendances.student_id')
+            ->leftjoin('subjects', 'subjects.id', '=', 'studentattendances.subject_id')
+            ->leftjoin('batches', 'batches.id', '=', 'studentattendances.batch_id')
+            ->leftjoin('classes', 'classes.id', '=', 'studentattendances.class_id')->where('studentattendances.tutor_id',session('userid')->id)->paginate(10);
+        return view('tutor.attendance',get_defined_vars());
+    }
+
+    public  function tutorattendanceSearch(Request $request){
+        // dd($request->all());
+        $query =  studentattendance::select("studentattendances.class_starts_at","studentattendances.status",'studentregistrations.name as student_name','subjects.name as subject_name','classes.name as class_name','batches.name as batch_name')
+        ->leftjoin('studentregistrations','studentregistrations.id','studentattendances.student_id')
+        ->leftjoin('subjects', 'subjects.id', '=', 'studentattendances.subject_id')
+        ->leftjoin('batches', 'batches.id', '=', 'studentattendances.batch_id')
+        ->leftjoin('classes', 'classes.id', '=', 'studentattendances.class_id')
+        ->where('studentattendances.tutor_id',session('userid')->id);
+        // ->paginate(10);
+        if ($request->student_name) {
+            $query->where('studentregistrations.name','like', '%' . $request->student_name . '%');
+        }
+
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(studentattendances.class_starts_at)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(studentattendances.class_starts_at)'), '<=', $request->end_date);
+        }
+        if ($request->status) {
+            if($request->status==2){
+                $status = 0;
+            }elseif($request->status==1){
+                $status = 1;
+            }
+            $query->where('studentattendances.status',$status );
+        }
+        $studentAttendances = $query->paginate(10);
+        $type = "tutor-attendances";
+        $viewTable = view('admin.partials.common-search', compact('studentAttendances','type'))->render();
+        $viewPagination = $studentAttendances->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
     }
 }
 

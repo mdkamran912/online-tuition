@@ -42,16 +42,25 @@
                             <th scope="col">Student Name</th>
                             <th scope="col">Ratings</th>
                             <th scope="col">Comments</th>
-                            <th scope="col">Action</th>
+                            {{-- <th scope="col">Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
-
-
+                        @foreach ($student_reviews as $review)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $review->class_name ?? '' }}</td>
+                                <td>{{ $review->subject_name ?? '' }}</td>
+                                <td>{{ $review->batch_name ?? '' }}</td>
+                                <td>{{ $review->student_name ?? '' }}</td>
+                                <td>{{ $review->ratings ?? '' }}</td>
+                                <td>{{ $review->description ?? '' }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-                    {{-- {!! $demos->links() !!} --}}
+                    {!! $student_reviews->links() !!}
                 </div>
 
 
@@ -280,36 +289,44 @@
         </script>
 
         <script>
-             $(document).ready(function() {
-            $('#submit-feedback').submit(function(e) {
-                alert('test');
-                e.preventDefault();
-                const page = 1;
-                const ajaxUrl = "{{ route('tutor.feedback.student') }}";
-                var formData = $(this).serialize();
+            $(document).ready(function() {
+                $('#submit-feedback').submit(function(e) {
+                    e.preventDefault();
+                    const page = 1;
+                    const ajaxUrl = "{{ route('tutor.feedback.student') }}";
+                    var formData = $(this).serialize();
 
 
-                $.ajax({
-                    type: 'post',
-                    url: ajaxUrl, // Define your route here
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
+                    $.ajax({
+                        type: 'post',
+                        url: ajaxUrl, // Define your route here
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
 
-                    success: function(data) {
-                        // console.log(data)
-                        updateTableAndPagination(data);
-                    },
-                    error: function(response) {
-                        console.log(response.errors)
+                        success: function(data) {
+                            toastr.success(data.success);
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
+
+                        },
+                        error: function(xhr, status, error) {
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                var errors = xhr.responseJSON.errors;
+                                $.each(errors, function (field, errorMessages) {
+                                    $.each(errorMessages, function (index, errorMessage) {
+                                        toastr.error(errorMessage);
+                                    });
+                                });
+                            }
 
 
-                    }
+                        }
+                    });
+
                 });
-
             });
-
-        });
         </script>
 @endsection

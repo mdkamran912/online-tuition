@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('class_starts_at');
             $table->string('class_ends_at')->nullable();
             $table->integer('status')->nullable();
+            $table->integer('batch_id');
+            $table->integer('meeting_id');
             $table->timestamps();
         });
     }

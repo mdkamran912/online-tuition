@@ -1,5 +1,6 @@
 @extends('tutor.layouts.main')
 @section('main-section')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
@@ -26,13 +27,13 @@
                 <h3>Attendance</h3>
             </div>
 
-            <form id="payment-search" class="">
+            <form id="payment-search">
 
                 <div class="form-group mt-">
                     <div class="row">
                         <div class="col-md-3">
                             <label>Student Name</label>
-                            <input type="text" class="form-control" name="transaction_id">
+                            <input type="text" class="form-control" name="student_name">
 
                         </div>
                         <div class="col-md-3">
@@ -48,7 +49,11 @@
 
                         <div class="col-md-3">
                             <label>Status</label>
-                            <select type="text" class="form-control" name=""></select>
+                            <select type="text" class="form-control" name="status">
+                                <option value="">--select status --</option>
+                                <option value="1">Present</option>
+                                <option value="2">Absent</option>
+                            </select>
 
                         </div>
 
@@ -71,13 +76,32 @@
                             <th scope="col">S.No</th>
                             <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Tutor</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Batch</th>
                             <th scope="col">Date & Time</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Remarks</th>
+                            {{-- <th scope="col">Remarks</th> --}}
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($studentAttendances as $attendance)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $attendance->class_name ?? '' }}</td>
+                                <td>{{ $attendance->subject_name ?? '' }}</td>
+                                <td>{{ $attendance->student_name ?? '' }}</td>
+                                <td>{{ $attendance->batch_name ?? '' }}</td>
+                                <td>{{ $attendance->class_starts_at ?  date('Y-m-d H:i:s', strtotime($attendance->class_starts_at)) : '-' }}</td>
+                                @php
+                                    if($attendance->status == 1){
+                                        $status = 'Present';
+                                    }elseif($attendance->status == 0){
+                                        $status = 'Absent';
+                                    }
+                                @endphp
+                                <td>{{ $status ?? '' }}</td>
+                            </tr>
+                        @endforeach
 
                     </tbody>
                 </table>
@@ -86,10 +110,10 @@
 
             </div>
 
-
-
-
         </div>
+    </div>
+    <div class="d-flex justify-content-center" id="paginationContainer">
+        {!! $studentAttendances->links() !!}
     </div>
 </div>
 
@@ -263,4 +287,68 @@ function editdata(id, classid, subjectid, batchid, topicid, name, description, s
     $("#openmodal").modal('show');
 };
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateTableAndPagination(data) {
+            // $('#tableContainer').html(data.table);
+            $('.users-table tbody').html(data.table);
+            $('#paginationContainer').html(data.pagination);
+        }
+
+        $(document).ready(function() {
+            $('#payment-search').submit(function(e) {
+                alert('test');
+                e.preventDefault();
+                const page = 1;
+                const ajaxUrl = "{{ route('tutor.attendance-search') }}"
+                var formData = $(this).serialize();
+
+                formData += `&page=${page}`;
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxUrl, // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    success: function(data) {
+                        // console.log(data)
+                        updateTableAndPagination(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+
+            });
+
+
+            $(document).on('click', '#paginationContainer .pagination a', function(e) {
+                e.preventDefault();
+                var formData = $('#payment-search').serialize();
+                const page = $(this).attr('href').split('page=')[1];
+                formData += `&page=${page}`;
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route("tutor.attendance-search") }}', // Define your route here
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        updateTableAndPagination(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+        });
+
+    </script>
 @endsection
