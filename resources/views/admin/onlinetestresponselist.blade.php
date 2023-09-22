@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <!-- <h3 class="text-center"></h3> -->
             <div id="" class="mb-3 listHeader page-title-box">
-                <h3>Test Response</h3>
+                <h3>Test Response </h3>
                
             </div>
             <form id="">
@@ -51,7 +51,7 @@
                         <label>End Date</label>
                         <input type="date" class="form-control"></select>
                     </div>
-                    <div class="col-12 col-sm-5 col-md-6 mt-4">
+                    <div class="col-12 col-sm-6 col-md-6 mt-4">
                         <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
                             Search</button>
                     </div>

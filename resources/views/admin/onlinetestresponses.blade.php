@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <!-- <h3 class="text-center"></h3> -->
             <div id="" class="mb-3 listHeader page-title-box">
-                <h3>Test Response</h3>
+                <h3>Test Response(Test Name)</h3>
                 <!-- <a class="btn btn-primary" href="{{ route('admin.questionbank.create') }}">Add New Question</a> -->
                 <!-- <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -34,26 +34,13 @@
                     </div> -->
             </div>
             <form id="">
-                <div class="row">
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>Class</label>
-                        <select class="form-control"></select>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>Subject</label>
-                        <select class="form-control"></select>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>Topic</label>
-                        <select class="form-control"></select>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>Test Name</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
+                
 
                 <div class="row">
+                <div class="col-12 col-sm-3 col-md-3">
+                        <label>Student Name</label>
+                        <input type="text" class="form-control">
+                    </div>
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Start Date</label>
                         <input type="date" class="form-control"></select>
@@ -62,7 +49,7 @@
                         <label>End Date</label>
                         <input type="date" class="form-control"></select>
                     </div>
-                    <div class="col-12 col-sm-5 col-md-6 mt-4">
+                    <div class="col-12 col-sm-3 col-md-3 mt-4">
                         <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
                             Search</button>
                     </div>
@@ -77,23 +64,18 @@
             <table class="table table-hover table-striped align-middlemb-0 table-responsive">
                 <thead>
                     <tr>
-                        <th scope="col">S.No</th>
-                        <th scope="col">Class</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Topic</th>
-                        <th scope="col">Test Name</th>
-                        <th scope="col">Test Date</th>
-                        <th scope="col">Response</th>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Submission Date</th>
+                    <th scope="col">View Submission</th>
+                    
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td></td>                     
                         <td><button class="btn btn-sm btn-primary">View</button></td>
                     </tr>
 
