@@ -44,16 +44,16 @@
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
             <!-- <h3 class="text-center"></h3> -->
-            <div id="listHeader" class="mb-3">
-                <h3>{{$label ?? 'Add New Question'}} </h3>
-                <a href="{{ route('admin.questionbank') }}" class="btn btn-primary float-right mr-2 btn-sm">Back To List</a>
-
+            <div id="" class="mb-3 listHeader page-title-box">
+                <h3>{{$label ?? 'Add New Question '}} </h3>
+                <a href="{{ route('admin.questionbank') }}" class="btn btn-primary">Back To List</a>
             </div>
 
             <form action="{{ route('admin.questionbank.store') }}" method="POST">
                 @csrf
                 <div class=" row">
                     <input type="hidden" id="id" name="id" value="{{$qdata->id ?? ''}}" class="form-group">
+                    
                     <div class="col-md-4">
                         <label for="">Class<i style="color:red">*</i></label>
                         <select type="text" class="form-control" id="classname" name="classname" 

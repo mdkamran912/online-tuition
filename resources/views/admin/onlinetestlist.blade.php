@@ -18,7 +18,7 @@
             <div class="page-content">
                 <div class="container-fluid">
             <!-- <h3 class="text-center"></h3> -->
-            <div id="listHeader" class="mb-3">
+            <div id="listHeader" class="mb-3 listHeader page-title-box">
                 <h3>Online Tests</h3>
 
                 <button class="btn btn-sm btn-primary"> <a  class="text-white" href="{{ route('admin.onlinetests.create') }}">Add New Test</a></button>
@@ -150,7 +150,7 @@
                                 </td>
 
                                 <td>
-                                    <div class="text-center"><a class="badge bg-primary"
+                                    <div class="text-center"><a class="badge bg-primary p-1"
                                             href="{{ url('admin/onlinetests') . '/' . $testlist->test_id }}">View/Update</a>
                                     </div>
                                 </td>

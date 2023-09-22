@@ -69,6 +69,7 @@
                             <th scope="col">Class</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Topic</th>
+                            <th scope="col">Exam Type</th>
                             <th scope="col">Exam Name</th>
                             <th scope="col">Exam Description</th>
                             <th scope="col">Attempts Pending</th>
@@ -89,6 +90,7 @@
                                     <td>{{ $exam->class }}</td>
                                     <td>{{ $exam->subject }}</td>
                                     <td>{{ $exam->topic }}</td>
+                                    <td></td>
                                     <td>{{ $exam->name }}</td>
                                     <td>{{ $exam->description }}</td>
                                     <td>{{ $exam->attemptsRemaining }}</td>
@@ -96,7 +98,7 @@
                                     <td>{{ $exam->test_start_date }}</td>
                                     <td>{{ $exam->test_end_date }}</td>
                                     <td><a href="{{ url('student/taketest') }}/{{ $exam->id }}"
-                                            class="badge bg-success">Start Test</a></td>
+                                            class="badge bg-success p-2">Start Test</a></td>
                                 </tr>
                                 @php
                                     $i++;
@@ -124,6 +126,7 @@
                     <thead class="">
                         <tr>
                             <th scope="col">S.No.</th>
+                            <th scope="col">Exam Type</th>
                             <th scope="col">Exam Name</th>
                             <th scope="col">Exam Description</th>
                             <th scope="col">Exam Duration</th>
@@ -138,13 +141,14 @@
 
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td></td>
                                 <td>{{ $extaken->exam_name }}</td>
                                 <td>{{ $extaken->exam_description }}</td>
                                 <td>{{ $extaken->duration }} min</td>
                                 <td>{{ $extaken->test_start_date }}</td>
                                 <td>{{ $extaken->test_end_date }}</td>
                                 <td>{{ $extaken->test_attempted_on }}</td>
-                                <td><a href="{{url('student/exam/report')}}/{{$extaken->id}}" class="badge bg-primary"> Report</a></td>
+                                <td><a href="{{url('student/exam/report')}}/{{$extaken->id}}" class="badge bg-primary p-2"> Report</a></td>
                             </tr>
                         @endforeach
 

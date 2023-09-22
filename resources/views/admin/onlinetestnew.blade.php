@@ -40,9 +40,9 @@
             @endif
 
             <!-- <h3 class="text-center"></h3> -->
-            <div id="listHeader" class="mb-3">
+            <div id="" class="mb-3 page-title-box listHeader">
                 <h3>Create Test Series </h3>
-                <a href="{{ route('admin.onlinetests') }}" class="btn btn-primary btn-sm float-right mr-2">Back To List</a>
+                <a href="{{ route('admin.onlinetests') }}" class="btn btn-primary float-right ">Back To List</a>
             </div>
 
             <form action="{{ route('admin.onlinetests.store') }}" method="POST">
@@ -108,6 +108,13 @@
                 <div class=" row">
                     <input type="hidden" id="id" name="id" value="{{ $tdata->id ?? '' }}" class="form-control">
                     <div class="col-md-3 col-sm-3 col-12">
+                        <label for="">Test Type<i style="color: red">*</i></label>
+                        <select class="form-control">
+                            <option>Objective</option>
+                            <option>Subjective</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-12">
                         <label for="">Test Name<i style="color: red">*</i></label>
                         <input type="text" class="form-control" id="testname" name="testname"
                             value="{{ $tdata->name ?? '' }}" required>
@@ -119,7 +126,7 @@
                     </div>
                     <div class="col-md-6 col-sm-3 col-12">
                         <label for="">Test Description<i style="color: red">*</i></label>
-                        <textarea type="text" class="form-control" id="testdescription" name="testdescription" required>{{ $tdata->description ?? '' }}</textarea>
+                        <textarea type="text" class="form-control" id="testdescription"  name="testdescription" required>{{ $tdata->description ?? '' }}</textarea>
                         <span class="text-danger">
                             @error('testdescription')
                                 {{ 'Please enter test description' }}
@@ -252,10 +259,12 @@
                         <br>
                     </div>
                     
-                <div class="row mt-4">
-                    <div class="col-md-12 col-sm-12 col-12">
-                        <button type="submit" id="" class="btn btn-success btn-sm float-right">Save
+                <div class="row  " >
+                    <div class="col-md-12 col-sm-12 col-12" >
+                       <div style="display:flex; justify-content: end;">
+                       <button type="submit" id="" class="btn btn-success btn-sm ">Save
                             Test</button>
+                       </div>
 
                     </div>
                 </div>
