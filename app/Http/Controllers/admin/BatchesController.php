@@ -54,6 +54,10 @@ class BatchesController extends Controller
         if($request->tutor_name) {
             $query->where('batches.tutor_id',$request->tutor_name);
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         $batches = $query->paginate(10);
 
         $viewTable = view('admin.partials.batches-search',compact('batches'))->render();

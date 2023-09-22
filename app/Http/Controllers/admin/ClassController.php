@@ -62,14 +62,16 @@ class ClassController extends Controller
     }
 
     public function tutorclasses(){
-        $liveclasses = zoom_classes::select('zoom_classes.*','batches.name as batch','subjects.name as subjects','topics.name as topics')
+        $liveclasses = zoom_classes::select('zoom_classes.*','batches.id as batch_id','classes.id as class_id','subjects.id as subject_id','batches.name as batch','topics.id as topic_id','subjects.name as subjects','topics.name as topics')
         ->join('batches','batches.id','zoom_classes.batch_id')
         ->join('topics','topics.id','zoom_classes.topic_id')
         ->join('subjects','subjects.id','topics.subject_id')
+        ->join('classes','subjects.class_id','classes.id')
         ->where('zoom_classes.is_completed',1)
         ->where('zoom_classes.is_active',1)
         ->get();
         $classes = (new CommonController)->classes();
+
         return view('tutor.classes', compact('liveclasses','classes'));
     }
 

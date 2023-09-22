@@ -49,7 +49,7 @@
 
 >>>>>>> Stashed changes
                         <tr>
-
+                           
                             <td>{{ $loop->iteration }}</td>
                             {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
                             <td>{{ $liveclass->subjects }}</td>
