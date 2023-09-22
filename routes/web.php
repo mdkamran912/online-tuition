@@ -115,8 +115,10 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
     Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
+
     Route::get('liveclass/join/update',[ZoomClassesController::class,'liveclassjoinupdate'])->name('tutor.liveclass.join.update');
-    
+
+
     // completed classes
     Route::get('completed-classes', [ClassController::class, 'studentCompletedclass'])->name('student.completed-classes');
 
@@ -281,6 +283,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     // Tutor Batches
     Route::get('batches', [BatchesController::class, 'tutorbatches'])->name('tutor.batches');
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
+    Route::get('batches/attendance/{id}', [BatchesController::class, 'tutorbatchesattendance'])->name('tutor.batches.attendance');
+    Route::post('batches/update-attendance', [BatchesController::class, 'tutorBatcheUpdateattendance'])->name('tutor.batches.update-attendance');
+
+
     // Tutor Classes
     Route::get('classes', [ClassController::class, 'tutorclasses'])->name('tutor.classes');
     // Tutor Classes
@@ -291,7 +297,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('assignments/{id}', [AssignmentsController::class, 'tutorview'])->name('tutor.assignments.view');
     // Live Classes(GMeet Meeting)
     Route::get('liveclass', [ZoomClassesController::class, 'index'])->name('tutor.liveclass');
-    Route::get('liveclass/completed/{id}', [ZoomClassesController::class, 'completed'])->name('tutor.liveclass.completed');
+    Route::any('liveclass/completed/{id}', [ZoomClassesController::class, 'completed'])->name('tutor.liveclass.completed');
     Route::get('liveclass/create', [ZoomClassesController::class, 'create'])->name('tutor.liveclass.create');
     Route::post('liveclass/store', [ZoomClassesController::class, 'store'])->name('tutor.liveclass.store');
     Route::get('getuser', [ZoomClassesController::class, 'getzoomuser'])->name('tutor.liveclass.getuser');

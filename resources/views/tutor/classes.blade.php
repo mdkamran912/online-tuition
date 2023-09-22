@@ -43,7 +43,11 @@
                     </thead>
                     <tbody>
                         @foreach ($liveclasses as $liveclass)
+
+
+
                         <tr>
+
                             <td>{{ $loop->iteration }}</td>
                             {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
                             <td>{{ $liveclass->subjects }}</td>
@@ -67,9 +71,13 @@
                                     <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
                                 @endif
                             </td>
-                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal();">Attendance</button></td>
+                            @php
+                                $formattedStartTime = date('Y-m-d\TH:i:s\Z', strtotime($liveclass->start_time));
+                            @endphp
+                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal({{ $liveclass->batch_id }},{{ $liveclass->class_id }},{{$liveclass->subject_id}},{{$liveclass->topic_id}},'{{ $formattedStartTime }}');">Attendance</button></td>
 
                         </tr>
+
                         @endforeach
 
                     </tbody>
@@ -82,6 +90,8 @@
             </div>
         </div>
         <!-- content-wrapper ends -->
+
+
 
         <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -136,7 +146,8 @@
 
                         </header>
 
-                        <form action="" method="">
+                        <form action="{{url('tutor/batches/update-attendance')}}" method="post">
+                            @csrf
                             <div class="row">
                                 <div class="col-12 col-md-12 col-ms-12 mb-3">
                                     {{-- <select id="studentlist" name="studentlist[]" multiple>
@@ -148,7 +159,6 @@
                                         padding: 2px !important
                                     }
 
-                                    
                                     </style>
                                     <table class="table table-bordered newclass" style="margin: 0%;">
                                         <thead>
@@ -159,7 +169,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="studentlist">
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>1</td>
                                                 <td>Deepesh</td>
                                                 <td class="text-center ">
@@ -186,24 +196,32 @@
                                                 <td class="text-center ">
                                                     <input class="form-check-input" type="checkbox" id="checkAtt">
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
 
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
+                            <input type="hidden" id="post_class_id" name="post_class_id">
+                            <input type="hidden" id="post_subject_id" name="post_subject_id">
+                            <input type="hidden" id="post_topic_id" name="post_topic_id">
+                            <input type="hidden" id="post_batch_id" name="post_batch_id">
+                            <input type="hidden" id="post_start_time" name="post_start_time">
+
+
+
                             <div style="float:right">
                             <button type="button" class="btn btn-sm btn-danger "
                                     data-dismiss="modal" onclick="closeModal();">
                                     Close</button>
-                                <button type="button" class="btn btn-sm btn-success  "
+                                <button type="submit" class="btn btn-sm btn-success  "
                                     data-dismiss="modal">
                                     Submit</button>
 
-                               
+
                             </div>
-                                
+
 
 
 
@@ -215,7 +233,48 @@
 
 
         <script>
-        function openAttModal() {
+        function openAttModal(batch_id,class_id,subject_id,topic_id,start_time) {
+            $.ajax({
+                    url: "{{ url('tutor/batches/attendance') }}/" + batch_id,
+                    type: "GET",
+                    data: {
+                        batch_id: batch_id,
+                        class_id: class_id,
+                        subject_id: subject_id,
+                        topic_id: topic_id,
+                        start_time: start_time,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#studentlist').empty();
+
+                        $.each(result.students, function(index, student) {
+                            var isChecked = student.status === 1 ? 'checked' : '';
+
+                            var row = `
+                                        <tr>
+                                            <td>${index + 1}</td>
+                                            <td>${student.name}</td>
+                                            <td class="text-center">
+                                                <input type="hidden" name="attendance[${index}][student_name]" value="${student.name}">
+                                                <input type="hidden" name="attendance[${index}][student_id]" value="${student.student_id}">
+                                                <input type="checkbox" name="attendance[${index}][status]" ${isChecked}>
+                                            </td>
+                                        </tr>
+                                    `;
+
+                            $('#studentlist').append(row);
+                            $('#post_subject_id').val(result.subject_id);
+                            $('#post_class_id').val(result.class_id);
+                            $('#post_topic_id').val(result.topic_id);
+                            $('#post_batch_id').val(result.batch_id);
+                            $('#post_start_time').val(result.start_time);
+                        });
+
+                    }
+
+            });
             $("#studentlistmodal").modal('show');
         }
 
@@ -229,3 +288,4 @@
 
 
         @endsection
+

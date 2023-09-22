@@ -1,5 +1,10 @@
 @extends('tutor.layouts.main')
 @section('main-section')
+
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">a
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
@@ -17,6 +22,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
+
             @if (Session::has('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
@@ -47,7 +53,8 @@
                     </thead>
                     <tbody>
                         @foreach ($liveclasses as $liveclass)
-                        <tr>
+
+                  <tr>
                             <td>{{ $loop->iteration }}</td>
                             {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
                             {{-- <td>{{ $liveclass->status }}</td> --}}
@@ -88,11 +95,12 @@
                                         <button class="btn btn-sm btn-primary"><span
                                                 class="fa fa-check "></span> Mark Completed</button>
                                     </a> -->
-                                <button class="btn btn-sm btn-primary" onclick="openMarkModal();"><span
+                                <button class="btn btn-sm btn-primary" onclick="openMarkModal({{$liveclass->liveclass_id}});"><span
                                         class="fa fa-check "></span> Mark Completed</button>
                                 @endif
                             </td>
                             {{-- <td><button class="btn btn-sm btn-primary"
+
                                     onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
                                 class="fa fa-search"></span> Start Class</button>
                             </td> --}}
@@ -295,7 +303,6 @@
 
                     <div class="modal-body">
 
-
                         <header>
                             <h3 class="text-center mb-4 text-danger"><u>Warning!</u></h3>
                         </header>
@@ -320,30 +327,35 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Video Link</h5>
+                        <h5 class="modal-title">Add Recorded Video Link</h5>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12 col-12 col-sm-12">
-                                <input type="text" class="form-control" placeholder="Paste Video Link Here">
+                    <form id="change-class-status">
+                        <input type="hidden" id="liveclass-id" name="class_id">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12 col-12 col-sm-12">
+                                    <input type="text" class="form-control" placeholder="Paste Video Link Here" name="video_link">
+                                </div>
+                            </div>
+                            <div style="float:right; margin-top:5px">
+                                <button class="btn btn-sm btn-success">Submit</button>
                             </div>
                         </div>
-                        <div style="float:right; margin-top:5px">
-                            <button class="btn btn-sm btn-success">Submit</button>
-                        </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     function closeModal() {
         $('#scheduleclassmodal').modal('hide');
     }
 
-    function openMarkModal() {
+    function openMarkModal(class_id) {
+        $('#liveclass-id').val(class_id);
         $('#markcompleted').modal('show');
     }
 
@@ -507,6 +519,35 @@
                 dataResult = JSON.parse(dataResult);
                 if (dataResult.statusCode) {
 
+
+
+            }
+
+        });
+
+    };
+    //     function warningModal(link){
+    //     document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
+    //     $('#warningModal').modal('show');
+
+    // }
+    function warningModal(id, link) {
+
+        var url = "{{ URL('tutor/liveclass/status/update') }}";
+        // var id=
+        $.ajax({
+            url: url,
+            type: "GET",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                status: status
+            },
+            success: function(dataResult) {
+                dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode) {
+
                     toastr.success('status changed')
                     document.getElementById('warningbtn').innerHTML =
                         `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
@@ -521,4 +562,40 @@
 
     }
     </script>
-    @endsection
+    <script>
+        $(document).ready(function () {
+            $("#change-class-status").submit(function (e) {
+                e.preventDefault();
+              var class_id = $("#liveclass-id").val();
+              const ajaxUrl = "{{ url('tutor/liveclass/completed') }}/" + class_id;
+              var formData = $(this).serialize();
+
+                // Send an AJAX request
+                $.ajax({
+                    type: "POST", // Change to the appropriate HTTP method (GET, POST, etc.)
+                    url: ajaxUrl, // Replace with your server-side endpoint URL
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        toastr.success(response.message);
+                        $('#markcompleted').modal('hide');
+
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function (field, errorMessages) {
+                                $.each(errorMessages, function (index, errorMessage) {
+                                    toastr.error(errorMessage);
+                                });
+                            });
+                        }
+                    },
+                });
+            });
+        });
+    </script>
+@endsection
+

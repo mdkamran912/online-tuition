@@ -366,17 +366,27 @@ class ZoomClassesController extends Controller
       }
     }
 
-    public function completed($id){
+    public function completed(Request $request,$id){
+        $request->validate([
+            'video_link' => 'required',
+        ]);
         $data = zoom_classes::find($id);
         $data->is_completed = 1;
+        $data->recording_link = $request->video_link;
         $data->status = 'Completed';
         $res = $data->save();
-        if ($res) {
-            return back()->with('success', 'Status Updated Successfully!');
-        } else {
-            return back()->with('fail', 'Something went wrong. Please try again later');
-        }
+        $response = [
+            'message' => 'Class Marked as completed',
+        ];
+        return response()->json($response,200);
+        // if ($res) {
+        //     return back()->with('success', 'Status Updated Successfully!');
+        // } else {
+        //     return back()->with('fail', 'Something went wrong. Please try again later');
+        // }
     }
+
+
 
     public function liveclassstatusupdate(Request $request){
         $data = zoom_classes::find($request->id);
@@ -386,11 +396,11 @@ class ZoomClassesController extends Controller
     }
 
     public function liveclassjoinupdate(Request $request){
-        
+
         $class = zoom_classes::find($request->id);
         $tpc = topics::find($class->topic_id);
         $sub = subjects::find($tpc->subject_id);
-        
+
         $chk = studentattendance::select('*')
         ->where('class_id',$sub->class_id)
         ->where('subject_id',$sub->id)
@@ -399,7 +409,6 @@ class ZoomClassesController extends Controller
         ->where('tutor_id',$class->tutor_id)
         ->where('student_id',session('userid')->id)
         ->first();
-        
         if($chk){
             $data = studentattendance::find($chk->id);
         }else{
@@ -417,4 +426,5 @@ class ZoomClassesController extends Controller
         $res = $data->save();
         return json_encode(array('statusCode' => 200));
     }
+
 }

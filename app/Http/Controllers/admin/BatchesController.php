@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\batches;
 use App\Models\subjects;
 use App\Models\batchstudentmapping;
+use App\Models\students\studentattendance;
 use App\Models\classes;
 use App\Models\classschedule;
 use App\Models\studentregistration;
@@ -53,8 +54,8 @@ class BatchesController extends Controller
         if($request->tutor_name) {
             $query->where('batches.tutor_id',$request->tutor_name);
         }
+
         $batches = $query->paginate(10);
-       
         $viewTable = view('admin.partials.batches-search',compact('batches'))->render();
         $viewPagination = $batches->links()->render();
         return response()->json([
@@ -172,6 +173,79 @@ class BatchesController extends Controller
         $student = studentregistration::select('name')->whereIn('id',$explode_id)->get();
         return response()->json($student);
 
+    }
+
+    public function tutorbatchesattendance(Request $request,$id){
+        // dd($request->all());
+        $data= batchstudentmapping::select('student_data')->where("batch_id", $id)->where("tutor_id", session('userid')->id)->first();
+        $explode_id = json_decode($data['student_data'], true);
+        // $students = studentregistration::select('studentregistrations.name','studentattendances.status')->leftjoin('studentattendances','studentattendances.student_id','studentregistrations.id')
+
+        //             ->whereIn('studentregistrations.id',$explode_id)
+        //             ->where('studentattendances.class_id',$request->class_id)
+        //             ->where('studentattendances.subject_id',$request->id)
+        //             ->where('studentattendances.batch_id',$request->batch_id)
+        //             ->where('studentattendances.topic_id',$request->topic_id)
+        //             ->where('studentattendances.tutor_id',session('userid')->id)
+        //             ->get();
+
+        $students = studentregistration::select('studentregistrations.name','studentregistrations.id as student_id', DB::raw('COALESCE(studentattendances.status, 0) as status'))
+                            ->leftJoin('studentattendances', function ($join) use ($request) {
+                                $join->on('studentattendances.student_id', '=', 'studentregistrations.id')
+                                    ->where('studentattendances.class_id', $request->class_id)
+                                    ->where('studentattendances.subject_id', $request->subject_id)
+                                    ->where('studentattendances.batch_id', $request->batch_id)
+                                    ->where('studentattendances.topic_id', $request->topic_id)
+                                    ->where('studentattendances.tutor_id', session('userid')->id);
+                            })
+                            ->whereIn('studentregistrations.id', $explode_id)
+                            ->get();
+
+        return response()->json([
+            'students' => $students,
+            'subject_id' => $request->subject_id,
+            'class_id' => $request->class_id,
+            'topic_id' => $request->topic_id,
+            'batch_id' => $request->batch_id,
+            'start_time' => $request->start_time
+        ]);
+    }
+
+    public function tutorBatcheUpdateattendance(Request $request){
+
+        // dd($request->all());
+        $attendanceData = $request->input('attendance');
+
+        foreach ($attendanceData as $data) {
+            $student_id = $data['student_id'];
+            $status = isset($data['status']) ? 1 : 0;
+            $chk = studentattendance::select('*')
+            ->where('class_id',$request->post_class_id)
+            ->where('subject_id',$request->post_subject_id)
+            ->where('batch_id',$request->post_batch_id)
+            ->where('topic_id',$request->post_topic_id)
+            ->where('tutor_id',session('userid')->id)
+            ->where('student_id',$student_id)
+            ->first();
+
+            if($chk){
+                $data = $chk;
+                $data->status =$status;
+                $data->save();
+            }else{
+                $data = new studentattendance();
+                $data->student_id = $student_id;
+                $data->class_id = $request->post_class_id;
+                $data->subject_id = $request->post_subject_id;
+                $data->tutor_id = session('userid')->id;
+                $data->topic_id = $request->post_topic_id;
+                $data->class_starts_at = $request->post_start_time;
+                $data->status = $status;
+                $data->batch_id = $request->post_batch_id;
+                $data->save();
+            }
+        }
+        return back()->with('success','Attendance Successfully Submitted');
     }
 
 public function zoomapi(){
