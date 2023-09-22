@@ -343,10 +343,171 @@ class OnlineTestController extends Controller
         return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
     }
 
+
     public function onlinetestresponseslist(){
         return view('admin.onlinetestresponselist');
     }
     public function onlinetestresponse(){
         return view('admin.onlinetestresponses');
     }
+
+    //  Tutor online tests
+
+    public function tutorindex()
+    {
+        $testlists = OnlineTests::select('*', 'online_tests.id as test_id', 'online_tests.name as test_name', 'online_tests.description as test_description', 'online_tests.is_active as test_status', 'classes.name as class_name', 'subjects.name as subject_name', 'topics.name as topic_name')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
+
+        return view('tutor.tutor-onlinetestlist',get_defined_vars());
+    }
+
+    public function tutorcreate()
+    {
+        $classes = (new CommonController)->classes();
+        return view('tutor.tutor-onlinetestnew', compact('classes'));
+    }
+    public function tutorstore(Request $request)
+    {
+        $request->validate([
+            'testname' => 'required',
+            'testdescription' => 'required',
+            'classname' => 'required',
+            'subject' => 'required',
+            'topic' => 'required',
+            'maxattempt' => 'required',
+            'duration' => 'required',
+            'tstartdate' => 'required',
+            'testenddate' => 'required',
+            'questiondata' => 'required',
+        ]);
+
+        if ($request->id) {
+            $data = OnlineTests::find($request->id);
+            $msg = 'Test updated successfully';
+        } else {
+            $data = new OnlineTests();
+            $msg = 'Test added successfully';
+        }
+        $data->name = $request->testname;
+        $data->description = $request->testdescription;
+        $data->class_id = $request->classname;
+        $data->subject_id = $request->subject;
+        $data->topic_id = $request->topic;
+        $data->max_attempt = $request->maxattempt;
+        $data->test_duration = $request->duration;
+        $data->test_start_date = $request->tstartdate;
+        $data->test_end_date = $request->testenddate;
+        $data->question_id = json_encode($request->questiondata);
+        $res = $data->save();
+
+        if ($res) {
+            return back()->with('success', $msg);
+        } else {
+            return back()->with('fail', 'Something went wrong. Please try again later');
+        }
+    }
+    public function tutorfetchquestions(Request $request)
+    {
+        // echo $request->topic_id;
+
+        $questions = questionbank::select('*')
+            ->where('topic_id', $request->topic_id)
+            ->where('is_active', 1)
+            ->get();
+
+        return $questions;
+    }
+    public function tutorviewquestions($id)
+    {
+        // Fetch question details based on testid -> Using jQuerry
+        $data['questions'] = OnlineTests::where("id", $id)->first();
+        return response()->json($data);
+    }
+    public function tutoredit($id)
+    {
+        $tdata = OnlineTests::select('*')->where('id', $id)->first();
+        $classes = (new CommonController)->classes();
+        $subjects = subjects::select('*')->where('class_id', $tdata->class_id)->where('is_active', 1)->get();
+        $topics = topics::select('*')->where('subject_id', $tdata->subject_id)->where('is_active', 1)->get();
+        $questions = questionbank::select('*')->where('topic_id', $tdata->topic_id)->where('is_active', 1)->get();
+        $questiondatas = OnlineTests::select('question_id')->where('id', $tdata->id)->first();
+
+        // $questiondata = explode(',', $tdata->question_id);
+        // $data = ModelName::find($id);
+        $qstn = explode('"', $tdata->question_id);
+        // return view('package.edit', ['data' => $data,'months' => $SelectedMonths]);
+        // foreach($prodmulti as $test)
+        // echo $months ;
+        // echo "<pre>";
+        // dd($months);
+        // endforeach
+        // $keywords = preg_split('/[\s,-,"]+/', $tdata->question_id);
+        // dd($months);
+        return view('tutor.tutor-onlinetestnew', compact(['tdata', 'classes', 'subjects', 'topics', 'questions', 'questiondatas', 'qstn']));
+    }
+
+    public function tutorstatus(Request $request){
+        $data = OnlineTests::find($request->id);
+        if($request->status == 1){
+            $status = 0;
+        }
+        if($request->status == 0){
+            $status = 1;
+        }
+        $data->is_active = $status;
+
+       $res = $data->save();
+     return json_encode(array('statusCode'=>200));
+    }
+
+    public function tutoronlinetestSearch(Request $request)
+    {
+        // return $request->all();
+        $query = OnlineTests::select('*', 'online_tests.id as test_id', 'online_tests.name as test_name', 'online_tests.description as test_description', 'online_tests.is_active as test_status', 'classes.name as class_name', 'subjects.name as subject_name', 'topics.name as topic_name')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id');
+            // ->get();
+        if ($request->test_name) {
+            $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+        }
+        if ($request->class_name) {
+            $query->where('online_tests.class_id', $request->class_name);
+        }
+        if ($request->subject_name) {
+            $query->where('online_tests.subject_id', $request->subject_name);
+        }
+        if ($request->topic_name) {
+            $query->where('online_tests.topic_id', $request->topic_name);
+        }
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(online_tests.test_start_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(online_tests.test_end_date)'), '<=', $request->end_date);
+        }
+        if ($request->status_field) {
+            if($request->status_field=='2'){
+                $request->status_field = '0';
+            }
+            $query->where('online_tests.is_active',$request->status_field);
+        }
+        $onlinetestlists = $query->paginate(10);
+        $type = 'tutor-testlists';
+        $viewTable = view('admin.partials.students-tutor-search', compact('onlinetestlists','type'))->render();
+        $viewPagination = $onlinetestlists->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+
+    }
+
 }

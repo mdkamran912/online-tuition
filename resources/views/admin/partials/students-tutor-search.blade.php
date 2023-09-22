@@ -1,4 +1,4 @@
-@if($type="students" && isset($stdlists))
+@if($type=="students" && isset($stdlists))
 
     @foreach ($stdlists as $stdlist)
         <tr>
@@ -28,7 +28,7 @@
         </tr>
     @endforeach
 @endif
-@if($type="tutors" && isset($ttrlists))
+@if($type=="tutors" && isset($ttrlists))
     @foreach ($ttrlists as $ttrlist)
         <tr>
             <td>{{ $loop->iteration }}</td>
@@ -56,7 +56,7 @@
     @endforeach
 @endif
 
-@if ($type="contents" && isset($contents))
+@if ($type=="contents" && isset($contents))
     @foreach ($contents as $content)
         <tr>
             <td>{{$loop->iteration}}</td>
@@ -99,7 +99,7 @@
     @endforeach
 @endif
 
-@if($type="assignments" && isset($data))
+@if($type=="assignments" && isset($data))
     @foreach ($data as $datalist)
         <tr>
             <td>{{$loop->iteration}}</td>
@@ -129,7 +129,7 @@
         </tr>
     @endforeach
 @endif
-@if($type="questions" && isset($questions))
+@if($type=="questions" && isset($questions))
     @foreach ($questions as $question)
         <tr>
             <td>{{ $loop->iteration }}</td>
@@ -160,7 +160,7 @@
         </tr>
     @endforeach
 @endif
-@if($type="testlists" && isset($testlists))
+@if($type=="testlists" && isset($testlists))
     @foreach ($testlists as $testlist)
         <tr>
             <td>{{ $loop->iteration }}</td>
@@ -193,4 +193,38 @@
         </tr>
     @endforeach
 @endif
+@if($type=="tutor-testlists" && isset($onlinetestlists))
+    @foreach ($onlinetestlists as $testlist)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $testlist->test_name }}</td>
+            <td>{{ $testlist->test_description }}</td>
+            <td>{{ $testlist->class_name }}</td>
+            <td>{{ $testlist->subject_name }}</td>
+            <td>{{ $testlist->topic_name }}</td>
+            <td>{{ $testlist->test_duration }}</td>
+            <td>{{ $testlist->max_attempt }}</td>
+            <td>{{ $testlist->test_start_date }}</td>
+            <td>{{ $testlist->test_end_date }}</td>
+            <td>
+                <div class="form-check form-switch">
+                    @if ($testlist->test_status == 1)
+                    <i class="ri-checkbox-circle-line align-middle text-success"></i> Active
+                    @else
+                    <i class="ri-close-circle-line align-middle text-danger"></i> Inactive
+                    @endif
+                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" onclick="changestatus('{{ $testlist->test_id }}','{{ $testlist->test_status }}');"
+                    class="checkbox" @if ($testlist->test_status == 1) then checked @endif>
+                </div>
+            </td>
+
+            <td>
+                <div class="text-center"><a class="badge bg-primary p-1"
+                        href="{{ url('tutor/onlinetests') . '/' . $testlist->test_id }}">View/Update</a>
+                </div>
+            </td>
+        </tr>
+    @endforeach
+@endif
+
 

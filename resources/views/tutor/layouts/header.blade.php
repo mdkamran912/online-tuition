@@ -710,7 +710,9 @@
                                     <li class="nav-item">
                                         <a href="{{route('tutor.batches')}}" target="_blank" class="nav-link" data-key="t-horizontal">Batches</a>
                                     </li>
-                                    
+
+
+
 
 
                                 </ul>
@@ -772,6 +774,8 @@
                                         </ul>
                                     </div>
                                 </li> --}}
+
+
                                 <li class="nav-item">
                                     <a class="nav-link menu-link" href="#sidebarFormsTest" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
                                         <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Quiz/Tests</span>
@@ -779,16 +783,17 @@
                                     <div class="collapse menu-dropdown" id="sidebarFormsTest">
                                         <ul class="nav nav-sm flex-column">
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link" data-key="t-form-select"> Questions Bank </a>
+                                                <a href="{{url('tutor/questionbank')}}" class="nav-link" data-key="t-form-select"> Questions Bank </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link" data-key="t-form-select"> Online Test </a>
+                                                <a href="{{url('tutor/onlinetestlist')}}" class="nav-link" data-key="t-form-select"> Online Test </a>
                                             </li>
-        
-        
+
+
                                         </ul>
                                     </div>
                                 </li>
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">

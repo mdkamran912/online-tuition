@@ -26,6 +26,7 @@ class QuestionBankController extends Controller
 
     }
 
+
     // search Functionality
 
     public function questionbankSearch(Request $request){
@@ -78,7 +79,7 @@ class QuestionBankController extends Controller
             'classname'=>'required',
             'subject'=>'required',
             'topic'=>'required',
-            'question'=>'required',
+            'editor1'=>'required',
             'optiona'=>'required',
             'optionb'=>'required',
             'optionc'=>'required',
@@ -96,7 +97,7 @@ class QuestionBankController extends Controller
         $data->class_id = $request->classname;
         $data->subject_id = $request->subject;
         $data->topic_id=$request->topic;
-        $data->question=$request->question;
+        $data->question=$request->editor1;
         $data->option1=$request->optiona;
         $data->option2=$request->optionb;
         $data->option3=$request->optionc;
@@ -149,8 +150,97 @@ class QuestionBankController extends Controller
         return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
     }
 
+
     public function subjective_create(){
         $classes = (new CommonController)->classes();
         return view('admin.questionbanksubjective',compact('classes'));
     }
+
+
+    // tutor questio bank functions
+    public function tutorQuestionbank(){
+
+        $questions = questionbank::select('*','questionbanks.id as question_id','questionbanks.is_active as question_status','classes.name as class','subjects.name as subject','topics.name as topic')
+        ->join('classes','classes.id','questionbanks.class_id')
+        ->join('subjects','subjects.id','questionbanks.subject_id')
+        ->join('topics','topics.id','questionbanks.topic_id')
+        ->paginate(10);
+        $classes = classes::where('is_active',1)->get();
+        $subjects = subjects::where('is_active',1)->get();
+        $topics = topics::where('is_active',1)->get();
+        return view('tutor.tutor-questionbanklist',get_defined_vars());
+
+    }
+    public function tutorcreate(){
+        $classes = (new CommonController)->classes();
+        return view('tutor.tutor-questionbank',compact('classes'));
+    }
+    public function tutorstore(Request $request){
+
+        $request->validate([
+            'classname'=>'required',
+            'subject'=>'required',
+            'topic'=>'required',
+            'editor1'=>'required',
+            'optiona'=>'required',
+            'optionb'=>'required',
+            'optionc'=>'required',
+            'optiond'=>'required',
+            'correctanswer'=>'required',
+        ]);
+        if($request->id){
+            $data = questionbank::find($request->id);
+            $msg = 'Question updated successfully';
+        }
+        else{
+            $data = new questionbank();
+            $msg = 'Question added successfully';
+        }
+        $data->class_id = $request->classname;
+        $data->subject_id = $request->subject;
+        $data->topic_id=$request->topic;
+        $data->question=$request->editor1;
+        $data->option1=$request->optiona;
+        $data->option2=$request->optionb;
+        $data->option3=$request->optionc;
+        $data->option4=$request->optiond;
+        if($request->correctanswer == 'A'){
+            $data->correct_option=$request->optiona;
+        }
+        if($request->correctanswer == 'B'){
+            $data->correct_option=$request->optionb;
+        }
+        if($request->correctanswer == 'C'){
+            $data->correct_option=$request->optionc;
+        }
+        if($request->correctanswer == 'D'){
+            $data->correct_option=$request->optiond;
+        }
+
+        $data->remarks=$request->remarks;
+
+        $res = $data->save();
+        if($res){
+            return back()->with('success',$msg);
+        }
+        else{
+            return back()->with('fail','Something went wrong. Please try again later');
+        }
+    }
+    public function tutor_subjective_create(){
+        $classes = (new CommonController)->classes();
+        return view('tutor.tutor-questionbanksubjective',compact('classes'));
+    }
+    public function tutorview($id){
+        $classes = (new CommonController)->classes();
+        $qdata = questionbank::select('*')
+        ->where('id', $id)->first();
+        $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
+        $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
+        $label = 'Update Question';
+
+        return view('tutor.tutor-questionbank',compact('qdata','classes','subjects','topics','label'));
+    }
+
+
 }
