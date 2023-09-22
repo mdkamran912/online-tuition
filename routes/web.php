@@ -275,12 +275,18 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     // Tutor Batches
     Route::get('batches', [BatchesController::class, 'tutorbatches'])->name('tutor.batches');
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
-    Route::get('batches/attendance/{id}', [BatchesController::class, 'tutorbatchesattendance'])->name('tutor.batches.attendance');
+    Route::any('batches/attendance/{id}', [BatchesController::class, 'tutorbatchesattendance'])->name('tutor.batches.attendance');
     Route::post('batches/update-attendance', [BatchesController::class, 'tutorBatcheUpdateattendance'])->name('tutor.batches.update-attendance');
 
 
     // Tutor Classes
     Route::get('classes', [ClassController::class, 'tutorclasses'])->name('tutor.classes');
+<<<<<<< Updated upstream
+=======
+    // Tutor attendances
+    Route::get('attendance', [ClassController::class, 'tutorattendance'])->name('tutor.attendance');
+    Route::post('attendance-search', [ClassController::class, 'tutorattendanceSearch'])->name('tutor.attendance-search');
+>>>>>>> Stashed changes
     // Tutor Assignments
     Route::get('assignments', [AssignmentsController::class, 'tutorassignments'])->name('tutor.assignments');
     Route::post('assignments', [AssignmentsController::class, 'tutorassignmentscreate'])->name('tutor.assignments.create');

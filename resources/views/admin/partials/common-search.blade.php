@@ -117,3 +117,23 @@
         <td><strong>£{{$totalAmount}}</strong></td>
     </tr>
 @endif
+@if ($type == 'tutor-attendances' && isset($studentAttendances))
+    @foreach ($studentAttendances as $attendance)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $attendance->class_name ?? '' }}</td>
+            <td>{{ $attendance->subject_name ?? '' }}</td>
+            <td>{{ $attendance->student_name ?? '' }}</td>
+            <td>{{ $attendance->batch_name ?? '' }}</td>
+            <td>{{ $attendance->class_starts_at ?  date('Y-m-d H:i:s', strtotime($attendance->class_starts_at)) : '-' }}</td>
+            @php
+                if($attendance->status == 1){
+                    $status = 'Present';
+                }elseif($attendance->status == 0){
+                    $status = 'Absent';
+                }
+            @endphp
+            <td>{{ $status ?? '' }}</td>
+        </tr>
+    @endforeach
+@endif
