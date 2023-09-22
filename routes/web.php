@@ -226,6 +226,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     // Question Bank
     Route::get('questionbank', [QuestionBankController::class, 'index'])->name('admin.questionbank');
     Route::get('questionbank/create', [QuestionBankController::class, 'create'])->name('admin.questionbank.create');
+    Route::get('questionbank/subjective/create', [QuestionBankController::class, 'subjective_create'])->name('admin.questionbank.subjective.create');
     Route::post('questionbank/store', [QuestionBankController::class, 'store'])->name('admin.questionbank.store');
     Route::get('question/status', [QuestionBankController::class, 'status'])->name('admin.question.status');
     Route::get('questionupdate/{id}', [QuestionBankController::class, 'view'])->name('admin.questionupdate.view');

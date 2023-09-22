@@ -148,4 +148,9 @@ class QuestionBankController extends Controller
         $label = 'Update Question';
         return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
     }
+
+    public function subjective_create(){
+        $classes = (new CommonController)->classes();
+        return view('admin.questionbanksubjective',compact('classes'));
+    }
 }

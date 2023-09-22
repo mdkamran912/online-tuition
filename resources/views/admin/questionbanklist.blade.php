@@ -28,7 +28,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ route('admin.questionbank.create') }}">Objective</a>
-                            <a class="dropdown-item" href="#">Subjective</a>
+                            <a class="dropdown-item" href="{{route('admin.questionbank.subjective.create')}}">Subjective</a>
                            
                         </div>
                     </div>
