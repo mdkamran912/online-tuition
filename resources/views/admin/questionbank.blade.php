@@ -117,7 +117,7 @@
 
                 </div>
 
-                <div class="form-group row">
+                <div class=" row">
                     <div class="col-md-12 mt-3">
                         <label for="">Question<i style="color:red">*</i></label>
                         <!-- <textarea type="text" class="form-control" rows="5" id="question" name="question">
@@ -137,8 +137,8 @@
                 </div>
                 <p><u>Give Options<i style="color:red">*</i></u></p>
 
-                <div class="form-group row">
-                    <label class="col-md-1 col-sm-1 col-3 col-form-label rtl"><b>.A</b></label>
+                <div class="row mb-3">
+                    <label class="col-md-1 col-sm-1 col-3 col-form-label "><b>A.</b></label>
                     <div class="col-sm-5 col-md-5 col-9">
                         <input type="text" class="form-control" id="optiona" name="optiona" value="{{$qdata->option1 ?? ''}}"
                             placeholder="Enter Option A">
@@ -149,7 +149,7 @@
                             </span>
                     </div>
 
-                    <label class="col-md-1 col-sm-1 col-3 col-form-label rtl"><b>.B</b></label>
+                    <label class="col-md-1 col-sm-1 col-3 col-form-label"><b>B.</b></label>
                     <div class="col-sm-5 col-md-5 col-9">
                         <input type="text" class="form-control" name="optionb" id="optionb" value="{{$qdata->option2 ?? ''}}"
                             placeholder="Enter Option B">
@@ -159,8 +159,10 @@
                                 @enderror
                             </span>
                     </div>
+            </div>
+            <div class="row">
 
-                    <label class="col-md-1 col-sm-1 col-3 col-form-label rtl"><b>.C</b></label>
+                    <label class="col-md-1 col-sm-1 col-3 col-form-label "><b>C.</b></label>
                     <div class="col-sm-5 col-md-5 col-9">
                         <input type="text" class="form-control" id="optionc" name="optionc" value="{{$qdata->option3 ?? ''}}"
                             placeholder="Enter Option C">
@@ -170,8 +172,9 @@
                                 @enderror
                             </span>
                     </div>
+                    
 
-                    <label class="col-md-1 col-sm-1 col-3 col-form-label rtl"><b>.D</b></label>
+                    <label class="col-md-1 col-sm-1 col-3 col-form-label"><b>D.</b></label>
                     <div class="col-sm-5 col-md-5 col-9">
                         <input type="text" class="form-control" name="optiond" id="optiond" value="{{$qdata->option4 ?? ''}}"
                             placeholder="Enter Option D">
@@ -183,7 +186,7 @@
                     </div>
                     
                 </div>
-                <p><u>Select Correct Answer</u></p>
+                <p class="mt-4"><u>Select Correct Answer</u></p>
                 <div class="row selectAns">
                     <div class="col-md-3 col-sm-3 col-12">
                         <input type="radio" name="correctanswer" id="option1" value="A" 
