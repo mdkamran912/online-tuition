@@ -355,15 +355,66 @@ class ZoomClassesController extends Controller
       }
     }
 
-    public function completed($id){
+    public function completed(Request $request,$id){
+        $request->validate([
+            'video_link' => 'required',
+        ]);
         $data = zoom_classes::find($id);
         $data->is_completed = 1;
+        $data->recording_link = $request->video_link;
         $data->status = 'Completed';
         $res = $data->save();
-        if ($res) {
-            return back()->with('success', 'Status Updated Successfully!');
-        } else {
-            return back()->with('fail', 'Something went wrong. Please try again later');
-        }
+        $response = [
+            'message' => 'Class Marked as completed',
+        ];
+        return response()->json($response,200);
+        // if ($res) {
+        //     return back()->with('success', 'Status Updated Successfully!');
+        // } else {
+        //     return back()->with('fail', 'Something went wrong. Please try again later');
+        // }
     }
+<<<<<<< Updated upstream
+=======
+
+    public function liveclassstatusupdate(Request $request){
+        $data = zoom_classes::find($request->id);
+    $data->status = 'Started';
+    $res = $data->save();
+    return json_encode(array('statusCode' => 200));
+    }
+
+    public function liveclassjoinupdate(Request $request){
+
+        $class = zoom_classes::find($request->id);
+        $tpc = topics::find($class->topic_id);
+        $sub = subjects::find($tpc->subject_id);
+
+        $chk = studentattendance::select('*')
+        ->where('class_id',$sub->class_id)
+        ->where('subject_id',$sub->id)
+        ->where('batch_id',$class->batch_id)
+        ->where('topic_id',$class->topic_id)
+        ->where('tutor_id',$class->tutor_id)
+        ->where('student_id',session('userid')->id)
+        ->first();
+
+        if($chk){
+            $data = studentattendance::find($chk->id);
+        }else{
+            $data = new studentattendance();
+        }
+        $data->student_id = session('userid')->id;
+        $data->class_id = $sub->class_id;
+        $data->subject_id = $sub->id;
+        $data->tutor_id = $class->tutor_id;
+        $data->topic_id = $class->topic_id;
+        $data->class_starts_at = $class->start_time;
+        // $data->class_ends_at = ;
+        $data->status = 1;
+        $data->batch_id = $class->batch_id;
+        $res = $data->save();
+        return json_encode(array('statusCode' => 200));
+    }
+>>>>>>> Stashed changes
 }
