@@ -347,7 +347,7 @@ class OnlineTestController extends Controller
     public function onlinetestresponseslist(){
         return view('admin.onlinetestresponselist');
     }
-    public function onlinetestresponse(){
+    public function onlinetestresponse($id){
         return view('admin.onlinetestresponses');
     }
 
@@ -510,4 +510,7 @@ class OnlineTestController extends Controller
 
     }
 
+    public function onlinetestresponsestudent($id){
+      return view('admin.onlinetestresponsesstudent');
+    }
 }
