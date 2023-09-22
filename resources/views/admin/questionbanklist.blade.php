@@ -51,7 +51,7 @@
                         @foreach ($questions as $question)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $question->class }}</td>
+                            <td class="text-nowrap">{{ $question->class }}</td>
                             <td>{{ $question->subject }}</td>
                             <td>{{ $question->topic }}</td>
                             <td>{{ $question->question }}</td>
