@@ -318,6 +318,24 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
    // Payouts
    Route::get('payouts',[PaymentsController::class,'tutorpayouts'])->name('tutor.payouts');
    Route::post('payouts-search',[PaymentsController::class,'tutorpayoutsSearch'])->name('tutor.payouts-search');
+
+    // learning Cintents
+   Route::get('questionbank', [QuestionBankController::class, 'tutorQuestionbank'])->name('tutor.questionbank');
+   Route::get('questionbank/create', [QuestionBankController::class, 'tutorcreate'])->name('tutor.questionbank.create');
+   Route::post('questionbank/store', [QuestionBankController::class, 'tutorstore'])->name('tutor.questionbank.store');
+   Route::get('questionbank/subjective/create', [QuestionBankController::class, 'tutor_subjective_create'])->name('tutor.questionbank.subjective.create');
+   Route::get('question/status', [QuestionBankController::class, 'status'])->name('tutor.question.status');
+   Route::get('questionupdate/{id}', [QuestionBankController::class, 'tutorview'])->name('tutor.questionupdate.view');
+
+    // Online tests
+    Route::get('onlinetestlist', [OnlineTestController::class, 'tutorindex'])->name('tutor.onlinetests');
+    Route::get('onlinetests', [OnlineTestController::class, 'tutorcreate'])->name('tutor.onlinetests.create');
+    Route::post('onlinetests', [OnlineTestController::class, 'tutorstore'])->name('tutor.onlinetests.store');
+    Route::get('onlinetests/{id}', [OnlineTestController::class, 'tutoredit'])->name('tutor.onlinetests.edit');
+    Route::get('onlinetestquestions/{id}', [OnlineTestController::class, 'tutorviewquestions'])->name('tutor.onlinetestquestions.viewquestions');
+    Route::post('onlinetestlist-search', [OnlineTestController::class, 'tutoronlinetestSearch'])->name('tutor.onlinetests-search');
+    Route::post('fetchquestions', [OnlineTestController::class, 'tutorfetchquestions'])->name('tutor.fetchquestions');
+    Route::get('onlinetest/status', [OnlineTestController::class, 'tutorstatus'])->name('tutor.onlinetest.status');
 });
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);
