@@ -18,8 +18,9 @@
     <div class="page-content">
         <div class="container-fluid">
             <!-- <h3 class="text-center"></h3> -->
-            <div id="" class="mb-3 listHeader page-title-box">
-                <h3>Test Response(Test Name)</h3>
+            <div id="" class="mb-3  page-title-box">
+                <h3>Test Response(Test Name - Date)</h3>
+                <p class="text-success"><b>Student Name</b></p>
                 <!-- <a class="btn btn-primary" href="{{ route('admin.questionbank.create') }}">Add New Question</a> -->
                 <!-- <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -33,57 +34,121 @@
                         </div>
                     </div> -->
             </div>
-            <form id="">
-                
+        
 
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 1.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
                 <div class="row">
-                <div class="col-12 col-sm-3 col-md-3">
-                        <label>Student Name</label>
-                        <input type="text" class="form-control">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>Start Date</label>
-                        <input type="date" class="form-control"></select>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
-                        <label>End Date</label>
-                        <input type="date" class="form-control"></select>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3 mt-4">
-                        <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
-                            Search</button>
-                    </div>
-
                 </div>
+            </div>
 
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 2.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
+                    </div>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
+                    </div>
+                </div>
+            </div>
 
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 3.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
+                    </div>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
+                    </div>
+                </div>
+            </div>
 
-            </form>
-            <hr>
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 4.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
+                    </div>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
+                    </div>
+                </div>
+            </div>
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
-                <thead>
-                    <tr>
-                    <th scope="col">S.No.</th>
-                    <th scope="col">Student Name</th>
-                    <th scope="col">Submission Date</th>
-                    <th scope="col">View Submission</th>
-                    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>                     
-                        <td><button class="btn btn-sm btn-primary">View</button></td>
-                    </tr>
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 5.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
+                    </div>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
+                    </div>
+                </div>
+            </div>
 
-
-                </tbody>
-            </table>
-
-        </div>
+            <div class="mb-3" style="border:1px solid lightgray; padding:15px;">
+                <p><b><span class="text-danger">Question 6.&nbsp;</span>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</b></p>
+                <p style="text-align: justify;"><b><span class="text-success">Answer.&nbsp;</span></b>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Max Marks</label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                    <label> Marks Obtain</label>
+                        <input type="text" class="form-control" placeholder="Enter Marks">
+                    </div>
+                    <div class="col-md-4">
+                    <label>Remarks</label>
+                        <input type="text" class="form-control" placehodler="Remarks">
+                    </div>
+                </div>
+            </div>
         <!-- content-wrapper ends -->
         <script>
         function changestatus(id, status) {
