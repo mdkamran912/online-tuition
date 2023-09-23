@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="col-md-4">
                     <label>Remarks</label>
-                        <input type="text" class="form-control" placehodler="Remarks">
+                        <input type="text" class="form-control" placeholder="Remarks">
                     </div>
                 </div>
             </div>
