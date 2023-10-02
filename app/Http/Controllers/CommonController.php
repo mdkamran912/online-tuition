@@ -6,6 +6,7 @@ use App\Models\batches;
 use App\Models\classes;
 use App\Models\status;
 use App\Models\studentregistration;
+use App\Models\tutorsubjectmapping;
 use App\Models\batchstudentmapping;
 use App\Models\subjects;
 use App\Models\topics;
@@ -52,7 +53,14 @@ class CommonController extends Controller
         $data['batches'] = batches::where('subject_id', $request->subject_id)->where('is_active', 1)->get();
         return response()->json($data);
     }
-
+    
+    public function fetchtutors(Request $request)
+    {
+        // Fetch Subjects Based On Class -> Using jQuerry
+        $data['tutors'] = tutorsubjectmapping::where("tutorsubjectmappings.subject_id", $request->subject_id)->select('tutorsubjectmappings.tutor_id','tutorregistrations.name')
+                           ->leftjoin('tutorregistrations','tutorregistrations.id','tutorsubjectmappings.tutor_id')->get();
+        return response()->json($data);
+    }
     public function studentsbybatch(Request $request)
     {
         $targetValue = 1;

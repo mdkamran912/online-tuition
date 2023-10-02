@@ -105,7 +105,7 @@
                                 <td>{{$payout->name}}</td>
                                 <td>{{$payout->mobile}}</td>
                                 <td>{{$payout->email}}</td>
-                                <td>&pound;{{$payout->total_amount}}%</td>
+                                <td>&pound;{{$payout->total_amount}}</td>
                                 <td>&pound;{{$payout->net_amount_received}}</td>
                                 <td>{{$payout->admin_commission_percentage}}%</td>
                                 <td>&pound;{{$payout->admin_commission_amount}}</td>
@@ -188,9 +188,6 @@
                     }
                 });
             });
-
-
-
         });
     </script>
 

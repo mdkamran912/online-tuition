@@ -114,9 +114,8 @@ class QuestionBankController extends Controller
         if($request->correctanswer == 'D'){
             $data->correct_option=$request->optiond;
         }
-
         $data->remarks=$request->remarks;
-
+        $data->type='1';
         $res = $data->save();
         if($res){
             return back()->with('success',$msg);
@@ -147,7 +146,12 @@ class QuestionBankController extends Controller
         $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
         $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
         $label = 'Update Question';
-        return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
+        if($qdata->type == 1){
+            return view('admin.questionbank',compact('qdata','classes','subjects','topics','label')); 
+        }elseif($qdata->type == 2){
+            return view('admin.questionbanksubjective',get_defined_vars());
+        }
+        
     }
 
 
@@ -155,6 +159,36 @@ class QuestionBankController extends Controller
         $classes = (new CommonController)->classes();
         return view('admin.questionbanksubjective',compact('classes'));
     }
+    public function storeSubjective(Request $request    ){
+        $request->validate([
+            'classname'=>'required',
+            'subject'=>'required',
+            'topic'=>'required',
+            'editor1'=>'required',
+        ]);
+        if($request->id){
+            $data = questionbank::find($request->id);
+            $msg = 'Question updated successfully';
+        }
+        else{
+            $data = new questionbank();
+            $msg = 'Question added successfully';
+        }
+        $data->class_id = $request->classname;
+        $data->subject_id = $request->subject;
+        $data->topic_id=$request->topic;
+        $data->question=$request->editor1;
+        $data->remarks=$request->remarks;
+        $data->type='2';
+        $res = $data->save();
+        if($res){
+            return back()->with('success',$msg);
+        }
+        else{
+            return back()->with('fail','Something went wrong. Please try again later');
+        }
+    }
+    
 
 
     // tutor questio bank functions

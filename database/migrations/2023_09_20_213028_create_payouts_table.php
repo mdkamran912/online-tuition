@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('transaction_no'); // VARCHAR
             $table->timestamp('transaction_date'); // Timestamp
             $table->smallInteger('status'); // Small Integer (You may adjust this as needed)
+            $table->smallInteger('payment_mode'); 
             $table->timestamps();
         });
     }

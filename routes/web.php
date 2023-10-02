@@ -80,7 +80,7 @@ Route::post('fetchtopics', [CommonController::class, 'fetchtopics'])->name('fetc
 Route::post('studentsbyclass', [CommonController::class, 'studentsbyclass'])->name('studentsbyclass');
 Route::post('batchbysubject', [CommonController::class, 'batchbysubject'])->name('batchbysubject');
 Route::post('studentsbybatch', [CommonController::class, 'studentsbybatch'])->name('studentsbybatch');
-
+Route::post('fetchtutors', [CommonController::class, 'fetchtutors'])->name('fetchtutors');
 // Student Activity
 Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], function () {
     // student dashboard
@@ -211,6 +211,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
     Route::get('tutorpaymentslist', [PaymentsController::class, 'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments', [PaymentsController::class, 'update'])->name('admin.payments.update');
+    // admin tutor payment 
+    Route::any('tutor-payment', [PaymentsController::class, 'tutorPaymentAdmin'])->name('admin.tutor-payment');
+    Route::post('fetchtutorsAmount', [PaymentsController::class, 'fetchtutorsAmount'])->name('admin.fetch-tutor-amount');
+    
+    
     // Learning contents
     Route::get('learningcontents', [LearningsContentsController::class, 'index'])->name('admin.learningcontents');
     Route::get('addlearningcontents', [LearningsContentsController::class, 'add'])->name('admin.addlearningcontents');
@@ -231,6 +236,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('question/status', [QuestionBankController::class, 'status'])->name('admin.question.status');
     Route::get('questionupdate/{id}', [QuestionBankController::class, 'view'])->name('admin.questionupdate.view');
     Route::post('questionbank-search', [QuestionBankController::class, 'questionbankSearch'])->name('admin.questionbank-search');
+    Route::post('questionbank/subjective-store', [QuestionBankController::class, 'storeSubjective'])->name('admin.questionbank.subjective.store');
+    
     // Online tests
     Route::get('onlinetestlist', [OnlineTestController::class, 'index'])->name('admin.onlinetests');
     Route::get('onlinetestresponseslist', [OnlineTestController::class, 'onlinetestresponseslist'])->name('admin.onlinetests.responses.list');
@@ -254,6 +261,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
     // Admin Reports
     Route::get('classes-report',[ReportController::class, 'admin_class_report'])->name('admin.reports.class-list');
+    Route::post('payouts-search',[PaymentsController::class,'adminPayoutsSearch'])->name('admin.payouts-search');
+
 });
 
 

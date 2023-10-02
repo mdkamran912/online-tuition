@@ -51,7 +51,7 @@ input[type='radio'] {
                 <a href="{{ route('admin.questionbank') }}" class="btn btn-primary">Back To List</a>
             </div>
 
-            <form action="{{ route('admin.questionbank.store') }}" method="POST">
+            <form action="{{ route('admin.questionbank.subjective.store') }}" method="POST">
                 @csrf
                 <div class=" row">
                     <input type="hidden" id="id" name="id" value="{{$qdata->id ?? ''}}" class="form-group">
@@ -125,9 +125,9 @@ input[type='radio'] {
                             {{$qdata->question ?? ''}}
                         </textarea> -->
 
-                        <textarea name="editor1"></textarea><br/>
+                        <textarea name="editor1">{{$qdata->question ?? ''}}</textarea><br/>
                         <span class="text-danger">
-                            @error('question')
+                            @error('editor1')
                             {{ 'Please enter question' }}
                             @enderror
                         </span>

@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\payments\paymentdetails;
 use App\Models\classes;
 use App\Models\subjects;
+use App\Models\status;
+use App\Models\PaymentMode;
 use App\Models\studentregistration;
 use App\Models\tutorregistration;
 use App\Models\payments\paymentstudents;
+use App\Models\tutorsubjectmapping;
 use Illuminate\Http\Request;
 use App\Models\payout;
 use Illuminate\Support\Facades\DB;
@@ -288,9 +291,86 @@ class PaymentsController extends Controller
     }
 
     public function tutorpaymentslist(){
-
-        return view('admin.tutorpaymentlist');
+        $subjects = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
+        $statuses = status::all();
+        $PaymentModes = PaymentMode::all();
+        $tutorpayouts = payout::select('payouts.*','tutorregistrations.name','statuses.name as status_name','tutorregistrations.mobile','tutorregistrations.email')
+        ->join('tutorregistrations','tutorregistrations.id','payouts.tutor_id')->join('statuses','statuses.id','payouts.status')
+        ->paginate(10);
+        return view('admin.tutorpaymentlist',get_defined_vars());
     }
+
+    public function tutorPaymentAdmin(Request $request){
+        $request->validate([
+            'class'=>'required',
+            'subject'=>'required',
+            'tutor'=>'required',
+            'account'=>'required',
+            'transNo'=>'required',
+            'date'=>'required',
+            'status'=>'required',
+            'payment_mode'=>'required',
+            'total_amount'=>'required',
+            'amount_payable' => ['required', 'numeric', 'min:0', 'max:' . $request->pending_amount_payable],
+            'admin_commission_amount'=>'required',
+            'admin_commission_percentage'=>'required',
+        ]);
+
+        $payout = new payout;
+        $payout->tutor_id= $request->tutor;
+        $payout->total_amount= $request->total_amount;
+        $payout->net_amount_received= $request->amount_payable;
+        $payout->admin_commission_percentage= $request->admin_commission_percentage;
+        $payout->admin_commission_amount= $request->admin_commission_amount;
+        $payout->account_no= $request->account;
+        $payout->transaction_no= $request->transNo;
+        $payout->transaction_date= $request->date;
+        $payout->status= $request->status;
+        $payout->payment_mode= $request->payment_mode;
+        $payout->save();
+        return response()->json([
+            'success' => 'Payment is added successfully',
+        ]);
+    }
+
+    public function fetchtutorsAmount(Request $request){
+        $moneyEarned = paymentdetails::join('paymentstudents', 'paymentstudents.transaction_id', 'paymentdetails.transaction_id')
+                    ->where('tutor_id', $request->tutor_id)
+                    ->selectRaw('COUNT(DISTINCT student_id) as student_count, SUM(amount) as total_amount')
+                    ->first();
+        if($moneyEarned){
+            $totalAmount = $moneyEarned['total_amount'];
+            $adminCommission = tutorsubjectmapping::where('tutor_id',$request->tutor_id)->avg('admin_commission');
+            $already_paid = payout::where('tutor_id',$request->tutor_id)->sum('net_amount_received');
+            if($totalAmount > 0 && $adminCommission > 0){
+                    $commissionAmount = ($totalAmount ) * ( $adminCommission/100);
+                    $netPayableAmount = $totalAmount - $commissionAmount;
+                    $totalPayable = $netPayableAmount-$already_paid;
+            }else{
+                $commissionAmount =0;
+                $netPayableAmount = 0;
+            }
+        }else{
+            $totalAmount = 0;
+            $commissionAmount =0;
+            $adminCommission = 0;
+            $netPayableAmount = 0;
+
+        }  
+        return response()->json([
+            'totalAmount' => $totalAmount ?? '0',
+            'adminComissionPercentage'=>$adminCommission,
+            'commissionAmount'=>$commissionAmount,
+            'netPayableAmount'=>$netPayableAmount ?? '0',
+            'alreadyPaid' => $already_paid,
+            'totalPayable' => $totalPayable ?? '0'
+        ]);           
+
+    }
+
+
+    
 
     public function tutorpayments(){
 
@@ -366,15 +446,50 @@ class PaymentsController extends Controller
         if ($request->status) {
             $query->where('payouts.status',$request->status);
         }
-        $payouts = $query->paginate(10);
+        $tutorpayouts = $query->paginate(10);
         $type="tutor";
-        $viewTable = view('admin.partials.payments-search', compact('payouts','type'))->render();
-        $viewPagination = $payouts->links()->render();
+        $viewTable = view('admin.partials.payments-search', compact('tutorpayouts','type'))->render();
+        $viewPagination = $tutorpayouts->links()->render();
         return response()->json([
             'table' => $viewTable,
             'pagination' => $viewPagination
         ]);
     }
 
+    public function adminPayoutsSearch(Request $request){
 
+        $query = payout::select('payouts.*','tutorregistrations.name','statuses.name as status_name','tutorregistrations.mobile','tutorregistrations.email')
+                 ->join('tutorregistrations','tutorregistrations.id','payouts.tutor_id')->join('statuses','statuses.id','payouts.status');
+                //  ->where('payouts.tutor_id',session('userid')->id);
+                //  ->get();
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(payouts.transaction_date)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(payouts.transaction_date)'), '<=', $request->end_date);
+        }
+        if ($request->tansaction_no) {
+            $query->where('payouts.transaction_no','like', '%' .$request->tansaction_no . '%');
+        }
+        if ($request->tutorname) {
+            $query->where('tutorregistrations.name','like', '%' .$request->tutorname . '%');
+        }
+        if ($request->tutormobile) {
+            $query->where('tutorregistrations.mobile','like', '%' .$request->tutormobile . '%');
+        }
+        if ($request->tutoremail) {
+            $query->where('tutorregistrations.email','like', '%' .$request->tutoremail . '%');
+        }
+        if ($request->status) {
+            $query->where('payouts.status',$request->status);
+        }
+        $tutorpayouts = $query->paginate(10);
+        $type="admin";
+        $viewTable = view('admin.partials.payments-search', compact('tutorpayouts','type'))->render();
+        $viewPagination = $tutorpayouts->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+    }
 }
