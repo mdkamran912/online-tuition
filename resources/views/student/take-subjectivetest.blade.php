@@ -1,5 +1,28 @@
 @extends('student.layouts.main')
 @section('main-section')
+
+<style>
+.selectAns {
+    border: 1px solid lightgrey;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+input[type='radio'] {
+    accent-color: green;
+}
+
+.ck-powered-by {
+    display: none;
+}
+
+.ck-balloon-panel,
+.ck-powered-by-balloon,
+.ck-balloon-panel_position_border-side_right {
+    border: none !important;
+}
+</style>
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script> 
     <!-- modal -->
     <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -67,14 +90,13 @@
 
             <div class="contnr">
                 {{-- @foreach ($questions as $data) --}}
-                <div class="col">
-                    <h3 id="questionBox"></h3>
+                <div class="col" >
+                    <h3 id="questionBox" style="display:flex"></h3>
                 </div>
                 <div class="col box" id="optionbox">
-                    <input name="option" type="radio" id="option1" value="1" data-question-id="" required>
-                    <label for="option1"></label>
+                <textarea name="editor1">{{$qdata->question ?? ''}}</textarea>
                 </div>
-                <div class="col box" id="optionbox">
+                <!-- <div class="col box" id="optionbox">
                     <input name="option" type="radio" id="option2" value="2" data-question-id="" required>
                     <label for="option2"></label>
                 </div>
@@ -85,7 +107,7 @@
                 <div class="col box" id="optionbox">
                     <input name="option" type="radio" id="option4" value="4" data-question-id="" required>
                     <label for="option4"></label>
-                </div>
+                </div> -->
                 {{-- @endforeach --}}
 
 
@@ -191,6 +213,7 @@
                 const data = quizData[index];
                 console.log(data);
                 questionBox.innerHTML = `${index + 1}.  ${data.question}`;
+               
 
                 // Check if there's a selected answer for this question and pre-select it
                 prevSelected = selectedAnswers[index];
@@ -397,4 +420,16 @@
                 document.querySelector("#openmodal #totalNonAttempted").textContent = nonAttemptedQuestions;
             }
         </script>
+
+<script>  
+    CKEDITOR.replace('editor1');  
+    CKEDITOR.replace('editor2');  
+  
+    function getData() {  
+        //Get data written in first Editor   
+        var editor_data = CKEDITOR.instances['editor1'].getData();  
+        //Set data in Second Editor which is written in first Editor  
+        CKEDITOR.instances['editor2'].setData(editor_data);  
+    }  
+</script>
     @endsection
