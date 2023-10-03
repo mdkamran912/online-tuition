@@ -182,6 +182,7 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->is_active = "1";
         $user->password = Hash::make($request->password);
+        $user->parent_password = Hash::make($request->mobile);
 
         $res = $user->save();
 

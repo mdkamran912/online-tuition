@@ -248,6 +248,26 @@ class OnlineTestController extends Controller
 
         return view('student.taketest', compact('onlineTest', 'questions'));
     }
+    public function taketestsubjective($id)
+    {
+
+        $onlineTest = OnlineTests::where('id', $id)
+            ->where('class_id', session('userid')->class_id)
+            ->first();
+
+        // echo session('userid')->class_id;
+        // dd($onlineTest);
+        // Decode the JSON string to an array
+        $questionIds = json_decode($onlineTest->question_id);
+
+        // Fetch the related questions using the decoded question_ids array
+        $questions = Questionbank::whereIn('id', $questionIds)->get();
+
+
+        return view('student.take-subjectivetest', compact('onlineTest', 'questions'));
+    }
+
+
 
     public function saveResponses(Request $request)
     {
