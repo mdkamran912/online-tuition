@@ -13,7 +13,7 @@
 }
 
 body {
-	background-image: url("../images/parenting-img.jpg");
+	background-image: url("../images/parenting3.jpg");
     background-repeat:no-repeat;
     background-size:cover;
 	display: flex;
@@ -64,7 +64,7 @@ button {
 
 form {
 	background-color:  #ffffff;
-    opacity: 0.8;
+    opacity: 0.7;
 	display: flex;
 	align-items: center;
 	justify-content: center;
