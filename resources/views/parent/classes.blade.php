@@ -1,4 +1,4 @@
-@extends('student.layouts.main')
+@extends('parent.layouts.main')
 @section('main-section')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- ============================================================== -->
@@ -138,7 +138,7 @@
                                         Class</button>
                                     {{-- </a> --}}
                                 @endif
-                                @if ($class->is_completed == 1 || $class->status == 'completed' || $class->status == 'Completed')                               
+                                @if ($class->is_completed == 1 || $class->status == 'completed' || $class->status == 'Completed')
                                 <button class="btn btn-sm btn-primary" data-toggle="modal"
                                     data-target="#openreviewsmodal"
                                     onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span
@@ -225,9 +225,9 @@
 
                         <div class="col-12 col-md-12 col-ms-12 mb-3">
                             <label>Comments<span style="color:red">*</span></label>
-                           
+
                             <textarea class="form-control" id="comments" name="comments" required></textarea>
-                            
+
                         </div>
                         <span class="text-danger">
                             @error('comments')
@@ -367,7 +367,7 @@ $.ajax({
     data: {
         _token: '{{ csrf_token() }}',
         id: id,
-        
+
     },
     success: function(dataResult) {
         dataResult = JSON.parse(dataResult);

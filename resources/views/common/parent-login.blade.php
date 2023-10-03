@@ -1,8 +1,11 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 	<title>Online Tutor - Parents Login</title>
     <style>
 
@@ -167,21 +170,28 @@ input {
 <body>
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="{{url('admin/login')}}" method="GET">
+
+			<form action="{{url('parent/login')}}" method="post">
                 @csrf
 				<h1>Login</h1>
 				{{-- <div class="social-container"> --}}
 					<p>Login to continue</p>
 				{{-- </div> --}}
-				<input type="email" id="username" name="username" placeholder="Email" />
-                <span class="text-danger">
+                @if (Session::has('success'))
+                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                @endif
+                @if (Session::has('fail'))
+                    <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                @endif
+				<input type="number" id="username" name="username" placeholder="Email" />
+                <span class="text-danger" style="color:red">
                     @error('username')
                     {{ $message }}
                     @enderror
                 </span>
-				<input type="password" id="loginpassword" name="loginpassword" placeholder="Password" />
-                <span class="text-danger">
-                    @error('loginpassword')
+				<input type="password" id="loginpassword" name="password" placeholder="Password" />
+                <span class="text-danger" style="color:red">
+                    @error('password')
                     {{ $message }}
                     @enderror
                 </span>
@@ -189,7 +199,8 @@ input {
 				<button type="submit">Log In</button>
 			</form>
 		</div>
-		
+
 	</div>
 </body>
 </html>
+

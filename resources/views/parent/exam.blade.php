@@ -1,4 +1,4 @@
-@extends('student.layouts.main')
+@extends('parent.layouts.main')
 @section('main-section')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">

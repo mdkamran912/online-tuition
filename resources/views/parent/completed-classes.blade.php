@@ -1,4 +1,4 @@
-@extends('student.layouts.main')
+@extends('parent.layouts.main')
 @section('main-section')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- ============================================================== -->
@@ -11,7 +11,7 @@
         justify-content: space-between;
     }
 
-   
+
     </style>
 
     <div class="page-content">
@@ -27,7 +27,7 @@
                 <h3>Completed Classes</h3>
             </div>
 
-            
+
 
             <form id="payment-search">
                 <div class="row ">
@@ -107,7 +107,7 @@
                                 @endforelse
 
                             </td>
-                            
+
                         </tr>
                         @endforeach
 
@@ -209,7 +209,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            
+
             <div class="modal-body" id="iframeid">
             </div>
             <p id="link_test"></p>
@@ -259,9 +259,9 @@ function updateTableAndPagination(data) {
 }
 
 function play(link){
-    // document.getElementById('iframeid').innerHTML = `<iframe src="${link}" width="100%" height="480" allow="autoplay" allowfullscreen ="true"></iframe>`                   
-    // document.getElementById('link_test').innerHTML = `${link}`                   
-    
+    // document.getElementById('iframeid').innerHTML = `<iframe src="${link}" width="100%" height="480" allow="autoplay" allowfullscreen ="true"></iframe>`
+    // document.getElementById('link_test').innerHTML = `${link}`
+
     // $('#playModal').modal('show');
     window.location = link;
 }

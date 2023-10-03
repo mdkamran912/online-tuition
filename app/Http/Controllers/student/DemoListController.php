@@ -27,12 +27,28 @@ class DemoListController extends Controller
         $tutors = tutorregistration::select('*')->get();
         return view('student.demolist',get_defined_vars());
     }
-    public function demolistSearch(Request $request){
-        // return $request->all();
-        $query = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
+    public function parentindex(){
+
+        $demos = democlasses::select('*','democlasses.id as demo_id','classes.name as class_name','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
         ->join('subjects', 'subjects.id','=','democlasses.subject_id')
         ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->join('classes', 'classes.id','=','subjects.class_id')
+        ->where('democlasses.student_id','=', session('userid')->id)
+        ->orderBy('democlasses.created_at', 'desc')
+        ->paginate(10);
+        $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
+        $statuses = status::select('*')->get();
+        $tutors = tutorregistration::select('*')->get();
+        return view('parent.demolist',get_defined_vars());
+    }
+    public function demolistSearch(Request $request){
+        // return $request->all();
+        $query = democlasses::select('*','democlasses.id as demo_id','tutorregistrations.name as tutor','classes.name as class_name','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
+        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
+        ->join('subjects', 'subjects.id','=','democlasses.subject_id')
+        ->join('statuses', 'statuses.id','=','democlasses.status')
+        ->join('classes', 'classes.id','=','subjects.class_id')
         ->where('democlasses.student_id','=', session('userid')->id);
 
 

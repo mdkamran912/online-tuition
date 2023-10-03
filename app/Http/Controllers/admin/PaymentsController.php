@@ -301,6 +301,8 @@ class PaymentsController extends Controller
         return view('admin.tutorpaymentlist',get_defined_vars());
     }
 
+
+
     public function tutorPaymentAdmin(Request $request){
         $request->validate([
             'class'=>'required',
@@ -357,7 +359,7 @@ class PaymentsController extends Controller
             $adminCommission = 0;
             $netPayableAmount = 0;
 
-        }  
+        }
         return response()->json([
             'totalAmount' => $totalAmount ?? '0',
             'adminComissionPercentage'=>$adminCommission,
@@ -365,12 +367,13 @@ class PaymentsController extends Controller
             'netPayableAmount'=>$netPayableAmount ?? '0',
             'alreadyPaid' => $already_paid,
             'totalPayable' => $totalPayable ?? '0'
-        ]);           
+        ]);
 
     }
 
 
-    
+
+
 
     public function tutorpayments(){
 
@@ -389,6 +392,19 @@ class PaymentsController extends Controller
         ->paginate(10);
         // dd($payments);
         return view('student.fees',compact('payments'));
+    }
+    public function studentpaymentsParent(){
+
+        $payments = paymentstudents::select('paymentstudents.*','classes.name as class','subjects.name as subject','tutorregistrations.name as tutor','paymentdetails.id as paymentdetails_id','paymentdetails.amount as amount')
+        ->join('classes','classes.id','paymentstudents.class_id')
+        ->join('subjects', 'subjects.id','paymentstudents.subject_id')
+        ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
+        ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->paginate(10);
+        // dd($payments);
+        return view('parent.fees',compact('payments'));
     }
     // students payments search functionality
     public function studentpaymentsSearch(Request $request){

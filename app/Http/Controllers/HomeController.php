@@ -438,4 +438,26 @@ class HomeController extends Controller
     {
         return view('common.parent-login');
     }
+    public function parent_login_attempt(Request $request)
+    {
+
+
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        $user = studentregistration::where('mobile', '=', $request->username)->first();
+
+
+
+        if ($user) {
+            if (Hash::check($request->password, $user->parent_password)) {
+                $request->session()->put('userid', $user);
+                return redirect('parent/dashboard');
+            }
+            return back()->with('fail', 'Password does not match');
+        } else {
+            return back()->with('fail', 'Mobile No. Not Registered');
+        }
+    }
 }

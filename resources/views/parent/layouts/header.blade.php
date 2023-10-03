@@ -663,28 +663,13 @@ use App\Models\studentprofile;
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/student/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="/parent/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
                             </a>
 
                         </li> <!-- end Dashboard Menu -->
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
-                                <i class="ri-apps-2-line"></i> <span data-key="t-apps">Apps</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarApps">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link" data-key="t-calendar"> Calendar </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('student.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
-                                    </li>
 
-                                </ul>
-                            </div>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
@@ -693,13 +678,13 @@ use App\Models\studentprofile;
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('student.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
+                                        <a href="{{route('parent.demolist')}}" target="_blank" class="nav-link" data-key="t-horizontal">Demo Classes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('student.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
+                                        <a href="{{route('parent.classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Scheduled Classes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('student.completed-classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Completed Classes</a>
+                                        <a href="{{route('parent.completed-classes')}}" target="_blank" class="nav-link" data-key="t-horizontal">Completed Classes</a>
                                     </li>
 
                                 </ul>
@@ -714,14 +699,9 @@ use App\Models\studentprofile;
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
+
                                     <li class="nav-item">
-                                        <li class="nav-item">
-                                            <a href="{{route('student.searchtutor')}}" class="nav-link" data-key="t-starter">Purchase New Tutor </a>
-                                        </li>
-                                        <a href="{{route('student.yourtutor')}}" class="nav-link" data-key="t-starter"> Tutor </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('student.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
+                                        <a href="{{route('parent.subjects')}}" class="nav-link" data-key="t-starter"> Subjects </a>
                                     </li>
 
                                 </ul>
@@ -735,10 +715,10 @@ use App\Models\studentprofile;
                             <div class="collapse menu-dropdown" id="sidebarLanding">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('student.mylearnings')}}" class="nav-link" data-key="t-one-page">Learning Contents</a>
+                                        <a href="{{route('parent.mylearnings')}}" class="nav-link" data-key="t-one-page">Learning Contents</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('student.assignments.list')}}" class="nav-link" data-key="t-one-page">Assignments</a>
+                                        <a href="{{route('parent.assignments.list')}}" class="nav-link" data-key="t-one-page">Assignments</a>
                                     </li>
 
                                 </ul>
@@ -754,7 +734,7 @@ use App\Models\studentprofile;
                             <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                                <a href="{{route('student.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
+                                                <a href="{{route('parent.exams')}}" class="nav-link" data-key="t-alerts">Quizes</a>
                                             </li>
 
                                         </ul>
@@ -769,7 +749,7 @@ use App\Models\studentprofile;
                             <div class="collapse menu-dropdown" id="sidebarForms">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('student.studentpayments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
+                                        <a href="{{route('parent.studentpayments')}}" class="nav-link" data-key="t-form-select"> Payment History </a>
                                     </li>
 
 
@@ -787,10 +767,10 @@ use App\Models\studentprofile;
                                         <a href="#" class="nav-link" data-key="t-chartjs"> Payments </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('student.class.report')}}" class="nav-link" data-key="t-chartjs"> Classes </a>
+                                        <a href="{{route('parent.class.report')}}" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('student.attendance.report')}}" class="nav-link" data-key="t-chartjs"> Attendance </a>
+                                        <a href="{{route('parent.attendance.report')}}" class="nav-link" data-key="t-chartjs"> Attendance </a>
                                     </li>
 
                                 </ul>
@@ -798,23 +778,6 @@ use App\Models\studentprofile;
                         </li>
 
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarFormsChat" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
-                                <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Chat & Feedbacks</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarFormsChat">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{route('student.messages')}}" class="nav-link" data-key="t-form-select"> Chat/Messages </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('student.myfeedback')}}" class="nav-link" data-key="t-form-select"> Feedbacks </a>
-                                    </li>
-
-
-                                </ul>
-                            </div>
-                        </li>
 
 
                     </ul>
