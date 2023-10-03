@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('test_start_date');
             $table->string('test_end_date');
             $table->text('question_id');
+            $table->smallInteger('test_type');
             $table->integer('is_active')->default(1);
             $table->timestamps();
         });

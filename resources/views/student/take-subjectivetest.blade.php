@@ -1,5 +1,31 @@
 @extends('student.layouts.main')
 @section('main-section')
+<<<<<<< Updated upstream
+=======
+
+<style>
+.selectAns {
+    border: 1px solid lightgrey;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+input[type='radio'] {
+    accent-color: green;
+}
+
+.ck-powered-by {
+    display: none;
+}
+
+.ck-balloon-panel,
+.ck-powered-by-balloon,
+.ck-balloon-panel_position_border-side_right {
+    border: none !important;
+}
+</style>
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+>>>>>>> Stashed changes
     <!-- modal -->
     <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -71,8 +97,12 @@
                     <h3 id="questionBox"></h3>
                 </div>
                 <div class="col box" id="optionbox">
+<<<<<<< Updated upstream
                     <input name="option" type="radio" id="option1" value="1" data-question-id="" required>
                     <label for="option1"></label>
+=======
+                <textarea name="editor1" id="subjectiveAnswer"></textarea>
+>>>>>>> Stashed changes
                 </div>
                 <div class="col box" id="optionbox">
                     <input name="option" type="radio" id="option2" value="2" data-question-id="" required>
@@ -126,17 +156,7 @@
 
 
         <!-- content-wrapper ends -->
-        <script>
-            // jQuery.noConflict();
-
-            // Now use jQuery instead of $
-            // jQuery(document).ready(function($) {
-            // Your code that uses jQuery
-            // You can use $ here if you're sure it won't conflict with other libraries
-            // function goback(){
-            // $('#openmodal').modal('show');
-            // }
-            // });
+{{-- <script>
 
             // Initialize timer based on local storage or default value
             let timeLimit = localStorage.getItem('remainingTime') || (60 * parseInt(document.getElementById('duration')
@@ -191,6 +211,10 @@
                 const data = quizData[index];
                 console.log(data);
                 questionBox.innerHTML = `${index + 1}.  ${data.question}`;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
                 // Check if there's a selected answer for this question and pre-select it
                 prevSelected = selectedAnswers[index];
@@ -396,5 +420,174 @@
                 document.querySelector("#openmodal #totalAttempted").textContent = attemptedQuestions.length;
                 document.querySelector("#openmodal #totalNonAttempted").textContent = nonAttemptedQuestions;
             }
+<<<<<<< Updated upstream
         </script>
     @endsection
+=======
+</script> --}}
+
+<script>
+    CKEDITOR.replace('editor1');
+    CKEDITOR.replace('editor2');
+
+    function getData() {
+        //Get data written in first Editor
+        var editor_data = CKEDITOR.instances['editor1'].getData();
+        //Set data in Second Editor which is written in first Editor
+        CKEDITOR.instances['editor2'].setData(editor_data);
+    }
+</script>
+<script>
+    // Initialize timer based on local storage or default value
+    let timeLimit = localStorage.getItem('remainingTime') || (60 * parseInt(document.getElementById('duration')
+        .innerHTML));
+    let timer = setInterval(updateTimer, 1000); // Update timer every second
+    let remainingTime = timeLimit;
+
+    function updateTimer() {
+        const timerDisplay = document.getElementById("timer");
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+
+        timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (remainingTime <= 0) {
+            clearInterval(timer);
+            timerDisplay.textContent = "Time's up!";
+            // Add your logic to handle time's up (e.g., submitting the quiz)
+        }
+
+        remainingTime--;
+
+        // Store remaining time in local storage
+        localStorage.setItem('remainingTime', remainingTime);
+    }
+
+    // Check if timer has already expired
+    if (remainingTime <= 0) {
+        const timerDisplay = document.getElementById("timer");
+        timerDisplay.textContent = "Time's up!";
+    }
+
+    let selectedAnswers = []; // Array to store selected answers for each question
+
+    const quizData = @json($questions); // Convert PHP array to JSON for JavaScript usage
+
+    let index = 0;
+    let prevSelected = 0;
+    let total = quizData.length;
+    let questionBox = document.getElementById("questionBox");
+    let textArea = document.getElementById("subjectiveAnswer");
+
+    const loadQuestion = () => {
+        if (index === total) {
+            return quizConfirmation();
+        }
+
+        reset();
+        const data = quizData[index];
+        console.log(data);
+        questionBox.innerHTML = `${index + 1}.  ${data.question}`;
+
+        // Check if there's a selected answer for this question and pre-fill the text area
+        prevSelected = selectedAnswers[index];
+        textArea.value = prevSelected || '';
+    };
+
+    document.querySelector("#next").addEventListener("click", function() {
+        const ans = textArea.value.trim();
+        selectedAnswers[index] = ans; // Store the subjective answer in the array
+
+        if (index > (total - 3)) {
+            document.getElementById('next').innerHTML = "Submit";
+        } else {
+            document.getElementById('next').innerHTML = "Next";
+        }
+
+        if (index < total) {
+            index++;
+        }
+        document.getElementById('back').disabled = false;
+        loadQuestion();
+    });
+
+    document.querySelector("#finalsubmit").addEventListener("click", function() {
+                responses = selectedAnswers;
+                // Make an AJAX POST request to the Laravel route
+                fetch('{{ route('student.save.responses') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}', // Assuming you have a CSRF token
+                        },
+                        body: JSON.stringify({
+                            responses
+                        }),
+                    })
+                    .then(response => response.json())
+
+                    .then(data => {
+                        // console.log(data.message); // You can handle the response message as needed
+                        const successMessage = encodeURIComponent(data.message);
+        const redirectUrl = `/student/exams?message=${successMessage}`;
+        window.location.href = redirectUrl;
+                    })
+                    .catch(error => {
+                        // console.error('Error saving responses:', error);
+                    });
+    })
+
+    document.querySelector("#back").addEventListener("click", function() {
+        selectedAnswers[index] = textArea.value.trim(); // Store the subjective answer
+
+        if (index == total) {
+            index--;
+        }
+        if (index > 0) {
+            index--;
+            loadQuestion();
+
+            prevSelected = selectedAnswers[index];
+            textArea.value = prevSelected || '';
+        }
+    });
+
+    const reset = () => {
+        // Reset any relevant UI elements here
+    };
+
+    // ... (other code remains unchanged)
+
+    function quizConfirmation() {
+        calculateAttemptedQuestions();
+        // Get a reference to the button element
+        var button = document.getElementById("goback1");
+
+        // Trigger a click event on the button
+        button.click();
+    }
+
+    function calculateAttemptedQuestions() {
+                if (selectedAnswers.length > total) {
+
+                    const secondToLastIndex = selectedAnswers.length - 2; // Index of the second-to-last element
+
+                    if (secondToLastIndex >= 0) {
+                        selectedAnswers.splice(secondToLastIndex, 1); // Remove one element at the secondToLastIndex
+                    }
+
+                }
+
+                const attemptedQuestions = selectedAnswers.filter(answer => answer !== null);
+                const nonAttemptedQuestions = total - attemptedQuestions.length;
+
+                document.querySelector("#openmodal #totalAttempted").textContent = attemptedQuestions.length;
+                document.querySelector("#openmodal #totalNonAttempted").textContent = nonAttemptedQuestions;
+            }
+
+    // Initial load of the first question
+    loadQuestion();
+</script>
+
+@endsection
+>>>>>>> Stashed changes

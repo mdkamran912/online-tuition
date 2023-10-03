@@ -122,14 +122,23 @@
                                     <td>{{ $exam->class }}</td>
                                     <td>{{ $exam->subject }}</td>
                                     <td>{{ $exam->topic }}</td>
+<<<<<<< Updated upstream
+=======
+                                    <td>@if($exam->test_type ==1) Objective @else subjective @endif</td>
+>>>>>>> Stashed changes
                                     <td>{{ $exam->name }}</td>
                                     <td>{{ $exam->description }}</td>
                                     <td>{{ $exam->attemptsRemaining }}</td>
                                     <td>{{ $exam->test_duration }} min</td>
                                     <td>{{ $exam->test_start_date }}</td>
                                     <td>{{ $exam->test_end_date }}</td>
+<<<<<<< Updated upstream
                                     <td><a href="{{ url('student/taketest') }}/{{ $exam->id }}"
                                             class="badge bg-success">Start Test</a></td>
+=======
+                                    <td><a @if($exam->test_type ==1) href="{{ url('student/taketest') }}/{{ $exam->id }}" @elseif($exam->test_type ==2)href="{{ url('student/taketest-subjective') }}/{{ $exam->id }} @endif"
+                                            class="badge bg-success p-2">Start Test</a></td>
+>>>>>>> Stashed changes
                                 </tr>
                                 @php
                                     $i++;

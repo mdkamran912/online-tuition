@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::table('testattempteds', function (Blueprint $table) {
         // Change the data type of the column
         $table->text('response_id')->change();
+        $table->longText('answer')->nullable();
         // You can modify other properties as well
         // $table->unsignedBigInteger('another_column')->nullable()->change();
     });

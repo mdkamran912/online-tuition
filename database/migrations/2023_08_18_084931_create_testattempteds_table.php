@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('response_id');
             $table->integer('status')->nullable();
             $table->integer('is_active')->default(1);
+            $table->longText('answer')->nullable();
             $table->timestamps();
         });
     }
