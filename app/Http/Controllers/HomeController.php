@@ -35,6 +35,7 @@ class HomeController extends Controller
             $user->mobile = $request->studentmobile;
             $user->role_id = "3";
             $user->class_id = $request->class;
+            $user->parent_password = Hash::make($request->studentmobile);;
             // $user->is_active = "1";
         } else {
             $request->validate([
@@ -428,5 +429,12 @@ class HomeController extends Controller
 
             return back()->with('fail', 'Invalid OTP. Please try again');
         }
+    }
+
+
+    // parent authentications
+    public function parent_login()
+    {
+        return view('common.parent-login');
     }
 }

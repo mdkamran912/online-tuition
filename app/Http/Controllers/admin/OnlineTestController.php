@@ -91,6 +91,7 @@ class OnlineTestController extends Controller
         $questions = questionbank::select('*')
             ->where('topic_id', $request->topic_id)
             ->where('is_active', 1)
+            ->where('type', $request->type)
             ->get();
 
         return $questions;
@@ -419,6 +420,7 @@ class OnlineTestController extends Controller
 
         $questions = questionbank::select('*')
             ->where('topic_id', $request->topic_id)
+            ->where('type', $request->type)
             ->where('is_active', 1)
             ->get();
 

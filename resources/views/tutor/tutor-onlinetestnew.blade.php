@@ -107,11 +107,18 @@
                 </style>
                 <div class=" row">
                     <input type="hidden" id="id" name="id" value="{{ $tdata->id ?? '' }}" class="form-control">
-                    <div class="col-md-3 col-sm-3 col-12">
+                    {{-- <div class="col-md-3 col-sm-3 col-12">
                         <label for="">Test Type<i style="color: red">*</i></label>
                         <select class="form-control">
                             <option>Objective</option>
                             <option>Subjective</option>
+                        </select>
+                    </div> --}}
+                    <div class="col-md-3 col-sm-3 col-12">
+                        <label for="">Test Type<i style="color: red">*</i></label>
+                        <select class="form-control" id="test-type" name="test_type" onchange="fetchQuestions()">
+                            <option value="1">Objective</option>
+                            <option value="2">Subjective</option>
                         </select>
                     </div>
                     <div class="col-md-3 col-sm-3 col-12">
@@ -327,11 +334,13 @@
             function fetchQuestions() {
 
                 var topicId = $('#topic option:selected').val();
+                var type = $('#test-type option:selected').val();
                 $.ajax({
                     url: "{{ url('tutor/fetchquestions') }}",
                     type: "POST",
                     data: {
                         topic_id: topicId,
+                        type : type,
                         _token: '{{ csrf_token() }}'
                     },
                     dataType: 'json',
