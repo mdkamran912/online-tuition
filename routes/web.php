@@ -64,6 +64,10 @@ Route::get('/tutor/mobile-verify',[HomeController::class,'tutor_mobile_verify'])
 Route::post('/tutor/mobile-verify',[HomeController::class,'verify_tutor_mobile'])->name('verify_tutor_mobile');
 Route::get('/tutor-login',[HomeController::class, 'tutor_login'])->name('tutor_login');
 
+//parent authentications
+Route::get('/parent/login', [HomeController::class, 'parent_login'])->name('parentlogin');
+
+
 
 
 Route::get("logout", [HomeController::class, "logout"])->name("logout");
@@ -211,11 +215,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
     Route::get('tutorpaymentslist', [PaymentsController::class, 'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments', [PaymentsController::class, 'update'])->name('admin.payments.update');
-    // admin tutor payment 
+
+    // admin tutor payment
     Route::any('tutor-payment', [PaymentsController::class, 'tutorPaymentAdmin'])->name('admin.tutor-payment');
     Route::post('fetchtutorsAmount', [PaymentsController::class, 'fetchtutorsAmount'])->name('admin.fetch-tutor-amount');
-    
-    
+
+
+
+    // admin tutor payment
+    Route::any('tutor-payment', [PaymentsController::class, 'tutorPaymentAdmin'])->name('admin.tutor-payment');
+    Route::post('fetchtutorsAmount', [PaymentsController::class, 'fetchtutorsAmount'])->name('admin.fetch-tutor-amount');
+
+
+
     // Learning contents
     Route::get('learningcontents', [LearningsContentsController::class, 'index'])->name('admin.learningcontents');
     Route::get('addlearningcontents', [LearningsContentsController::class, 'add'])->name('admin.addlearningcontents');
@@ -236,8 +248,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('question/status', [QuestionBankController::class, 'status'])->name('admin.question.status');
     Route::get('questionupdate/{id}', [QuestionBankController::class, 'view'])->name('admin.questionupdate.view');
     Route::post('questionbank-search', [QuestionBankController::class, 'questionbankSearch'])->name('admin.questionbank-search');
+
     Route::post('questionbank/subjective-store', [QuestionBankController::class, 'storeSubjective'])->name('admin.questionbank.subjective.store');
-    
+
+
+    Route::post('questionbank/subjective-store', [QuestionBankController::class, 'storeSubjective'])->name('admin.questionbank.subjective.store');
+
+
     // Online tests
     Route::get('onlinetestlist', [OnlineTestController::class, 'index'])->name('admin.onlinetests');
     Route::get('onlinetestresponseslist', [OnlineTestController::class, 'onlinetestresponseslist'])->name('admin.onlinetests.responses.list');

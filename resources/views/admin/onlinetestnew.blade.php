@@ -107,14 +107,24 @@
                 </style>
                 <div class=" row">
                     <input type="hidden" id="id" name="id" value="{{ $tdata->id ?? '' }}" class="form-control">
-                    <div class="col-md-3 col-sm-3 col-12">
+                    {{-- <div class="col-md-3 col-sm-3 col-12">
+
                         <label for="">Test Type<i style="color: red">*</i></label>
                         <select class="form-control">
                             <option>Objective</option>
                             <option>Subjective</option>
                         </select>
+                    </div> --}}
+                    <div class="col-md-3 col-sm-3 col-12">
+
+                        <label for="">Test Type<i style="color: red">*</i></label>
+                        <select class="form-control" id="test-type" name="test_type" onchange="fetchQuestions()">
+                            <option value="1">Objective</option>
+                            <option value="2">Subjective</option>
+                        </select>
                     </div>
                     <div class="col-md-3 col-sm-3 col-12">
+
                         <label for="">Test Name<i style="color: red">*</i></label>
                         <input type="text" class="form-control" id="testname" name="testname"
                             value="{{ $tdata->name ?? '' }}" required>
@@ -234,7 +244,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="form-group row mt-2">
                     <div class="col-md-12">
                         <label for="">Questions<i style="color: red">*</i></label>
@@ -258,11 +268,15 @@
                         </span>
                         <br>
                     </div>
-                    
+
+
+
+
                 <div class="row  " >
                     <div class="col-md-12 col-sm-12 col-12" >
                        <div style="display:flex; justify-content: end;">
                        <button type="submit" id="" class="btn btn-success btn-sm ">Save
+
                             Test</button>
                        </div>
 
@@ -327,11 +341,13 @@
             function fetchQuestions() {
 
                 var topicId = $('#topic option:selected').val();
+                var type = $('#test-type option:selected').val();
                 $.ajax({
                     url: "{{ url('admin/fetchquestions') }}",
                     type: "POST",
                     data: {
                         topic_id: topicId,
+                        type : type,
                         _token: '{{ csrf_token() }}'
                     },
                     dataType: 'json',
