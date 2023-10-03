@@ -1,4 +1,4 @@
-@extends('student.layouts.main')
+@extends('parent.layouts.main')
 @section('main-section')
  <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -20,7 +20,7 @@
 
                     <div class="row mt-4">
                         @foreach ($subjectlist as $subjectlist)
-                            
+
                         <div class="col-md-3 mt-2">
                             <div class="card">
                                 <img src="{{url('images/subjects')}}/{{$subjectlist->image}}" class="card-img-top"
@@ -41,5 +41,5 @@
 
                 </div>
                 <!-- content-wrapper ends -->
-               
+
                 @endsection

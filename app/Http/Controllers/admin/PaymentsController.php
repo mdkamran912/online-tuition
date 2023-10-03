@@ -292,6 +292,80 @@ class PaymentsController extends Controller
         return view('admin.tutorpaymentlist');
     }
 
+<<<<<<< Updated upstream
+=======
+    public function tutorPaymentAdmin(Request $request){
+        $request->validate([
+            'class'=>'required',
+            'subject'=>'required',
+            'tutor'=>'required',
+            'account'=>'required',
+            'transNo'=>'required',
+            'date'=>'required',
+            'status'=>'required',
+            'payment_mode'=>'required',
+            'total_amount'=>'required',
+            'amount_payable' => ['required', 'numeric', 'min:0', 'max:' . $request->pending_amount_payable],
+            'admin_commission_amount'=>'required',
+            'admin_commission_percentage'=>'required',
+        ]);
+
+        $payout = new payout;
+        $payout->tutor_id= $request->tutor;
+        $payout->total_amount= $request->total_amount;
+        $payout->net_amount_received= $request->amount_payable;
+        $payout->admin_commission_percentage= $request->admin_commission_percentage;
+        $payout->admin_commission_amount= $request->admin_commission_amount;
+        $payout->account_no= $request->account;
+        $payout->transaction_no= $request->transNo;
+        $payout->transaction_date= $request->date;
+        $payout->status= $request->status;
+        $payout->payment_mode= $request->payment_mode;
+        $payout->save();
+        return response()->json([
+            'success' => 'Payment is added successfully',
+        ]);
+    }
+
+    public function fetchtutorsAmount(Request $request){
+        $moneyEarned = paymentdetails::join('paymentstudents', 'paymentstudents.transaction_id', 'paymentdetails.transaction_id')
+                    ->where('tutor_id', $request->tutor_id)
+                    ->selectRaw('COUNT(DISTINCT student_id) as student_count, SUM(amount) as total_amount')
+                    ->first();
+        if($moneyEarned){
+            $totalAmount = $moneyEarned['total_amount'];
+            $adminCommission = tutorsubjectmapping::where('tutor_id',$request->tutor_id)->avg('admin_commission');
+            $already_paid = payout::where('tutor_id',$request->tutor_id)->sum('net_amount_received');
+            if($totalAmount > 0 && $adminCommission > 0){
+                    $commissionAmount = ($totalAmount ) * ( $adminCommission/100);
+                    $netPayableAmount = $totalAmount - $commissionAmount;
+                    $totalPayable = $netPayableAmount-$already_paid;
+            }else{
+                $commissionAmount =0;
+                $netPayableAmount = 0;
+            }
+        }else{
+            $totalAmount = 0;
+            $commissionAmount =0;
+            $adminCommission = 0;
+            $netPayableAmount = 0;
+
+        }
+        return response()->json([
+            'totalAmount' => $totalAmount ?? '0',
+            'adminComissionPercentage'=>$adminCommission,
+            'commissionAmount'=>$commissionAmount,
+            'netPayableAmount'=>$netPayableAmount ?? '0',
+            'alreadyPaid' => $already_paid,
+            'totalPayable' => $totalPayable ?? '0'
+        ]);
+
+    }
+
+
+
+
+>>>>>>> Stashed changes
     public function tutorpayments(){
 
         return view('admin.tutorpayment');
@@ -309,6 +383,19 @@ class PaymentsController extends Controller
         ->paginate(10);
         // dd($payments);
         return view('student.fees',compact('payments'));
+    }
+    public function studentpaymentsParent(){
+
+        $payments = paymentstudents::select('paymentstudents.*','classes.name as class','subjects.name as subject','tutorregistrations.name as tutor','paymentdetails.id as paymentdetails_id','paymentdetails.amount as amount')
+        ->join('classes','classes.id','paymentstudents.class_id')
+        ->join('subjects', 'subjects.id','paymentstudents.subject_id')
+        ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
+        ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->where('paymentstudents.student_id',session('userid')->id)
+        ->paginate(10);
+        // dd($payments);
+        return view('parent.fees',compact('payments'));
     }
     // students payments search functionality
     public function studentpaymentsSearch(Request $request){

@@ -1,4 +1,4 @@
-@extends('student.layouts.main')
+@extends('parent.layouts.main')
 @section('main-section')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- ============================================================== -->
@@ -31,7 +31,7 @@
 
 <div class="form-group mt-">
     <div class="row">
-       
+
         <div class="col-md-3">
             <label>Start Date</label>
             <input type="date" name="start_date" class="form-control">
@@ -54,7 +54,7 @@
 
 
     </div>
-    
+
 </div>
 </form>
 <hr>

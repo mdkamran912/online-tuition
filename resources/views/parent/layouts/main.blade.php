@@ -1,3 +1,3 @@
-@include('student.layouts.header')
+@include('parent.layouts.header')
 @yield('main-section')
-@include('student.layouts.footer')
+@include('parent.layouts.footer')

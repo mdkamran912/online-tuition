@@ -191,6 +191,29 @@ class OnlineTestController extends Controller
         return view('student.exam',get_defined_vars());
     }
 
+    public function studentexamsParent()
+    {
+
+        $classes = (new CommonController)->classes();
+        $subjects = subjects::where('is_active',1)->get();
+        $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->paginate(10);
+        foreach ($exams as $exam) {
+            $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
+                ->where('test_id', $exam->id)
+                ->count();
+        }
+
+        $extakens = testattempted::select('testattempteds.*','online_tests.name as exam_name','online_tests.description as exam_description','online_tests.test_duration as duration','online_tests.test_start_date as test_start_date','online_tests.test_end_date as test_end_date')
+        ->join('online_tests','online_tests.id','testattempteds.test_id')
+        ->where('testattempteds.student_id',session('userid')->id)->where('testattempteds.is_active',1)->orderBy('testattempteds.created_at', 'desc')->get();
+
+        return view('parent.exam',get_defined_vars());
+    }
+
     // search functionality
     public function studentexamsSearch(Request $request)
     {
