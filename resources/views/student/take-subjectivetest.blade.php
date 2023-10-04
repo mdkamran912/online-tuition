@@ -467,7 +467,7 @@ input[type='radio'] {
 
 
     const loadQuestion = () => {
-        if (index === total) {
+        if (index == total) {
             return quizConfirmation();
         }
 
@@ -481,37 +481,92 @@ input[type='radio'] {
         textArea.value = prevSelected || '';
     };
 
+    // document.querySelector("#next").addEventListener("click", function() {
+    //     const ans = textArea.getData();
+
+    //     selectedAnswers[index] = ans; // Store the subjective answer in the array
+
+    //     if (index > (total - 3)) {
+    //         document.getElementById('next').innerHTML = "Submit";
+    //     } else {
+    //         document.getElementById('next').innerHTML = "Next";
+    //     }
+
+    //     if (index < total) {
+    //         index++;
+    //     }
+    //     document.getElementById('back').disabled = false;
+    //     loadQuestion();
+    // });
     document.querySelector("#next").addEventListener("click", function() {
-        const ans = textArea.getData();
+        // alert(index)
+        const ans = textArea.getData(); // Get textarea data from CKEditor
+        const testId = document.getElementById("testid").value;
+        const questionId = quizData[index].id;
+        const nextQuestionId =  index < total - 1 ? quizData[index + 1].id : null;
 
-        selectedAnswers[index] = ans; // Store the subjective answer in the array
+        const tempurl = "{{url('student/storeSubjectiveDataInTemporaryTable')}}"
 
-        if (index > (total - 3)) {
-            document.getElementById('next').innerHTML = "Submit";
-        } else {
-            document.getElementById('next').innerHTML = "Next";
-        }
+        // Send an AJAX request to store the data in the temporary table
+        fetch(tempurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with your CSRF token
+            },
+            body: JSON.stringify({
+                testId,
+                questionId,
+                answer: ans,
+                nextQuestionId,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
 
-        if (index < total) {
-            index++;
-        }
-        document.getElementById('back').disabled = false;
-        loadQuestion();
+        //    console.log(data.message)
+             if (index < total-1) {
+                CKEDITOR.instances.subjectiveAnswer.setData(data.nextAnswer|| '');
+            }
+
+           selectedAnswers[index] = ans; // Store the subjective answer in the array
+
+            if (index > (total - 3)) {
+                document.getElementById('next').innerHTML = "Submit";
+            } else {
+                document.getElementById('next').innerHTML = "Next";
+            }
+
+            if (index < total) {
+                index++;
+            }
+            document.getElementById('back').disabled = false;
+            loadQuestion();
+            alert(index)
+        })
+        .catch(error => {
+            // Handle errors if any
+        });
+
+
     });
 
     document.querySelector("#finalsubmit").addEventListener("click", function() {
 
-                responses = selectedAnswers;
-                console.log(selectedAnswers);
+              const testId = document.getElementById("testid").value;
+
+                // responses = selectedAnswers;
+                // console.log(selectedAnswers);
                 // Make an AJAX POST request to the Laravel route
-                fetch('{{ route('student.save.responses') }}', {
+                fetch('{{ route('student.save.subjective-responses') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}', // Assuming you have a CSRF token
                         },
                         body: JSON.stringify({
-                            responses
+                            testId:testId,
+                            questionIds:@json($questionIds)
                         }),
                     })
                     .then(response => response.json())
@@ -519,28 +574,70 @@ input[type='radio'] {
                     .then(data => {
                         // console.log(data.message); // You can handle the response message as needed
                         const successMessage = encodeURIComponent(data.message);
-        const redirectUrl = `/student/exams?message=${successMessage}`;
-        window.location.href = redirectUrl;
+                        const redirectUrl = `/student/exams?message=${successMessage}`;
+                        window.location.href = redirectUrl;
                     })
                     .catch(error => {
                         // console.error('Error saving responses:', error);
                     });
     })
 
+    // document.querySelector("#back").addEventListener("click", function() {
+    //     selectedAnswers[index] = textArea.getData(); // Store the subjective answer
+    //     document.getElementById('next').innerHTML = "Next"
+    //     if (index == total) {
+    //         index--;
+    //     }
+    //     if (index > 0) {
+    //         index--;
+    //         loadQuestion();
+
+    //         prevSelected = selectedAnswers[index];
+    //         textArea.value = prevSelected || '';
+    //     }
+    // });
+
     document.querySelector("#back").addEventListener("click", function() {
-        selectedAnswers[index] = textArea.value.trim(); // Store the subjective answer
+        // alert(index);
+        const testId = document.getElementById("testid").value;
+        const prevQuestionId = quizData[index - 1].id; // Get the question ID of the previous question
 
-        if (index == total) {
-            index--;
-        }
-        if (index > 0) {
-            index--;
-            loadQuestion();
+        // Send an AJAX request to retrieve the answer for the previous question from the temporary table
+        fetch('{{route("student.getAnswerFromSubjectiveTempTable")}}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with your CSRF token
+            },
+            body: JSON.stringify({
+                testId,
+                questionId: prevQuestionId,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Set the retrieved answer in CKEditor
+            textArea.setData(data.answer || '');
+            selectedAnswers[index] = textArea.getData(); // Store the subjective answer
+            document.getElementById('next').innerHTML = "Next"
+            // if (index == total) {
+            //     index--;
+            // }
+            if (index > 0) {
+                index--;
+                loadQuestion();
+            }
+           alert(index)
+        })
+        .catch(error => {
+            // Handle errors if any
+        });
 
-            prevSelected = selectedAnswers[index];
-            textArea.value = prevSelected || '';
-        }
+
+
+
     });
+
 
     const reset = () => {
         // Reset any relevant UI elements here

@@ -150,7 +150,12 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::get('taketest-subjective/{id}', [OnlineTestController::class, 'taketestsubjective'])->name('student.taketest.subjective');
     Route::get('exam/report/{id}', [OnlineTestController::class, 'testreport'])->name('student.test.report');
     Route::post('/save-responses', [OnlineTestController::class, 'saveResponses'])->name('student.save.responses');
+    Route::post('/save-subjective-responses', [OnlineTestController::class, 'saveSubjectiveResponses'])->name('student.save.subjective-responses');
     // Route::post('/save-responses', 'OnlineTestController@saveResponses')->name('student.save.responses');
+    Route::post('storeSubjectiveDataInTemporaryTable', [OnlineTestController::class, 'storeSubjectiveDataInTemporaryTable'])->name('student.storeSubjectiveDataInTemporaryTable');
+    Route::post('getAnswerFromSubjectiveTempTable', [OnlineTestController::class, 'getAnswerFromSubjectiveTempTable'])->name('student.getAnswerFromSubjectiveTempTable');
+
+
 
     Route::get('attendance-reports',[ClassController::class,'student_attendance_report'])->name('student.attendance.report');
     Route::get('class-reports',[ClassController::class,'student_class_report'])->name('student.class.report');
