@@ -1,7 +1,5 @@
 @extends('student.layouts.main')
 @section('main-section')
-<<<<<<< Updated upstream
-=======
 
 <style>
 .selectAns {
@@ -25,7 +23,6 @@ input[type='radio'] {
 }
 </style>
 <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
->>>>>>> Stashed changes
     <!-- modal -->
     <div class="modal fade" id="openmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -97,14 +94,9 @@ input[type='radio'] {
                     <h3 id="questionBox"></h3>
                 </div>
                 <div class="col box" id="optionbox">
-<<<<<<< Updated upstream
-                    <input name="option" type="radio" id="option1" value="1" data-question-id="" required>
-                    <label for="option1"></label>
-=======
                 <textarea name="editor1" id="subjectiveAnswer"></textarea>
->>>>>>> Stashed changes
                 </div>
-                <div class="col box" id="optionbox">
+                {{-- <div class="col box" id="optionbox">
                     <input name="option" type="radio" id="option2" value="2" data-question-id="" required>
                     <label for="option2"></label>
                 </div>
@@ -115,7 +107,7 @@ input[type='radio'] {
                 <div class="col box" id="optionbox">
                     <input name="option" type="radio" id="option4" value="4" data-question-id="" required>
                     <label for="option4"></label>
-                </div>
+                </div> --}}
                 {{-- @endforeach --}}
 
 
@@ -211,10 +203,6 @@ input[type='radio'] {
                 const data = quizData[index];
                 console.log(data);
                 questionBox.innerHTML = `${index + 1}.  ${data.question}`;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
                 // Check if there's a selected answer for this question and pre-select it
                 prevSelected = selectedAnswers[index];
@@ -420,10 +408,6 @@ input[type='radio'] {
                 document.querySelector("#openmodal #totalAttempted").textContent = attemptedQuestions.length;
                 document.querySelector("#openmodal #totalNonAttempted").textContent = nonAttemptedQuestions;
             }
-<<<<<<< Updated upstream
-        </script>
-    @endsection
-=======
 </script> --}}
 
 <script>
@@ -477,7 +461,9 @@ input[type='radio'] {
     let prevSelected = 0;
     let total = quizData.length;
     let questionBox = document.getElementById("questionBox");
-    let textArea = document.getElementById("subjectiveAnswer");
+    // let textArea = document.getElementById("subjectiveAnswer");
+    let textArea = CKEDITOR.instances.subjectiveAnswer;
+
 
     const loadQuestion = () => {
         if (index === total) {
@@ -495,7 +481,8 @@ input[type='radio'] {
     };
 
     document.querySelector("#next").addEventListener("click", function() {
-        const ans = textArea.value.trim();
+        const ans = textArea.getData();
+
         selectedAnswers[index] = ans; // Store the subjective answer in the array
 
         if (index > (total - 3)) {
@@ -512,7 +499,9 @@ input[type='radio'] {
     });
 
     document.querySelector("#finalsubmit").addEventListener("click", function() {
+
                 responses = selectedAnswers;
+                console.log(selectedAnswers);
                 // Make an AJAX POST request to the Laravel route
                 fetch('{{ route('student.save.responses') }}', {
                         method: 'POST',
@@ -590,4 +579,3 @@ input[type='radio'] {
 </script>
 
 @endsection
->>>>>>> Stashed changes

@@ -298,7 +298,7 @@ class OnlineTestController extends Controller
 
 
         $responses = $request->input('responses'); // Assuming the responses are sent as an array
-        //dd($responses);
+        dd($responses);
         $savedId = [];
         $test_id = "";
         $attemptNumber = "";
@@ -389,8 +389,6 @@ class OnlineTestController extends Controller
         // dd($correctResponsesCount);
         return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
     }
-<<<<<<< Updated upstream
-=======
 
     public function onlinetestresponseslist(){
         return view('admin.onlinetestresponselist');
@@ -561,5 +559,4 @@ class OnlineTestController extends Controller
     }
 
 
->>>>>>> Stashed changes
 }

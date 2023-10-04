@@ -118,11 +118,8 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
     Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
-<<<<<<< Updated upstream
-=======
     Route::get('liveclass/join/update',[ZoomClassesController::class,'liveclassjoinupdate'])->name('tutor.liveclass.join.update');
 
->>>>>>> Stashed changes
     // completed classes
     Route::get('completed-classes', [ClassController::class, 'studentCompletedclass'])->name('student.completed-classes');
 
@@ -212,14 +209,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
     Route::get('tutorpaymentslist', [PaymentsController::class, 'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments', [PaymentsController::class, 'update'])->name('admin.payments.update');
-<<<<<<< Updated upstream
-=======
     // admin tutor payment
     Route::any('tutor-payment', [PaymentsController::class, 'tutorPaymentAdmin'])->name('admin.tutor-payment');
     Route::post('fetchtutorsAmount', [PaymentsController::class, 'fetchtutorsAmount'])->name('admin.fetch-tutor-amount');
 
 
->>>>>>> Stashed changes
     // Learning contents
     Route::get('learningcontents', [LearningsContentsController::class, 'index'])->name('admin.learningcontents');
     Route::get('addlearningcontents', [LearningsContentsController::class, 'add'])->name('admin.addlearningcontents');
@@ -239,11 +233,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('question/status', [QuestionBankController::class, 'status'])->name('admin.question.status');
     Route::get('questionupdate/{id}', [QuestionBankController::class, 'view'])->name('admin.questionupdate.view');
     Route::post('questionbank-search', [QuestionBankController::class, 'questionbankSearch'])->name('admin.questionbank-search');
-<<<<<<< Updated upstream
-=======
     Route::post('questionbank/subjective-store', [QuestionBankController::class, 'storeSubjective'])->name('admin.questionbank.subjective.store');
 
->>>>>>> Stashed changes
     // Online tests
     Route::get('onlinetestlist', [OnlineTestController::class, 'index'])->name('admin.onlinetests');
     Route::get('onlinetests', [OnlineTestController::class, 'create'])->name('admin.onlinetests.create');
@@ -300,12 +291,9 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
 
     // Tutor Classes
     Route::get('classes', [ClassController::class, 'tutorclasses'])->name('tutor.classes');
-<<<<<<< Updated upstream
-=======
     // Tutor attendances
     Route::get('attendance', [ClassController::class, 'tutorattendance'])->name('tutor.attendance');
     Route::post('attendance-search', [ClassController::class, 'tutorattendanceSearch'])->name('tutor.attendance-search');
->>>>>>> Stashed changes
     // Tutor Assignments
     Route::get('assignments', [AssignmentsController::class, 'tutorassignments'])->name('tutor.assignments');
     Route::post('assignments', [AssignmentsController::class, 'tutorassignmentscreate'])->name('tutor.assignments.create');
