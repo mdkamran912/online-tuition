@@ -120,9 +120,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Classes
     Route::get('classes', [ClassController::class, 'studentclass'])->name('student.classes');
     Route::post('classes-search', [ClassController::class, 'studentclassSearch'])->name('student.classes-search');
-
     Route::get('liveclass/join/update',[ZoomClassesController::class,'liveclassjoinupdate'])->name('tutor.liveclass.join.update');
-
 
     // completed classes
     Route::get('completed-classes', [ClassController::class, 'studentCompletedclass'])->name('student.completed-classes');
@@ -217,7 +215,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorpayments', [PaymentsController::class, 'tutorpayments'])->name('admin.tutorpayments');
     Route::get('tutorpaymentslist', [PaymentsController::class, 'tutorpaymentslist'])->name('admin.tutorpaymentslist');
     Route::post('payments', [PaymentsController::class, 'update'])->name('admin.payments.update');
-
     // admin tutor payment
     Route::any('tutor-payment', [PaymentsController::class, 'tutorPaymentAdmin'])->name('admin.tutor-payment');
     Route::post('fetchtutorsAmount', [PaymentsController::class, 'fetchtutorsAmount'])->name('admin.fetch-tutor-amount');
@@ -321,14 +318,9 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
 
     // Tutor Classes
     Route::get('classes', [ClassController::class, 'tutorclasses'])->name('tutor.classes');
-
-    // Tutor Classes
-    Route::get('attendance', [ClassController::class, 'tutorattendance'])->name('tutor.attendance');
-
     // Tutor attendances
     Route::get('attendance', [ClassController::class, 'tutorattendance'])->name('tutor.attendance');
     Route::post('attendance-search', [ClassController::class, 'tutorattendanceSearch'])->name('tutor.attendance-search');
-
     // Tutor Assignments
     Route::get('assignments', [AssignmentsController::class, 'tutorassignments'])->name('tutor.assignments');
     Route::post('assignments', [AssignmentsController::class, 'tutorassignmentscreate'])->name('tutor.assignments.create');

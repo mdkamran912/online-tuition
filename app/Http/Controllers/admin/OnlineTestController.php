@@ -120,6 +120,7 @@ class OnlineTestController extends Controller
             $msg = 'Test added successfully';
         }
         $data->name = $request->testname;
+        $data->test_type = $request->test_type;
         $data->description = $request->testdescription;
         $data->class_id = $request->classname;
         $data->subject_id = $request->subject;
@@ -295,7 +296,9 @@ class OnlineTestController extends Controller
     public function saveResponses(Request $request)
     {
 
+
         $responses = $request->input('responses'); // Assuming the responses are sent as an array
+        dd($responses);
         $savedId = [];
         $test_id = "";
         $attemptNumber = "";
@@ -387,7 +390,6 @@ class OnlineTestController extends Controller
         return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
     }
 
-
     public function onlinetestresponseslist(){
         return view('admin.onlinetestresponselist');
     }
@@ -439,6 +441,7 @@ class OnlineTestController extends Controller
             $msg = 'Test added successfully';
         }
         $data->name = $request->testname;
+        $data->test_type = $request->test_type;
         $data->description = $request->testdescription;
         $data->class_id = $request->classname;
         $data->subject_id = $request->subject;
@@ -558,4 +561,5 @@ class OnlineTestController extends Controller
     public function onlinetestresponsestudent($id){
       return view('admin.onlinetestresponsesstudent');
     }
+
 }
