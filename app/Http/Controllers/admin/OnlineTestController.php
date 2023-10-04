@@ -12,6 +12,8 @@ use App\Models\topics;
 use App\Models\OnlineTest;
 use App\Models\testattempted;
 use App\Models\testresponssheet;
+use App\Models\TemporarySubjective;
+use App\Models\SubjectiveResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -283,12 +285,11 @@ class OnlineTestController extends Controller
         // dd($onlineTest);
         // Decode the JSON string to an array
         $questionIds = json_decode($onlineTest->question_id);
-
         // Fetch the related questions using the decoded question_ids array
         $questions = Questionbank::whereIn('id', $questionIds)->get();
 
 
-        return view('student.take-subjectivetest', compact('onlineTest', 'questions'));
+        return view('student.take-subjectivetest',get_defined_vars());
     }
 
 
@@ -298,7 +299,7 @@ class OnlineTestController extends Controller
 
 
         $responses = $request->input('responses'); // Assuming the responses are sent as an array
-        dd($responses);
+
         $savedId = [];
         $test_id = "";
         $attemptNumber = "";
@@ -363,6 +364,7 @@ class OnlineTestController extends Controller
         $data->test_time_taken = 0;
         $data->total_marks = $marks_ttl;
         $data->obtained_marks = $marks_obt;
+        $data->test_type = 1;
         $data->response_id = json_encode($savedId);
         // $data->status = ;
         // $data->is_active = session('userid')->id;
@@ -371,7 +373,50 @@ class OnlineTestController extends Controller
 
         return response()->json(['message' => 'Test Submitted Successfully']);
     }
+    public function saveSubjectiveResponses(Request $request)
+    {
+        $testId = $request->testId;
+        $questionIds = $request->questionIds;
+        $savedId = [];
+        if(count($questionIds) > 0){
+            foreach ($questionIds as $questionId) {
+              $temprec = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId)->first();
+              if($temprec){
+                $data = new SubjectiveResponse;
+                $data->test_id = $testId;
+                $data->student_id = session('userid')->id;
+                $data->question_id = $questionId;
+                $data->response = $temprec->answer;
+                $data->total_marks = null;
+                $data->obtained_marks = null;
+                $data->remarks = null;
+                $data->save();
+                $savedId[] = $data->id;
+              }
+            }
+            $totalattp = OnlineTests::select('max_attempt')->where('id', $testId)->first();
+            $alreadyattp = testattempted::select('*')->where('student_id', session('userid')->id)->where('test_id', $testId)->count();
 
+            $remaining = ($totalattp->max_attempt) - ($alreadyattp);
+            $attemptNumber = $alreadyattp + 1;
+
+            $data = new testattempted();
+            $data->student_id = session('userid')->id;
+            $data->test_id = $testId;
+            $data->attempt_no = $attemptNumber;
+            $data->test_attempted_on = now();
+            $data->test_time_taken = 0;
+            $data->total_marks = 0;
+            $data->obtained_marks = 0;
+            $data->response_id = 0;
+            $data->answer = json_encode($savedId);
+            $data->test_type = 2;
+            $data->save();
+            $temprec = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->delete();
+            return response()->json(['message' => 'Test Submitted Successfully']);
+
+        }
+    }
     public function testreport($id){
 
         $testid = testattempted::find($id);
@@ -559,4 +604,38 @@ class OnlineTestController extends Controller
     }
 
 
+    // operations with subjective data
+    public function  storeSubjectiveDataInTemporaryTable(Request $request){
+// dd($request->all());
+        $testId = $request->input('testId');
+        $questionId = $request->input('questionId');
+        $answer = $request->input('answer'); // Assuming 'answer' is the name of the input field
+        $data = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId)->first();
+        if($data){
+            $answerSave = $data;
+        }else{
+            $answerSave = new TemporarySubjective;
+        }
+        $answerSave->std_id = session('userid')->id;
+        $answerSave->test_id = $testId;
+        $answerSave->question_id = $questionId;
+        $answerSave->answer = $answer;
+        $answerSave->save();
+        if($request->nextQuestionId != null){
+            $nextanswer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $request->nextQuestionId) ->value('answer');
+        }else{
+            $nextanswer = null;
+        }
+        return response()->json(['message' => 'Data stored successfully','nextAnswer'=>$nextanswer]);
+    }
+
+    public function  getAnswerFromSubjectiveTempTable(Request $request){
+
+        $testId = $request->input('testId');
+        $questionId = $request->input('questionId');
+        $answer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId) ->value('answer'); // Assuming 'answer' is the column storing the answers
+
+        return response()->json(['answer' => $answer]);
+
+    }
 }
