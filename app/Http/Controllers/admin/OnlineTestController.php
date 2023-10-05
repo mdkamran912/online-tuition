@@ -12,10 +12,13 @@ use App\Models\topics;
 use App\Models\OnlineTest;
 use App\Models\testattempted;
 use App\Models\testresponssheet;
+use App\Models\tutorsubjectmapping;
 use App\Models\TemporarySubjective;
 use App\Models\SubjectiveResponse;
+use App\Models\studentregistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -442,6 +445,169 @@ class OnlineTestController extends Controller
         return view('admin.onlinetestresponses');
     }
 
+    // tutor subjectve responses
+    public function onlinetestresponseslistTutor(){
+        $subs = tutorsubjectmapping::where('tutor_id', session('userid')->id)->pluck('subject_id')->toArray();
+        if($subs){
+            $onlineTests = OnlineTests::select('online_tests.*','subjects.name as sub_name','classes.name as class_name','topics.name as topic_name')->join('classes','classes.id','online_tests.class_id')->join('subjects','subjects.id','online_tests.subject_id')->join('topics','topics.id','online_tests.topic_id')->whereIn('online_tests.subject_id',$subs)->where('online_tests.test_type',2)->paginate(10);
+            $classes = classes::where('is_active',1)->get();
+            $subjects = subjects::where('is_active',1)->get();
+            $topics = topics::where('is_active',1)->get();
+            return view('tutor.onlinetestresponselist-tutor',get_defined_vars());
+        }else{
+            return back()->with('fail','No tests Found');
+        }
+    }
+
+    public function subjTestsSearch(Request $request){
+        $subs = tutorsubjectmapping::where('tutor_id', session('userid')->id)->pluck('subject_id')->toArray();
+        if($subs){
+            $query = OnlineTests::select('online_tests.*','subjects.name as sub_name','classes.name as class_name','topics.name as topic_name')->join('classes','classes.id','online_tests.class_id')->join('subjects','subjects.id','online_tests.subject_id')->join('topics','topics.id','online_tests.topic_id')->whereIn('online_tests.subject_id',$subs)->where('online_tests.test_type',2);
+
+            if ($request->test_name) {
+                $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+            }
+            if ($request->class_name) {
+                $query->where('online_tests.class_id', $request->class_name);
+            }
+            if ($request->subject_name) {
+                $query->where('online_tests.subject_id', $request->subject_name);
+            }
+            if ($request->topic_name) {
+                $query->where('online_tests.topic_id', $request->topic_name);
+            }
+            if ($request->start_date) {
+                $query->whereDate(DB::raw('DATE(online_tests.test_start_date)'), '>=', $request->start_date);
+            }
+            if ($request->end_date) {
+                $query->whereDate(DB::raw('DATE(online_tests.test_end_date)'), '<=', $request->end_date);
+            }
+            $onlineTests = $query->paginate(10);
+            $type = 'tutor_subjective_tests';
+            $viewTable = view('admin.partials.students-tutor-search', compact('onlineTests','type'))->render();
+            $viewPagination = $onlineTests->links()->render();
+            return response()->json([
+                'table' => $viewTable,
+                'pagination' => $viewPagination
+            ]);
+        }
+    }
+
+    public function onlinetestresponseTutor(Request $request,$test_id){
+        $responses = testattempted::select('testattempteds.*','studentregistrations.name as std_name')->join('studentregistrations','studentregistrations.id','testattempteds.student_id')->where('testattempteds.test_id',$test_id)->where('testattempteds.test_type',2)->paginate(10);
+        $test_name = OnlineTests::find($test_id);
+        return view('tutor.onlinetestresponses-tutor',get_defined_vars());
+    }
+    public function studentwiseSubjSearch(Request $request,$test_id){
+
+        $query = testattempted::select('testattempteds.*','studentregistrations.name as std_name')->join('studentregistrations','studentregistrations.id','testattempteds.student_id')->where('testattempteds.test_id',$test_id)->where('testattempteds.test_type',2);
+        if ($request->student_name) {
+            $query->where('studentregistrations.name','like', '%' . $request->student_name . '%');
+        }
+        if ($request->start_date) {
+            $query->whereDate(DB::raw('DATE(testattempteds.test_attempted_on)'), '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate(DB::raw('DATE(testattempteds.test_attempted_on)'), '<=', $request->end_date);
+        }
+        $responses = $query->paginate(10);
+        $type = 'tutor_subjective_responses';
+        $viewTable = view('admin.partials.students-tutor-search', compact('responses','type'))->render();
+        $viewPagination = $responses->links()->render();
+        return response()->json([
+            'table' => $viewTable,
+            'pagination' => $viewPagination
+        ]);
+
+    }
+
+    public function onlinetestresponsestudentTutor($response_id){
+        $response = testattempted::find($response_id);
+        if($response){
+            $responseIds = json_decode($response->answer);
+            $finalResponses = SubjectiveResponse::select('subjective_responses.*','questionbanks.question')->join('questionbanks','questionbanks.id','subjective_responses.question_id')->whereIn('subjective_responses.id',$responseIds)->get();
+            $test = OnlineTests::find($response->test_id);
+            $questionIds = json_decode($test->question_id);
+            $questions = questionbank::whereIn('id', $questionIds)->get();
+            $student = studentregistration::find($response->student_id);
+            return view('tutor.onlinetestresponsesstudent-tutor',get_defined_vars());
+        }
+    }
+
+    public function testCorrection(Request $request,$response_id){
+        $response = testattempted::find($response_id);
+        if($response){
+            $responseIds = json_decode($response->answer);
+            $finalResponses = SubjectiveResponse::whereIn('subjective_responses.id',$responseIds)->get();
+            $test = OnlineTests::find($response->test_id);
+            $questionIds = json_decode($test->question_id);
+            $questions = questionbank::whereIn('id', $questionIds)->get();
+
+            $rules = [];
+            $messages = [];
+
+            foreach ($questions as $question) {
+                $fieldPrefix = "{$question->id}";
+
+                // Define rules for max_marks and marks_obtained
+                $rules["max_marks.{$fieldPrefix}"] = 'required|numeric';
+                $rules["marks_obtained.{$fieldPrefix}"] = "required|numeric|min:0|max:{$request->input("max_marks.{$fieldPrefix}")}";
+
+                // Define custom error messages
+                $messages["max_marks.{$fieldPrefix}.required"] = "Max Marks for Question  is required.";
+                $messages["max_marks.{$fieldPrefix}.numeric"] = "Max Marks for Question  must be a numeric value.";
+                $messages["marks_obtained.{$fieldPrefix}.required"] = "Marks Obtained for Question  is required.";
+                $messages["marks_obtained.{$fieldPrefix}.numeric"] = "Marks Obtained for Question  must be a numeric value.";
+                $messages["marks_obtained.{$fieldPrefix}.min"] = "Marks Obtained for Question  must be at least 0.";
+                $messages["marks_obtained.{$fieldPrefix}.max"] = "Marks Obtained for Question  cannot be greater than Max Marks.";
+
+                // // Define custom validation attribute names
+                // $attributes["max_marks.{$fieldPrefix}"] = "Max Marks for Question {$question->id}";
+                // $attributes["marks_obtained.{$fieldPrefix}"] = "Marks Obtained for Question {$question->id}";
+                // $attributes["remarks.{$fieldPrefix}"] = "Remarks for Question {$question->id}";
+            }
+
+            // Create the validator instance
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+
+
+
+            $totalTotalMarks = 0;
+            $totalObtainedMarks = 0;
+
+
+            foreach ($questions as  $question) {
+               foreach ($finalResponses as  $SubjectiveResponse) {
+                    if($SubjectiveResponse->question_id === $question->id){
+                        $SubjectiveResponse->total_marks = $request->max_marks[$question->id];
+                        $SubjectiveResponse->obtained_marks = $request->marks_obtained[$question->id];
+                        $SubjectiveResponse->remarks = $request->remarks[$question->id];
+                        $SubjectiveResponse->checked_by = session('userid')->id;
+                        $SubjectiveResponse->checked = session('userid')->id;
+                        $SubjectiveResponse->save();
+                        $totalTotalMarks += $SubjectiveResponse->total_marks;
+                        $totalObtainedMarks += $SubjectiveResponse->obtained_marks;
+                    }
+               }
+            }
+            $response->total_marks = $totalTotalMarks;
+            $response->obtained_marks = $totalObtainedMarks;
+            $response->status = 1;
+            $response->save();
+
+            return redirect(url('tutor/onlinetestresponseslist'))->with('success','Marks Submitted');
+
+        }
+
+    }
+
+
+
     //  Tutor online tests
 
     public function tutorindex()
@@ -636,8 +802,7 @@ class OnlineTestController extends Controller
 
         $testId = $request->input('testId');
         $questionId = $request->input('questionId');
-        $answer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId) ->value('answer'); // Assuming 'answer' is the column storing the answers
-
+        $answer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId) ->value('answer');
         return response()->json(['answer' => $answer]);
 
     }

@@ -377,6 +377,14 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::post('onlinetestlist-search', [OnlineTestController::class, 'tutoronlinetestSearch'])->name('tutor.onlinetests-search');
     Route::post('fetchquestions', [OnlineTestController::class, 'tutorfetchquestions'])->name('tutor.fetchquestions');
     Route::get('onlinetest/status', [OnlineTestController::class, 'tutorstatus'])->name('tutor.onlinetest.status');
+
+    // tutor subjective responses
+    Route::get('onlinetestresponseslist', [OnlineTestController::class, 'onlinetestresponseslistTutor'])->name('tutor.onlinetests.responses.list');
+    Route::get('onlinetests/responses/{id}', [OnlineTestController::class, 'onlinetestresponseTutor'])->name('tutor.onlinetests.responses');
+    Route::get('onlinetests/responses/student/{id}', [OnlineTestController::class, 'onlinetestresponsestudentTutor'])->name('tutor.onlinetests.responses.student');
+    Route::post('onlinetests/responses/correction/{response_id}', [OnlineTestController::class, 'testCorrection'])->name('tutor.onlinetests.responses.correction');
+    Route::post('subjectiveTests/responses/search', [OnlineTestController::class, 'subjTestsSearch'])->name('tutor.subjectiveTests-search');
+    Route::post('studentwise/subjectiveResponses/{id}', [OnlineTestController::class, 'studentwiseSubjSearch'])->name('tutor.studentwise.subjectiveResponses');
 });
 // parent routes
 Route::group(['prefix' => 'parent', 'middleware' => ['StudentAuthenticate']], function () {

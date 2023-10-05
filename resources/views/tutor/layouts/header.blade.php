@@ -788,6 +788,9 @@
                                             <li class="nav-item">
                                                 <a href="{{url('tutor/onlinetestlist')}}" class="nav-link" data-key="t-form-select"> Online Test </a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a href="{{url('tutor/onlinetestresponseslist')}}" class="nav-link" data-key="t-form-select">Subjective Responses </a>
+                                            </li>
 
 
                                         </ul>

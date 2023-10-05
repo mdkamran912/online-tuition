@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('tutor.layouts.main')
 @section('main-section')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -17,38 +17,60 @@
 
     <div class="page-content">
         <div class="container-fluid">
+            @if (Session::has('success'))
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+            @endif
+            @if (Session::has('fail'))
+            <div class="alert alert-danger">{{Session::get('fail')}}</div>
+            @endif
             <!-- <h3 class="text-center"></h3> -->
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Test Response </h3>
+
             </div>
-            <form id="">
+            <form id="payment-search">
                 <div class="row">
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Class</label>
-                        <select class="form-control"></select>
+                        <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
+                            <option value="">Select Class</option>
+                            @foreach ($classes as $class)
+                                <option value="{{ $class->id }}">{{ $class->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Subject</label>
-                        <select class="form-control"></select>
+                        <select name="subject_name" class="form-control" id="subject" onchange="fetchTopics()">
+                            <option value="">Select Subject</option>
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Topic</label>
-                        <select class="form-control"></select>
+                        <select class="form-control" name="topic_name" id="topicid">
+                            <option value="">Select Topic</option>
+                            @foreach ($topics as $topic)
+                                <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Test Name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="test_name">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>Start Date</label>
-                        <input type="date" class="form-control"></select>
+                        <input type="date" class="form-control" name="start_date">
                     </div>
                     <div class="col-12 col-sm-3 col-md-3">
                         <label>End Date</label>
-                        <input type="date" class="form-control"></select>
+                        <input type="date" class="form-control" name="end_date">
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 mt-4">
                         <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
@@ -62,7 +84,7 @@
             </form>
             <hr>
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+            <table class="table table-hover table-striped align-middlemb-0 table-responsive users-table">
                 <thead>
                     <tr>
                         <th scope="col">S.No</th>
@@ -75,20 +97,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="{{url('admin/onlinetests/responses')}}/1"><button class="btn btn-sm btn-primary">View</button></a></td>
-                    </tr>
-
-
+                    @if($onlineTests)
+                       @foreach ($onlineTests as $test)
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$test->class_name}}</td>
+                            <td>{{$test->sub_name}}</td>
+                            <td>{{$test->topic_name}}</td>
+                            <td>{{$test->name}}</td>
+                            <td>{{ \Carbon\Carbon::parse($test->test_start_date)->format('d M Y') }}</td>
+                            <td>
+                                <a href="{{url('tutor/onlinetests/responses')}}/{{$test->id}}"><button class="btn btn-sm btn-primary">View</button></a>
+                            </td>
+                        </tr>
+                       @endforeach
+                    @endif
                 </tbody>
             </table>
+
+            <div class="d-flex justify-content-center" id="paginationContainer">
+                {!! $onlineTests->links() !!}
+            </div>
 
         </div>
         <!-- content-wrapper ends -->
@@ -203,7 +232,7 @@
             $('#payment-search').submit(function(e) {
                 e.preventDefault();
                 const page = 1;
-                const ajaxUrl = "{{ route('admin.questionbank-search') }}"
+                const ajaxUrl = "{{ route('tutor.subjectiveTests-search') }}"
                 var formData = $(this).serialize();
 
                 formData += `&page=${page}`;
@@ -235,7 +264,7 @@
                 formData += `&page=${page}`;
                 $.ajax({
                     type: 'post',
-                    url: "{{ route('admin.questionbank-search') }}", // Define your route here
+                    url: "{{ route('tutor.subjectiveTests-search') }}", // Define your route here
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -226,5 +226,37 @@
         </tr>
     @endforeach
 @endif
+@if($type=="tutor_subjective_tests" && isset($onlineTests))
+    @foreach ($onlineTests as $test)
+        <tr>
+            <td>{{$loop->iteration}}</td>
+            <td>{{$test->class_name}}</td>
+            <td>{{$test->sub_name}}</td>
+            <td>{{$test->topic_name}}</td>
+            <td>{{$test->name}}</td>
+            <td>{{ \Carbon\Carbon::parse($test->test_start_date)->format('d M Y') }}</td>
+            <td>
+                <a href="{{url('tutor/onlinetests/responses')}}/{{$test->id}}"><button class="btn btn-sm btn-primary">View</button></a>
+            </td>
+        </tr>
+    @endforeach
+@endif
+@if($type=="tutor_subjective_responses" && isset($responses))
+    @foreach ($responses as $response)
+        <tr>
+            <td>{{$loop->iteration}}</td>
+            <td>{{$response->std_name}}</td>
+            <td>{{ \Carbon\Carbon::parse($response->test_attempted_on)->format('d M Y') }}</td>
+            <td>
+                @if($response->status ==1 )
+                    <a href="#"><button class="btn btn-sm btn-primary" disabled>completed</button></a>
+                @else
+                    <a href="{{url('tutor/onlinetests/responses/student')}}/{{$response->id}}"><button class="btn btn-sm btn-primary">View</button></a>
+                @endif
+            </td>
+        </tr>
+    @endforeach
+@endif
+
 
 
