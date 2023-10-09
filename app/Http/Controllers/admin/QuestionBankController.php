@@ -146,12 +146,12 @@ class QuestionBankController extends Controller
         $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
         $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
         $label = 'Update Question';
+
         if($qdata->type == 1){
-            return view('admin.questionbank',compact('qdata','classes','subjects','topics','label')); 
+            return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
         }elseif($qdata->type == 2){
             return view('admin.questionbanksubjective',get_defined_vars());
         }
-        
     }
 
 
@@ -159,6 +159,8 @@ class QuestionBankController extends Controller
         $classes = (new CommonController)->classes();
         return view('admin.questionbanksubjective',compact('classes'));
     }
+
+
     public function storeSubjective(Request $request    ){
         $request->validate([
             'classname'=>'required',
@@ -188,7 +190,7 @@ class QuestionBankController extends Controller
             return back()->with('fail','Something went wrong. Please try again later');
         }
     }
-    
+
 
 
     // tutor questio bank functions
@@ -252,7 +254,7 @@ class QuestionBankController extends Controller
         }
 
         $data->remarks=$request->remarks;
-
+        $data->type='1';
         $res = $data->save();
         if($res){
             return back()->with('success',$msg);
@@ -272,9 +274,12 @@ class QuestionBankController extends Controller
         $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
         $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
         $label = 'Update Question';
+        if($qdata->type == 1){
+            return view('tutor.tutor-questionbank',compact('qdata','classes','subjects','topics','label'));
+        }elseif($qdata->type == 2){
+            return view('tutor.tutor-questionbanksubjective',get_defined_vars());
+        }
 
-        return view('tutor.tutor-questionbank',compact('qdata','classes','subjects','topics','label'));
+
     }
-
-
 }
