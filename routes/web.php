@@ -338,6 +338,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
    Route::get('questionbank/subjective/create', [QuestionBankController::class, 'tutor_subjective_create'])->name('tutor.questionbank.subjective.create');
    Route::get('question/status', [QuestionBankController::class, 'status'])->name('tutor.question.status');
    Route::get('questionupdate/{id}', [QuestionBankController::class, 'tutorview'])->name('tutor.questionupdate.view');
+   Route::post('questionbank/subjective-store', [QuestionBankController::class, 'storeSubjective'])->name('tutor.questionbank.subjective.store');
 
     // Online tests
     Route::get('onlinetestlist', [OnlineTestController::class, 'tutorindex'])->name('tutor.onlinetests');

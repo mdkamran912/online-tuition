@@ -147,7 +147,16 @@ class QuestionBankController extends Controller
         $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
         $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
         $label = 'Update Question';
+<<<<<<< Updated upstream
         return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
+=======
+        if($qdata->type == 1){
+            return view('admin.questionbank',compact('qdata','classes','subjects','topics','label'));
+        }elseif($qdata->type == 2){
+            return view('admin.questionbanksubjective',get_defined_vars());
+        }
+
+>>>>>>> Stashed changes
     }
 <<<<<<< Updated upstream
 =======
@@ -156,6 +165,39 @@ class QuestionBankController extends Controller
         $classes = (new CommonController)->classes();
         return view('admin.questionbanksubjective',compact('classes'));
     }
+<<<<<<< Updated upstream
+=======
+    public function storeSubjective(Request $request    ){
+        $request->validate([
+            'classname'=>'required',
+            'subject'=>'required',
+            'topic'=>'required',
+            'editor1'=>'required',
+        ]);
+        if($request->id){
+            $data = questionbank::find($request->id);
+            $msg = 'Question updated successfully';
+        }
+        else{
+            $data = new questionbank();
+            $msg = 'Question added successfully';
+        }
+        $data->class_id = $request->classname;
+        $data->subject_id = $request->subject;
+        $data->topic_id=$request->topic;
+        $data->question=$request->editor1;
+        $data->remarks=$request->remarks;
+        $data->type='2';
+        $res = $data->save();
+        if($res){
+            return back()->with('success',$msg);
+        }
+        else{
+            return back()->with('fail','Something went wrong. Please try again later');
+        }
+    }
+
+>>>>>>> Stashed changes
 
 
     // tutor questio bank functions
@@ -239,8 +281,13 @@ class QuestionBankController extends Controller
         $subjects = subjects::select('*')->where('class_id',$qdata->class_id)->get();
         $topics = topics::select('*')->where('subject_id',$qdata->subject_id)->get();
         $label = 'Update Question';
+        if($qdata->type == 1){
+            return view('tutor.tutor-questionbank',compact('qdata','classes','subjects','topics','label'));
+        }elseif($qdata->type == 2){
+            return view('tutor.tutor-questionbanksubjective',get_defined_vars());
+        }
 
-        return view('tutor.tutor-questionbank',compact('qdata','classes','subjects','topics','label'));
+
     }
 
 >>>>>>> Stashed changes
