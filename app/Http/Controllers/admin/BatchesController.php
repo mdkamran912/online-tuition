@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\batches;
 use App\Models\subjects;
 use App\Models\batchstudentmapping;
+use App\Models\zoom_classes;
 use App\Models\students\studentattendance;
 use App\Models\classes;
+use App\Models\studentprofile;
 use App\Models\classschedule;
 use App\Models\studentregistration;
 use App\Models\tutorregistration;
@@ -168,6 +170,27 @@ class BatchesController extends Controller
 
     }
 
+    public function tstudentlists()
+    {
+        $students = studentprofile::select(
+            'studentprofiles.name as studentname',
+            'studentprofiles.student_id as studentid',
+            'studentprofiles.profile_pic as profilepic',
+            'classes.name as class',
+            'subjects.name as subject'
+        )
+            ->join('studentregistrations', 'studentregistrations.id', '=', 'studentprofiles.student_id')
+            ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+            ->join('classes', 'classes.id', '=', 'paymentstudents.class_id')
+            ->join('subjects', 'subjects.id', '=', 'paymentstudents.subject_id')
+            ->where('paymentstudents.tutor_id',session('userid')->id)
+            ->where('studentregistrations.is_active', 1)
+            ->distinct()
+            ->get();
+    
+        return view('tutor.mystudents', get_defined_vars());
+    }
+      
     public function tutorbatchesstudents($id){
         $data= batchstudentmapping::select('student_data')->where("batch_id", $id)->first();
         $explode_id = json_decode($data['student_data'], true);
@@ -216,41 +239,24 @@ class BatchesController extends Controller
 
     public function tutorBatcheUpdateattendance(Request $request){
 
-        // dd($request->all());
-        $attendanceData = $request->input('attendance');
-
-        foreach ($attendanceData as $data) {
-            $student_id = $data['student_id'];
-            $status = isset($data['status']) ? 1 : 0;
-            $chk = studentattendance::select('*')
-            ->where('class_id',$request->post_class_id)
-            ->where('subject_id',$request->post_subject_id)
-            ->where('batch_id',$request->post_batch_id)
-            ->where('topic_id',$request->post_topic_id)
-            ->where('meeting_id',$request->post_meeting_id)
-            ->where('tutor_id',session('userid')->id)
-            ->where('student_id',$student_id)
-            ->first();
-
-            if($chk){
-                $data = $chk;
-                $data->status =$status;
-                $data->save();
-            }else{
-                $data = new studentattendance();
-                $data->student_id = $student_id;
-                $data->class_id = $request->post_class_id;
-                $data->subject_id = $request->post_subject_id;
-                $data->tutor_id = session('userid')->id;
-                $data->topic_id = $request->post_topic_id;
-                $data->class_starts_at = $request->post_start_time;
-                $data->meeting_id = $request->post_meeting_id;
-                $data->status = $status;
-                $data->batch_id = $request->post_batch_id;
-                $data->save();
-            }
+        if($request->ispresent == 'on'){
+            $presence = 1;
         }
-        return back()->with('success','Attendance Successfully Submitted');
+        else{
+            $presence = 0;
+        }
+        $attendance = zoom_classes::find($request->post_meeting_id);
+        $attendance->student_present = $presence;
+
+        $res = $attendance->update();
+        if($res){
+            return back()->with('success','Attendance Successfully Submitted');
+
+        }
+        else{
+            return back()->with('fail','Something went wrong!, try again later');
+
+        }
     }
 
 public function zoomapi(){

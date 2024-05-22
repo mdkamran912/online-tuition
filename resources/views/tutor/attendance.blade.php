@@ -27,8 +27,8 @@
                 <h3>Attendance</h3>
             </div>
 
-            <form id="payment-search">
-
+            <form action="{{route('tutor.attendance-search')}}" method="POST">
+                @csrf
                 <div class="form-group mt-">
                     <div class="row">
                         <div class="col-md-3">
@@ -295,60 +295,6 @@ function editdata(id, classid, subjectid, batchid, topicid, name, description, s
             $('#paginationContainer').html(data.pagination);
         }
 
-        $(document).ready(function() {
-            $('#payment-search').submit(function(e) {
-                alert('test');
-                e.preventDefault();
-                const page = 1;
-                const ajaxUrl = "{{ route('tutor.attendance-search') }}"
-                var formData = $(this).serialize();
-
-                formData += `&page=${page}`;
-
-                $.ajax({
-                    type: 'post',
-                    url: ajaxUrl, // Define your route here
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-
-                    success: function(data) {
-                        // console.log(data)
-                        updateTableAndPagination(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
-
-            });
-
-
-            $(document).on('click', '#paginationContainer .pagination a', function(e) {
-                e.preventDefault();
-                var formData = $('#payment-search').serialize();
-                const page = $(this).attr('href').split('page=')[1];
-                formData += `&page=${page}`;
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route("tutor.attendance-search") }}', // Define your route here
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(data) {
-                        updateTableAndPagination(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-
-
-
-        });
 
     </script>
 @endsection

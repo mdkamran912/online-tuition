@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\democlasses;
 use App\Models\subjects;
 use App\Models\tutorregistration;
+use App\Models\studentprofile;
 use App\Models\status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Events\RealTimeMessage;
+use App\Models\Notification;
 class DemoListController extends Controller
 {
     public function index(){
-
+        
         $demos = democlasses::select('*','democlasses.id as demo_id','classes.name as class_name','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
         ->join('subjects', 'subjects.id','=','democlasses.subject_id')
@@ -21,7 +23,8 @@ class DemoListController extends Controller
         ->join('classes', 'classes.id','=','subjects.class_id')
         ->where('democlasses.student_id','=', session('userid')->id)
         ->orderBy('democlasses.created_at', 'desc')
-        ->paginate(10);
+        ->paginate(100);
+        
         $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
         $statuses = status::select('*')->get();
         $tutors = tutorregistration::select('*')->get();
@@ -85,7 +88,42 @@ class DemoListController extends Controller
         $demo->status = "5";
         $res = $demo->save();
         if($res){
-
+             //////////////// Here I need to pass notification into db
+             $notificationdata = new Notification();
+             $notificationdata->alert_type = 2;
+             $notificationdata->notification = 'Trial Class Cancelled By '.session('userid')->name;
+             $notificationdata->initiator_id = session('userid')->id;
+             $notificationdata->initiator_role = session('userid')->role_id;
+             $notificationdata->event_id = $demo->id;
+             // Sending to admin
+             // if($request->receiver_role_id == 1){
+                 $notificationdata->show_to_admin = 1;
+                 // $notificationdata->show_to_admin_id = $request->receiver_id;
+                 $notificationdata->show_to_all_admin = 1;
+             // }
+             // Sending to tutor
+             // if($request->receiver_role_id == 2){
+                 $notificationdata->show_to_tutor = 1;
+                 $notificationdata->show_to_tutor_id = $demo->tutor_id;
+                 // $notificationdata->show_to_all_tutor = 0;
+             // }
+             // Sending to student
+             // if($request->receiver_role_id == 3){
+             //     $notificationdata->show_to_student = 1;
+             //     $notificationdata->show_to_student_id = $request->receiver_id;
+             //     // $notificationdata->show_to_all_student = 0;
+             // }
+             // // Sending to parent
+             // if($request->receiver_role_id == 3){
+             //     $notificationdata->show_to_parent = 1;
+             //     $notificationdata->show_to_parent_id = $request->receiver_id;
+             //     // $notificationdata->show_to_all_parent = 0;
+             // }
+             $notificationdata->read_status = 0;
+ 
+             $notified = $notificationdata->save();
+             broadcast(new RealTimeMessage('$notification'));
+ 
             return back()->with('success','Demo Cancelled Successfully');
         }
         else{
@@ -95,6 +133,13 @@ class DemoListController extends Controller
     }
 
     public function bookdemo(Request $request){
+        
+        // $studentprofile = studentprofile::select('*')->where('student_id',session('userid')->id)->first();
+        $profchk = studentprofile::select('email')->where('student_id',session('userid')->id)->first();
+
+        if (!$profchk || $profchk->email === null) {
+            return back()->with('fail','Please update your profile first. Visit your profile section to update');
+        }
         // dd($request->message);
         $demo = new democlasses();
         $demo->student_id = session('userid')->id;
@@ -111,13 +156,46 @@ class DemoListController extends Controller
         $demo->status = "1";
 
         $res = $demo->save();
-        if($res){
+        if ($res) {
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 2;
+            $notificationdata->notification = 'New Trial Class Scheduled By '.session('userid')->name;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $demo->id;
+            // Sending to admin
+            // if($request->receiver_role_id == 1){
+                $notificationdata->show_to_admin = 1;
+                // $notificationdata->show_to_admin_id = $request->receiver_id;
+                $notificationdata->show_to_all_admin = 1;
+            // }
+            // Sending to tutor
+            // if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $request->demotutorid;
+                // $notificationdata->show_to_all_tutor = 0;
+            // }
+            // Sending to student
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_student = 1;
+            //     $notificationdata->show_to_student_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_student = 0;
+            // }
+            // // Sending to parent
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_parent = 1;
+            //     $notificationdata->show_to_parent_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_parent = 0;
+            // }
+            $notificationdata->read_status = 0;
 
-            return back()->with('success','Demo Scheduled Successfully');
-        }
-        else{
-            return back()->with('fail','Something Went Wrong. Try Again Later');
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
 
+            return redirect()->to('student/searchtutor')->with('success', 'Demo Scheduled Successfully');
+        } else {
+            return redirect()->to('student/searchtutor')->with('fail', 'Something Went Wrong. Try Again Later');
         }
     }
 }

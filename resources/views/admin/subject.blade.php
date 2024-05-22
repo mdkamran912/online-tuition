@@ -31,6 +31,7 @@
                             <th scope="col">S.No.</th>
                             <th scope="col">Grade</th>
                             <th scope="col">Subject</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Image</th>
                             <th scope="col">Status</th>
                             <th scope="col">Update</th>
@@ -47,6 +48,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$subject->class_name}}</td>
                             <td>{{$subject->subject_name}}</td>
+                            <td>{{$subject->category}}</td>
                             <td>
                                 <img src="{{ asset('/images/subjects/'.$subject->subject_image) }}" width= '50' height='50' class="img img-responsive" />
                         
@@ -77,7 +79,7 @@
             </div>
             <!-- content-wrapper ends -->
             <div class="d-flex justify-content-center">
-                {!! $subjects->links() !!}
+                {{-- {!! $subjects->links() !!} --}}
             </div>
         </div>
     </div>
@@ -95,6 +97,7 @@
                         @csrf
                         <div class=" row">
                             <input type="hidden" id="id" name="id" class="form-group">
+                            <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="">Class<i style="color:red">*</i></label>
                                 <select type="text" class="form-control" id="classname" name="classname" required>
@@ -109,9 +112,21 @@
                                 <input type="text" class="form-control" placeholder="Enter Subject Name" id="subject"
                                     name="subject" required>
                             </div>
+                            </div>
+                            <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Subject Category<i style="color:red">*</i></label>
+                                <select type="text" class="form-control" id="categoryid" name="categoryid" required>
+                                    <option value="">--Select--</option>
+                                    @foreach ($scategories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class=" col-md-6 col-12 col-sm-6 form-group">
                                 <label class="ml-2">Upload Image<i style="color:red">*</i></label>
                                 <input type="file" class="form-control" id="uploadimage" value="" name="uploadimage" required>
+                            </div>
                             </div>
                             <span class="text-danger">
                                 @error('uploadimage')
@@ -120,8 +135,10 @@
                             </span>
                             <div class="img-holder"></div>
                         </div>
-                        <button type="submit" id="" class="btn btn-sm btn-success float-right"> Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" data-dismiss="modal"> Close</button>
+                        <div class="float-right">
+                        <button type="button" class="btn btn-sm btn-danger mr-1 float-right mt-2" data-dismiss="modal"> Close</button>
+                        <button type="submit" id="" class="btn btn-sm btn-success float-right mt-2"> Submit</button>
+                        </div>
                     </form>
 
                 </div>

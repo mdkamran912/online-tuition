@@ -24,11 +24,13 @@
                                 <img src="{{url('images/students/profilepics','/')}}{{ $student->profile_pic ?? url('images/avatar/default-profile-pic.png')}}"
                                     alt="Generic placeholder image" class="img-fluid img-thumbnail mb-2"
                                     style="width: 150px; z-index: 1; border-radius: 50%;">
-
-                                <a type="button" class="btn btn-outline-dark bg-primary" href="profileupdate/{{session('userid')->id}}"
-                                    style="z-index: 1;">
-                                    Edit profile
-                                </a>
+                                    @if (session('usertype') == 'Parent')
+                                    @else
+                                    <a type="button" class="btn btn-outline-dark bg-primary" href="profileupdate/{{session('userid')->id}}"
+                                        style="z-index: 1;">
+                                        Edit profile
+                                    </a>
+                                    @endif
 
                             </div>
                         </div>

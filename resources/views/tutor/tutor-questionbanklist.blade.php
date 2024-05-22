@@ -22,7 +22,7 @@
                     <h3>Question Bank</h3>
                     <!-- <a class="btn btn-primary" href="{{ route('admin.questionbank.create') }}">Add New Question</a> -->
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Add New Question
                         </button>
@@ -34,7 +34,8 @@
                     </div>
                 </div>
 
-                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+               <div class="table-responsive">
+               <table class="table table-hover table-striped align-middlemb-0 ">
                     <thead>
                         <tr>
                             <th scope="col">S.No</th>
@@ -56,32 +57,33 @@
                             <td>{{ $question->topic }}</td>
                             <td>{{ $question->question }}</td>
                             {{-- <td><div ><textarea class="form-control">{{$question->question}}</textarea>
-            </div>
-            </td> --}}
-            <td>
-                <div class="form-check form-switch text-nowrap">
-                    @if ($question->question_status == 1)
-                    <i class="ri-checkbox-circle-line align-middle text-success"></i> Active
-                    @else
-                    <i class="ri-close-circle-line align-middle text-danger"></i> Inactive
-                    @endif
-                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1"
-                        onclick="changestatus('{{ $question->question_id }}','{{ $question->question_status }}');"
-                        class="checkbox" @if ($question->question_status == 1) then checked @endif>
-                </div>
-            </td>
+                            </div>
+                            </td> --}}
+                            <td>
+                                <div class="form-check form-switch text-nowrap">
+                                    @if ($question->question_status == 1)
+                                    <i class="ri-checkbox-circle-line align-middle text-success"></i> Active
+                                    @else
+                                    <i class="ri-close-circle-line align-middle text-danger"></i> Inactive
+                                    @endif
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1"
+                                        onclick="changestatus('{{ $question->question_id }}','{{ $question->question_status }}');"
+                                        class="checkbox" @if ($question->question_status == 1) then checked @endif>
+                                </div>
+                            </td>
 
 
-            <td>
-                <div class="text-center"><a class="btn btn-sm bg-primary text-white"
-                        href="{{ url('tutor/questionupdate') . '/' . $question->question_id }}">View/Update</a>
-                </div>
-            </td>
-            </tr>
-            @endforeach
+                            <td>
+                                <div class="text-center"><a class="btn btn-sm bg-danger text-white"
+                                        href="{{ url('tutor/questionupdate') . '/' . $question->question_id }}">View/Update</a>
+                                </div>
+                            </td>
+                            </tr>
+                            @endforeach
 
-            </tbody>
-            </table>
+                            </tbody>
+                </table>
+               </div>
 
         </div>
         <!-- content-wrapper ends -->

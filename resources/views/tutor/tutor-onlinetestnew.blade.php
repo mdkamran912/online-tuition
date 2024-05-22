@@ -197,7 +197,7 @@
                             @enderror
                         </span>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-12 mt-2">
+                    {{-- <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Max Attempt<i style="color: red">*</i></label>
                         <input type="number" class="form-control" id="maxattempt" name="maxattempt"
                             value="{{ $tdata->max_attempt ?? '' }}" required>
@@ -206,7 +206,7 @@
                                 {{ 'Please enter max attempts' }}
                             @enderror
                         </span>
-                    </div>
+                    </div> --}}
                     <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Duration(minutes)<i style="color: red">*</i></label>
                         <input type="number" class="form-control" id="duration" name="duration"
@@ -218,7 +218,7 @@
                         </span>
                     </div>
 
-                    <div class="col-md-3 col-sm-3 col-12 mt-2">
+                    {{-- <div class="col-md-3 col-sm-3 col-12 mt-2">
                         <label for="">Test Start Date<i style="color: red">*</i></label>
                         <input type="datetime-local" class="form-control" id="tstartdate" name="tstartdate"
                             value="{{ $tdata->test_start_date ?? '' }}" required>
@@ -238,7 +238,7 @@
                                 {{ 'Please select test end date' }}
                             @enderror
                         </span>
-                    </div>
+                    </div> --}}
                 </div>
 
 

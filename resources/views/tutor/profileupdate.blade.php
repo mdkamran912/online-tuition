@@ -189,14 +189,23 @@
                                 <input type="text" class="form-control" id="details3" name="details3"
                                     placeholder="Enter Details" value="{{ $tutorpd->detail_3 ?? '' }}">
                             </div>
+                            {{-- Added new field for rate per hour based on profile starts here --}}
+                            <div class="form-group col-md-6">
+                                <label for="name">Rate Per Hour(£)<i style="color:red">*</i></label>
+                                <input type="text" class="form-control" id="rateperhour" name="rateperhour"
+                                    placeholder="0"
+                                    value="{{ $tutorpd->rateperhour ?? ''}}" required>
+                            </div>
+                            {{-- Added new field for rate per hour based on profile ends here --}}
+
                             <div class="form-group col-md-6">
                                 <label for="name">Intro Video Link<i style="color:red">*</i></label>
                                 <input type="text" class="form-control" id="introvideolink" name="introvideolink"
                                     placeholder="https://youtube.com/abZpqYUppz"
                                     value="{{ $tutorpd->intro_video_link ?? ''}}" required>
                             </div>
-
-                            <div class="form-group col-md-12">
+                            
+                            <div class="form-group col-md-6">
                                 <div style="float:right; margin-top:10px">
                                     <button type="submit" id="" class="btn btn-sm btn-success"><span
                                             class="fa fa-check"></span> Update</button>
@@ -237,16 +246,7 @@
 
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="">Rate<i style="color:red">*</i></label>
-                            <input type="text" class="form-control" id="classrate" name="classrate"
-                                placeholder="Enter Details" required>
-                            <span class="text-danger">
-                                @error('classrate')
-                                {{ $message }}
-                                @enderror
-                            </span>
-                        </div>
+                        
 
                         <div class="form-group col-md-3 text-right" style="margin-top: 33px;">
                             <button class=" btn btn-sm btn-success text-white" type="submit"><span
@@ -262,7 +262,6 @@
                             <th>S.No.</th>
                             <th>Class</th>
                             <th>Subject</th>
-                            <th>Rate/Hr</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -272,7 +271,6 @@
                             <td>{{ $loop->iteration }}</td>
                             <td class="text-wrap">{{ $classmapping->class }}</td>
                             <td class="text-wrap">{{ $classmapping->subject }}</td>
-                            <td class="text-wrap">{{ $classmapping->rate }}</td>
                             <td><a href="{{url('tutor/classmappingdelete')}}/{{$classmapping->id}}"><button
                                         class="btn-sm btn btn-danger" type="button"><span class="fa fa-trash"></span>
                                         Delete</button></a></td>
@@ -356,6 +354,7 @@
 
                     </tbody>
                 </table>
+                
                 <hr>
 
                 <h3 class="text-center my-5"><u>Skills</u></h3>
@@ -364,7 +363,8 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-9">
-                                <input type="text" class="form-control" oninput="validateInput(this)" name="skills" value="{{ $tutorpd->keywords ?? '' }}">
+                                <input type="text" class="form-control" oninput="validateInput(this)" name="skills" value="{{ $tutorpd->keywords ?? '' }}"placeholder="Enter skills separated with comma (Example: Java Expert, Python Expert)">
+                                
                                 @error('skills')
                                   <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -376,9 +376,10 @@
                             </div>
                         </div>
                     </form>
+                    <p style="color:red; font-size:12px"> * Please enter all the skills separated with comma. After that click on <b>+Add</b> button</p>
                     <hr>
 
-                    @if($tutorpd->keywords)
+                    @if($tutorpd->keywords ?? '')
                     <div class="row">
 
                         @foreach ($skillsArray  as $item)
@@ -399,7 +400,7 @@
         </div>
 
 
-
+<br>
 
     </div>
     <!-- content-wrapper ends -->

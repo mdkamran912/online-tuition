@@ -59,7 +59,6 @@ class PaymentsController extends Controller
         ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
         ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
         ->where('paymentstudents.student_id',session('userid')->id)
-        ->where('paymentstudents.student_id',session('userid')->id)
         ->get();
         // dd($payments);
         return view('student.fees',compact('payments'));

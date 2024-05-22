@@ -61,16 +61,18 @@
 
                             <div class="form-group col-md-6">
                                 <label for="name">Date Of Birth<i style="color:red">*</i></label>
-                                <input type="date" class="form-control" id="dob" name="dob" value="{{ $student->dob ?? '' }}" required>
+                                <input type="date" class="form-control" id="dob" name="dob" value="{{ $dob ?? '' }}" required>
+                                <small id="dobError" class="text-danger"></small>
                             </div>
+                            
                             <div class="form-group col-md-6">
                                 <label for="name">Gender<i style="color:red">*</i></label>
-                                <select type="text" class="form-control" id="gender" name="gender"
-                                    value="" required>
-                                    <option value="1" {{ ( $student->gender == "1") ? 'selected' : '' }}>Male</option>
-                                    <option value="2"{{ ( $student->gender == "2") ? 'selected' : '' }}>Female</option>
-                                    <option value="3"{{ ( $student->gender == "3") ? 'selected' : '' }}>Other</option>
+                                <select type="text" class="form-control" id="gender" name="gender" value="" required>
+                                    <option value="1" {{ ($student && $student->gender == "1") ? 'selected' : '' }}>Male</option>
+                                    <option value="2" {{ ($student && $student->gender == "2") ? 'selected' : '' }}>Female</option>
+                                    <option value="3" {{ ($student && $student->gender == "3") ? 'selected' : '' }}>Other</option>
                                 </select>
+                                
                             </div>
 
                         </div>
@@ -99,7 +101,7 @@
                                     placeholder="Enter School Name" value="{{ $student->school_name ?? '' }}" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="">Fathre's Name<i style="color:red">*</i></label>
+                                <label for="">Father's Name<i style="color:red">*</i></label>
                                 <input type="text" class="form-control" id="fname" name="fname"
                                     placeholder="Enter Father's Name " value="{{ $student->fathers_name ?? '' }}" required>
                             </div>
@@ -108,7 +110,7 @@
                                 <input type="text" class="form-control" id="mname" name="mname"
                                     placeholder="Enter Mother's Name" value="{{ $student->mothers_name ?? '' }}">
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12 mt-2">
                                 <div class="float-right">
                                     <button type="submit" id="" class="btn btn-sm btn-success moveRight"><span
                                             class="fa fa-check"></span> Update</button>
@@ -167,7 +169,7 @@
                     </div>
                 </form>
 
-                <table class="table table-bordered table-responsive">
+                <table class="table table-bordered table-responsive mt-2">
                     <thead class="bg-dark text-white">
                         <tr>
                             <th>S.No.</th>
@@ -319,4 +321,25 @@
         //     }
         // });
     </script>
+    <script>
+        document.getElementById('dob').addEventListener('change', function() {
+            var dob = this.value;
+            var currentDate = new Date();
+            var inputDate = new Date(dob);
+            var minDate = new Date(currentDate.getFullYear() - 100, currentDate.getMonth(), currentDate.getDate());
+            var maxDate = new Date(currentDate.getFullYear() - 3, currentDate.getMonth(), currentDate.getDate());
+    
+            if (inputDate > maxDate) {
+                document.getElementById('dobError').textContent = 'You must be at least 3 years old and not more than 100 years old.';
+                this.setCustomValidity('You must be at least 3 years old.');
+            } else if (inputDate < minDate) {
+                document.getElementById('dobError').textContent = 'You cannot be more than 100 years old.';
+                this.setCustomValidity('You cannot be more than 100 years old.');
+            } else {
+                document.getElementById('dobError').textContent = '';
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+    
 @endsection

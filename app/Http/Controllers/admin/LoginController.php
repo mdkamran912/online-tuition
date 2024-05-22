@@ -33,7 +33,7 @@ class LoginController extends Controller
 
                 switch ($user->role_id) {
                     case 1:
-                        return view('admin.dashboard');
+                        return redirect()->route('admin.dashboard');
                         break;
                     
                 }

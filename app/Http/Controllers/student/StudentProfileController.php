@@ -19,9 +19,10 @@ class StudentProfileController extends Controller
 
         $student = studentregistration::select('*', 'studentregistrations.name as name', 'studentregistrations.mobile as mobile', 'studentregistrations.email as email', 'classes.name as gradename')
             ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
-            ->join('classes', 'classes.id', '=', 'studentregistrations.class_id')
+            ->leftJoin('classes', 'classes.id', '=', 'studentregistrations.class_id')
             ->where('studentregistrations.id', '=', session('userid')->id)
             ->first();
+            // dd($student);
         $achievement = studentachievement::select('*')
             ->where('student_id', '=', session('userid')->id)->get();
 
@@ -48,9 +49,10 @@ class StudentProfileController extends Controller
 
         $student = studentregistration::select('*', 'studentregistrations.name as name', 'studentregistrations.mobile as mobile', 'studentregistrations.email as email', 'classes.name as gradename')
             ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
-            ->join('classes', 'classes.id', '=', 'studentregistrations.class_id')
+            ->leftJoin('classes', 'classes.id', '=', 'studentregistrations.class_id')
             ->where('studentregistrations.id', '=', session('userid')->id)
             ->first();
+            // dd($student);
         $achievement = studentachievement::select('*')
             ->where('student_id', '=', session('userid')->id)->get();
 
@@ -65,10 +67,11 @@ class StudentProfileController extends Controller
             // echo $student;
             // dd($student);
         if (!$student) {
-
+            
             $dob = "";
         } else {
-            $dob = Carbon::parse($student->dob)->format('j-F-Y');
+            
+            $dob = Carbon::parse($student->dob)->format('Y-m-d');
         }
 
         return view('student.profileupdate', compact('student', 'dob', 'achievement', 'reviews'));
@@ -78,14 +81,19 @@ class StudentProfileController extends Controller
 
     public function updateprofiledata(Request $request)
     {
+        // echo session('userid')->id;
         // echo $request->profileid;
-        // dd($request);
-        $student = studentprofile::select('*')->where('student_id', '=', session('userid')->id)->first();
+        // dd($request->all());
+        $student = studentprofile::where('student_id', '=', session('userid')->id)->first();
+
         if ($student) {
-            $ppic = studentprofile::find($student->id)->first();
+            // Update existing profile
+            $ppic = studentprofile::find($student->id);
         } else {
+            // Create a new profile
             $ppic = new studentprofile();
         }
+
         $ppic->student_id = session('userid')->id;
         $ppic->name = session('userid')->name;
         $ppic->dob = $request->dob;
@@ -97,12 +105,15 @@ class StudentProfileController extends Controller
         $ppic->school_name = $request->school;
         $ppic->fathers_name = $request->fname;
         $ppic->mothers_name = $request->mname;
-        if($request->file){
-        $imageName = time() . '.' . $request->file->extension();
-        $request->file->move(public_path('images/students/profilepics'), $imageName);
-        $ppic->profile_pic = $imageName;
-    }
-    $res = $ppic->save();
+        
+        if ($request->file) {
+            $imageName = time() . '.' . $request->file->extension();
+            $request->file->move(public_path('images/students/profilepics'), $imageName);
+            $ppic->profile_pic = $imageName;
+        }
+        
+        $res = $ppic->save();
+
         if ($res) {
             return back()->with('success', 'Profile updated successfully');
         } else {
@@ -173,7 +184,7 @@ class StudentProfileController extends Controller
 
     public function studentslist(){
         $stdlists = studentregistration::select('*','studentregistrations.id as student_id','studentregistrations.name as student_name','studentregistrations.mobile as student_mobile','studentregistrations.email as student_email','studentregistrations.is_active as student_status','classes.name as class_name')
-        ->join('classes','classes.id','=','studentregistrations.class_id')->paginate(10);
+        ->leftjoin('classes','classes.id','=','studentregistrations.class_id')->paginate(10000000000000);
         $classes = classes::where('is_active',1)->get();
         return view('admin.students', get_defined_vars());
 

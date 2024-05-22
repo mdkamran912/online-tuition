@@ -75,15 +75,15 @@
             </form>
             <hr>
 
-            <div class=" table-responsive">
+            <div class="table-responsive">
                 <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table">
                     <thead class="thead-dark ">
                         <tr>
                             <th scope="col">S.No.</th>
                             {{-- <th scope="col">Meeting ID</th> --}}
-                            <th scope="col">Status</th>
+                            {{-- <th scope="col">Status</th> --}}
                             <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
+                            {{-- <th scope="col">Batch</th> --}}
                             <th scope="col">Topic</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">Duration</th>
@@ -95,9 +95,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             {{-- <td>{{ $class->meeting_id }}</td> --}}
-                            <td>{{ $class->status }}</td>
+                            {{-- <td>{{ $class->status }}</td> --}}
                             <td>{{ $class->subjects }}</td>
-                            <td>{{ $class->batch }}</td>
+                            {{-- <td>{{ $class->batch }}</td> --}}
                             <td>{{ $class->topics }}</td>
                             <td>{{ $class->start_time }}</td>
                             <td>{{ $class->duration }}</td>

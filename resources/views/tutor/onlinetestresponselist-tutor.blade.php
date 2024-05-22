@@ -30,7 +30,7 @@
             </div>
             <form id="payment-search">
                 <div class="row">
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
                         <label>Class</label>
                         <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
                             <option value="">Select Class</option>
@@ -39,7 +39,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label>Subject</label>
                         <select name="subject_name" class="form-control" id="subject" onchange="fetchTopics()">
                             <option value="">Select Subject</option>
@@ -48,7 +48,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label>Topic</label>
                         <select class="form-control" name="topic_name" id="topicid">
                             <option value="">Select Topic</option>
@@ -57,22 +57,22 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label>Test Name</label>
                         <input type="text" class="form-control" name="test_name">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label>Start Date</label>
                         <input type="date" class="form-control" name="start_date">
                     </div>
-                    <div class="col-12 col-sm-3 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label>End Date</label>
                         <input type="date" class="form-control" name="end_date">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 mt-4">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mt-4">
                         <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
                             Search</button>
                     </div>
@@ -84,7 +84,8 @@
             </form>
             <hr>
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive users-table">
+            <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle mb-0  users-table">
                 <thead>
                     <tr>
                         <th scope="col">S.No</th>
@@ -114,6 +115,9 @@
                     @endif
                 </tbody>
             </table>
+            </div>
+
+           
 
             <div class="d-flex justify-content-center" id="paginationContainer">
                 {!! $onlineTests->links() !!}

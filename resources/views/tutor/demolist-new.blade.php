@@ -24,7 +24,8 @@
                 <div class="page-title-box">
                     <h3 class="text-center">Demo List </h3>
                 </div>
-                <form id="payment-search">
+                <form action="{{route('tutor.demolist-search')}}" method="POST">
+                    @csrf
                     <div class="row py-3">
 
                         <div class="col-md-3">
@@ -96,7 +97,7 @@
 
                         <div class="col-md-6 mt-4">
                             <div class="form-group">
-                                <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
+                                <button class="btn btn-primary" type="submit" style="float:right"> <span class="fa fa-search"></span>
                                     Search</button>
                             </div>
                         </div>
@@ -120,9 +121,9 @@
                                 <th scope="col">class</th>
                                 <th scope="col">Subject</th>
                                 <th scope="col">Current Status</th>
-                                <th scope="col">Prefered Slot-1</th>
-                                <th scope="col">Prefered Slot-2</th>
-                                <th scope="col">Prefered Slot-3</th>
+                                {{-- <th scope="col">Prefered Slot-1</th> --}}
+                                {{-- <th scope="col">Prefered Slot-2</th> --}}
+                                {{-- <th scope="col">Prefered Slot-3</th> --}}
                                 <th scope="col">Confirmed Slot</th>
                                 {{-- <th scope="col">Demo Link</th> --}}
                                 <th scope="col">Remarks</th>
@@ -156,9 +157,9 @@
                                             <span class="badge bg-primary">{{ $demo->currentstatus }}</span>
                                         @endif
                                     </td>
-                                    <td>{{ $demo->slot_1 }}</td>
-                                    <td>{{ $demo->slot_2 }}</td>
-                                    <td>{{ $demo->slot_3 }}</td>
+                                    {{-- <td>{{ $demo->slot_1 }}</td> --}}
+                                    {{-- <td>{{ $demo->slot_2 }}</td> --}}
+                                    {{-- <td>{{ $demo->slot_3 }}</td> --}}
                                     <td>{{ $demo->slot_confirmed }}</td>
                                     {{-- <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td> --}}
                                     <td>{{ $demo->remarks }}</td>
@@ -178,6 +179,8 @@
                                         @if ($demo->status == 8)
                                             <button class="btn btn-sm btn-success" onclick="warningModal('{{ $demo->demo_link }}')"><i
                                                         class="ri-vidicon-fill"></i> Join Class</button>
+                                                        <button class="btn btn-sm btn-danger" onclick="endWarningModal('{{ $demo->demo_id }}')"><i
+                                                            class="ri-vidicon-fill"></i> End Class</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -258,7 +261,7 @@
                             <button type="button" class="btn btn-danger" data-dismiss="modal"
                                 onclick="closeModal2();">Close</button>
                             <button type="submit" id="" class="btn btn-sm btn-success"><span
-                                    class="fa fa-check"></span> Comfirm</button>
+                                    class="fa fa-check"></span> Confirm</button>
 
 
                         </div>
@@ -371,7 +374,32 @@
             </div>
         </div>
     </div>
+<!--end class warning modal -->
+<div class="modal fade" id="endWarningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
 
+
+        <div class="modal-body">
+
+            <form action="{{route('tutor.demo.end')}}" method="POST">
+                @csrf
+            <header>
+                <h3 class="text-center mb-4 text-danger"><u>Warning!</u></h3>
+            </header>
+            <input type="hidden" id="demoendid" name="demoendid">
+            <h4 class="">You are about to <span style="color: red">End the session</span></h4>
+            <br>
+            <input type="text" class="form-control" name="demoendremarks" id="demoendremarks"
+                                    placeholder="Remarks"><br>
+            <div id='warningbtn' style="float:right">
+                <button class="btn btn-danger" type="submit">End Class</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
     <script>
         function closeModal() {
             $('#editModal').modal('hide');
@@ -463,60 +491,60 @@
             $('#paginationContainer').html(data.pagination);
         }
 
-        $(document).ready(function() {
-            $('#payment-search').submit(function(e) {
-                // alert('test');
-                e.preventDefault();
-                const page = 1;
-                const ajaxUrl = '{{ route('tutor.demolist-search') }}'
-                var formData = $(this).serialize();
+        // $(document).ready(function() {
+        //     $('#payment-search').submit(function(e) {
+        //         // alert('test');
+        //         e.preventDefault();
+        //         const page = 1;
+        //         const ajaxUrl = '{{ route('tutor.demolist-search') }}'
+        //         var formData = $(this).serialize();
 
-                formData += `&page=${page}`;
+        //         formData += `&page=${page}`;
 
-                $.ajax({
-                    type: 'post',
-                    url: ajaxUrl, // Define your route here
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
+        //         $.ajax({
+        //             type: 'post',
+        //             url: ajaxUrl, // Define your route here
+        //             data: formData,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
 
-                    success: function(data) {
-                        // console.log(data)
-                        updateTableAndPagination(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
+        //             success: function(data) {
+        //                 // console.log(data)
+        //                 updateTableAndPagination(data);
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.log(xhr.responseText);
+        //             }
+        //         });
 
-            });
-
-
-            $(document).on('click', '#paginationContainer .pagination a', function(e) {
-                e.preventDefault();
-                var formData = $('#payment-search').serialize();
-                const page = $(this).attr('href').split('page=')[1];
-                formData += `&page=${page}`;
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route('tutor.demolist-search') }}', // Define your route here
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(data) {
-                        updateTableAndPagination(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
+        //     });
 
 
+        //     $(document).on('click', '#paginationContainer .pagination a', function(e) {
+        //         e.preventDefault();
+        //         var formData = $('#payment-search').serialize();
+        //         const page = $(this).attr('href').split('page=')[1];
+        //         formData += `&page=${page}`;
+        //         $.ajax({
+        //             type: 'post',
+        //             url: '{{ route('tutor.demolist-search') }}', // Define your route here
+        //             data: formData,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             success: function(data) {
+        //                 updateTableAndPagination(data);
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.log(xhr.responseText);
+        //             }
+        //         });
+        //     });
 
-        });
+
+
+        // });
 
         function updatedemostatus(id) {
 
@@ -551,6 +579,11 @@
             document.getElementById('warningbtn').innerHTML = `<a href="${link}"><button class="btn btn-sm btn-success">Ok</button></a>`;
             $('#warningModal').modal('show');
             
+        }
+
+        function endWarningModal(id){
+            document.getElementById('demoendid').value = id;
+            $('#endWarningModal').modal('show');
         }
     </script>
 @endsection

@@ -27,7 +27,7 @@
                 <h3>Attendance</h3>
             </div>
 
-            <form id="payment-search" class="">
+            {{-- <form id="payment-search" class="">
 
 <div class="form-group mt-">
     <div class="row">
@@ -56,8 +56,8 @@
     </div>
     
 </div>
-</form>
-<hr>
+</form> --}}
+{{-- <hr> --}}
 
 
             <div class=" table-responsive">
@@ -74,7 +74,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($attend as $attendreport)
+                        <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $attendreport->class }}</td>
+                        <td>{{ $attendreport->subject }}</td>
+                        <td>{{ $attendreport->tutor }}</td>
+                        <td>{{ \Carbon\Carbon::parse($attendreport->class_starts_at)->format('d/m/Y h:i a') }}</td>
 
+                        @if ($attendreport->status == 1)
+                        <td style="color: green">Present</td>
+                            @else
+                            <td style="color: red">Absent</td>
+                        @endif
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

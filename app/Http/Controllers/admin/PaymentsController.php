@@ -203,17 +203,13 @@ class PaymentsController extends Controller
         $type="tutor";
         $viewTable = view('admin.partials.payments-search', compact('payments','totalTransactionAmount','type'))->render();
         $viewPagination = $payments->links()->render();
-        return response()->json([
-            'table' => $viewTable,
-            'pagination' => $viewPagination
-        ]);
-
-        // $subjects = subjects::where('is_active', 1)->get();
-        // $classes = classes::where('is_active', 1)->get();
-        // $students = studentregistration::where('is_active', 1)->get();
-        // $tutors = tutorregistration::where('is_active', 1)->get();
-
-        // return view('admin.payments', get_defined_vars());
+        
+        $subjects = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
+        $students = studentregistration::where('is_active',1)->get();
+        $tutors = tutorregistration::where('is_active',1)->get();
+        $totalTransactionAmount = $payments->sum('transaction_amount');
+        return view('tutor.payments',get_defined_vars());
     }
 
 
@@ -432,10 +428,8 @@ class PaymentsController extends Controller
         $type="students-payments";
         $viewTable = view('admin.partials.common-search', compact('payments','type'))->render();
         $viewPagination = $payments->links()->render();
-        return response()->json([
-            'table' => $viewTable,
-            'pagination' => $viewPagination
-        ]);
+        
+        return view('student.fees',compact('payments'));
     }
     public function tutorpayouts(){
         $tutorpayouts = payout::select('payouts.*','tutorregistrations.name','statuses.name as status_name','tutorregistrations.mobile','tutorregistrations.email')

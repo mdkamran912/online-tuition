@@ -6,24 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\tutorprofile;
 use App\Models\democlasses;
 use App\Models\subjects;
+use App\Models\payout;
+use App\Models\studentregistration;
+use App\Models\studentprofile;
 use Illuminate\Http\Request;
 use App\Models\zoom_classes;
 use App\Models\OnlineTests;
 use Illuminate\Support\Carbon;
 use App\Models\payments\paymentdetails;
+use App\Models\teacherclassmapping;
+use DB;
 
 class TutorDashboardController extends Controller
 {
     public function index(){
+        
         $studentpro = tutorprofile::select('*')
             ->where('tutor_id', '=', session('userid')->id)
             ->first();
-        $pending_demos = democlasses::where('status',6)->where('tutor_id', '=', session('userid')->id)->count();
+        $classmapping = teacherclassmapping::select('*')->where('teacher_id',session('userid')->id)->first();
+        if(!$classmapping){
+            return redirect('tutor/profileupdate')->with('fail', 'Kindly update your profile & add Class/Grade Mapping.');
+        }
+        
+        $pending_demos = democlasses::whereIn('status', [1, 6])->where('tutor_id', '=', session('userid')->id)->count();
         $classes_taken = zoom_classes::where('zoom_classes.is_completed',1)->where('tutor_id', '=', session('userid')->id)->count();
-        $moneyEarned = paymentdetails::join('paymentstudents', 'paymentstudents.transaction_id', 'paymentdetails.transaction_id')
-                    ->where('tutor_id', session('userid')->id)
-                    ->selectRaw('COUNT(DISTINCT student_id) as student_count, SUM(amount) as total_earned')
-                    ->first();
+        // $moneyEarned = paymentdetails::join('paymentstudents', 'paymentstudents.transaction_id', 'paymentdetails.transaction_id')
+        //             ->where('tutor_id', session('userid')->id)
+        //             ->selectRaw('COUNT(DISTINCT student_id) as student_count, SUM(amount) as total_earned')
+        //             ->first();
+        $moneyEarned = payout::where('tutor_id', session('userid')->id)->sum('net_amount_received');
+
         // democlasses taken and queries for percentage bar
         $demosTaken = democlasses::join('subjects', 'subjects.id', 'democlasses.subject_id')
                     ->where('democlasses.status', 4)
@@ -43,15 +56,31 @@ class TutorDashboardController extends Controller
                 'percentage' => $percentage,
             ];
         }
-        $upcomingClasses = zoom_classes::where('tutor_id', '=', session('userid')->id)
-                            ->where('start_time', '>', Carbon::now())
-                            ->orderBy('start_time', 'asc') // Order by start_time in ascending order
-                            ->take(5) // Limit to the latest 5
-                            ->get();
+
+        $upcomingClasses = zoom_classes::select(
+            'zoom_classes.*',
+            'subjects.name as subject',
+            DB::raw('JSON_LENGTH(batchstudentmappings.student_data) as student_count')
+        )
+            ->join('topics', 'topics.id', 'zoom_classes.batch_id')
+            ->join('subjects', 'subjects.id', 'topics.subject_id')
+            ->join('batchstudentmappings', 'batchstudentmappings.batch_id', 'zoom_classes.batch_id')
+            ->where('zoom_classes.tutor_id', '=', session('userid')->id)
+            ->where('zoom_classes.is_completed',0)
+            ->orderBy('zoom_classes.start_time', 'asc')
+            ->take(5)
+            ->get();
+        
         $upcomingClasses->transform(function ($class) {
-            $class->start_time = Carbon::parse($class->start_time); // Convert start_time to Carbon
+            $class->start_time = Carbon::parse($class->start_time);
             return $class;
         });
+        
+        
+        
+
+       
+
         $upcomingQuizes = OnlineTests::where('test_start_date', '>', Carbon::now())->orderBy('test_start_date', 'asc')
                                        ->take(5)->get();
         $upcomingQuizes->transform(function ($quiz) {
@@ -59,6 +88,14 @@ class TutorDashboardController extends Controller
             $quiz->test_end_date = Carbon::parse($quiz->test_end_date);
             return $quiz;
         });
+        
+        $tUpcomingClasses = zoom_classes::where('tutor_id', '=', session('userid')->id)
+    ->where('start_time', '>', Carbon::now())
+    ->where('is_completed',0)
+    ->orderBy('start_time', 'asc')
+    ->get();
+
+    $totalUpcomingClasses = $tUpcomingClasses->count();
 
         $latest_payments = paymentdetails::leftjoin('paymentstudents','paymentstudents.transaction_id','paymentdetails.transaction_id')
                     ->leftjoin('subjects','subjects.id','paymentstudents.subject_id')->where('paymentstudents.tutor_id', '=', session('userid')->id)->orderBy('payment_date', 'desc')->take(5)->get();
@@ -67,12 +104,36 @@ class TutorDashboardController extends Controller
             return $payment;
         });
 
-        $upcoming_demos = democlasses::where('slot_confirmed', '>', Carbon::now())->where('tutor_id', '=', session('userid')->id)->orderBy('slot_confirmed', 'asc')->take(5)->get();
+        $upcoming_demos = democlasses::select('democlasses.*','subjects.name as subject','studentprofiles.name as student','studentprofiles.profile_pic as student_img')
+        ->join('studentprofiles','studentprofiles.student_id','democlasses.student_id')
+        ->join('subjects','subjects.id','democlasses.subject_id')
+        ->where('democlasses.slot_confirmed', '>', Carbon::now())
+        ->where('democlasses.tutor_id', '=', session('userid')->id)
+        ->orderBy('democlasses.slot_confirmed', 'asc')->take(5)->get();
         $upcoming_demos->transform(function ($demos) {
             $demos->slot_confirmed = Carbon::parse($demos->slot_confirmed);
             $demos->slot_1 = Carbon::parse($demos->slot_1);
             return $demos;
         });
+
+        // Students Count
+        $studentscount = studentprofile::select(
+            'studentprofiles.name as studentname',
+            'studentprofiles.student_id as studentid',
+            'studentprofiles.profile_pic as profilepic',
+            'classes.name as class',
+            'subjects.name as subject'
+        )
+            ->join('studentregistrations', 'studentregistrations.id', '=', 'studentprofiles.student_id')
+            ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+            ->join('classes', 'classes.id', '=', 'paymentstudents.class_id')
+            ->join('subjects', 'subjects.id', '=', 'paymentstudents.subject_id')
+            ->where('paymentstudents.tutor_id',session('userid')->id)
+            ->where('studentregistrations.is_active', 1)
+            ->distinct()
+            ->count();
+
+            // dd($studentscount);
 
         return view('tutor.dashboard',get_defined_vars());
     }

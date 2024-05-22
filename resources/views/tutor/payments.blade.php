@@ -31,8 +31,8 @@
                                 Test Series</a> -->
 
             </div>
-            <form id="payment-search" class="">
-
+            <form action="{{route('tutor.paymentsearch')}}" method="POST" class="">
+                @csrf
                 <div class="form-group mt-">
                     <div class="row">
                         <div class="col-md-3">
@@ -55,7 +55,7 @@
 
                             <div class="row mt-4">
                                 <div class="col-md-12">
-                                    <button class="btn  btn-primary float-right">Search</button>
+                                    <button class="btn  btn-primary float-right" type="submit">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <th>Student Name </th>
                             <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th>Tutor</th>
+                            {{-- <th>Tutor</th> --}}
                             <th>Transaction Date</th>
                             <th>Trasaction Id</th>
                             <th>Amount Paid</th>
@@ -86,10 +86,10 @@
                         @foreach ($payments as $payment)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a href="studentprofile/{{$payment->student_id}}">{{ $payment->student_name }}</a></td>
+                            <td>{{ $payment->student_name }}</td>
                             <td>{{ $payment->class_name }}</td>
                             <td>{{ $payment->subject_name }}</td>
-                            <td><a href="tutorprofile/{{$payment->tutor_id}}">{{ $payment->tutor_name }}</a></td>
+                            {{-- <td><a href="tutorprofile/{{$payment->tutor_id}}">{{ $payment->tutor_name }}</a></td> --}}
                             <td>{{ $payment->transaction_date }}</td>
                             <td>{{ $payment->transaction_no }}</td>
                             <td>{{ $payment->transaction_amount }}</td>
@@ -207,65 +207,5 @@
                 $('#paginationContainer').html(data.pagination);
             }
 
-            $(document).ready(function() {
-                $('#payment-search').submit(function(e) {
-                    e.preventDefault();
-                    const page = 1;
-                    const ajaxUrl = '{{ route("tutor.paymentsearch") }}'
-                    var formData = $(this).serialize();
-
-                    formData += `&page=${page}`;
-
-                    $.ajax({
-                        type: 'post',
-                        url: ajaxUrl, // Define your route here
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-
-                        success: function(data) {
-                            // console.log(data)
-                            updateTableAndPagination(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-
-                });
-
-
-                $(document).on('click', '#paginationContainer .pagination a', function(e) {
-                    e.preventDefault();
-
-                    const page = $(this).attr('href').split('page=')[1];
-
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ route("tutor.paymentsearch") }}', // Define your route here
-                        data: {
-
-
-                            end_date: $('input[name="end_date"]').val(),
-                            start_date: $('input[name="start_date"]').val(),
-                            transaction_id: $('input[name="transaction_id"]').val(),
-                            page: page
-                        },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(data) {
-                            updateTableAndPagination(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                });
-
-
-
-            });
             </script>
             @endsection

@@ -62,7 +62,7 @@
                                     <th scope="col">Class</th>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Topic</th>
-                                    <th scope="col">Batch</th>
+                                    {{-- <th scope="col">Batch</th> --}}
                                     <th scope="col">Assignment Name</th>
                                     <th scope="col">Assignment Description</th>
                                     <th scope="col">Assignment Link</th>
@@ -81,7 +81,7 @@
                                         <td>{{ $assignment->class }}</td>
                                         <td>{{ $assignment->subject }}</td>
                                         <td>{{ $assignment->topic }}</td>
-                                        <td>{{ $assignment->batch }}</td>
+                                        {{-- <td>{{ $assignment->batch }}</td> --}}
                                         <td>{{ $assignment->assignment_name }}</td>
                                         <td>{{ $assignment->assignment_description }}</td>
                                         <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
@@ -104,9 +104,14 @@
                                         <a class="btn btn-sm btn-success"
                                             ><span class="fa fa-check"></span> Assignment Submitted</a>
                                     @else
+                                    @if (session('usertype') == 'Parent')
+                                    <a class="btn btn-sm btn-danger"
+                                            > Not Submitted</a>
+                                        @else
                                         <button class="btn btn-sm btn-primary"
-                                            onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
-                                            data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
+                                        onclick="openmodal('{{ $assignment->assignment_id }}');" data-toggle="modal"
+                                        data-target="#openmodal"><span class="fa fa-cloud-upload"></span> Submit Assignment</button>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

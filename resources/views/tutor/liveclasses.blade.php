@@ -31,8 +31,8 @@
             @endif
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Upcoming Classes </h3>
-                <button class="btn btn-sm btn-primary" onclick="openclassmodal();"><i class="ri-calendar-todo-fill"></i>
-                    Schedule Class</button>
+                <a href="tutorslots"><button class="btn btn-sm btn-success"><i class="ri-calendar-todo-fill"></i>
+                    View Slots</button></a>
             </div>
 
             <div class="mt-4 table-responsive" id="">
@@ -41,14 +41,14 @@
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
-                            {{-- <th scope="col">Meeting ID</th> --}}
                             <th scope="col">Status</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Topic</th>
-                            <th scope="col">Start Time</th>
+                            <th scope="col">Slot Date</th>
+                            <th scope="col">Slot Time
                             <th scope="col">Duration</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="text-center" >Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,16 +67,18 @@
                                 <span class="badge bg-success">Started</span>
                                 @elseif ($liveclass->status == 'cancelled' || $liveclass->status == 'Cancelled')
                                 <span class="badge bg-danger">Cancelled</span>
-                                {{-- @elseif ($liveclasses->status == 5)
-                                        <span class="badge bg-danger">{{ $liveclasses->currentstatus }}</span>
-                                @elseif ($liveclasses->status == 8)
+                                
+                                @elseif ($liveclass->status == 'Completed' || $liveclasses->status == 'completed')
+                                        <span class="badge bg-success">Completed</span>
+                                {{-- @elseif ($liveclasses->status == 8)
                                 <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
                                 @endif
                             </td>
-                            <td>{{ $liveclass->subjects }}</td>
-                            <td>{{ $liveclass->batch }}</td>
-                            <td>{{ $liveclass->topics }}</td>
-                            <td>{{ $liveclass->start_time }}</td>
+                            <td>{{ $liveclass->studentname }}</td>
+                            <td>{{ $liveclass->classname }}</td>
+                            <td>{{ $liveclass->subjectname }}</td>
+                            <td>{{ \Carbon\Carbon::parse($liveclass->slotdate)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($liveclass->slottime)->format('h:i A') }}</td>
                             <td>{{ $liveclass->duration }} min</td>
 
                             <td class="btns gap-2 text-nowrap">
@@ -337,7 +339,7 @@
                                     <input type="text" class="form-control" placeholder="Paste Video Link Here" name="video_link">
                                 </div>
                             </div>
-                            <div style="float:right; margin-top:5px">
+                            <div style="float:right; margin-top:5px; margin-bottom:5px">
                                 <button class="btn btn-sm btn-success">Submit</button>
                             </div>
                         </div>

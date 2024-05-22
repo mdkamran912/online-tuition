@@ -27,17 +27,20 @@
             <h3 class="text-center">Completed Classes </h3>
             <div class="mt-4" id="">
 
-                <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+              <div class="table-responsive">
+              <table class="table table-hover table-striped align-middlemb-0 ">
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
                             {{-- <th scope="col">Meeting ID</th> --}}
+                            <th scope="col">Student</th>
+                            <th scope="col">Class</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Topic</th>
-                            <th scope="col">Start Time</th>
+                            <th scope="col">Slot Date</th>
+                            <th scope="col">Slot Time</th>
                             <th scope="col">Duration</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Attendance</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -48,10 +51,11 @@
                            
                             <td>{{ $loop->iteration }}</td>
                             {{-- <td>{{ $liveclass->meeting_id }}</td> --}}
+                            <td>{{ $liveclass->student }}</td>
+                            <td>{{ $liveclass->class }}</td>
                             <td>{{ $liveclass->subjects }}</td>
-                            <td>{{ $liveclass->batch }}</td>
-                            <td>{{ $liveclass->topics }}</td>
-                            <td>{{ $liveclass->start_time }}</td>
+                            <td>{{ \Carbon\Carbon::parse($liveclass->slotdate)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($liveclass->slottime)->format('h:i A') }}</td>
                             <td>{{ $liveclass->duration }}</td>
                             {{-- <td>{{ $liveclass->status }}</td> --}}
                             <td>
@@ -69,10 +73,16 @@
                                     <span class="badge bg-primary">{{ $liveclasses->currentstatus }}</span> --}}
                                 @endif
                             </td>
-                            @php
-                                $formattedStartTime = date('Y-m-d\TH:i:s\Z', strtotime($liveclass->start_time));
-                            @endphp
-                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal({{ $liveclass->batch_id }},{{ $liveclass->class_id }},{{$liveclass->subject_id}},{{$liveclass->topic_id}},'{{ $formattedStartTime }}',{{$liveclass->id}});">Attendance</button></td>
+                            <td>
+                                @if ($liveclass->student_present == '0')
+                                    <span class="badge bg-primary">Absent</span>
+                                @elseif ($liveclass->student_present == '1')
+                                    <span class="badge bg-success">Present</span>
+                                @else
+                                    <span class="badge bg-danger">Not taken</span>
+                                @endif
+                            </td>
+                            <td><button class="btn btn-sm btn-primary" onclick="openAttModal('{{$liveclass->id}}','{{$liveclass->student}}','{{$liveclass->student_present}}')">Attendance</button></td>
 
                         </tr>
 
@@ -80,6 +90,7 @@
 
                     </tbody>
                 </table>
+              </div>
                 <div class="d-flex justify-content-center">
                     {{-- {!! $demos->links() !!} --}}
                 </div>
@@ -101,7 +112,7 @@
 
 
                         <header>
-                            <h3 class="text-center mb-4" id="header">Attendance(Batch Name)</h3>
+                            <h3 class="text-center mb-4" id="header">Attendance</h3>
                         </header>
 
                         <form action="" method="POST" enctype="multipart/form-data">
@@ -140,7 +151,7 @@
 
                         <header>
 
-                            <h3 class="text-center mb-4" id="header">Attendance(Batch Name)</h3>
+                            <h3 class="text-center mb-4" id="header">Attendance</h3>
 
                         </header>
 
@@ -158,54 +169,11 @@
                                     }
 
                                     </style>
-                                    <table class="table table-bordered newclass" style="margin: 0%;">
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Student Name</th>
-                                                <th>Present</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="studentlist">
-                                            {{-- <tr>
-                                                <td>1</td>
-                                                <td>Deepesh</td>
-                                                <td class="text-center ">
-                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deepesh</td>
-                                                <td class="text-center ">
-                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deepesh</td>
-                                                <td class="text-center ">
-                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deepesh</td>
-                                                <td class="text-center ">
-                                                    <input class="form-check-input" type="checkbox" id="checkAtt">
-                                                </td>
-                                            </tr> --}}
-
-                                        </tbody>
-                                    </table>
+                                    <h5 id="attstudentname"></h5>
+                                    <input type="checkbox" id="ispresent" name="ispresent"><span><label for="ispresent">&nbsp; Check to mark as present</label></span>
                                 </div>
                             </div>
 
-                            <input type="hidden" id="post_class_id" name="post_class_id">
-                            <input type="hidden" id="post_subject_id" name="post_subject_id">
-                            <input type="hidden" id="post_topic_id" name="post_topic_id">
-                            <input type="hidden" id="post_batch_id" name="post_batch_id">
-                            <input type="hidden" id="post_start_time" name="post_start_time">
                             <input type="hidden" id="post_meeting_id" name="post_meeting_id">
 
 
@@ -232,50 +200,60 @@
 
 
         <script>
-        function openAttModal(batch_id,class_id,subject_id,topic_id,start_time,meeting_id) {
-            $.ajax({
-                    url: "{{ url('tutor/batches/attendance') }}/" + batch_id,
-                    type: "GET",
-                    data: {
-                        batch_id: batch_id,
-                        class_id: class_id,
-                        subject_id: subject_id,
-                        topic_id: topic_id,
-                        start_time: start_time,
-                        meeting_id: meeting_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#studentlist').empty();
+        function openAttModal(meeting_id,studentname,status) {
+            document.getElementById('attstudentname').innerHTML = "Attendance of "+ studentname;
+            document.getElementById('post_meeting_id').value = meeting_id;
+            if(status == 1){
 
-                        $.each(result.students, function(index, student) {
-                            var isChecked = student.status === 1 ? 'checked' : '';
+                document.getElementById('ispresent').checked = true;
+            }
+            else{
+                document.getElementById('ispresent').checked = false;
 
-                            var row = `
-                                        <tr>
-                                            <td>${index + 1}</td>
-                                            <td>${student.name}</td>
-                                            <td class="text-center">
-                                                <input type="hidden" name="attendance[${index}][student_name]" value="${student.name}">
-                                                <input type="hidden" name="attendance[${index}][student_id]" value="${student.student_id}">
-                                                <input type="checkbox" name="attendance[${index}][status]" ${isChecked}>
-                                            </td>
-                                        </tr>
-                                    `;
+            }
+            // $.ajax({
+            //         url: "{{ url('tutor/batches/attendance') }}/" + batch_id,
+            //         type: "GET",
+            //         data: {
+            //             batch_id: batch_id,
+            //             class_id: class_id,
+            //             subject_id: subject_id,
+            //             topic_id: topic_id,
+            //             start_time: start_time,
+            //             meeting_id: meeting_id,
+            //             _token: '{{ csrf_token() }}'
+            //         },
+            //         dataType: 'json',
+            //         success: function(result) {
+            //             $('#studentlist').empty();
 
-                            $('#studentlist').append(row);
-                            $('#post_subject_id').val(result.subject_id);
-                            $('#post_class_id').val(result.class_id);
-                            $('#post_topic_id').val(result.topic_id);
-                            $('#post_batch_id').val(result.batch_id);
-                            $('#post_start_time').val(result.start_time);
-                            $('#post_meeting_id').val(result.meeting_id);
-                        });
+            //             $.each(result.students, function(index, student) {
+            //                 var isChecked = student.status === 1 ? 'checked' : '';
 
-                    }
+            //                 var row = `
+            //                             <tr>
+            //                                 <td>${index + 1}</td>
+            //                                 <td>${student.name}</td>
+            //                                 <td class="text-center">
+            //                                     <input type="hidden" name="attendance[${index}][student_name]" value="${student.name}">
+            //                                     <input type="hidden" name="attendance[${index}][student_id]" value="${student.student_id}">
+            //                                     <input type="checkbox" name="attendance[${index}][status]" ${isChecked}>
+            //                                 </td>
+            //                             </tr>
+            //                         `;
 
-            });
+            //                 $('#studentlist').append(row);
+            //                 $('#post_subject_id').val(result.subject_id);
+            //                 $('#post_class_id').val(result.class_id);
+            //                 $('#post_topic_id').val(result.topic_id);
+            //                 $('#post_batch_id').val(result.batch_id);
+            //                 $('#post_start_time').val(result.start_time);
+            //                 $('#post_meeting_id').val(result.meeting_id);
+            //             });
+
+            //         }
+
+            // });
             $("#studentlistmodal").modal('show');
         }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RealTimeMessage;
 use App\Http\Controllers\admin\BatchesController;
 use App\Http\Controllers\admin\ClassController;
 use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\JitsiController;
 use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\MyFavouriteController;
 use App\Http\Controllers\student\DashboardController;
 use App\Http\Controllers\tutor\TutorDashboardController;
 use App\Http\Controllers\tutor\TutorProfileController;
@@ -30,7 +32,9 @@ use App\Http\Controllers\student\TutorSearchController;
 use App\Http\Controllers\tutor\ClassScheduleController;
 use App\Http\Controllers\TutorreviewsController;
 use App\Http\Controllers\ZoomClassesController;
+use App\Http\Controllers\SlotBookingController;
 use App\Models\classes;
+use App\Models\SlotBooking;
 use App\Models\tutorreviews;
 // use App\Http\Controllers\StudentregistrationController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +52,23 @@ use Illuminate\Support\Facades\Auth;
 
 // Common Activity
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Route::get('/deepesh', function(){
+//     event(new RealTimeMessage('uyuyyuy this is a sample broadcast'));
+// });
+Route::get('/listen', function(){
+    return view('listen');
+});
+Route::get('notifications',[HomeController::class,'notifications'])->name('notifications');
+Route::get('markAsRead/{id}',[HomeController::class,'markAsRead'])->name('markAsRead');
+Route::get('checkNotificationDetails/{id}',[HomeController::class,'checkNotificationDetails'])->name('checkNotificationDetails');
+Route::get('findatutor',[HomeController::class,'findatutor'])->name('findatutor');
+Route::get('tutor-details/{id}',[HomeController::class,'tutordetails'])->name('tutordetails');
+Route::get('index/slots/search', [SlotBookingController::class, 'indexslotsearch'])->name('index.slots.search');
+
+// Route::get('findatutor', function(){
+//     return view('front-cms/findatutor');
+// });
 // Changed to new UI for Students
 Route::get('/student/register', [HomeController::class, 'std_registration'])->name('std_registration');
 Route::post('/student/register',[HomeController::class,'student_registration_form'])->name('student_registration_form');
@@ -55,6 +76,8 @@ Route::get('/student/login', [HomeController::class, 'std_login'])->name('studen
 Route::get('/student/mobile-verify',[HomeController::class,'student_mobile_verify'])->name('student_mobile_verify');
 Route::post('/student/mobile-verify',[HomeController::class,'verify_student_mobile'])->name('verify_student_mobile');
 Route::get('/student-login',[HomeController::class, 'student_login'])->name('student_login');
+Route::post('tutor-search-guest', [TutorSearchController::class, 'tutorsindexsearch'])->name('guest.tutorsindexsearch');
+Route::post('tutor-dashboard-search',[TutorSearchController::class, 'tutorsdashboardsearch'])->name('student.tutorsdashboardsearch');
 
 // Changed to new UI for Tutors
 Route::get('/tutor/register', [HomeController::class, 'ttr_registration'])->name('ttr_registration');
@@ -68,7 +91,9 @@ Route::get('/tutor-login',[HomeController::class, 'tutor_login'])->name('tutor_l
 Route::get('/parent/login', [HomeController::class, 'parent_login'])->name('parentlogin');
 Route::post('/parent/login', [HomeController::class, 'parent_login_attempt'])->name('parent.login');
 
+// Tutor search in index page
 
+Route::post('tutorsearch', [TutorSearchController::class, 'tutorsearchindex'])->name('tutorsearchindex');
 
 
 Route::get("logout", [HomeController::class, "logout"])->name("logout");
@@ -103,6 +128,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::get('searchtutor', [TutorSearchController::class, 'index'])->name('student.searchtutor');
     Route::get('sorttutor/{value}/{type}', [TutorSearchController::class, 'sorttutor'])->name('student.sorttutor');
     Route::post('tutoradvs', [TutorSearchController::class, 'tutoradvs'])->name('student.tutoradvs');
+    // Route::post('tutoradvs')
     // student demo
     Route::get('demolist', [DemoListController::class, 'index'])->name('student.demolist');
     Route::post('bookdemo', [DemoListController::class, 'bookdemo'])->name('student.bookdemo');
@@ -110,8 +136,14 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::post('demolist-search', [DemoListController::class, 'demolistSearch'])->name('student.demolist-search');
     // Purchase Class
     Route::post('purchaseclass', [TutorSearchController::class, 'purchaseclass'])->name('student.purchaseclass');
+    // Enroll Now with slot selection
+    Route::get('enrollnow/{id}', [TutorSearchController::class, 'enrollnow'])->name('student.admission');
+    // Enroll Update with Slot Selections
+    Route::get('enrollupdate/{id}', [TutorSearchController::class, 'enrollupdate'])->name('student.enrollupdate');
+    Route::post('updateslots', [TutorSearchController::class, 'updateslots'])->name('student.updateslots');
     // Subjects
     Route::get('subjects', [SubjectsController::class, 'index'])->name('student.subjects');
+    Route::get('subjectlist', [SubjectsController::class, 'subjectlist'])->name('student.subjectlist');
     // Syllabus
     Route::get('subjects/syllabus/{id}', [SubjectsController::class, 'getsyllabus'])->name('student.subjects.syllabus');
     // My Learning
@@ -133,8 +165,10 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     Route::get('messages', [MessagesController::class, 'messagesbystudent'])->name('student.messages');
     Route::get('adminmessages', [MessagesController::class, 'messagesbystudentadmins'])->name('student.messages.admins');
     Route::get('adminmessages/{id}', [MessagesController::class, 'messagesbystudentadminmessages'])->name('student.messages.adminmessages');
+    Route::get('adminmessagesload/{id}', [MessagesController::class, 'messagesbystudentadminmessagesload'])->name('student.messages.adminmessagesload');
     Route::get('tutormessages', [MessagesController::class, 'messagesbystudenttutor'])->name('student.messages.tutor');
     Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbystudenttutormessages'])->name('student.messages.tutormessages');
+    Route::get('tutormessagesload/{id}', [MessagesController::class, 'messagesbystudenttutormessagesload'])->name('student.messages.tutormessagesload');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbystudent'])->name('student.messages.send');
     // Assignments
     Route::get('assignments',[AssignmentsController::class,'studentassignmentslist'])->name('student.assignments.list');
@@ -154,12 +188,11 @@ Route::group(['prefix' => 'student', 'middleware' => ['StudentAuthenticate']], f
     // Route::post('/save-responses', 'OnlineTestController@saveResponses')->name('student.save.responses');
     Route::post('storeSubjectiveDataInTemporaryTable', [OnlineTestController::class, 'storeSubjectiveDataInTemporaryTable'])->name('student.storeSubjectiveDataInTemporaryTable');
     Route::post('getAnswerFromSubjectiveTempTable', [OnlineTestController::class, 'getAnswerFromSubjectiveTempTable'])->name('student.getAnswerFromSubjectiveTempTable');
-
-
-
+    // Reports
     Route::get('attendance-reports',[ClassController::class,'student_attendance_report'])->name('student.attendance.report');
     Route::get('class-reports',[ClassController::class,'student_class_report'])->name('student.class.report');
-
+    // My Favourites
+    Route::get('addfav/{id}',[MyFavouriteController::class,'addfav'])->name('student.addfav');
 });
 
 // Admin Routes
@@ -174,6 +207,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('class', [ClassController::class, 'index'])->name('admin.class');
     Route::post('class', [ClassController::class, 'store'])->name('admin.class.create');
     Route::get('class/status', [ClassController::class, 'status'])->name('admin.class.status');
+    Route::get('scheduledclasses', [ClassController::class, 'scheduledclasses'])->name('admin.scheduledclasses');
+    Route::get('tutorslots', [SlotBookingController::class, 'admintutorslots'])->name('admin.tutorslots');
+    Route::post('tutorslotssearch', [SlotBookingController::class, 'admintutorslotssearch'])->name('admin.tutorslotssearch');
+    
     // Subjects
     Route::get('subject', [SubjectController::class, 'index'])->name('admin.subject');
     Route::post('subject', [SubjectController::class, 'store'])->name('admin.subject.create');
@@ -199,16 +236,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('admin.demo.update');
     Route::get('demo/status/update', [DemoController::class, 'demostatusupdate'])->name('admin.demo.status.update');
     Route::post('demolist-search', [DemoController::class, 'demolistsearch'])->name('admin.demolist-search');
+    Route::post('scheduledclass-search', [ClassController::class, 'scheduledsearch'])->name('admin.scheduledclass-search');
     // student profile from admin side
     Route::get('studentprofile/{id}', [StudentProfileController::class, 'studentprofile'])->name('admin.studentprofile');
     Route::get('students', [StudentProfileController::class, 'studentslist'])->name('admin.students');
     Route::get('students/status', [StudentProfileController::class, 'status'])->name('admin.students.status');
     Route::post('students-search', [StudentProfileController::class, 'studentslistsearch'])->name('admin.students-search');
     // tutor profile view by admin
-    Route::get('tutorprofile/{id}', [TutorSearchController::class, 'tutorprofile'])->name('admin.tutorprofile');
+    Route::get('tutorprofile/{id}', [TutorSearchController::class, 'admintutorprofile'])->name('admin.tutorprofile');
     Route::get('tutors', [TutorSearchController::class, 'tutorslist'])->name('admin.tutors');
     Route::get('tutors/status', [TutorSearchController::class, 'status'])->name('admin.tutors.status');
     Route::post('tutors-search', [TutorSearchController::class, 'tutorslistsearch'])->name('admin.tutors-search');
+    // Tutor slots check
+    Route::get('tutorslotscheck/{id}',[TutorSearchController::class, 'tutorslotscheck'])->name('admin.tutorslotscheck');
+    Route::post('adminslotsdelete', [SlotBookingController::class, 'slotsdelete'])->name('admin.slots.delete');
+    Route::post('adminslotsupdate', [SlotBookingController::class, 'slotsupdate'])->name('admin.slots.update');
+    
     // Admin Commission
     Route::get('commission/update',[TutorSearchController::class,'commissionupdate'])->name('admin.commission.update');
     // Payment details
@@ -275,9 +318,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('messages', [MessagesController::class, 'messagesbyadmin'])->name('admin.messages');
     Route::get('studentmessages', [MessagesController::class, 'messagesbyadminstudents'])->name('admin.messages.students');
     Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbyadminstudentmessages'])->name('admin.messages.studentmessages');
+    Route::get('studentmessagesload/{id}', [MessagesController::class, 'messagesbyadminstudentmessagesload'])->name('admin.messages.studentmessagesload');
     Route::get('adminclearsstudentmessages/{id}', [MessagesController::class, 'chatClearAdminstudent'])->name('admin.messages.clearstudentmessages');
     Route::get('tutormessages', [MessagesController::class, 'messagesbyadmintutor'])->name('admin.messages.tutors');
     Route::get('tutormessages/{id}', [MessagesController::class, 'messagesbyadmintutormessages'])->name('admin.messages.tutormessages');
+    Route::get('tutormessagesload/{id}', [MessagesController::class, 'messagesbyadmintutormessagesload'])->name('admin.messages.tutormessagesload');
     Route::get('chatClearAdmintutor/{id}', [MessagesController::class, 'chatClearAdmintutor'])->name('admin.messages.cleartutormessages');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
     // Admin Reports
@@ -312,6 +357,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('demodetails/{id}', [DemoController::class, 'demodetails'])->name('admin.demodetails');
     Route::post('demolist-search', [DemoController::class, 'tutorDemolistsearch'])->name('tutor.demolist-search');
     Route::post('demo/confirm', [GoogleCalendarController::class, 'democonfirm'])->name('tutor.demo.confirm');
+    Route::post('demo/end', [GoogleCalendarController::class, 'demoend'])->name('tutor.demo.end');
     Route::post('demo/update', [DemoController::class, 'demoupdate'])->name('tutor.demo.update');
     Route::get('demo/status/update', [DemoController::class, 'demostatusupdate'])->name('tutor.demo.status.update');
     // Tutor Batches
@@ -319,6 +365,9 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
     Route::any('batches/attendance/{id}', [BatchesController::class, 'tutorbatchesattendance'])->name('tutor.batches.attendance');
     Route::post('batches/update-attendance', [BatchesController::class, 'tutorBatcheUpdateattendance'])->name('tutor.batches.update-attendance');
+    
+    // Student Lists(Enrolled)
+    Route::get('students', [BatchesController::class, 'tstudentlists'])->name('tutor.studentslist');
 
 
     // Tutor Classes
@@ -338,6 +387,11 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('getuser', [ZoomClassesController::class, 'getzoomuser'])->name('tutor.liveclass.getuser');
     Route::get('getclasslist', [GoogleCalendarController::class, 'classlist'])->name('tutor.liveclass.classlist');
     Route::get('liveclass/status/update',[ZoomClassesController::class,'liveclassstatusupdate'])->name('tutor.liveclass.status.update');
+    // tutor Slot Creation
+    Route::get('tutorslots', [SlotBookingController::class, 'tutorslots'])->name('tutor.tutorslots');
+    Route::post('tutorslots', [SlotBookingController::class, 'slotscreate'])->name('tutor.slots.create');
+    Route::post('tutorslotsdelete', [SlotBookingController::class, 'slotsdelete'])->name('tutor.slots.delete');
+    Route::get('tutor/tutorslotsearch', [SlotBookingController::class, 'tutorslotsearch'])->name('tutor.slots.search');
     // Route::get('getclass-bkp', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');
     Route::get('getclass', [GoogleCalendarController::class, 'classlist'])->name('tutor.meet.classlist');
     // Route::post('classschedule-bkp', [ZoomClassesController::class, 'scheduleclass'])->name('tutor.liveclass.scheduleclass-bkp');
@@ -349,8 +403,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('messages', [MessagesController::class, 'messagesbytutor'])->name('tutor.messages');
     Route::get('adminmessages', [MessagesController::class, 'messagesbytutoradmins'])->name('tutor.messages.admins');
     Route::get('adminmessages/{id}', [MessagesController::class, 'messagesbytutoradminmessages'])->name('tutor.messages.adminmessages');
+    Route::get('adminmessagesload/{id}', [MessagesController::class, 'messagesbytutoradminmessagesload'])->name('tutor.messages.adminmessagesload');
     Route::get('studentmessages', [MessagesController::class, 'messagesbytutorstudents'])->name('tutor.messages.students');
     Route::get('studentmessages/{id}', [MessagesController::class, 'messagesbytutorstudentmessages'])->name('tutor.messages.studentmessages');
+    Route::get('studentmessagesload/{id}', [MessagesController::class, 'messagesbytutorstudentmessagesload'])->name('tutor.messages.studentmessagesload');
     Route::post('sendmessage', [MessagesController::class, 'messagesentbytutor'])->name('tutor.messages.send');
    //payments
    Route::get('payments', [PaymentsController::class, 'tutorStudentPayments'])->name('tutor.payments');
@@ -378,7 +434,10 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::post('onlinetestlist-search', [OnlineTestController::class, 'tutoronlinetestSearch'])->name('tutor.onlinetests-search');
     Route::post('fetchquestions', [OnlineTestController::class, 'tutorfetchquestions'])->name('tutor.fetchquestions');
     Route::get('onlinetest/status', [OnlineTestController::class, 'tutorstatus'])->name('tutor.onlinetest.status');
-
+    Route::get('onlinetest/assign/status', [OnlineTestController::class, 'assignteststatus'])->name('tutor.onlinetestassign.status');
+    Route::get('assigntest/{id}', [OnlineTestController::class, 'assigntest'])->name('tutor.assigntest');
+    Route::post('assigntestdata', [OnlineTestController::class, 'assigntestdata'])->name('tutor.assigntestdata');
+    Route::post('assigntestdelete', [OnlineTestController::class, 'assigntestdelete'])->name('tutor.assigntest.delete');
     // tutor subjective responses
     Route::get('onlinetestresponseslist', [OnlineTestController::class, 'onlinetestresponseslistTutor'])->name('tutor.onlinetests.responses.list');
     Route::get('onlinetests/responses/{id}', [OnlineTestController::class, 'onlinetestresponseTutor'])->name('tutor.onlinetests.responses');
@@ -386,6 +445,9 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::post('onlinetests/responses/correction/{response_id}', [OnlineTestController::class, 'testCorrection'])->name('tutor.onlinetests.responses.correction');
     Route::post('subjectiveTests/responses/search', [OnlineTestController::class, 'subjTestsSearch'])->name('tutor.subjectiveTests-search');
     Route::post('studentwise/subjectiveResponses/{id}', [OnlineTestController::class, 'studentwiseSubjSearch'])->name('tutor.studentwise.subjectiveResponses');
+    // Student Test Wise Report
+    Route::get('exam/report/{id}', [OnlineTestController::class, 'tutortestreport'])->name('tutor.test.report');
+
 });
 // parent routes
 Route::group(['prefix' => 'parent', 'middleware' => ['StudentAuthenticate']], function () {
@@ -459,6 +521,39 @@ Route::group(['prefix' => 'parent', 'middleware' => ['StudentAuthenticate']], fu
     Route::get('class-reports',[ClassController::class,'student_class_reportParent'])->name('parent.class.report');
 
 });
+
 // Create Jitsi Meeting
 Route::get('/jitsi', [JitsiController::class, 'index']);
 Route::get('oauth2callback', [GoogleCalendarController::class,'oauthCallback'])->name('oauth2callback');
+Route::get('tutorprofile/{id}', [TutorSearchController::class, 'teacherprofile'])->name('tutorprofile');
+
+
+
+// kamran---------------------
+
+
+Route::get('howitworks', function(){
+    return view('front-cms/howitworks');
+});
+
+Route::get('price', function(){
+    return view('front-cms/price');
+});
+
+Route::get('allsubjects',[HomeController::class,'allsubjects'])->name('allsubjectindex');
+
+Route::get('courses', function(){
+    return view('front-cms/courses');
+});
+
+Route::get('aboutus', function(){
+    return view('front-cms/aboutus');
+});
+
+Route::get('blog', function(){
+    return view('front-cms/blog');
+});
+
+Route::get('contact', function(){
+    return view('front-cms/contact');
+});

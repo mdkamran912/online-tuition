@@ -17,11 +17,11 @@
     }
 
     .chat-messages {
-        display: flex;
-        flex-direction: column;
-        max-height: 500px;
-        overflow-y: scroll;
-    }
+            display: flex;
+            max-height: 300px;
+            flex-direction: column-reverse; /* Reverse message order */
+            overflow-y: scroll; /* Enable scrolling */
+            }
 
     .chat-message-left,
     .chat-message-right {
@@ -138,7 +138,7 @@
                             <div class="d-flex align-items-start m-3">
 
                                 @if (empty($userlist->profile_pic))
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                <img src="https://mychoicetutor.com/new-styles/assets/images/users/avatar-1.jpg"
                                     class="rounded-circle mr-1" alt="Richard" width="40" height="40">
                                 @else
                                 @if ($userlist->role_id == 2)
@@ -179,7 +179,7 @@
                             <div class="d-flex align-items-center py-1 ">
                                 <div class="position-relative">
                                     @if (empty($header->profile_pic))
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                    <img src="https://mychoicetutor.com/new-styles/assets/images/users/avatar-1.jpg"
                                         class="rounded-circle mr-1" alt="Richard" width="40" height="40">
                                     @else
                                     @if ($header->role_id == 2)
@@ -201,7 +201,7 @@
                             </div>
                         </div>
                         @endif
-                        <div class="position-relative chatarea">
+                        <div class="position-relative chatarea" id="chatbox">
                             <div class="chat-messages p-4">
 
                                 @if (empty($messages))
@@ -218,7 +218,7 @@
                             </div> --}}
                             <div class="chat-message-right pb-4">
                                 <div>
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                    <img src="https://mychoicetutor.com/new-styles/assets/images/users/avatar-1.jpg"
                                         class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
                                     <div class="text-muted small text-nowrap mt-2">
                                         {{ $message->created_at }}</div>
@@ -242,7 +242,7 @@
                                 <img src="{{ url('images/tutors/profilepics') }}/{{ $header->profile_pic }}"
                                     class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
                                 @elseif ($header->role_id == 1)
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                <img src="https://mychoicetutor.com/new-styles/assets/images/users/avatar-1.jpg"
                                     class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
                                 @endif
 
@@ -309,6 +309,36 @@
 
 
 </div>
+<script>
+    // Function to reload chat messages using AJAX
+    function reloadChat() {
+    var RoleId = <?php echo isset($header->role_id) ? json_encode($header->role_id) : '""'; ?>;
+console.log(RoleId);
+var UrlId = <?php echo isset($header->id) ? json_encode($header->id) : '""'; ?>;
+// AJAX request to fetch updated chat messages
+var url = "";
+@if(isset($header) && $header !== null)
+// Set the URL based on the RoleId
+if (RoleId == 2) {
+    url = "/admin/tutormessagesload/" + UrlId;
+} else {
+    url = "/admin/studentmessagesload/" + UrlId;
+}
+$.ajax({
+    url: url,
+    method: 'GET',
+    success: function(response) {
+        // Update the chat messages section with the fetched content
+        $('#chatbox').html(response);
+        
+    }
+});
+@endif
+    }
+
+    // Reload chat messages every 10 seconds
+    setInterval(reloadChat, 10000);
+</script>
 <!-- content-wrapper ends -->
 @endsection
 

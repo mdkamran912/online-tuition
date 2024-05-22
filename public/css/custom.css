@@ -9,7 +9,10 @@
     float: right;
 }
 
+.readonly {
+    background-color: rgb(234, 233, 233) !important;
 
+}
 
 #listHeader h3 {
     margin: 0 auto;
@@ -24,8 +27,8 @@
 
 .card {
     padding: 1.5em 0.5em 0.5em;
-    border-radius: 2em;
-    text-align: center;
+    border-radius: 0.75em;
+    /* text-align: center; */
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -538,4 +541,482 @@ input[type="range"]::-ms-thumb {
     line-height: 1;
  }
 
+ .back button{
+    background-color: rgb(206, 56, 56);
+ }
+
+ .btns {
+    display: flex;
+    justify-content: end;
+ }
+
+
+
+ .dashCard p{
+    font-size: 16px;
+  }
+
+  .dashCard h2{
+    font-size: 36px;
+  }
+
+  .dashboardcard{
+    padding: 0px;
+  }
+
+.cardTitle{
+    display: flex;
+    justify-content:space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+.dash_table{
+    height: 340px;
+}
+
+.dash_table thead tr td{
+    text-align: left;
+}
+.dayTime{
+    display: grid;
+    
+}
+  
+.namePic{
+    display: flex;
+
+}
+
+.namePic img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+
+
+.live{
+    font-size: smaller;
+    background-color: #fbeae9;
+    padding: 0px 20px 0px 20px;
+    outline: 1px solid #ec3131;
+    border-radius: 3px;
+}
+
+
+
+.joinclass button{
+    background-color: rgb(64, 184, 64) !important;
+}
+
+.confirm{
+    background-color: #D2FFCB; 
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    border-radius: 3px;
+    
+}
+
+.pending{
+    background-color: #FFEACB;
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    border-radius: 3px;
+}
+
+.test{
+    font-size: smaller;
+    padding: 1px 15px 1px 15px;
+    outline: 1px solid #6EE35B;
+    border-radius: 3px;
+    color: #6EE35B;
+    font-weight: 500;
+
+}
+
+.endClass{
+    font-size: smaller;
+    padding: 1px 5px 1px 5px;
+    /* outline: 1px solid #5AB98B; */
+    background-color: #5AB98B;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.startClass{
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    background-color: #88B0F1;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.hrsLeft{
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    background-color: #F3F3F5;
+    border-radius: 3px;
+    color: #939398;
+    font-weight: 500;
+}
+
+.apprv{
+    display: flex;
+    gap: 5px;
+}
+
+.accept{
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    background-color: #83EDBA;
+    border-radius: 3px;
+    color: #000000;
+    font-weight: 500;
+}
+.reject{
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    background-color: #FFCBCB;
+    border-radius: 3px;
+    color: #000000;
+    font-weight: 500;
+}
+
+
+
+.quizs{
+    font-weight: 500;
+    font-size: smaller;
+    padding: 1px 15px 1px 15px;
+    outline: 1px solid #87e0f7;
+    border-radius: 3px;
+    color: #87e0f7;
+}
+
+.btnarea{
+    display: flex;
+    /* justify-content: start; */
+
+}
+
+.btnarea button{
+    border-radius: 5px;
+    padding: 2px 10px 2px 10px;
+    font-size: smaller;
+    font-weight: 600;
+    margin-right: 5px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+   
+}
+
+.btn1{
+    outline:1px solid lightgray !important;
+    color: black;
+}
+
+.View_Details{
+    /* background-color: #6a42d8; */
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    border-radius: 3px;
+
+}
+
+.sliderr {
+    width: 100%;
+    /* text-align: center; */
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+   
+
+   
+}
+.slides::-webkit-scrollbar {
+    width: 10px;
+    height: 3px;
+    /* display: none; */
+}
+.slides::-webkit-scrollbar-thumb {
+    background: #405189;
+    border-radius: 10px;
+}
+.slides::-webkit-scrollbar-track {
+    background: transparent;
+}
+.slides > div {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+   
+    /* margin-right: 15px;
+    border-radius: 20px; */
+    /* background: #ccf3d9; */
+    /* border: #4caf4f 1px solid; */
+    transform-origin: center center;
+    transform: scale(1);
+    transition: transform 0.5s;
+    position: relative;
+
+   
+    
+}
+
+
+
+
+
+.tutorcard{
+    /* border: 1px solid lightgrey; */
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 10px;
+    display: flex;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
+    
+  }
+  
+  .ratePerHr{
+    width:100%;
+    position: relative;
+    top:141px;
+    background-color: black;
+    opacity: 0.7;
+    border-radius: 0 0 10px 10px;
+  
+  }
+  
+  .ratePerHr p{
+    color: White;
+    text-align: center;
+  
+  }
+  
+  .tutorcardImg{
+    width: 35%;
+  }
+  
+  .tutorDesc{
+    width: 65%;
+    
+  }
+  
+  .tutorcardImg img{
+    border-radius: 10px;
+    /* width: 140px; */
+    height: 160px;
+    margin-top: -35px;
+   
+  }
+  
+  /* .tutorcardImg p{
+    background-color: red;
+    position: relative;
+    top: -28px;
+    border-radius: 0 0 10px 10px;
+    opacity: 0.6;
+    text-align: center;
+  } */
+  
+  .tutorDesc{
+    margin-left: 20px;
+  }
+  
+  .tutorDesc .tutname{
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .tutorTable tr td{
+    font-size: 14px;
+    line-height: 2.4 !important;
+    
+  }
+  
+  .btnSec{
+    margin-top: 12px;
+    
+  }
+  
+  .btnSec button{
+    background-color: #4B3C99;
+    color: white;
+    border-radius: 5px;
+    padding: 1px 7px 1px 7px;
+    
+  }
+  
+  .btnSec button:hover{
+    background-color: #4B3C99;
+    color: white;
+  }
+  
+  .floattright{
+    float: right;
+  }
+
+  .righttutor{
+    margin: 30px 0px 30px 0px;
+  }
+
+  .righttutor button{
+    border-radius: 5px;
+    margin-top: 28px;
+    background-color: #4B3C99;
+  }
+
+  .righttutor button:hover{
+    background-color: #4B3C99;
+    color: #fff;
+  
+  }
+
+  .tutor_sub{
+    margin-top: 40px;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .tutor_sub button{
+    color: black;
+    border-radius: 0px;
+    border:0;
+  }
+
+  .tutor_sub .active {
+    border-bottom: 3px solid #162557;
+
+  }
+
+
+
+  .dashCard .circular-progress{
+   margin-left: 35px ;
+  }
+
+
+
+
+  :root {
+    --progress-bar-width: 60px;
+    --progress-bar-height: 60px;
+    --font-size: 10px;
+  }
+  .circular-progress {
+    width: var(--progress-bar-width);
+    height: var(--progress-bar-height);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #88B0F1;
+  }
+ 
+  
+  .percentage {
+    position: relative;
+    left: 13px;
+    top:10px;
+    font-size: var(--font-size) !important;
+    color: white !important;
+    font-weight: 600;
+
+  }
+  
+  @media screen and (max-width: 800px) {
+    :root {
+      --progress-bar-width: 40px;
+      --progress-bar-height: 40px;
+      --font-size: 1.3rem;
+    }
+  }
+  
+  @media screen and (max-width: 500px) {
+    :root {
+      --progress-bar-width: 30px;
+      --progress-bar-height: 30px;
+      --font-size: 1rem;
+    }
+  }
+
+ 
+
+  .subItems {
+    display: grid;  
+    height: 150px;
+   
+  }
+  .subItems ul li a{
+    float: left;
+    color: #199F8C;
+    font-size: 12px;
+  }
+
+  .subItems ::marker{
+    color: #199F8C;
+  }
+
+  .allSubjects .card{
+    width: 250px;
+  }
+
+   .subSlide{
+    margin-left: 15px !important;
+    
+  }
+
+  .allSubjects{
+    margin-top: 50px;
+  }
+
+  .submneu{
+    display: flex;
+    
+  }
+
+  .submneu img{
+    width: 20px;
+    height: 20px;
+    margin-top: 8px;
+  }
+
+
+
+  .hwMenu a{
+    padding-left: 5px;
+   }
+
+   .assign{
+    font-size: smaller;
+    padding: 1px 10px 1px 10px;
+    /* outline: 1px solid #81a6ec; */
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: 500;
+    background-color: #4B3C99;
+
+   }
+
+
+   .topCradCount{
+    text-align: center;
+   }
+
+  .menu-link img{
+    margin-right: 10px;
+  }
+   
  

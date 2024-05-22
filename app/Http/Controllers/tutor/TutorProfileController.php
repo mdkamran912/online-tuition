@@ -28,24 +28,35 @@ class TutorProfileController extends Controller
 
 
     public function tutorprofile()
-    {   $id = session('userid')->id;
+    {  
+        
+         $id = session('userid')->id;
         $classes = (new CommonController)->classes();
         $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
-            // ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-            ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->where('tutorprofiles.id', '=', $id)
+            ->leftJoin('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+            ->leftJoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->where('tutorprofiles.tutor_id','=',$id)
             ->first();
-
+        
+        // dd($tutorpd);
         $achievement = tutorachievements::select('*')
             ->where('tutor_id', '=', $id)->get();
 
+        // dd($achievement);
 
-
-        $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
-            ->join('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
-            ->where('tutorreviews.tutor_id', '=', $id)->get();
-
+            if($tutorpd){
+                $achievement = tutorachievements::select('*')->where('tutor_id', '=', session('userid')->id)->get();
+    
+    
+                $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings','studentprofiles.name as student_name','studentprofiles.profile_pic as student_pic', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
+                    ->leftjoin('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
+                    ->leftjoin('studentprofiles','studentprofiles.student_id', '=', 'tutorreviews.student_id')
+                    ->where('tutorreviews.tutor_id', '=', session('userid')->id)->get();
+            }
+            if(!$tutorpd){
+                $tutorpd = TutorRegistration::select('*')->where('id',session('userid')->id)->first();
+            }
         $tutorsub = tutorsubjectmapping::select('*','subjects.name as subject')
         ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
                     ->where('tutor_id', $id)->get();
@@ -65,13 +76,13 @@ class TutorProfileController extends Controller
     {
         $id = session('userid')->id;
         $classes = (new CommonController)->classes();
-        $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject')
+        $tutorpd = tutorprofile::select('tutorprofiles.*')
             // ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-            ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->where('tutorprofiles.id', '=', $id)
+            // ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            // ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->where('tutorprofiles.tutor_id', '=', $id)
             ->first();
-// dd($tutorpd);
+        // dd($tutorpd);
         $achievement = tutorachievements::select('*')
             ->where('tutor_id', '=', $id)->get();
 
@@ -103,11 +114,13 @@ class TutorProfileController extends Controller
             $ppic = tutorprofile::find($tutor->id)->first();
         } else {
             $ppic = new tutorprofile();
+            $ppic->email = session('userid')->email;
+            $ppic->mobile = session('userid')->mobile;
         }
         $ppic->name = session('userid')->name;
-        $ppic->mobile = session('userid')->mobile;
+        
         $ppic->secondary_mobile = $request->secmobile;
-        $ppic->email = session('userid')->email;
+        
         $ppic->goal = $request->goals;
         $ppic->qualification = $request->qualification;
         $ppic->intro_video_link = $request->introvideolink;
@@ -120,6 +133,7 @@ class TutorProfileController extends Controller
         $ppic->detail_3 = $request->details3;
         $ppic->tutor_id = session('userid')->id;
         $ppic->gender = $request->gender;
+        $ppic->rateperhour = $request->rateperhour;
         // $ppic->country_id = $request->country;
 
         if($request->file){
@@ -167,7 +181,6 @@ public function classmapping(Request $request){
     $request->validate([
         'classname'=>'required',
         'subject'=>'required',
-        'classrate'=>'required',
     ]);
     $datachk = tutorsubjectmapping::select('id')->where('tutor_id',session('userid')->id)->where('subject_id',$request->subject)->where('class_id',$request->classname)->first();
     if ($datachk) {
@@ -180,7 +193,6 @@ public function classmapping(Request $request){
     $tcmapping->teacher_id = session('userid')->id;
     $trmapping->subject_id = $request->subject;
     $tcmapping->class_id = $request->classname;
-    $trmapping->rate = $request->classrate;
     $trmapping->class_id = $request->classname;
     $res = $trmapping->save();
     $data = tutorsubjectmapping::select('id')->where('tutor_id',session('userid')->id)->where('subject_id',$request->subject)->where('class_id',$request->classname)->first();

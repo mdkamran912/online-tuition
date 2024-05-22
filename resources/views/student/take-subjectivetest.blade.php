@@ -542,7 +542,7 @@ input[type='radio'] {
             }
             document.getElementById('back').disabled = false;
             loadQuestion();
-            alert(index)
+           
         })
         .catch(error => {
             // Handle errors if any
@@ -627,7 +627,7 @@ input[type='radio'] {
                 index--;
                 loadQuestion();
             }
-           alert(index)
+          
         })
         .catch(error => {
             // Handle errors if any

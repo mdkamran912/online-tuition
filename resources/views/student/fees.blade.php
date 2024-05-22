@@ -20,7 +20,8 @@
                         <h3>Payment Details</h3>
                     </div>
 
-                    <form id="payment-search">
+                    <form action="{{route('student.payments-search')}}" method="POST">
+                        @csrf
                         <div class="row ">
                             <div class="col-md-3 mt-4">
                                 <input type="text" class="form-control" name="transaction_id" placeholder="Transaction Id">
@@ -38,7 +39,7 @@
 
 
                             <div class="col-md-3 mt-4">
-                                <button class="btn  btn-primary" style="float:right"> <span
+                                <button class="btn  btn-primary" type="submit" style="float:right"> <span
                                     class="fa fa-search"></span> Search</button>
                             </div>
                         </div>
@@ -107,62 +108,5 @@
                      $('.users-table tbody').html(data.table);
                      $('#paginationContainer').html(data.pagination);
                 }
-
-                $(document).ready(function () {
-                    $('#payment-search').submit(function (e) {
-                        e.preventDefault();
-                        const page = 1;
-                        const ajaxUrl = '{{ route("student.payments-search") }}'
-                        var formData = $(this).serialize();
-
-                        formData += `&page=${page}`;
-
-                        $.ajax({
-                            type: 'post',
-                            url: ajaxUrl, // Define your route here
-                            data: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-
-                            success: function (data) {
-                                // console.log(data)
-                                updateTableAndPagination(data);
-                            },
-                            error: function (xhr, status, error) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-
-                    });
-
-
-                    $(document).on('click', '#paginationContainer .pagination a', function (e) {
-                    e.preventDefault();
-
-                    var formData = $('#payment-search').serialize();
-
-                    const page = $(this).attr('href').split('page=')[1];
-                    formData += `&page=${page}`;
-
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ route("student.payments-search") }}', // Define your route here
-                        data: formData,
-                        headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                        success: function (data) {
-                            updateTableAndPagination(data);
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                });
-
-
-
-                });
             </script>
 @endsection

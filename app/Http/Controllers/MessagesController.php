@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\admin\admin;
 use App\Models\ch_messages;
+use App\Models\Notification;
 use App\Models\studentprofile;
 use App\Models\studentregistration;
 use App\Models\tutorprofile;
 use App\Models\tutorregistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use App\Events\RealTimeMessage;
 
 class MessagesController extends Controller
 {
@@ -65,12 +68,42 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->orderby('created_at','desc')->get();
 
         // dd($messages);
         return view('tutor.message', compact('userlists', 'header', 'messages', 'profile_pics'));
     }
+    public function messagesbytutoradminmessagesload($id)
+    {
+        $userlists = admin::select('*')
+            ->where('is_active', 1)->get();
+        $header = admin::select('*')->where('id', $id)->first();
+        $profile_pics = tutorprofile::select('profile_pic')->where('tutor_id', session('userid')->id)->first();
 
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = DB::table('ch_messages')
+            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->orderby('created_at','desc')->get();
+
+        // dd($messages);
+        return view('tutor.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
     public function messagesbytutorstudentmessages($id)
     {
         $userlists = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
@@ -101,13 +134,49 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->orderby('created_at','desc')->get();
 
 
 
         return view('tutor.message', compact('userlists', 'header', 'messages', 'profile_pics'));
     }
 
+    public function messagesbytutorstudentmessagesload($id)
+    {
+        $userlists = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
+            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
+            ->where('is_active', 1)->get();
+        $header = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
+            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
+            ->where('studentregistrations.is_active', 1)->where('studentregistrations.id', $id)
+            ->first();
+        $profile_pics = tutorprofile::select('profile_pic')->where('tutor_id', session('userid')->id)->first();
+
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = DB::table('ch_messages')
+            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->orderby('created_at','desc')->get();
+
+
+
+        return view('tutor.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
     public function messagesentbytutor(Request $request)
     {
 
@@ -128,6 +197,42 @@ class MessagesController extends Controller
 
         $res = $data->save();
         if ($res) {
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 1;
+            $notificationdata->notification = $request->message;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $data->id;
+            // Sending to admin
+            if($request->receiver_role_id == 1){
+                $notificationdata->show_to_admin = 1;
+                $notificationdata->show_to_admin_id = $request->receiver_id;
+                // $notificationdata->show_to_all_admin = 1;
+            }
+            // Sending to tutor
+            if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $request->receiver_id;
+                // $notificationdata->show_to_all_tutor = 0;
+            }
+            // Sending to student
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_student = 1;
+                $notificationdata->show_to_student_id = $request->receiver_id;
+                // $notificationdata->show_to_all_student = 0;
+            }
+            // Sending to parent
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_parent = 1;
+                $notificationdata->show_to_parent_id = $request->receiver_id;
+                // $notificationdata->show_to_all_parent = 0;
+            }
+            $notificationdata->read_status = 0;
+
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
+
             return back()->with('success', 'Message sent successfully!');
             // return redirect('student/dashboard');
         } else {
@@ -138,6 +243,10 @@ class MessagesController extends Controller
     // Messages by student
     public function messagesbystudent()
     {
+        $prof_chk = studentprofile::select('*')->where('student_id','=',session('userid')->id)->count();
+        if ($prof_chk == 0) {
+            return redirect()->route('student.dashboard')->with('fail', 'Please update your profile details to start messaging. Click on profile > Edit Profile');
+        }
         $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
             ->where('is_active', 1)->get();
@@ -186,10 +295,41 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->orderby('created_at', 'desc')->get();
 
         // dd($messages);
         return view('student.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
+    public function messagesbystudentadminmessagesload($id)
+    {
+        $userlists = admin::select('*')
+            ->where('is_active', 1)->get();
+        $header = admin::select('*')->where('id', $id)->first();
+        $profile_pics = studentprofile::select('profile_pic')->where('student_id', session('userid')->id)->first();
+
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = DB::table('ch_messages')
+            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->orderby('created_at', 'desc')->get();
+
+        // dd($messages);
+        return view('student.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
     }
 
     public function messagesbystudenttutormessages($id)
@@ -225,15 +365,62 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->orderby('created_at', 'desc')->get();
 
 
 
+        // return view('student.partial_chat_messages', ['messages' => $messages], compact('userlists', 'header', 'profile_pics'));
         return view('student.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+        
+
+    // Render messages HTML and return
+    }
+    public function messagesbystudenttutormessagesload($id)
+    {
+
+        $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
+            ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->where('is_active', 1)->get();
+        $header = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
+            ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->where('tutorregistrations.is_active', 1)->where('tutorregistrations.id', $id)
+            ->first();
+
+
+        $profile_pics = studentprofile::select('profile_pic')->where('student_id', session('userid')->id)->first();
+
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = DB::table('ch_messages')
+            ->where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->orderby('created_at', 'desc')->get();
+
+
+
+        return view('student.partial_chat_messages', ['messages' => $messages], compact('userlists', 'header', 'profile_pics'));
+        // return view('student.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+        
+
+    // Render messages HTML and return
     }
     public function messagesentbystudent(Request $request)
     {
-
+       
         $request->validate([
             'receiver_role_id' => 'required',
             'receiver_id' => 'required',
@@ -248,11 +435,48 @@ class MessagesController extends Controller
         $data->to_role_id = $request->receiver_role_id;
         $data->body = $request->message;
         $data->seen = "0";
-
+        echo $request->receiver_role_id;
         $res = $data->save();
+        
         if ($res) {
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 1;
+            $notificationdata->notification = $request->message;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $data->id;
+            // Sending to admin
+            if($request->receiver_role_id == 1){
+                $notificationdata->show_to_admin = 1;
+                $notificationdata->show_to_admin_id = $request->receiver_id;
+                // $notificationdata->show_to_all_admin = 1;
+            }
+            // Sending to tutor
+            if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $request->receiver_id;
+                // $notificationdata->show_to_all_tutor = 0;
+            }
+            // Sending to student
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_student = 1;
+                $notificationdata->show_to_student_id = $request->receiver_id;
+                // $notificationdata->show_to_all_student = 0;
+            }
+            // Sending to parent
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_parent = 1;
+                $notificationdata->show_to_parent_id = $request->receiver_id;
+                // $notificationdata->show_to_all_parent = 0;
+            }
+            $notificationdata->read_status = 0;
+
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
+
             return back()->with('success', 'Message sent successfully!');
-            // return redirect('student/dashboard');
+            
         } else {
             return back()->with('fail', 'Message sending failed');
         }
@@ -317,10 +541,47 @@ class MessagesController extends Controller
                     ->where('to_role_id', $senderRoleId);
                     // ->whereNull('deleted_at');
             })
-            ->get();
+            ->orderby('created_at', 'desc')->get();
 
         // dd($messages);
         return view('admin.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
+    public function messagesbyadminstudentmessagesload($id)
+    {
+        $userlists = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
+            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
+            ->where('is_active', 1)->get();
+        $header = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
+            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
+            ->where('studentregistrations.is_active', 1)->where('studentregistrations.id', $id)
+            ->first();
+        $profile_pics = studentprofile::select('profile_pic')->where('student_id', session('userid')->id)->first();
+
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages =  ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+                    // ->whereNull('deleted_at');
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+                    // ->whereNull('deleted_at');
+            })
+            ->orderby('created_at', 'desc')->get();
+
+        // dd($messages);
+        return view('admin.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
     }
 
     public function chatClearAdminstudent($id)
@@ -365,7 +626,8 @@ class MessagesController extends Controller
             ->where('is_active', 1)->get();
         $header = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
-            ->where('tutorregistrations.is_active', 1)->where('tutorregistrations.id', $id)
+            // ->where('tutorregistrations.is_active', 1)->where('tutorregistrations.id', $id)
+            ->where('tutorregistrations.id', $id)
             ->first();
 
 
@@ -390,11 +652,51 @@ class MessagesController extends Controller
                     ->where('from_role_id', $receiverRoleId)
                     ->where('to_role_id', $senderRoleId);
             })
-            ->get();
+            ->orderby('created_at', 'desc')->get();
 
 
 
         return view('admin.message', compact('userlists', 'header', 'messages', 'profile_pics'));
+    }
+    public function messagesbyadmintutormessagesload($id)
+    {
+
+        $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
+            ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->where('is_active', 1)->get();
+        $header = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
+            ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            // ->where('tutorregistrations.is_active', 1)->where('tutorregistrations.id', $id)
+            ->where('tutorregistrations.id', $id)
+            ->first();
+
+
+        $profile_pics = studentprofile::select('profile_pic')->where('student_id', session('userid')->id)->first();
+
+
+        $senderId = session('userid')->id;
+        $receiverId = $id;
+        $senderRoleId = session('userid')->role_id;
+        $receiverRoleId = $header->role_id;
+
+        $messages = ch_messages::
+            where(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $senderId)
+                    ->where('to_id', $receiverId)
+                    ->where('from_role_id', $senderRoleId)
+                    ->where('to_role_id', $receiverRoleId);
+            })
+            ->orWhere(function ($query) use ($senderId, $receiverId, $senderRoleId, $receiverRoleId) {
+                $query->where('from_id', $receiverId)
+                    ->where('to_id', $senderId)
+                    ->where('from_role_id', $receiverRoleId)
+                    ->where('to_role_id', $senderRoleId);
+            })
+            ->orderby('created_at', 'desc')->get();
+
+            
+
+        return view('admin.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
     }
     public function chatClearAdmintutor($id)
     {
@@ -448,6 +750,42 @@ class MessagesController extends Controller
 
         $res = $data->save();
         if ($res) {
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 1;
+            $notificationdata->notification = $request->message;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $data->id;
+            // Sending to admin
+            if($request->receiver_role_id == 1){
+                $notificationdata->show_to_admin = 1;
+                $notificationdata->show_to_admin_id = $request->receiver_id;
+                // $notificationdata->show_to_all_admin = 1;
+            }
+            // Sending to tutor
+            if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $request->receiver_id;
+                // $notificationdata->show_to_all_tutor = 0;
+            }
+            // Sending to student
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_student = 1;
+                $notificationdata->show_to_student_id = $request->receiver_id;
+                // $notificationdata->show_to_all_student = 0;
+            }
+            // Sending to parent
+            if($request->receiver_role_id == 3){
+                $notificationdata->show_to_parent = 1;
+                $notificationdata->show_to_parent_id = $request->receiver_id;
+                // $notificationdata->show_to_all_parent = 0;
+            }
+            $notificationdata->read_status = 0;
+
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
+
             return back()->with('success', 'Message sent successfully!');
             // return redirect('student/dashboard');
         } else {

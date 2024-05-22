@@ -139,6 +139,9 @@
                                             <div class="mt-4">
                                                 <button class="btn btn-success w-100" type="submit">Sign Up</button>
                                             </div>
+                                            <div class="mt-2">
+                                                <a href="/"> <button class="btn btn-danger w-100" type="button">Back To Home</button></a>
+                                             </div>
 
                                             <div class="mt-4 text-center">
                                                 <div class="signin-other-title">
@@ -171,6 +174,8 @@
                             <div class="mt-4 text-center">
                                 <p class="mb-0">Already have an account ? <a href="{{route('tutorlogin')}}"
                                         class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
+                                        <p class="mb-0">Student Registration ? <a href="{{route('std_registration')}}"
+                                            class="fw-semibold text-primary text-decoration-underline"> Register Here </a> </p>
                             </div>
 
                         </div>

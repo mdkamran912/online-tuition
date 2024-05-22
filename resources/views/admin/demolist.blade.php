@@ -168,19 +168,23 @@
                                             <span class="badge bg-primary">{{ $demo->currentstatus }}</span>
                                         @endif
                                     </td>
-                                    <td>{{ $demo->slot_1 }}</td>
-                                    <td>{{ $demo->slot_2 }}</td>
-                                    <td>{{ $demo->slot_3 }}</td>
-                                    <td>{{ $demo->slot_confirmed }}</td>
+                                    <td><span style="color: black;">{{ date('d-m-Y', strtotime($demo->slot_1)) }}</span> <span style="color: #299CDB;">{{ date('h:i A', strtotime($demo->slot_1)) }}</span></td>
+                                    <td><span style="color: black;">{{ date('d-m-Y', strtotime($demo->slot_2)) }}</span> <span style="color: #299CDB;">{{ date('h:i A', strtotime($demo->slot_2)) }}</span></td>
+                                    <td><span style="color: black;">{{ date('d-m-Y', strtotime($demo->slot_3)) }}</span> <span style="color: #299CDB;">{{ date('h:i A', strtotime($demo->slot_3)) }}</span></td>
+                                    <td>
+                                        @if ($demo->slot_confirmed)
+                                            <span style="color: black;">{{ date('d-m-Y', strtotime($demo->slot_confirmed)) }}</span> <span style="color: #299CDB;">{{ date('h:i A', strtotime($demo->slot_confirmed)) }}</span>
+                                        @endif
+                                    </td>
                                     {{-- <td><a href="{{ $demo->demo_link }}">{{ $demo->demo_link }}</a></td> --}}
                                     <td>{{ $demo->remarks }}</td>
                                     <td>
-                                        @if ($demo->status == 1)
+                                        {{-- @if ($demo->status == 1)
                                             <button class="btn btn-sm btn-primary"
                                                 onclick="openconfirmmodal({{ $demo->demo_id }});">Confirm</button>
                                             <button class="btn btn-sm btn-danger"
                                                 onclick="openupdatemodal({{ $demo->demo_id }})">Modify</button>
-                                        @endif
+                                        @endif --}}
 
                                         @if ($demo->status == 3)
                                             <button class="btn btn-sm btn-primary"

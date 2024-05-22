@@ -1,6 +1,6 @@
 @extends('student.layouts.main')
 @section('main-section')
-<meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
@@ -32,10 +32,12 @@
             @endif
 
             <div id="" class="mb-3 listHeader page-title-box">
-                <h3>Classes</h3>
+                <h3>Upcoming Classes</h3>
+               <a href="completed-classes"> <button class="btn btn-primary">Completed Classes</button></a>
             </div>
 
-            <form id="payment-search">
+            <form id="payment-search" action="{{ route("student.classes-search") }}" method="POST">
+                @csrf
                 <div class="row ">
 
 
@@ -80,7 +82,7 @@
 
 
                     <div class="col-md-2 mt-4">
-                        <button class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
+                        <button type="submit" class="btn btn-primary" style="float:right"> <span class="fa fa-search"></span>
                             Search</button>
                     </div>
                 </div>
@@ -95,10 +97,10 @@
                             {{-- <th scope="col">Meeting ID</th> --}}
                             <th scope="col">Status</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
+                            {{-- <th scope="col">Batch</th> --}}
                             <th scope="col">Topic</th>
                             <th scope="col">Start Time</th>
-                            <th scope="col">Duration</th>
+                            {{-- <th scope="col">Duration</th> --}}
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -124,10 +126,11 @@
                                 @endif
                             </td>
                             <td>{{ $class->subjects }}</td>
-                            <td>{{ $class->batch }}</td>
+                            {{-- <td>{{ $class->batch }}</td> --}}
                             <td>{{ $class->topics }}</td>
-                            <td>{{ $class->start_time }}</td>
-                            <td>{{ $class->duration }} min</td>
+                           <td>{{ Carbon\Carbon::parse($class->start_time)->format('d/m/Y h:i A') }}</td>
+
+                            {{-- <td>{{ $class->duration }} min</td> --}}
                             <td>
 
                                 @if ($class->status == 'started' || $class->status == 'Started')
@@ -139,12 +142,15 @@
                                     {{-- </a> --}}
                                 @endif
                                 @if ($class->is_completed == 1 || $class->status == 'completed' || $class->status == 'Completed')                               
+                                @if (session('usertype') == 'Parent')
+                                @else
+                            
                                 <button class="btn btn-sm btn-primary" data-toggle="modal"
                                     data-target="#openreviewsmodal"
                                     onclick="openfeedbackmodal('{{$class->class_id}}','{{$class->subject_id}}','{{$class->tutor_id}}')"><span
                                         class="fa fa-check "></span> Give Feedback</button>
                                 @endforelse
-
+                                    @endif
                             </td>
                             {{-- <td><button class="btn btn-sm btn-primary"
                                             onclick="openstudentmodal({{ $liveclass->batch_id }});"><span
@@ -157,9 +163,9 @@
                 </table>
             </div>
 
-            <div class="d-flex justify-content-center" id="paginationContainer">
+            {{-- <div class="d-flex justify-content-center" id="paginationContainer">
                 {!! $classes->links() !!}
-            </div>
+            </div> --}}
             {{-- <form action="{{ route('tutor.liveclass.store') }}" method="POST">
             @csrf
             <input type="text" id="url" name="url" value="{{ url()->full() }}">{{ url()->full('code') }}
@@ -302,59 +308,35 @@ function updateTableAndPagination(data) {
     $('#paginationContainer').html(data.pagination);
 }
 
-$(document).ready(function() {
-    $('#payment-search').submit(function(e) {
-        e.preventDefault();
-        const page = 1;
-        const ajaxUrl = '{{ route("student.classes-search") }}'
-        var formData = $(this).serialize();
+// $(document).ready(function() {
+//     $('#payment-search').submit(function(e) {
+//         e.preventDefault();
+//         const page = 1;
+//         const ajaxUrl = '{{ route("student.classes-search") }}'
+//         var formData = $(this).serialize();
 
-        formData += `&page=${page}`;
+//         formData += `&page=${page}`;
 
-        $.ajax({
-            type: 'post',
-            url: ajaxUrl, // Define your route here
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+//         $.ajax({
+//             type: 'post',
+//             url: ajaxUrl, // Define your route here
+//             data: formData,
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             },
 
-            success: function(data) {
-                // console.log(data)
-                updateTableAndPagination(data);
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
+//             success: function(data) {
+//                 // console.log(data)
+//                 // updateTableAndPagination(data);
+//             },
+//             error: function(xhr, status, error) {
+//                 console.log(xhr.responseText);
+//             }
+//         });
 
-    });
+//     });
 
-
-    $(document).on('click', '#paginationContainer .pagination a', function(e) {
-        e.preventDefault();
-        var formData = $('#payment-search').serialize();
-        const page = $(this).attr('href').split('page=')[1];
-        formData += `&page=${page}`;
-        $.ajax({
-            type: 'post',
-            url: '{{ route("student.classes-search") }}', // Define your route here
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(data) {
-                updateTableAndPagination(data);
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-    });
-
-
-
-});
+// });
 
 function joinclass(id,link) {
 
@@ -374,7 +356,7 @@ $.ajax({
         if (dataResult.statusCode) {
 
             toastr.success('status changed')
-            window.location = link;
+            window.open(link, '_blank');
 
         } else {
             alert("Something went wrong. Please try again later");

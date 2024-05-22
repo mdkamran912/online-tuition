@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use MacsiDigital\Zoom\Facades\Zoom;
 use App\Http\Controllers\Controller;
 use App\Models\access_token;
+use App\Models\SlotBooking;
 use App\Models\attendance;
 use App\Models\students\studentattendance;
 use App\Models\subjects;
@@ -170,7 +171,7 @@ class ZoomClassesController extends Controller
             'grant_type' => 'authorization_code',
             'account_id' => $accountID,
             'code' => $access_code,
-            'redirect_uri' => 'http://127.0.0.1:8000/tutor/liveclass',
+            'redirect_uri' => 'https://mychoicetutor.com/tutor/tutorslots',
         ];
 
         try {
@@ -367,6 +368,7 @@ class ZoomClassesController extends Controller
     }
 
     public function completed(Request $request,$id){
+        
         $request->validate([
             'video_link' => 'required',
         ]);
@@ -375,6 +377,14 @@ class ZoomClassesController extends Controller
         $data->recording_link = $request->video_link;
         $data->status = 'Completed';
         $res = $data->save();
+
+        $slotupdate = SlotBooking::where('meeting_id', '=', $data->id)->first();
+
+        if ($slotupdate) {
+            $slotupdate->is_class_scheduled = 2;
+            $slotupdate->update();
+        }
+
         $response = [
             'message' => 'Class Marked as completed',
         ];
@@ -399,8 +409,10 @@ class ZoomClassesController extends Controller
 
         $class = zoom_classes::find($request->id);
         $tpc = topics::find($class->topic_id);
-        $sub = subjects::find($tpc->subject_id);
-
+        // $sub = subjects::find($tpc->subject_id);
+        $slotbooking = SlotBooking::select('*')->where('meeting_id','=',$class->id)->first();
+        $sub = subjects::find($slotbooking->subject_id);
+        
         $chk = studentattendance::select('*')
         ->where('class_id',$sub->class_id)
         ->where('subject_id',$sub->id)

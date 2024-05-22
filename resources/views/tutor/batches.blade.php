@@ -19,47 +19,22 @@
             @if (Session::has('fail'))
                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
             @endif
-            <h3 class="text-center">Batches</h3>
+            <h3 class="text-center">Students</h3>
            <div class="mt-4" id="">
 
-            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
+           <div class="table-responsive">
+           <table class="table table-hover table-striped align-middlemb-0">
                 <thead>
                         <tr>
                             <th scope="col">S.No.</th>
                             <th scope="col">Class/Grade</th>
                             <th scope="col">Subject</th>
-                            <th scope="col">Batch</th>
-                            <th scope="col">Batch Description</th>
+                            <th scope="col">Student</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($batches as $batch)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $batch->class_name }}</td>
-                                <td>{{ $batch->subject_name }}</td>
-                                <td>{{ $batch->batch_name }}</td>
-                                <td>{{ $batch->batch_description }}</td>
-                                <td><button class="btn btn-sm btn-primary"
-                                        onclick="openstudentmodal({{ $batch->batch_id }});"><span
-                                            class="fa fa-search"></span> View Students</button>
-                                    {{-- @if ($classessch)
-                                @foreach ($classessch as $classsc)
-                                    @if ($classsc->batch_id == $batch->batch_id)
-                                        <p>Hello</p>
-                                        
-                                    @else --}}
-                                    <a href="{{route('tutor.liveclass.classlist')}}">
-                                    <button class="btn btn-sm btn-primary"><span
-                                            class="fa fa-plus-circle"></span> Schedule Class</button></
-                                    {{-- <button class="btn btn-sm btn-primary" onclick="openclassmodal('{{$batch->batch_id}}','{{$batch->subject_id}}');"><span class="fa fa-plus-circle"></span> Schedule Class</button> --}}
-                                    {{-- @endif --}}
-                                    {{-- @endforeach
-                            @endif --}}
-                                </td>
-                            </tr>
-                        @endforeach
+                        
 
                     </tbody>
                 </table>
@@ -69,6 +44,7 @@
 
 
             </div>
+           </div>
         </div>
         <!-- content-wrapper ends -->
 

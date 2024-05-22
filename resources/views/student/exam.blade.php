@@ -22,7 +22,14 @@
                     {{ urldecode(request()->get('message')) }}
                 </div>
             @endif
-           <form id="payment-search">
+            @if (Session::has('success'))
+                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                @endif
+                @if (Session::has('fail'))
+                    <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                @endif
+           <form action="{{route('student.exams-search')}}" method="POST">
+            @csrf
                     <div class="row ">
                         <div class="col-md-3 mt-4">
                             <select name="class_name" class="form-control" id="classname" onchange="fetchSubjects()">
@@ -47,7 +54,7 @@
 
 
                         <div class="col-md-3 mt-4">
-                            <button class="btn  btn-primary" style="float:right"> <span
+                            <button class="btn  btn-primary" type="submit" style="float:right"> <span
                                 class="fa fa-search"></span> Search</button>
                         </div>
                     </div>
@@ -76,7 +83,10 @@
                             <th scope="col">Exam Duration</th>
                             <th scope="col">Exam Start Date & Time</th>
                             <th scope="col">Exam End Date & Time</th>
+                            @if (session('usertype') == 'Parent')
+                                            @else
                             <th scope="col">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -84,7 +94,7 @@
                             $i=1;
                         @endphp
                         @foreach ($exams as $exam)
-                            @if ($exam->attemptsRemaining > 0)
+                            {{-- @if ($exam->attemptsRemaining > 0) --}}
                                 <tr>
                                     <td>{{ $i }}</td>
                                     <td>{{ $exam->class }}</td>
@@ -102,24 +112,26 @@
 
                                     {{-- <td><a href="{{ url('student/taketest') }}/{{ $exam->id }}"
                                             class="badge bg-success">Start Test</a></td> --}}
-
-                                    <td><a @if($exam->test_type ==1) href="{{ url('student/taketest') }}/{{ $exam->id }}" @elseif($exam->test_type ==2)href="{{ url('student/taketest-subjective') }}/{{ $exam->id }} @endif"
-                                            class="badge bg-success p-2">Start Test</a></td>
+                                        @if (session('usertype') == 'Parent')
+                                            @else
+                                            <td><a @if($exam->test_type ==1) href="{{ url('student/taketest') }}/{{ $exam->id }}" @elseif($exam->test_type ==2)href="{{ url('student/taketest-subjective') }}/{{ $exam->id }} @endif"
+                                                class="badge bg-success p-2">Start Test</a></td>
+                                                @endif
 
                                 </tr>
                                 @php
                                     $i++;
                                 @endphp
-                            @endif
+                            {{-- @endif --}}
                         @endforeach
 
 
                     </tbody>
                 </table>
             </div>
-            <div class="d-flex justify-content-center" id="paginationContainer">
+            {{-- <div class="d-flex justify-content-center" id="paginationContainer">
                 {!! $exams->links() !!}
-            </div>
+            </div> --}}
 
             <br>
             <br>
@@ -196,58 +208,5 @@
                 $('#paginationContainer').html(data.pagination);
             }
 
-            $(document).ready(function () {
-                $('#payment-search').submit(function (e) {
-                    e.preventDefault();
-                    const page = 1;
-                    const ajaxUrl = '{{ route("student.exams-search") }}'
-                    var formData = $(this).serialize();
-
-                    formData += `&page=${page}`;
-
-                    $.ajax({
-                        type: 'post',
-                        url: ajaxUrl, // Define your route here
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-
-                        success: function (data) {
-                            // console.log(data)
-                            updateTableAndPagination(data);
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-
-                });
-
-
-                $(document).on('click', '#paginationContainer .pagination a', function (e) {
-                e.preventDefault();
-                var formData = $('#payment-search').serialize();
-                const page = $(this).attr('href').split('page=')[1];
-                formData += `&page=${page}`;
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route("student.exams-search") }}', // Define your route here
-                    data:formData,
-                    headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                    success: function (data) {
-                        updateTableAndPagination(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-
-
-
-            });
         </script>
     @endsection

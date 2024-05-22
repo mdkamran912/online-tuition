@@ -8,6 +8,7 @@ use App\Models\OnlineTests;
 use App\Models\questionbank;
 use App\Models\subjects;
 use App\Models\classes;
+use App\Models\AssignTest;
 use App\Models\topics;
 use App\Models\OnlineTest;
 use App\Models\testattempted;
@@ -19,8 +20,9 @@ use App\Models\studentregistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-
+use Carbon\Carbon;
+use App\Events\RealTimeMessage;
+use App\Models\Notification;
 
 class OnlineTestController extends Controller
 {
@@ -31,11 +33,11 @@ class OnlineTestController extends Controller
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
             ->paginate(10);
-        $classes = classes::where('is_active',1)->get();
-        $subjects = subjects::where('is_active',1)->get();
-        $topics = topics::where('is_active',1)->get();
+        $classes = classes::where('is_active', 1)->get();
+        $subjects = subjects::where('is_active', 1)->get();
+        $topics = topics::where('is_active', 1)->get();
 
-        return view('admin.onlinetestlist',get_defined_vars());
+        return view('admin.onlinetestlist', get_defined_vars());
     }
 
     public function onlinetestSearch(Request $request)
@@ -45,9 +47,9 @@ class OnlineTestController extends Controller
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id');
-            // ->get();
+        // ->get();
         if ($request->test_name) {
-            $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+            $query->where('online_tests.name', 'like', '%' . $request->test_name . '%');
         }
         if ($request->class_name) {
             $query->where('online_tests.class_id', $request->class_name);
@@ -65,21 +67,19 @@ class OnlineTestController extends Controller
             $query->whereDate(DB::raw('DATE(online_tests.test_end_date)'), '<=', $request->end_date);
         }
         if ($request->status_field) {
-            if($request->status_field=='2'){
+            if ($request->status_field == '2') {
                 $request->status_field = '0';
             }
-            $query->where('online_tests.is_active',$request->status_field);
+            $query->where('online_tests.is_active', $request->status_field);
         }
         $testlists = $query->paginate(10);
         $type = 'testlists';
-        $viewTable = view('admin.partials.students-tutor-search', compact('testlists','type'))->render();
+        $viewTable = view('admin.partials.students-tutor-search', compact('testlists', 'type'))->render();
         $viewPagination = $testlists->links()->render();
         return response()->json([
             'table' => $viewTable,
             'pagination' => $viewPagination
         ]);
-
-
     }
 
 
@@ -178,30 +178,37 @@ class OnlineTestController extends Controller
     {
 
         $classes = (new CommonController)->classes();
-        $subjects = subjects::where('is_active',1)->get();
-        $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
-            ->join('classes', 'classes.id', 'online_tests.class_id')
-            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
-            ->join('topics', 'topics.id', 'online_tests.topic_id')
-            ->paginate(10);
-        foreach ($exams as $exam) {
-            $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
-                ->where('test_id', $exam->id)
-                ->count();
-        }
+        $subjects = subjects::where('is_active', 1)->get();
+        // $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
+        $exams = OnlineTests::select('online_tests.*')
+            // ->join('classes', 'classes.id', 'online_tests.class_id')
+            // ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            // ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->join('assign_tests', 'assign_tests.test_id', 'online_tests.id')
+            ->where('assign_tests.status', 1)
+            ->where('assign_tests.is_attempted', 0)
+            ->where('assign_tests.student_id', session('userid')->id)
+            // ->paginate(10);
+            ->get();
+        // dd($exams);
+        // foreach ($exams as $exam) {
+        //     $exam->attemptsRemaining = $exam->max_attempt - testattempted::where('student_id', session('userid')->id)
+        //         ->where('test_id', $exam->id)
+        //         ->count();
+        // }
 
-        $extakens = testattempted::select('testattempteds.*','online_tests.name as exam_name','online_tests.description as exam_description','online_tests.test_duration as duration','online_tests.test_start_date as test_start_date','online_tests.test_end_date as test_end_date')
-        ->join('online_tests','online_tests.id','testattempteds.test_id')
-        ->where('testattempteds.student_id',session('userid')->id)->where('testattempteds.is_active',1)->orderBy('testattempteds.created_at', 'desc')->get();
+        $extakens = testattempted::select('testattempteds.*', 'online_tests.name as exam_name', 'online_tests.description as exam_description', 'online_tests.test_duration as duration', 'online_tests.test_start_date as test_start_date', 'online_tests.test_end_date as test_end_date')
+            ->join('online_tests', 'online_tests.id', 'testattempteds.test_id')
+            ->where('testattempteds.student_id', session('userid')->id)->where('testattempteds.is_active', 1)->orderBy('testattempteds.created_at', 'desc')->get();
 
-        return view('student.exam',get_defined_vars());
+        return view('student.exam', get_defined_vars());
     }
 
     public function studentexamsParent()
     {
 
         $classes = (new CommonController)->classes();
-        $subjects = subjects::where('is_active',1)->get();
+        $subjects = subjects::where('is_active', 1)->get();
         $exams = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
@@ -213,11 +220,11 @@ class OnlineTestController extends Controller
                 ->count();
         }
 
-        $extakens = testattempted::select('testattempteds.*','online_tests.name as exam_name','online_tests.description as exam_description','online_tests.test_duration as duration','online_tests.test_start_date as test_start_date','online_tests.test_end_date as test_end_date')
-        ->join('online_tests','online_tests.id','testattempteds.test_id')
-        ->where('testattempteds.student_id',session('userid')->id)->where('testattempteds.is_active',1)->orderBy('testattempteds.created_at', 'desc')->get();
+        $extakens = testattempted::select('testattempteds.*', 'online_tests.name as exam_name', 'online_tests.description as exam_description', 'online_tests.test_duration as duration', 'online_tests.test_start_date as test_start_date', 'online_tests.test_end_date as test_end_date')
+            ->join('online_tests', 'online_tests.id', 'testattempteds.test_id')
+            ->where('testattempteds.student_id', session('userid')->id)->where('testattempteds.is_active', 1)->orderBy('testattempteds.created_at', 'desc')->get();
 
-        return view('parent.exam',get_defined_vars());
+        return view('parent.exam', get_defined_vars());
     }
 
     // search functionality
@@ -225,12 +232,12 @@ class OnlineTestController extends Controller
     {
         // return $request->all();
         $classes = (new CommonController)->classes();
-        $subjects = subjects::where('is_active',1)->get();
+        $subjects = subjects::where('is_active', 1)->get();
         $query = OnlineTests::select('online_tests.*', 'classes.name as class', 'subjects.name as subject', 'topics.name as topic')
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id');
-            // ->get();
+        // ->get();
 
 
         if ($request->class_name) {
@@ -240,7 +247,7 @@ class OnlineTestController extends Controller
             $query->where('online_tests.subject_id', $request->subject_name);
         }
         if ($request->topic) {
-            $query->where('topics.name','like', '%' . $request->topic . '%');
+            $query->where('topics.name', 'like', '%' . $request->topic . '%');
         }
         $exams = $query->paginate(10);
         foreach ($exams as $exam) {
@@ -249,14 +256,14 @@ class OnlineTestController extends Controller
                 ->count();
         }
         $type = 'student-exams';
-        $viewTable = view('admin.partials.common-search', compact('exams','type'))->render();
+        $viewTable = view('admin.partials.common-search', compact('exams', 'type'))->render();
         $viewPagination = $exams->links()->render();
-        return response()->json([
-            'table' => $viewTable,
-            'pagination' => $viewPagination
-        ]);
+        $extakens = testattempted::select('testattempteds.*', 'online_tests.name as exam_name', 'online_tests.description as exam_description', 'online_tests.test_duration as duration', 'online_tests.test_start_date as test_start_date', 'online_tests.test_end_date as test_end_date')
+            ->join('online_tests', 'online_tests.id', 'testattempteds.test_id')
+            ->where('testattempteds.student_id', session('userid')->id)->where('testattempteds.is_active', 1)->orderBy('testattempteds.created_at', 'desc')->get();
 
 
+        return view('student.exam', get_defined_vars());
     }
 
     public function taketest($id)
@@ -292,14 +299,13 @@ class OnlineTestController extends Controller
         $questions = Questionbank::whereIn('id', $questionIds)->get();
 
 
-        return view('student.take-subjectivetest',get_defined_vars());
+        return view('student.take-subjectivetest', get_defined_vars());
     }
 
 
 
     public function saveResponses(Request $request)
     {
-
 
         $responses = $request->input('responses'); // Assuming the responses are sent as an array
 
@@ -372,30 +378,75 @@ class OnlineTestController extends Controller
         // $data->status = ;
         // $data->is_active = session('userid')->id;
         $data->save();
+        // Update is_attempted in assign_tests table
+        AssignTest::where('test_id', $test_id)
+            ->where('student_id', session('userid')->id)
+            ->update(['is_attempted' => 1]);
 
-
+            $tutor_id = AssignTest::select('*')->where('test_id',$test_id)->where('student_id',session('userid')->id)->first();
+        
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 4;
+            $notificationdata->notification = 'Test Attempted By '.session('userid')->name;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $test_id;
+            // Sending to admin
+            // if($request->receiver_role_id == 1){
+            //     $notificationdata->show_to_admin = 1;
+            //     $notificationdata->show_to_admin_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_admin = 1;
+            // }
+            // Sending to tutor
+            // if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $tutor_id->tutor_id;
+                // $notificationdata->show_to_all_tutor = 0;
+            // }
+            // Sending to student
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_student = 1;
+            //     $notificationdata->show_to_student_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_student = 0;
+            // }
+            // // Sending to parent
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_parent = 1;
+            //     $notificationdata->show_to_parent_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_parent = 0;
+            // }
+            $notificationdata->read_status = 0;
+    
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
+    
         return response()->json(['message' => 'Test Submitted Successfully']);
     }
     public function saveSubjectiveResponses(Request $request)
     {
+        // dd();
         $testId = $request->testId;
         $questionIds = $request->questionIds;
         $savedId = [];
-        if(count($questionIds) > 0){
+        // dd($request->all());
+        if (count($questionIds) > 0) {
             foreach ($questionIds as $questionId) {
-              $temprec = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId)->first();
-              if($temprec){
-                $data = new SubjectiveResponse;
-                $data->test_id = $testId;
-                $data->student_id = session('userid')->id;
-                $data->question_id = $questionId;
-                $data->response = $temprec->answer;
-                $data->total_marks = null;
-                $data->obtained_marks = null;
-                $data->remarks = null;
-                $data->save();
-                $savedId[] = $data->id;
-              }
+                $temprec = TemporarySubjective::where('std_id', session('userid')->id)->where('test_id', $testId)->where('question_id', $questionId)->first();
+
+                // dd($temprec);
+                if ($temprec) {
+                    $data = new SubjectiveResponse;
+                    $data->test_id = $testId;
+                    $data->student_id = session('userid')->id;
+                    $data->question_id = $questionId;
+                    $data->response = $temprec->answer;
+                    $data->total_marks = null;
+                    $data->obtained_marks = null;
+                    $data->remarks = null;
+                    $data->save();
+                    $savedId[] = $data->id;
+                }
             }
             $totalattp = OnlineTests::select('max_attempt')->where('id', $testId)->first();
             $alreadyattp = testattempted::select('*')->where('student_id', session('userid')->id)->where('test_id', $testId)->count();
@@ -415,57 +466,133 @@ class OnlineTestController extends Controller
             $data->answer = json_encode($savedId);
             $data->test_type = 2;
             $data->save();
-            $temprec = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->delete();
+            $temprec = TemporarySubjective::where('std_id', session('userid')->id)->where('test_id', $testId)->delete();
+            // Update is_attempted in assign_tests table
+            AssignTest::where('test_id', $testId)
+                ->where('student_id', session('userid')->id)
+                ->update(['is_attempted' => 1]);
             return response()->json(['message' => 'Test Submitted Successfully']);
-
         }
     }
-    public function testreport($id){
-
+    public function testreport($id)
+    {
+        // dd($id);
+        // $assigntdata = AssignTest::find($id);
+        // $testid = testattempted::where('test_id', $assigntdata->test_id)->first();
         $testid = testattempted::find($id);
-        $onlineTest = OnlineTests::where('id', $testid->test_id)
-            ->where('class_id', session('userid')->class_id)
-            ->first();
-        // Decode the JSON string to an array
-        $questionIds = json_decode($onlineTest->question_id);
-        $responseIds = json_decode($testid->response_id);
+        $onlineTest = OnlineTests::where('id', $testid->test_id)->first();
+        if ($onlineTest->test_type == 1) {
 
-        // Fetch the related questions using the decoded question_ids array
-        $questionsCount = Questionbank::whereIn('id', $questionIds)->count();
-        $responsesCount = testresponssheet::whereIn('id', $responseIds)->count();
-        $correctResponsesCount = testresponssheet::whereIn('id', $responseIds)->whereColumn('correct_option', 'marked_option')->count();
-        // dd($correctResponsesCount);
-        return view('student.testreport',compact('onlineTest','questionsCount','responsesCount','correctResponsesCount'));
+            $questionIds = json_decode($onlineTest->question_id);
+            $responseIds = json_decode($testid->response_id);
+            $questionsCount = Questionbank::whereIn('id', $questionIds)->count();
+            $questions = Questionbank::whereIn('id', $questionIds)->get();
+
+            // Initialize mergedData array
+            $mergedData = [];
+
+            foreach ($questions as $question) {
+                $questionData = [
+                    'question' => $question->question,
+                    'option1' => $question->option1,
+                    'option2' => $question->option2,
+                    'option3' => $question->option3,
+                    'option4' => $question->option4,
+                    'correct_answer' => $this->getOptionNumber($question, $question->correct_option),
+                ];
+
+                // Find the corresponding response for the question
+                $response = $responseIds > 0 ? testresponssheet::whereIn('id', $responseIds)->where('question_id', $question->id)->first() : null;
+
+                if ($response) {
+                    $questionData['marked_answer'] = intval($response->marked_option);
+                } else {
+                    $questionData['marked_answer'] = '';
+                }
+
+
+                $mergedData[] = $questionData;
+            }
+            // dd($mergedData);
+            // Continue with the rest of your code...
+
+            if ($responseIds > 0) {
+                $responsesCount = testresponssheet::whereIn('id', $responseIds)->count();
+                $responsesCn = testresponssheet::whereIn('id', $responseIds)->get();
+                $correctResponsesCount = testresponssheet::whereIn('id', $responseIds)->whereColumn('correct_option', 'marked_option')->count();
+            } else {
+                $responsesCount = 0;
+                $correctResponsesCount = 0;
+            }
+            // dd($mergedData);
+            return view('student.testreport', compact('onlineTest', 'questionsCount', 'responsesCount', 'correctResponsesCount', 'mergedData'));
+        } else {
+            $response = testattempted::find($id);
+
+            if ($response) {
+                $responseIds = json_decode($response->answer);
+                $finalResponses = SubjectiveResponse::select('subjective_responses.*', 'questionbanks.question')
+                    ->join('questionbanks', 'questionbanks.id', 'subjective_responses.question_id')
+                    ->whereIn('subjective_responses.id', $responseIds)
+                    ->get();
+
+                // Check if any of the responses is not checked
+                $uncheckedResponses = $finalResponses->first(function ($response) {
+                    return $response->checked == 0;
+                });
+
+                if ($uncheckedResponses) {
+                    return back()->with('fail', 'Test not yet checked. Please wait or contact tutor');
+                } else {
+                    $test = OnlineTests::find($response->test_id);
+                    $questionIds = json_decode($test->question_id);
+                    $questions = questionbank::whereIn('id', $questionIds)->get();
+                    $student = studentregistration::find(session('userid')->id);
+
+                    return view('student.onlinetestresponses-student', get_defined_vars());
+                }
+            }
+        }
     }
 
-    public function onlinetestresponseslist(){
+    public function onlinetestresponseslist()
+    {
         return view('admin.onlinetestresponselist');
     }
-    public function onlinetestresponse($id){
+    public function onlinetestresponse($id)
+    {
         return view('admin.onlinetestresponses');
     }
 
     // tutor subjectve responses
-    public function onlinetestresponseslistTutor(){
+    public function onlinetestresponseslistTutor()
+    {
         $subs = tutorsubjectmapping::where('tutor_id', session('userid')->id)->pluck('subject_id')->toArray();
-        if($subs){
-            $onlineTests = OnlineTests::select('online_tests.*','subjects.name as sub_name','classes.name as class_name','topics.name as topic_name')->join('classes','classes.id','online_tests.class_id')->join('subjects','subjects.id','online_tests.subject_id')->join('topics','topics.id','online_tests.topic_id')->whereIn('online_tests.subject_id',$subs)->where('online_tests.test_type',2)->paginate(10);
-            $classes = classes::where('is_active',1)->get();
-            $subjects = subjects::where('is_active',1)->get();
-            $topics = topics::where('is_active',1)->get();
-            return view('tutor.onlinetestresponselist-tutor',get_defined_vars());
-        }else{
-            return back()->with('fail','No tests Found');
+        if ($subs) {
+            $onlineTests = OnlineTests::select('online_tests.*', 'subjects.name as sub_name', 'classes.name as class_name', 'topics.name as topic_name')
+            ->join('classes', 'classes.id', 'online_tests.class_id')
+            ->join('subjects', 'subjects.id', 'online_tests.subject_id')
+            ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->whereIn('online_tests.subject_id', $subs)
+            ->where('online_tests.test_type', 2)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);$classes = classes::where('is_active', 1)->get();
+            $subjects = subjects::where('is_active', 1)->get();
+            $topics = topics::where('is_active', 1)->get();
+            return view('tutor.onlinetestresponselist-tutor', get_defined_vars());
+        } else {
+            return back()->with('fail', 'No tests Found');
         }
     }
 
-    public function subjTestsSearch(Request $request){
+    public function subjTestsSearch(Request $request)
+    {
         $subs = tutorsubjectmapping::where('tutor_id', session('userid')->id)->pluck('subject_id')->toArray();
-        if($subs){
-            $query = OnlineTests::select('online_tests.*','subjects.name as sub_name','classes.name as class_name','topics.name as topic_name')->join('classes','classes.id','online_tests.class_id')->join('subjects','subjects.id','online_tests.subject_id')->join('topics','topics.id','online_tests.topic_id')->whereIn('online_tests.subject_id',$subs)->where('online_tests.test_type',2);
+        if ($subs) {
+            $query = OnlineTests::select('online_tests.*', 'subjects.name as sub_name', 'classes.name as class_name', 'topics.name as topic_name')->join('classes', 'classes.id', 'online_tests.class_id')->join('subjects', 'subjects.id', 'online_tests.subject_id')->join('topics', 'topics.id', 'online_tests.topic_id')->whereIn('online_tests.subject_id', $subs)->where('online_tests.test_type', 2);
 
             if ($request->test_name) {
-                $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+                $query->where('online_tests.name', 'like', '%' . $request->test_name . '%');
             }
             if ($request->class_name) {
                 $query->where('online_tests.class_id', $request->class_name);
@@ -484,7 +611,7 @@ class OnlineTestController extends Controller
             }
             $onlineTests = $query->paginate(10);
             $type = 'tutor_subjective_tests';
-            $viewTable = view('admin.partials.students-tutor-search', compact('onlineTests','type'))->render();
+            $viewTable = view('admin.partials.students-tutor-search', compact('onlineTests', 'type'))->render();
             $viewPagination = $onlineTests->links()->render();
             return response()->json([
                 'table' => $viewTable,
@@ -493,16 +620,18 @@ class OnlineTestController extends Controller
         }
     }
 
-    public function onlinetestresponseTutor(Request $request,$test_id){
-        $responses = testattempted::select('testattempteds.*','studentregistrations.name as std_name')->join('studentregistrations','studentregistrations.id','testattempteds.student_id')->where('testattempteds.test_id',$test_id)->where('testattempteds.test_type',2)->paginate(10);
+    public function onlinetestresponseTutor(Request $request, $test_id)
+    {
+        $responses = testattempted::select('testattempteds.*', 'studentregistrations.name as std_name')->join('studentregistrations', 'studentregistrations.id', 'testattempteds.student_id')->where('testattempteds.test_id', $test_id)->where('testattempteds.test_type', 2)->paginate(10);
         $test_name = OnlineTests::find($test_id);
-        return view('tutor.onlinetestresponses-tutor',get_defined_vars());
+        return view('tutor.onlinetestresponses-tutor', get_defined_vars());
     }
-    public function studentwiseSubjSearch(Request $request,$test_id){
+    public function studentwiseSubjSearch(Request $request, $test_id)
+    {
 
-        $query = testattempted::select('testattempteds.*','studentregistrations.name as std_name')->join('studentregistrations','studentregistrations.id','testattempteds.student_id')->where('testattempteds.test_id',$test_id)->where('testattempteds.test_type',2);
+        $query = testattempted::select('testattempteds.*', 'studentregistrations.name as std_name')->join('studentregistrations', 'studentregistrations.id', 'testattempteds.student_id')->where('testattempteds.test_id', $test_id)->where('testattempteds.test_type', 2);
         if ($request->student_name) {
-            $query->where('studentregistrations.name','like', '%' . $request->student_name . '%');
+            $query->where('studentregistrations.name', 'like', '%' . $request->student_name . '%');
         }
         if ($request->start_date) {
             $query->whereDate(DB::raw('DATE(testattempteds.test_attempted_on)'), '>=', $request->start_date);
@@ -512,33 +641,34 @@ class OnlineTestController extends Controller
         }
         $responses = $query->paginate(10);
         $type = 'tutor_subjective_responses';
-        $viewTable = view('admin.partials.students-tutor-search', compact('responses','type'))->render();
+        $viewTable = view('admin.partials.students-tutor-search', compact('responses', 'type'))->render();
         $viewPagination = $responses->links()->render();
         return response()->json([
             'table' => $viewTable,
             'pagination' => $viewPagination
         ]);
-
     }
 
-    public function onlinetestresponsestudentTutor($response_id){
+    public function onlinetestresponsestudentTutor($response_id)
+    {
         $response = testattempted::find($response_id);
-        if($response){
+        if ($response) {
             $responseIds = json_decode($response->answer);
-            $finalResponses = SubjectiveResponse::select('subjective_responses.*','questionbanks.question')->join('questionbanks','questionbanks.id','subjective_responses.question_id')->whereIn('subjective_responses.id',$responseIds)->get();
+            $finalResponses = SubjectiveResponse::select('subjective_responses.*', 'questionbanks.question')->join('questionbanks', 'questionbanks.id', 'subjective_responses.question_id')->whereIn('subjective_responses.id', $responseIds)->get();
             $test = OnlineTests::find($response->test_id);
             $questionIds = json_decode($test->question_id);
             $questions = questionbank::whereIn('id', $questionIds)->get();
             $student = studentregistration::find($response->student_id);
-            return view('tutor.onlinetestresponsesstudent-tutor',get_defined_vars());
+            return view('tutor.onlinetestresponsesstudent-tutor', get_defined_vars());
         }
     }
 
-    public function testCorrection(Request $request,$response_id){
+    public function testCorrection(Request $request, $response_id)
+    {
         $response = testattempted::find($response_id);
-        if($response){
+        if ($response) {
             $responseIds = json_decode($response->answer);
-            $finalResponses = SubjectiveResponse::whereIn('subjective_responses.id',$responseIds)->get();
+            $finalResponses = SubjectiveResponse::whereIn('subjective_responses.id', $responseIds)->get();
             $test = OnlineTests::find($response->test_id);
             $questionIds = json_decode($test->question_id);
             $questions = questionbank::whereIn('id', $questionIds)->get();
@@ -582,8 +712,8 @@ class OnlineTestController extends Controller
 
 
             foreach ($questions as  $question) {
-               foreach ($finalResponses as  $SubjectiveResponse) {
-                    if($SubjectiveResponse->question_id === $question->id){
+                foreach ($finalResponses as  $SubjectiveResponse) {
+                    if ($SubjectiveResponse->question_id === $question->id) {
                         $SubjectiveResponse->total_marks = $request->max_marks[$question->id];
                         $SubjectiveResponse->obtained_marks = $request->marks_obtained[$question->id];
                         $SubjectiveResponse->remarks = $request->remarks[$question->id];
@@ -593,17 +723,15 @@ class OnlineTestController extends Controller
                         $totalTotalMarks += $SubjectiveResponse->total_marks;
                         $totalObtainedMarks += $SubjectiveResponse->obtained_marks;
                     }
-               }
+                }
             }
             $response->total_marks = $totalTotalMarks;
             $response->obtained_marks = $totalObtainedMarks;
             $response->status = 1;
             $response->save();
 
-            return redirect(url('tutor/onlinetestresponseslist'))->with('success','Marks Submitted');
-
+            return redirect(url('tutor/onlinetestresponseslist'))->with('success', 'Marks Submitted');
         }
-
     }
 
 
@@ -616,12 +744,100 @@ class OnlineTestController extends Controller
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
+            ->orderby('online_tests.created_at', 'desc')
             ->paginate(10);
-        $classes = classes::where('is_active',1)->get();
-        $subjects = subjects::where('is_active',1)->get();
-        $topics = topics::where('is_active',1)->get();
+        $classes = classes::where('is_active', 1)->get();
+        $subjects = subjects::where('is_active', 1)->get();
+        $topics = topics::where('is_active', 1)->get();
+        $students = studentregistration::select('studentregistrations.*')
+            ->leftJoin('paymentstudents', function ($join) {
+                $join->on('paymentstudents.student_id', '=', 'studentregistrations.id')
+                    ->where('paymentstudents.tutor_id', '=', session('userid')->id);
+            })
+            ->whereNotNull('paymentstudents.student_id')
+            ->distinct()
+            ->where('studentregistrations.is_active', 1)
+            ->get();
+        return view('tutor.tutor-onlinetestlist', get_defined_vars());
+    }
 
-        return view('tutor.tutor-onlinetestlist',get_defined_vars());
+    function assigntest($id)
+    {
+        $testdata = OnlineTests::select('*')->where('id', $id)->where('is_active', 1)->first();
+        $students = studentregistration::select('studentregistrations.*')
+            ->leftJoin('paymentstudents', function ($join) {
+                $join->on('paymentstudents.student_id', '=', 'studentregistrations.id')
+                    ->where('paymentstudents.tutor_id', '=', session('userid')->id);
+            })
+            ->whereNotNull('paymentstudents.student_id')
+            ->distinct()
+            ->where('studentregistrations.is_active', 1)
+            ->get();
+
+        $test_id = $id;
+        // dd($students);
+        $studentdata = AssignTest::select('assign_tests.*', 'online_tests.name as test_name', 'studentregistrations.name as student_name')
+            ->join('online_tests', 'online_tests.id', 'assign_tests.test_id')
+            ->join('studentregistrations', 'studentregistrations.id', 'assign_tests.student_id')
+            ->where('assign_tests.test_id', $id)
+            ->where('assign_tests.tutor_id', session('userid')
+                ->id)->where('assign_tests.is_active', 1)
+            ->get();
+        return view('tutor.assigntest', get_defined_vars());
+    }
+    function assigntestdata(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'testid' => 'required',
+            'student' => 'required',
+            'starttime' => 'required',
+            'endtime' => 'required',
+        ]);
+        $datachk = AssignTest::select('*')
+            ->where('test_id', $request->testid)
+            ->where('student_id', $request->student)
+            ->where('tutor_id', session('userid')->id)
+            ->first();
+        // dd($datachk);
+        if ($datachk) {
+            return back()->with('fail', 'Test already assigned to this student');
+        }
+        $assigntest = new AssignTest();
+        $assigntest->test_id = $request->testid;
+        $assigntest->student_id = $request->student;
+        $assigntest->tutor_id = session('userid')->id;
+        $assigntest->start_time = $request->starttime;
+        $assigntest->end_time = $request->endtime;
+        $assigntest->status = 1;
+        $res = $assigntest->save();
+
+        if ($res) {
+            return back()->with('success', 'Student assigned to test successfully!');
+        } else {
+            return back()->with('fail', 'Something went wrong. Please try again later');
+        }
+    }
+    function assigntestdelete(Request $request)
+    {
+        $request->validate([
+            'assigntestdeleteid' => 'required',
+        ]);
+
+        // dd($request->all());
+        // Assuming SlotBooking is the model associated with the slot_bookings table
+        $slotbooking = AssignTest::where('id', $request->assigntestdeleteid)
+            ->first();
+
+        if ($slotbooking) {
+            // Found the slot, now delete it
+            $slotbooking->delete();
+
+            return back()->with('success', 'Record deleted successfully!');
+        } else {
+            // Slot not found
+            return back()->with('fail', 'Record not found or you do not have permission to delete it.');
+        }
     }
 
     public function tutorcreate()
@@ -637,10 +853,10 @@ class OnlineTestController extends Controller
             'classname' => 'required',
             'subject' => 'required',
             'topic' => 'required',
-            'maxattempt' => 'required',
+            // 'maxattempt' => 'required',
             'duration' => 'required',
-            'tstartdate' => 'required',
-            'testenddate' => 'required',
+            // 'tstartdate' => 'required',
+            // 'testenddate' => 'required',
             'questiondata' => 'required',
         ]);
 
@@ -657,10 +873,10 @@ class OnlineTestController extends Controller
         $data->class_id = $request->classname;
         $data->subject_id = $request->subject;
         $data->topic_id = $request->topic;
-        $data->max_attempt = $request->maxattempt;
+        $data->max_attempt = 1;
         $data->test_duration = $request->duration;
-        $data->test_start_date = $request->tstartdate;
-        $data->test_end_date = $request->testenddate;
+        $data->test_start_date = Carbon::now();
+        $data->test_end_date = Carbon::now();
         $data->question_id = json_encode($request->questiondata);
         $res = $data->save();
 
@@ -711,19 +927,47 @@ class OnlineTestController extends Controller
         return view('tutor.tutor-onlinetestnew', compact(['tdata', 'classes', 'subjects', 'topics', 'questions', 'questiondatas', 'qstn']));
     }
 
-    public function tutorstatus(Request $request){
+    public function tutorstatus(Request $request)
+    {
         $data = OnlineTests::find($request->id);
-        if($request->status == 1){
+        if ($request->status == 1) {
             $status = 0;
         }
-        if($request->status == 0){
+        if ($request->status == 0) {
             $status = 1;
         }
         $data->is_active = $status;
 
-       $res = $data->save();
-     return json_encode(array('statusCode'=>200));
+        $res = $data->save();
+        return json_encode(array('statusCode' => 200));
     }
+    public function assignteststatus(Request $request)
+    {
+        // dd($request->all());
+        // Validate the request data
+        $request->validate([
+            'id' => 'required|exists:assign_tests,id',
+            'status' => 'required|in:0,1',
+        ]);
+
+        // Find the record by test_id
+        $data = AssignTest::where('id', $request->id)->first();
+
+        // Check if the record exists
+        if (!$data) {
+            return json_encode(array('statusCode' => 404, 'error' => 'Record not found'));
+        }
+
+        // Update the status
+        $tstatus = ($request->status == 1) ? 0 : 1;
+        $data->status = $tstatus;
+
+        // Save the changes
+        $res = $data->save();
+
+        return json_encode(array('statusCode' => 200));
+    }
+
 
     public function tutoronlinetestSearch(Request $request)
     {
@@ -732,9 +976,9 @@ class OnlineTestController extends Controller
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id');
-            // ->get();
+        // ->get();
         if ($request->test_name) {
-            $query->where('online_tests.name','like', '%' . $request->test_name . '%');
+            $query->where('online_tests.name', 'like', '%' . $request->test_name . '%');
         }
         if ($request->class_name) {
             $query->where('online_tests.class_id', $request->class_name);
@@ -752,37 +996,38 @@ class OnlineTestController extends Controller
             $query->whereDate(DB::raw('DATE(online_tests.test_end_date)'), '<=', $request->end_date);
         }
         if ($request->status_field) {
-            if($request->status_field=='2'){
+            if ($request->status_field == '2') {
                 $request->status_field = '0';
             }
-            $query->where('online_tests.is_active',$request->status_field);
+            $query->where('online_tests.is_active', $request->status_field);
         }
-        $onlinetestlists = $query->paginate(10);
+        $testlists = $query->paginate(10);
         $type = 'tutor-testlists';
-        $viewTable = view('admin.partials.students-tutor-search', compact('onlinetestlists','type'))->render();
-        $viewPagination = $onlinetestlists->links()->render();
-        return response()->json([
-            'table' => $viewTable,
-            'pagination' => $viewPagination
-        ]);
+        $viewTable = view('admin.partials.students-tutor-search', compact('testlists', 'type'))->render();
+        $viewPagination = $testlists->links()->render();
+        $classes = classes::where('is_active', 1)->get();
+        $subjects = subjects::where('is_active', 1)->get();
+        $topics = topics::where('is_active', 1)->get();
 
-
+        return view('tutor.tutor-onlinetestlist', get_defined_vars());
     }
 
-    public function onlinetestresponsestudent($id){
-      return view('admin.onlinetestresponsesstudent');
+    public function onlinetestresponsestudent($id)
+    {
+        return view('admin.onlinetestresponsesstudent');
     }
 
     // operations with subjective data
-    public function  storeSubjectiveDataInTemporaryTable(Request $request){
-// dd($request->all());
+    public function  storeSubjectiveDataInTemporaryTable(Request $request)
+    {
+        // dd($request->all());
         $testId = $request->input('testId');
         $questionId = $request->input('questionId');
         $answer = $request->input('answer'); // Assuming 'answer' is the name of the input field
-        $data = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId)->first();
-        if($data){
+        $data = TemporarySubjective::where('std_id', session('userid')->id)->where('test_id', $testId)->where('question_id', $questionId)->first();
+        if ($data) {
             $answerSave = $data;
-        }else{
+        } else {
             $answerSave = new TemporarySubjective;
         }
         $answerSave->std_id = session('userid')->id;
@@ -790,20 +1035,127 @@ class OnlineTestController extends Controller
         $answerSave->question_id = $questionId;
         $answerSave->answer = $answer;
         $answerSave->save();
-        if($request->nextQuestionId != null){
-            $nextanswer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $request->nextQuestionId) ->value('answer');
-        }else{
+        if ($request->nextQuestionId != null) {
+            $nextanswer = TemporarySubjective::where('std_id', session('userid')->id)->where('test_id', $testId)->where('question_id', $request->nextQuestionId)->value('answer');
+        } else {
             $nextanswer = null;
         }
-        return response()->json(['message' => 'Data stored successfully','nextAnswer'=>$nextanswer]);
+        return response()->json(['message' => 'Data stored successfully', 'nextAnswer' => $nextanswer]);
     }
 
-    public function  getAnswerFromSubjectiveTempTable(Request $request){
+    public function  getAnswerFromSubjectiveTempTable(Request $request)
+    {
 
         $testId = $request->input('testId');
         $questionId = $request->input('questionId');
-        $answer = TemporarySubjective::where('std_id',session('userid')->id)->where('test_id',$testId)->where('question_id', $questionId) ->value('answer');
+        $answer = TemporarySubjective::where('std_id', session('userid')->id)->where('test_id', $testId)->where('question_id', $questionId)->value('answer');
         return response()->json(['answer' => $answer]);
+    }
+    function tutortestreport($id)
+    {
+        $assigntdata = AssignTest::find($id);
+        $testid = testattempted::where('test_id', $assigntdata->test_id)->first();
+        $onlineTest = OnlineTests::where('id', $testid->test_id)->first();
+        // dd($onlineTest);
+        if ($onlineTest->test_type == 1) {
+            $questionIds = json_decode($onlineTest->question_id);
+            $responseIds = json_decode($testid->response_id);
+            $questionsCount = Questionbank::whereIn('id', $questionIds)->count();
+            $questions = Questionbank::whereIn('id', $questionIds)->get();
 
+            // Initialize mergedData array
+            $mergedData = [];
+
+            foreach ($questions as $question) {
+                $questionData = [
+                    'question' => $question->question,
+                    'option1' => $question->option1,
+                    'option2' => $question->option2,
+                    'option3' => $question->option3,
+                    'option4' => $question->option4,
+                    'correct_answer' => $this->getOptionNumber($question, $question->correct_option),
+                ];
+
+                // Find the corresponding response for the question
+                $response = $responseIds > 0 ? testresponssheet::whereIn('id', $responseIds)->where('question_id', $question->id)->first() : null;
+
+                if ($response) {
+                    $questionData['marked_answer'] = intval($response->marked_option);
+                } else {
+                    $questionData['marked_answer'] = '';
+                }
+
+
+                $mergedData[] = $questionData;
+            }
+            // dd($mergedData);
+            // Continue with the rest of your code...
+
+            if ($responseIds > 0) {
+                $responsesCount = testresponssheet::whereIn('id', $responseIds)->count();
+                $responsesCn = testresponssheet::whereIn('id', $responseIds)->get();
+                $correctResponsesCount = testresponssheet::whereIn('id', $responseIds)->whereColumn('correct_option', 'marked_option')->count();
+            } else {
+                $responsesCount = 0;
+                $correctResponsesCount = 0;
+            }
+            // dd($mergedData);
+            return view('tutor.testreport', compact('onlineTest', 'questionsCount', 'responsesCount', 'correctResponsesCount', 'mergedData'));
+        } else {
+
+            $assigntdata = AssignTest::find($id);
+            $onlineTest = OnlineTests::where('id', $assigntdata->test_id)->first();
+            $testid = testattempted::where('test_id', $onlineTest->id)->where('student_id', $assigntdata->student_id)->first();
+            
+            $response = testattempted::find($testid);
+            if ($response && $response->isNotEmpty()) {
+                // Access the first item in the collection
+                $firstResponse = $response->first();
+                
+                $responseIds = json_decode($firstResponse->answer);
+                
+                $finalResponses = SubjectiveResponse::select('subjective_responses.*', 'questionbanks.question')
+                    ->join('questionbanks', 'questionbanks.id', 'subjective_responses.question_id')
+                    ->whereIn('subjective_responses.id', $responseIds)
+                    ->get();
+                // dd($finalResponses);
+                // Check if any of the responses is not checked
+                $uncheckedResponses = $finalResponses->first(function ($response) {
+                    return $response->checked == 0;
+                });
+
+                if ($uncheckedResponses) {
+                    return back()->with('fail', 'Test not yet checked. Please wait or contact tutor');
+                } else {
+                    $test = OnlineTests::find($firstResponse->test_id);
+                    // dd($test);
+                    $questionIds = json_decode($test->question_id);
+                    $questions = questionbank::whereIn('id', $questionIds)->get();
+                    $student = studentregistration::find($assigntdata->student_id);
+                    // dd($questionIds);
+                    return view('tutor.onlinetestresponsesreport-tutor', get_defined_vars());
+                }
+                // iuiuiuuii //
+
+                
+            
+            }
+            
+        }
+    }
+
+    // Helper function to get the option number from the correct option value
+    private function getOptionNumber($question, $correctOption)
+    {
+        foreach (range(1, 4) as $optionNumber) {
+            $optionField = "option{$optionNumber}";
+            $optionValue = $question->$optionField;
+
+            if ($optionValue === $correctOption) {
+                return $optionNumber;
+            }
+        }
+
+        return 0; // Return 0 if the correct option is not found (shouldn't happen)
     }
 }

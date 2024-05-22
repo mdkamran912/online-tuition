@@ -21,14 +21,15 @@
             <div id="listHeader" class="mb-3 listHeader page-title-box">
                 <h3>Online Tests</h3>
 
-                <button class="btn btn-sm btn-primary"> <a  class="text-white" href="{{ route('tutor.onlinetests.create') }}">Add New Test</a></button>
+                <button class="btn btn-sm btn-success"> <a  class="text-white" href="{{ route('tutor.onlinetests.create') }}">Add New Test</a></button>
 
             </div>
 
             <!-- <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Question Bank</h3>
             </div> -->
-            <form id="payment-search">
+            <form action="{{route('tutor.onlinetests-search')}}" method="POST">
+                @csrf
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -98,7 +99,7 @@
 
                     <div class="col-md-3 mt-4">
                         <div class="form-group">
-                        <button class="btn btn-primary" style="float:right"> <span
+                        <button class="btn btn-primary" type="submit" style="float:right"> <span
                             class="fa fa-search"></span> Search</button>
                         </div>
                     </div>
@@ -116,10 +117,11 @@
                             <th scope="col">Class</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Topic</th>
-                            <th>Duration</th>
+                            <th>Duration(min)</th>
                             <th>Max Attempt</th>
-                            <th>Test Start Date</th>
-                            <th>Test End Date</th>
+                            {{-- <th>Test Start Date</th> --}}
+                            {{-- <th>Test End Date</th> --}}
+                            <th>Assign Test</th>
                             <th>Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -135,8 +137,9 @@
                                 <td>{{ $testlist->topic_name }}</td>
                                 <td>{{ $testlist->test_duration }}</td>
                                 <td>{{ $testlist->max_attempt }}</td>
-                                <td>{{ $testlist->test_start_date }}</td>
-                                <td>{{ $testlist->test_end_date }}</td>
+                                {{-- <td>{{ $testlist->test_start_date }}</td> --}}
+                                {{-- <td>{{ $testlist->test_end_date }}</td> --}}
+                                <td><a href="{{url('tutor/assigntest')}}/{{$testlist->test_id}}"><button type="button" class="btn btn-sm btn-success">Students</button></a></td>
                                 <td>
                                     <div class="form-check form-switch">
                                         @if ($testlist->test_status == 1)
@@ -148,9 +151,9 @@
                                         class="checkbox" @if ($testlist->test_status == 1) then checked @endif>
                                     </div>
                                 </td>
-
+                                
                                 <td>
-                                    <div class="text-center"><a class="badge bg-primary p-1"
+                                    <div class="text-center"><a class="btn btn-sm btn-danger"
                                             href="{{ url('tutor/onlinetests') . '/' . $testlist->test_id }}">View/Update</a>
                                     </div>
                                 </td>
@@ -164,6 +167,67 @@
             </div>
 
         </div>
+         <!--Student List modal -->
+         <div class="modal fade" id="studentlistmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+
+
+                 <div class="modal-body">
+
+
+                     <header>
+                         <h3 class="text-center mb-4">Student List</h3>
+                     </header>
+
+                     <form action="" method="POST">
+                        @csrf
+                         <div class="row">
+                             <div class="col-12 col-md-12 col-ms-12 mb-3">
+                                 <input type="hidden" id="assigntestid" name="assigntestid">
+                                 <style>
+                                 .newclass td,
+                                 .newclass th {
+                                     padding: 2px !important
+                                 }
+                                 </style>
+                                 <table class="table table-bordered newclass" style="margin: 0%;">
+                                     <thead>
+                                         <tr>
+                                             <th>S.No</th>
+                                             <th>Student Name</th>
+                                             <th>Select</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody id="studentlist">
+                                        @foreach ($students as $student)
+                                            <tr>
+                                                <td>{{$loop->iteration}}</td>
+                                                <td>{{$student->name}}</td>
+                                                <td>
+                                                    <input type="checkbox" name="selected_students[]" value="{{ $student->id }}">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                 </table>
+                             </div>
+                         </div>
+
+                         <button type="submit" class="btn btn-sm btn-success mr-1 moveRight"
+                             data-dismiss="modal" onclick=""><span class="fa fa-check"></span> Submit</button>
+                         
+                         <button type="button" class="btn btn-sm btn-danger mr-1 moveRight" style="margin-right: 5px"
+                             data-dismiss="modal" onclick="closeassignmodal()"><span class="fa fa-times"></span> Close</button>
+
+
+
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
         <!-- content-wrapper ends -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
@@ -245,58 +309,15 @@
                 $('#paginationContainer').html(data.pagination);
             }
 
-            $(document).ready(function() {
-                $('#payment-search').submit(function(e) {
-                    e.preventDefault();
-                    const page = 1;
-                    const ajaxUrl = "{{ route('tutor.onlinetests-search') }}"
-                    var formData = $(this).serialize();
+        </script>
+        <script>
+        function assigntest(id){
+       document.getElementById('assigntestid').value = id;
+        $('#studentlistmodal').modal('show');
+        }
 
-                    formData += `&page=${page}`;
-
-                    $.ajax({
-                        type: 'post',
-                        url: ajaxUrl, // Define your route here
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-
-                        success: function(data) {
-                            // console.log(data)
-                            updateTableAndPagination(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-
-                });
-
-
-                $(document).on('click', '#paginationContainer .pagination a', function(e) {
-                    e.preventDefault();
-                    var formData = $('#payment-search').serialize();
-                    const page = $(this).attr('href').split('page=')[1];
-                    formData += `&page=${page}`;
-                    $.ajax({
-                        type: 'post',
-                        url: "{{ route('tutor.onlinetests-search') }}", // Define your route here
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(data) {
-                            updateTableAndPagination(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                });
-
-
-
-            });
+        function closeassignmodal(){
+            $('#studentlistmodal').modal('hide');
+        }
         </script>
     @endsection

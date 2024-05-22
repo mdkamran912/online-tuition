@@ -27,11 +27,11 @@
     }
 
     .chat-messages {
-        display: flex;
-        flex-direction: column;
-        max-height: 500px;
-        overflow-y: scroll;
-    }
+            display: flex;
+            max-height: 300px;
+            flex-direction: column-reverse; /* Reverse message order */
+            overflow-y: scroll; /* Enable scrolling */
+            }
 
     .chat-message-left,
     .chat-message-right {
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                         @endif
-                        <div class="position-relative">
+                        <div class="position-relative" id="chatbox">
                             <div class="chat-messages p-4">
 
                                 @if (empty($messages))
@@ -168,7 +168,7 @@
                             </div> --}}
                             <div class="chat-message-right pb-4">
                                 <div>
-                                    <img src="{{ url('images/tutors/profilepics') }}/{{ $profile_pics->profile_pic }}"
+                                    <img src="{{ url('images/tutors/profilepics') }}/{{ $profile_pics->profile_pic ?? ''}}"
                                         class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
                                     <div class="text-muted small text-nowrap mt-2">
                                         {{ $message->created_at }}</div>
@@ -245,7 +245,37 @@
         </div>
     </div>
 
+    <script>
+        // Function to reload chat messages using AJAX
+        function reloadChat() {
+            var RoleId = <?php echo isset($header->role_id) ? json_encode($header->role_id) : '""'; ?>;
+            console.log(RoleId);
+            var UrlId = <?php echo isset($header->id) ? json_encode($header->id) : '""'; ?>;
+            // AJAX request to fetch updated chat messages
+            var url = "";
+            @if(isset($header) && $header !== null)
+            // Set the URL based on the RoleId
+            if (RoleId == 1) {
+                url = "/tutor/adminmessagesload/" + UrlId;
+            } else {
+                url = "/tutor/studentmessagesload/" + UrlId;
+            }
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(response) {
+                    // Update the chat messages section with the fetched content
+                    $('#chatbox').html(response);
+                    
+                }
+            });
+            @endif
+        }
+        
 
+        // Reload chat messages every 10 seconds
+        setInterval(reloadChat, 10000);
+    </script>
 
 </div>
 <!-- content-wrapper ends -->

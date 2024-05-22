@@ -47,7 +47,7 @@
                             <div class="p-2 mt-4">
                                 <div class="text-muted text-center mb-4 mx-lg-3">
                                     <h4>Verify Your Mobile</h4>
-                                    <p>Please enter the 4 digit code sent to <span class="fw-semibold">{{$mobile}}</span></p>
+                                    <p>Please enter the 4 digit code sent to mobile</span></p>
                                 </div>
                                 @if (Session::has('success'))
                                 <div class="alert alert-success">{{Session::get('success')}}</div>
@@ -107,5 +107,27 @@
                 </div>
             </div>
             <!-- end row -->
-
+            <script>
+                function moveToNext(currentField, event) {
+                var maxLength = 1; // Maximum length of each input field
+                var nextField = currentField + 1;
+                var prevField = currentField - 1;
+            
+                // Check if the pressed key is a number and the current field is not at its maximum length
+                if (event.keyCode >= 48 && event.keyCode <= 57 && event.target.value.length === maxLength) {
+                    // Move to the next input field if available
+                    var nextInput = document.getElementById('digit' + nextField + '_input');
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                } else if (event.keyCode === 8 && event.target.value.length === 0) {
+                    // If backspace is pressed and the current field is empty, move to the previous input field
+                    var prevInput = document.getElementById('digit' + prevField + '_input');
+                    if (prevInput) {
+                        prevInput.focus();
+                    }
+                }
+            }
+            
+                </script>
             @endsection

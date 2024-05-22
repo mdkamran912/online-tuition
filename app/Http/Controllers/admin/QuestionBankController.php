@@ -200,6 +200,7 @@ class QuestionBankController extends Controller
         ->join('classes','classes.id','questionbanks.class_id')
         ->join('subjects','subjects.id','questionbanks.subject_id')
         ->join('topics','topics.id','questionbanks.topic_id')
+        ->orderby('questionbanks.created_at','desc')
         ->paginate(10);
         $classes = classes::where('is_active',1)->get();
         $subjects = subjects::where('is_active',1)->get();

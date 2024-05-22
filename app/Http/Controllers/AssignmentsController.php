@@ -10,6 +10,10 @@ use App\Models\topics;
 use App\Models\tutorregistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\RealTimeMessage;
+use App\Models\Notification;
+use App\Models\studentprofile;
+use App\Models\studentregistration;
 
 class AssignmentsController extends Controller
 {
@@ -107,18 +111,26 @@ class AssignmentsController extends Controller
             ->get();
         return view('admin.assignments', compact('datas'));
     }
-
+ 
     public function tutorassignments()
     {
         $classes = (new CommonController)->classes();
-        $assignments = StudentAssignmentList::select('*', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.name as assignment_name', 'subjects.name as subject', 'classes.name as class', 'topics.name as topic', 'batches.name as batch')
+        $assignments = StudentAssignmentList::select('*', 'student_assignment_lists.id as assignment_id', 'student_assignment_lists.name as assignment_name', 'subjects.name as subject', 'classes.name as class', 'topics.name as topic','studentregistrations.name as studentname','studentregistrations.id as studentid')
             ->join('subjects', 'subjects.id', 'student_assignment_lists.subject_id')
             ->join('classes', 'classes.id', 'student_assignment_lists.class_id')
             ->join('topics', 'topics.id', 'student_assignment_lists.topic_id')
-            ->join('batches', 'batches.id', 'student_assignment_lists.batch_id')
+            ->leftjoin('studentregistrations','studentregistrations.id','student_assignment_lists.student_id')
+            ->leftjoin('student_assignments','student_assignments.submitted_by','student_assignment_lists.student_id')
+            // ->where('student_assignments.assignment_id','student_assignment_lists.id')
+            // ->leftjoin('student_assignments','student_assignments.assignment_id','student_assignment_lists.id')
             ->where('student_assignment_lists.is_active', 1)
-            ->where('student_assignment_lists.assigned_by', session('userid')->id)->get();
-        return view('tutor.assignments', compact('assignments', 'classes'));
+            ->orderby('student_assignment_lists.created_at','desc')
+            ->where('student_assignment_lists.assigned_by', session('userid')->id)
+            ->get();
+        $students = studentregistration::select('*')
+        ->where('is_active','1')
+        ->get();
+        return view('tutor.assignments', compact('assignments', 'classes','students'));
     }
 
     public function tutorview($id)
@@ -139,7 +151,7 @@ class AssignmentsController extends Controller
         $request->validate([
             'class' => 'required',
             'subject' => 'required',
-            'batchid' => 'required',
+            'studentid' => 'required',
             'topic' => 'required',
             // 'assigupload'=>'required',
             'assignname' => 'required',
@@ -147,7 +159,7 @@ class AssignmentsController extends Controller
             'assigstartdate' => 'required',
             'assigenddate' => 'required',
         ]);
-
+        // dd($request->id);
         if ($request->id) {
             $data = StudentAssignmentList::find($request->id);
             $msg = 'Assignment updated successfully!';
@@ -157,9 +169,8 @@ class AssignmentsController extends Controller
         }
         $data->class_id = $request->class;
         $data->subject_id = $request->subject;
-        $data->batch_id = $request->batchid;
+        $data->student_id = $request->studentid;
         $data->topic_id = $request->topic;
-        $data->student_id = '0';
         $data->assigned_by = session('userid')->id;
         $data->name = $request->assignname;
         $data->assignment_description = $request->assigndesc;
@@ -258,13 +269,50 @@ class AssignmentsController extends Controller
             $request->assigupload->move(public_path('uploads/documents/assignments'), $contentlink);
             $data->submission_link = $contentlink;
         }
-
+        $tutor_id = StudentAssignmentList::find($request->id);
+        // dd($tutor_id);
         $data->submitted_on = now();
         $data->submitted_by = session('userid')->id;
         $data->reamrks = $request->remarks;
         $data->is_active = '1';
         $res = $data->save();
         if ($res) {
+            //////////////// Here I need to pass notification into db
+            $notificationdata = new Notification();
+            $notificationdata->alert_type = 3;
+            $notificationdata->notification = 'Assignment Submitted By '.session('userid')->name;
+            $notificationdata->initiator_id = session('userid')->id;
+            $notificationdata->initiator_role = session('userid')->role_id;
+            $notificationdata->event_id = $data->id;
+            // Sending to admin
+            // if($request->receiver_role_id == 1){
+            //     $notificationdata->show_to_admin = 1;
+            //     $notificationdata->show_to_admin_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_admin = 1;
+            // }
+            // Sending to tutor
+            // if($request->receiver_role_id == 2){
+                $notificationdata->show_to_tutor = 1;
+                $notificationdata->show_to_tutor_id = $tutor_id->assigned_by;
+                // $notificationdata->show_to_all_tutor = 0;
+            // }
+            // Sending to student
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_student = 1;
+            //     $notificationdata->show_to_student_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_student = 0;
+            // }
+            // // Sending to parent
+            // if($request->receiver_role_id == 3){
+            //     $notificationdata->show_to_parent = 1;
+            //     $notificationdata->show_to_parent_id = $request->receiver_id;
+            //     // $notificationdata->show_to_all_parent = 0;
+            // }
+            $notificationdata->read_status = 0;
+
+            $notified = $notificationdata->save();
+            broadcast(new RealTimeMessage('$notification'));
+
             return back()->with('success', 'Assignment submitted successfully');
         } else {
             return back()->with('fail', 'Something went wrong, please try again later');

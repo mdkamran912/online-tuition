@@ -22,7 +22,7 @@ class DemoController extends Controller
         ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
         ->orderby('democlasses.created_at','desc')
         // ->where('democlasses.student_id','=', session('userid')->id)
-        ->paginate(10);
+        ->paginate(1000000);
         $subjects = subjects::where('is_active',1)->get();
         $classes = classes::where('is_active',1)->get();
         $statuses = status::select('*')->get();
@@ -157,7 +157,7 @@ class DemoController extends Controller
         ->join('classes', 'classes.id','=','subjects.class_id')
         ->join('statuses', 'statuses.id','=','democlasses.status')
         ->join('studentregistrations','studentregistrations.id','=','democlasses.student_id')
-        ->where('democlasses.tutor_id','=', session('userid')->id)
+        ->where('democlasses.tutor_id','=', session('userid')->id)->orderBy('democlasses.created_at', 'desc')
         ->paginate(10);
 
         $subjects = subjects::where('is_active',1)->get();
@@ -214,10 +214,11 @@ class DemoController extends Controller
         $type = "tutor";
         $viewTable = view('admin.partials.democlass-search', compact('demos','type'))->render();
         $viewPagination = $demos->links()->render();
-        return response()->json([
-            'table' => $viewTable,
-            'pagination' => $viewPagination
-        ]);
+        
+        $subjects = subjects::where('is_active',1)->get();
+        $classes = classes::where('is_active',1)->get();
+        $statuses = status::select('*')->get();
+        return view('tutor.demolist-new',get_defined_vars());
     }
 
 

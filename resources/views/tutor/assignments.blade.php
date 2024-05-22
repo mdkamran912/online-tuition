@@ -22,7 +22,7 @@
 
             <div id="" class="mb-3 listHeader page-title-box">
                 <h3>Assignments </h3>
-                <button class="btn btn-sm btn-primary" onclick="openmodal();"> <span class="fa fa-plus"></span> Add New
+                <button class="btn btn-sm btn-success" onclick="openmodal();"> <span class="fa fa-plus"></span> Add New
                     Assignment</button>
             </div>
             <div class="mt-4 table-responsive" id="">
@@ -30,15 +30,11 @@
                     <thead>
                         <tr>
                             <th scope="col">S.No.</th>
-                            <th scope="col">Class.</th>
-                            <th scope="col">Subject</th>
+                            <th scope="col">Student</th>
                             <th scope="col">Topic</th>
-                            <th scope="col">Batch</th>
                             <th scope="col">Assignment Name</th>
-                            <th scope="col">Assignment Description</th>
                             <th scope="col">Assignment Link</th>
-                            <th scope="col">Assignment Start Date</th>
-                            <th scope="col">Assignment End Date</th>
+                            <th scope="col">Status</th>
                             <th scope="col">View Submission</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -47,20 +43,16 @@
                         @foreach ($assignments as $assignment)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $assignment->class }}</td>
-                            <td>{{ $assignment->subject }}</td>
+                            <td>{{ $assignment->studentname }}</td>
                             <td>{{ $assignment->topic }}</td>
-                            <td>{{ $assignment->batch }}</td>
                             <td>{{ $assignment->assignment_name }}</td>
-                            <td>{{ $assignment->assignment_description }}</td>
                             <td><a href="{{ url('uploads/documents/assignments') }}/{{ $assignment->assignment_link }}"
-                                    target="_blank"><button class="badge bg-primary">View
+                                    target="_blank"><button class="badge bg-success">View
                                         Assignment</button></td>
-                            <td>{{ $assignment->assignment_start_date }}</td>
-                            <td>{{ $assignment->assignment_end_date }}</td>
+                            <td>Not Submitted</td>
                             <td><a href="{{ url('tutor/assignments') . '/' . $assignment->assignment_id }}"> <button
-                                        class="badge bg-primary">View Submissions</button></td>
-                            <td><button class="badge bg-primary"
+                                        class="badge bg-success">View Submissions</button></td>
+                            <td><button class="btn btn-sm btn-danger"
                                     onclick="editdata('{{ $assignment->assignment_id }}','{{ $assignment->class_id }}','{{ $assignment->subject_id }}','{{ $assignment->batch_id }}','{{ $assignment->topic_id }}','{{ $assignment->assignment_name }}','{{ $assignment->assignment_description }}','{{ $assignment->assignment_start_date }}','{{ $assignment->assignment_end_date }}')">Update</button>
                             </td>
 
@@ -120,13 +112,15 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 col-ms-6 mb-3">
-                                    <label>Batch<span style="color:red">*</span></label>
-                                    <select type="text" class="form-control" id="batchid" name="batchid">
-
+                                    <label>Student<span style="color:red">*</span></label>
+                                    <select type="text" class="form-control" id="studentid" name="studentid" required>
+                                        @foreach ($students as $student)
+                                            <option value="{{$student->id}}">{{$student->name}}</option>
+                                        @endforeach
                                     </select>
                                     <span class="text-danger">
-                                        @error('batchid')
-                                        {{ 'Batch is required' }}
+                                        @error('studentid')
+                                        {{ 'Student is required' }}
                                         @enderror
                                     </span>
                                 </div>
@@ -214,7 +208,7 @@
             $('#id').val('');
             $('#class').val('');
             $('#subject').val('');
-            $('#batchid').val('');
+            $('#studentname').val('');
             $('#topic').val('');
             $('#assignname').val('');
             $('#assigndesc').val('');
@@ -299,7 +293,7 @@
 
         };
 
-        function editdata(id, classid, subjectid, batchid, topicid, name, description, startdate, enddate) {
+        function editdata(id, classid, subjectid, studentname, topicid, name, description, startdate, enddate) {
             $.ajax({
                 url: "{{ url('fetchsubjects') }}",
                 type: "POST",
@@ -378,4 +372,4 @@
             $("#openmodal").modal('show');
         };
         </script>
-        @endsection
+    @endsection

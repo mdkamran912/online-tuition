@@ -72,6 +72,7 @@
                             </div>
                         </div>
                     </form>
+                    <p style="color: red">* Partial Tutor Activation based on subject is not available at the moment. Either you can activate tutor for all subjects or inactive</p>
                     <hr>
 
                     <div class="mt-4 table-responsive" id="">
@@ -85,6 +86,7 @@
                                     <th scope="col">Subject</th>
                                     <th scope="col">Rate/Hr (£)</th>
                                     <th scope="col">Commission/Hr</th>
+                                    <th scope="col">Check Slots</th>
                                     <th scope="col">Current Status</th>
                                     {{-- <th scope="col">Action</th> --}}
                                 </tr>
@@ -93,13 +95,20 @@
                                 @foreach ($ttrlists as $ttrlist)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td><a href="tutorprofile/{{ $ttrlist->tutor_id }}">{{ $ttrlist->tutor_name }}</a></td>
+                                        <td>
+                                            @if($ttrlist->subject_name)
+                                            <a href="tutorprofile/{{ $ttrlist->tutor_id }}">{{ $ttrlist->tutor_name }}</a>
+                                            @else
+                                            {{ $ttrlist->tutor_name }}
+                                            @endif
+                                        </td>
                                         <td>{{ $ttrlist->tutor_mobile }}</td>
                                         <td>{{ $ttrlist->class_name }}</td>
                                         <td>{{ $ttrlist->subject_name }}</td>
                                         <td>£ {{ $ttrlist->rate }}</td>
-                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a>
-                                        </td>
+                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a></td>
+                                        <td><a href="tutorslotscheck/{{$ttrlist->tutor_id}}"><span class="badge bg-success ml-3">Check Slots</span> </a></td>
+                                        @if($ttrlist->subject_name)
                                         <td>
                                             <div class="form-check form-switch">
                                                 @if ($ttrlist->tutor_status == 1)
@@ -112,15 +121,16 @@
 
                                             </div>
                                         </td>
+                                        @else
+                                        <td class="text-danger">Profile Not Updated</td>
+                                        @endif
 
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-center" id="paginationContainer">
-                        {!! $ttrlists->links() !!}
-                    </div>
+                   
 
                 </div>
             </div>

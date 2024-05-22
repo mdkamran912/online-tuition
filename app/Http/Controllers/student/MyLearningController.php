@@ -15,11 +15,11 @@ class MyLearningController extends Controller
         // ->join('paymentstudents','paymentstudents.subject_id','learningcontents.subject_id')
         // ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
         ->join('topics','topics.id','learningcontents.topic_id')
-        ->join('classes','classes.id','learningcontents.class_id')
-        ->join('subjects','subjects.id','learningcontents.subject_id')
+        // ->join('classes','classes.id','learningcontents.class_id')
+        ->leftJoin('subjects','subjects.id','learningcontents.subject_id');
         // ->where('paymentstudents.student_id',session('userid')->id)
-        ->where('classes.id',session('userid')->class_id)
-        ->where('subjects.id',$pdetails->subject_id);
+        // ->where('classes.id',session('userid')->class_id)
+        // ->where('subjects.id',$pdetails->subject_id);
         if($request->input('topic')){
             $query->where('topics.name','like', '%' . $request->topic . '%');
             $requests = $request->all();

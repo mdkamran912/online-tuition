@@ -19,184 +19,204 @@
         margin: 10px;
     }
     </style>
-
+<link rel="stylesheet" href="{{url('frontend/css/profile.css')}}">
     <div class="page-content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 grid-margin">
-                    <div class="card" style="width: 50rem; margin: 0 auto;">
-
-                        <div class=" card-header bg-white">
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="ms-4 d-flex flex-column" style="width: 150px;">
-                                        <img src="{{url('images/tutors/profilepics','/')}}{{ $tutorpd->profile_pic ?? url('images/avatar/default-profile-pic.png')}}"
-                                            alt="Generic placeholder image" class="img-fluid img-thumbnail mb-2"
-                                            style="width: 150px; z-index: 1; border-radius: 50%;">
-
-                                        <a type="button" class="btn btn-outline-dark bg-primary" href="profileupdate"
-                                            style="z-index: 1;">
-                                            Edit profile
-                                        </a>
-
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-xl-12 col-xxl-9">
+                        <div class="tu-tutorprofilewrapp">
+                            <span class="tu-cardtag"></span>
+                            <div class="tu-profileview">
+                                <figure>
+                                    <img src="{{url('images/tutors/profilepics','/')}}{{ $tutorpd->profile_pic ?? url('images/avatar/default-profile-pic.png')}}" alt="image-description">
+                                </figure>
+                                <div class="tu-protutorinfo">
+                                    <div class="tu-protutordetail">
+                                        <div class="tu-productorder-content">
+                                            <figure>
+                                                <img src="{{url('images/tutors/profilepics','/')}}{{ $tutorpd->profile_pic ?? url('images/avatar/default-profile-pic.png')}}" alt="images">
+                                            </figure>
+                                            <div class="tu-product-title">
+                                                <h3>{{$tutorpd->name}} <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h3>
+                                                <h5>{{$tutorpd->subject}}</h5>
+                                            </div>
+                                            <div class="tu-listinginfo_price"> 
+                                                <span>Starting from:</span>
+                                                <h4>£{{ ((float)$tutorpd->rateperhour * (float)$tutorpd->admin_commission / 100)+$tutorpd->rateperhour }}/hr</h4>
+                                            </div>
+                                        </div>
+                                        <ul class="tu-tutorreview">
+                                            @isset($reviews)
+                                                
+                                            <li>
+                                                <span><em>({{count($reviews)}})</em> Reviews</span>
+                                            </li>
+                                            @endisset
+                                            <li>
+                                                <span><i class="fa fa-check-circle tu-colorgreen"><em>Qualification:</em></i><em>{{$tutorpd->qualification}}</em></span>
+                                            </li>
+                                            <li>
+                                                <span><i class="fa fa-check-circle tu-colorgreen"><em>Experience:</em></i><em>{{$tutorpd->experience}}</em></span>
+                                            </li>
+                                        </ul>	
+                                        <div class="tu-detailitem">
+                                            <h6>Certifications</h6>
+                                            <div class="tu-languagelist">
+                                                <ul class="tu-languages">
+                                                    <li>{{$tutorpd->certification}}</li>
+                                                     </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-9 text-left">
-                                    <h2 style="margin-top: 60px;">{{ $tutorpd->name ?? session('userid')->name}}</h2>
-                                </div>
-
                             </div>
-
+                            <div class="tu-actionbts">
+                                <div class="tu-userurl">
+                                    <i class="icon icon-globe"></i>
+                                    <a href="{{$tutorpd->intro_video_link}}" target="_blank"><button class="btn btn-sm btn-primary">Watch Intro</button></a>
+                                </div>
+                                <a href="profileupdate"><button class="btn btn-sm btn-success">Update Profile</button></a>
+                                {{-- <ul class="tu-profilelinksbtn">
+                                    <li>
+                                        <a class="tu-linkheart" href="javascript:void(0);"><i class="icon icon-heart"></i><span>Save</span></a>
+                                    </li>
+                                    <li><a href="/student/searchtutor" class="tu-secbtn">Let’s Book Trial</a></li>
+                                    <li>
+                                        <a href="/student/searchtutor" class="tu-primbtn">Book a tution</a>
+                                    </li>
+                                </ul> --}}
+                            </div>
                         </div>
-
-
-
-                        <div class="card-body">
-
-                            <h5>Personal Details</h5>
-                            <table class="tab table-bordered" width="100%" id="">
-                                <tr>
-
-                                    <th>Name:</th>
-                                    <td>{{ $tutorpd->name  ?? session('userid')->name}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Goal</th>
-                                    <td>{{ $tutorpd->goal  ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Qulifications:</th>
-                                    <td>{{ $tutorpd->qualification ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Experience:</th>
-                                    <td>{{ $tutorpd->experience ?? session('userid')->mobile }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Certifications</th>
-                                    <td>{{ $tutorpd->certification ?? '' }}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Mobile:</th>
-                                    <td>{{ $tutorpd->mobile ?? session('userid')->email}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Secondary Mobile:</th>
-                                    <td>{{ $tutorpd->secondary_mobile ?? '' }}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Email:</th>
-                                    <td>{{ $tutorpd->email ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Headline:</th>
-                                    <td>{{ $tutorpd->headline ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Area:</th>
-                                    <td>
-                                        @if ($tutorsub ?? '')
-
-                                        @foreach ($tutorsub as $tutorsu)
-                                        {{ $tutorsu->subject ?? '' }}(£{{ $tutorsu->rate ?? '' }}/hr),
+                        <div class="tu-detailstabs">
+                            <ul class="nav nav-tabs tu-nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="icon icon-home"></i><span>Introduction</span></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><i class="icon icon-message-circle"></i><span>Reviews</span></button>
+                                </li>
+                            </ul>
+                            <div class="tab-content tu-tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="tu-tabswrapper">
+                                        <div class="tu-tabstitle">
+                                            <h4>A brief introduction</h4>
+                                        </div>
+                                        <div class="tu-description">
+                                            <p> {{$tutorpd->headline}}</p>
+                                        </div><br><hr>
+                                        <div class="tu-tabstitle">
+                                            <h4>Goal</h4>
+                                        </div>
+                                        <div class="tu-description">
+                                            <p> {{$tutorpd->goal}}</p>
+                                        </div><br><hr>
+                                        <div class="tu-tabstitle">
+                                            <h4>Qualification</h4>
+                                        </div>
+                                        <div class="tu-description">
+                                            <p> {{$tutorpd->qualification}}</p>
+                                        </div><br><hr>
+                                        <div class="tu-tabstitle">
+                                            <h4>Experience</h4>
+                                        </div>
+                                        <div class="tu-description">
+                                            <p> {{$tutorpd->experience}}</p>
+                                        </div>
+                                       
+                                        
+                                    </div>
+                                   
+                                    <div class="tu-tabswrapper">
+                                        <div class="tu-tabstitle">
+                                            <h4>Achievement</h4>
+                                        </div>
+                                        <ul class="tu-icanteach">  
+                                            <li>
+                                                {{-- <div class="tu-tech-title">
+                                                    <h6>Class 9 - 10</h6>
+                                                </div> --}}
+                                                <ul class="tu-serviceslist">
+                                                    @foreach ($achievement as $achievement)
+                                            <li>
+                                                <a href="#achievement">{{ $achievement->name }}</a>
+                                                <a href="#achievement">{{ $achievement->description }}</a>
+                                            </li>
+                                            @endforeach
+                                                    
+                                                </ul>
+                                            </li>
+                                           
+                                        </ul>
+                                    </div>
+                                   
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="tu-tabswrapper">
+                                        <div class="tu-boxtitle">
+                                            @isset($reviews)
+                                                
+                                            <h4>Reviews ({{count($reviews)}})</h4>
+                                            @endisset
+                                        </div>
+                                        @isset($reviews)
+                                            
+                                       
+                                        @foreach ($reviews as $reviews)
+                                        
+                                    
+                                    </tr>
+                                   
+                                        <div class="tu-commentarea">
+                                            <div class="tu-commentlist">
+                                                <figure>
+                                                    <img src="{{url('images/students/profilepics','/')}}{{ $reviews->student_pic ?? url('images/avatar/default-profile-pic.png')}}" alt="images">
+                                                </figure>
+                                                <div class="tu-coomentareaauth">
+                                                    <div class="tu-commentright">
+                                                        <div class="tu-commentauthor">
+                                                            <h6><span>{{$reviews->student_name}}</span></h6>
+                                                            <div class="tu-listing-location tu-ratingstars">
+                                                                <span>{{$reviews->ratings}}</span>
+                                                                <span class="tu-stars tu-sm-stars">
+                                                                    <span></span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tu-description">
+                                                        <p>{{$reviews->name}} </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
                                         @endforeach
-                                        @endif
-
-
-                                    </td>
-
-                                </tr>
-                            </table>
-                            <br>
-                            <h5>Acievements</h5>
-
-                            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Details</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($achievement ?? '')
-
-                                    @foreach ($achievement as $achievement)
-                                    <tr>
-                                        <td class="text-wrap">{{ $achievement->name }}</td>
-                                        <td class="text-wrap">{{ $achievement->description }}</td>
-                                        {{-- <td class="text-wrap">{{$achievement->date}}</td> --}}
-                                        <td>{{ \Carbon\Carbon::parse($achievement->date)->format('j-F-Y') }}</td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-
-                            <br>
-                            <h5>Reviews</h5>
-                            <table class="table table-hover table-striped align-middlemb-0 table-responsive">
-
-                                <tr>
-                                    <th>Subject</th>
-                                    <th>details</th>
-                                    <th>Rating</th>
-                                </tr>
-                                @if ($reviews ?? '')
-
-                                @foreach ($reviews as $reviews)
-
-                                <tr>
-                                    <td>{{$reviews->subject}}</td>
-                                    <td>{{$reviews->name}}</td>
-
-                                    <td>
-                                        @if($reviews->ratings >=1)
-                                        <span class="ri-star-fill checked"></span>
-                                        @endif
-                                        @if($reviews->ratings >=2)
-                                        <span class="ri-star-fill checked"></span>
-                                        @endif
-                                        @if($reviews->ratings >=3)
-                                        <span class="ri-star-fill checked"></span>
-                                        @endif
-                                        @if($reviews->ratings >=4)
-                                        <span class="ri-star-fill checked"></span>
-                                        @endif
-                                        @if($reviews->ratings >=5)
-                                        <span class="ri-star-fill checked"></span>
-                                        @endif
-                                    </td>
-
-                                    
-
-                                    
-
-                                </tr>
-                                @endforeach
-                                @endif
-                            </table>
-
-                            @if($tutorpd->keywords)
-                            <div>
-                                <h5>Skills</h5>
-                                <div class="skillTag">
-                                    @foreach ($skillsArray  as $item)
-                                       <h5><span class="badge bg-primary">{{$item}}</span></h5>
-                                    @endforeach
-
+                                        @endisset
+                                    </div>
+                                  
                                 </div>
                             </div>
-                            @endif
-
                         </div>
+                        <div class="tu-Joincommunity">
+                            <div class="tu-particles">
+                                <div id="tu-particlev2"></div>
+                            </div>
+                            <div class="tu-Joincommunity_content">
+                                <h4>Trending tutor directory of 2024</h4>
+                                <p>Its Free, Join today and start spreading knowledge with students out there</p>
+                            </div>
+                            <div class="tu-Joincommunity_btn">
+                                <a href="/tutor/register" class="tu-yellowbtn">Join our community</a>
+                            </div>
+                        </div>
+                       
                     </div>
-
+                   
                 </div>
             </div>
+
+           
 
         </div>
         <!-- content-wrapper ends -->
