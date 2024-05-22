@@ -709,7 +709,9 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.class')}}" class="nav-link" data-key="t-starter"> Grade </a>
                                     </li>
-                                   
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.subjectcategory')}}" class="nav-link" data-key="t-team"> Subject Category </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{route('admin.subject')}}" class="nav-link" data-key="t-team"> Subject </a>
                                     </li>

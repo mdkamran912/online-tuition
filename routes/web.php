@@ -214,6 +214,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     // Subjects
     Route::get('subject', [SubjectController::class, 'index'])->name('admin.subject');
     Route::post('subject', [SubjectController::class, 'store'])->name('admin.subject.create');
+    Route::get('subjectcategory', [SubjectController::class, 'subjectcategory'])->name('admin.subjectcategory');
     Route::get('subject/status', [SubjectController::class, 'status'])->name('admin.subject.status');
     // Topics
     Route::get('topic', [TopicController::class, 'index'])->name('admin.topic');

@@ -71,4 +71,9 @@ class SubjectController extends Controller
        $res = $data->save();
      return json_encode(array('statusCode'=>200));
     }
+    
+    public function subjectcategory(){
+
+        return view('admin.subjectcategory');
+    }
 }
