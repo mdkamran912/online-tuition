@@ -7,6 +7,7 @@ use App\Models\studentregistration;
 use App\Models\tutorregistration;   
 use App\Models\country;   
 use App\Models\subjects;   
+use App\Models\Blogs;   
 use App\Models\tutorprofile;
 use App\Models\subjectcategory;
 use App\Models\payments\paymentdetails;
@@ -42,25 +43,38 @@ class HomeController extends Controller
         //     ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
         //     ->get();
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
-            'subjects.name as subject',
-            'classes.name as className',
+            'tutorprofiles.name',
+            'tutorprofiles.headline',
+            'tutorprofiles.profile_pic',
+            'tutorprofiles.rate as rateperhour',
+            DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
+            DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
-            DB::raw('AVG(tutorreviews.ratings) as avg_rating')
+            DB::raw('AVG(tutorreviews.ratings) as avg_rating'),
+            DB::raw('COUNT(tutorreviews.id) as total_reviews') // Count total reviews
         )
-        ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-        ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
-        ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-        ->join('classes','classes.id','=','tutorsubjectmappings.class_id')
-        ->leftjoin('tutorreviews', function($join) {
+        ->distinct()
+        ->leftJoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
+        ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+        ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+        ->leftJoin('tutorreviews', function($join) {
             $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
                  ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
         })
-        ->groupBy('tutorsubjectmappings.id', 'tutorprofiles.name', 'subjects.name', 'tutorsubjectmappings.rate','tutorsubjectmappings.admin_commission','classes.name','tutorprofiles.profile_pic')
+        ->groupBy(
+            'tutorprofiles.name',
+            'tutorprofiles.profile_pic',
+            'tutorprofiles.rate',
+            'tutorsubjectmappings.rate',
+            'tutorsubjectmappings.admin_commission',
+            'tutorprofiles.headline'
+        )
         ->get();
         
+        // dd($tutors);
         // Tutors List
-        $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
+        $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience','tutorprofiles.rate as rateperhour', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
     DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
 )
     ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
@@ -84,6 +98,7 @@ class HomeController extends Controller
 
         // Grades/Level
         $gradelists = Classes::where('is_active',1)->get();
+        $subjects = Subjects::where('is_active',1)->get();
 
         // Subject Categories with subjects count
         $subjectcategories = DB::table('subjectcategories')
@@ -93,8 +108,15 @@ class HomeController extends Controller
     ->groupBy('subjectcategories.id', 'subjectcategories.name', 'subjectcategories.category_image', 'subjectcategories.is_active','subjectcategories.created_at','subjectcategories.updated_at')
     ->get();
 
+    $reviews = tutorreviews::select('tutorreviews.*','subjects.name as subjectname','tutorregistrations.name as tutorname','studentregistrations.name as studentname')
+    ->leftJoin('subjects','subjects.id','tutorreviews.subject_id')
+    ->leftJoin('tutorregistrations','tutorregistrations.id','tutorreviews.tutor_id')
+    ->leftJoin('studentregistrations','studentregistrations.id','tutorreviews.student_id')
+    ->where('tutorreviews.ratings','>',3)->get();
+
+    $blogs = Blogs::select('*')->where('is_active',1)->orderby('created_at')->get();
         // dd($subjectcategories);
-            // dd( ($tutors));
+            // dd( ($blogs));
         return view('front-cms.index',get_defined_vars());
         // return view('front-cms.index', compact('classes'));
     }

@@ -1,100 +1,235 @@
 @extends('front-cms.layouts.main')
 @section('main-section')
+    <!-- END header -->
+    <section class="bannerSec tutBann">
+        <div class="container-fluid">
+            <div class="tutorHeader">
+                <h1>
+                    Discover the perfect tutor for you
+                </h1>
+                <div class="findtutor-btns">
+                    <div class="dropdown">
+                        <button class=" dropdown-toggle btns" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class=" dropdown-toggle btns" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                    <button class="btn search-tutor">Search</button>
+                </div>
+                <div class="advance-search">
+                    <p>Find the tutor of your choice use advance search</p>
+                    <span><a href=""><img src="img/icons/magnifire.png" width="14px" alt=""> Advance
+                            Search</a></span>
 
-         <!-- MAIN START -->
-    <main class="tu-main tu-bgmain">
-        <div class="tu-main-section">
-            <div class="container">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- tutor section -->
+    <section class="tutor-section">
+        <div class="container tutor-card topheader">
+            <h3>Get personalized support with the help of one of our expert tutors</h3>
+            <br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                    <div class="tutorDetails">
+                        <div class="tutorImg">
+                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                        </div>
+                        <div class="star">
+                            <span>
+                                <i class="fa fa-star"></i>
+                                5 (36 reviews)
+                            </span>
+                            <span>$26/h</span>
+                        </div>
+                        <span class="name">
+                            Luisa
+                            <p>Brooklyn (English tutor)</p>
+                        </span>
+                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
+                            improve your fluency!</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="expMore">
+                        <a href="#" class="btn btn-lg">Explore more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="tutor-banner">
                 <div class="row">
-                    <div class="col-lg-12 col-xl-12 col-xxl-12 order-first">
-                        <div class="tu-blogwrapper">
-                            <figure>
-                                <img src="{{url('frontend/images/blogdetail/about-us-mct.avif')}}" alt="image-description">
-                            </figure>
-                            <div class="tu-bloginfo">
-                                <ul class="tu-taglinks">
-                                    <li>
-                                        <a href="#aboutus">About MyChoice Tutor</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="tu-blogtitle">
-                                <h3>MyChoice Tutor, Empowering Your Learning Journey</h3>
-                            </div>
-                            <div class="tu-description">
-                                <p>
-                                    Welcome to MyChoice Tutor, your premier online teaching platform designed to empower students with the freedom to choose their ideal tutors and customize their learning experience. In a world where education is rapidly evolving, we recognize the need for a platform that puts students in control of their learning journey. Here's a brief overview of what makes MyChoice Tutor unique:
-                                </p>
-                            </div>
-                            <div class="tu-blogfeatures">
-                                <div class="tu-featurelist">
-                                    <ul class="tu-mainlist">
-                                        <li>Personalized Tutor Selection</li>
-                                        <li>Free Trial Classes</li>
-                                        <li>Flexible Scheduling</li>
-                                        <li>Seamless Online Learning Experience</li>
-                                        <li>Commitment to Academic Excellence</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="tu-overviewtitle">
-                                <h4>Personalized Tutor Selection</h4>
-                                <div class="tu-description">
-                                    <p>
-                                        
-                                    At MyChoice Tutor, we believe that the right tutor can make a significant difference in a student's academic journey. That's why we offer a diverse range of experienced and qualified tutors across various subjects. Students have the flexibility to explore tutor profiles, read reviews, and select the educator who best aligns with their learning style and goals. We understand that every student is unique, and our platform is designed to cater to individual learning preferences.
-                                </div>
-                                
-                            </div>
-                            <div class="tu-overviewtitle">
-                                <h4>Free Trial Classes                                </h4>
-                                <div class="tu-description">
-                                <p>
-                                    We understand the importance of making informed decisions. That's why we provide students with the opportunity to book free trial classes with their chosen tutors. This allows students to experience firsthand the teaching style and methodology of the tutor before making a commitment. We believe in transparency and ensuring that students feel confident in their choice of tutor.
-                                </p>
-                                </div>
-                                
-                            </div>
-                            <div class="tu-overviewtitle">
-                                <h4>Flexible Scheduling
-                                </h4>
-                                <div class="tu-description">
-                                    <p>
-                                        Life is busy, and we recognize the need for flexibility in scheduling. MyChoice Tutor empowers students to take control of their time by allowing them to schedule classes at their convenience. Whether it's early morning or late at night, students can easily coordinate with their chosen tutors to create a timetable that fits their unique lifestyle. We believe that learning should adapt to the student's schedule, not the other way around.
-                                    </p>
-                                    </div>
-                                
-                            </div>
-                            <div class="tu-overviewtitle">
-                                <h4>Seamless Online Learning Experience
-                                </h4>
-                                <div class="tu-description">
-                                    <p>
-                                        Our platform is designed to provide a seamless and user-friendly online learning experience. With a user-friendly interface, high-quality video conferencing, and interactive tools, students can engage in effective and enjoyable online classes. We prioritize the use of technology to enhance the learning process, making it as interactive and engaging as traditional in-person tutoring.
-                                    </p>
-                                </div>
-                                
-                            </div>
-                            <div class="tu-overviewtitle">
-                                <h4>Commitment to Academic Excellence</h4>
-                                <div class="tu-description">
-                                    <p>
-                                        MyChoice Tutor is committed to fostering academic excellence. We strive to create an environment that encourages curiosity, critical thinking, and a love for learning. Our tutors are dedicated professionals who are passionate about helping students succeed academically and beyond.
-                                    </p>
-                                    <p>
-                                        In conclusion, MyChoice Tutor is not just an online teaching platform; it's a dynamic and student-centric community that values choice, flexibility, and excellence in education. We invite you to embark on your learning journey with us, where the power of choice meets the promise of personalized education.
-                                    </p>
-                                 </div>
-                                
-                            </div>
-                            
-                            
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="trial">
+                            <h2>Experience our free trial classes today!</h2>
+                            <button>Book free trial class today</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-    <!-- MAIN END -->
-
-@endsection
+    </section>
+   @endsection
