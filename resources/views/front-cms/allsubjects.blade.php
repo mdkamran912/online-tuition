@@ -1,47 +1,85 @@
 @extends('front-cms.layouts.main')
 @section('main-section')
-        {{-- <section>
-            <div class="container">
-                <img src="images/banner300.jpg" alt="">
-            </div>
-        </section> --}}
-       <!-- CATEGORIES START -->
-       <section class="tu-main-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="tu-maintitle text-center">
-                        <img src="{{url('frontend/images/zigzag-line.svg')}}" alt="img">
-                        <h4>Let’s make a quick start today</h4>
-                        <h2>Choose from the top visited categories you may like</h2>
-                        <p>Explore our top-visited categories tailored for your preferences. From trending topics to personalized recommendations, discover a curated selection that aligns with your interests and ensures an engaging experience. Choose from the best and elevate your exploration.</p>
-                    </div>
+        <section class="bannerSec tutBann" >
+            <div class="container-fluid">
+                <div class="tutorHeader">
+                    <h1 class="mt-4">
+                        Learn whatever you want
+                    </h1>
+                    <p class="charcol text-center mb-5">Our Subjects</p>
+
+
                 </div>
-            </div>
-            <div id="tu-categoriesslider" class="splide tu-categoriesslider tu-splidedots">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        @foreach ($subjectcategories as $subjectcatgory)
-                            
-                        
-                        <li class="splide__slide">
-                            <a class="tu-categories_content" href="#getsubjects">
-                                <img src="{{$subjectcatgory->category_image}}" alt="img">
-                                <div class="tu-categories_title">
-                                    <h6>{{$subjectcatgory->name}}</h6>
-                                    <span>{{$subjectcatgory->subject_count}}+ Subjects</span>
-                                </div>
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            <div class="tu-mainbtn">
-                <a href="/findatutor" class="tu-primbtn-lg"><span>Explore All Tutors</span><i class="icon icon-chevron-right"></i></a>
             </div>
         </div>
     </section>
-     <!-- CATEGORIES END -->
+    <!-- tutor section -->
+    <section class="tutor-section">
+        <div class="container tutor-card">
+            <h3>Subjects</h3>
+            <br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 
-@endsection
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="subjcol">
+                                <h6>All Categories</h6>
+                                @foreach ($subjects as $subject)
+                                <ul>
+                                    <li><a href="#">{{$subject->name}}</a></li>
+                                   </ul>
+
+                                   @endforeach
+
+                            </div>
+                        </div>
+                        @foreach ($subjectswc as $category => $subjects)
+        <div class="col-12 mb-4">
+            <div class="subjcol">
+                <h6>{{ $category }}</h6>
+                <ul>
+                    @foreach ($subjects as $subject)
+                        <li><a href="#">{{ $subject->name }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endforeach
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+    <section>
+        <div class="subj-bottom-banner">
+
+            <div class="row">
+                <div class="col-md-6 banncol">
+
+
+
+                    <div class="bannText">
+                        <h2>Is MCT the right fit for you?<br>
+                            There is only one way to find out.</h2>
+
+                       <a href="/student/register"> <button class="orange-btn">Register Now</button></a>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <img src="img/subj-bann-img.png" alt="">
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </section>
+   @endsection

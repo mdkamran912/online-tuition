@@ -308,7 +308,7 @@
 
 
     <!-- -----------blog---------- -->
-    <section class="testimonial-sec">
+    <!-- <section class="testimonial-sec">
         <div class="container topheader">
             <h3 class="">Resources / Blogs</h3>
             <p class="para">Experience seamless learning with our online tuition app. We've simplified education, making
@@ -347,5 +347,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 @endsection

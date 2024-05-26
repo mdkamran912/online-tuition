@@ -8,28 +8,19 @@
                     Discover the perfect tutor for you
                 </h1>
                 <div class="findtutor-btns">
-                    <div class="dropdown">
-                        <button class=" dropdown-toggle btns" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class=" dropdown-toggle btns" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                    <select style="border-radius: 60px; border:0;padding:10px">
+                        <option>Select a subject</option>
+                        @foreach ($subjects as $subject)
+                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                        @endforeach
+                    </select>
+                    <select style="border-radius: 60px; border:0;padding:10px">
+                        <option>Select a grade</option>
+                        @foreach ($gradelists as $grade)
+                            <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                        @endforeach
+                    </select>
+
                     <button class="btn search-tutor">Search</button>
                 </div>
                 <div class="advance-search">
@@ -42,172 +33,35 @@
         </div>
         </div>
     </section>
-    <!-- tutor section -->
-    <section class="tutor-section">
-        <div class="container tutor-card topheader">
-            <h3>Get personalized support with the help of one of our expert tutors</h3>
+     <!-- tutor section -->
+     <section class="tutor-section">
+        <div class="container tutor-card">
+            <h4>10 million evaluated private tutors</h4>
             <br>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
+                @foreach ($tutors as $tutor)
+                    
+                <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                     <div class="tutorDetails">
                         <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
+                            <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}" width="100%" alt="">
                         </div>
                         <div class="star">
                             <span>
                                 <i class="fa fa-star"></i>
-                                5 (36 reviews)
+                                {{$tutor->avg_rating}} ({{$tutor->total_reviews}})
                             </span>
-                            <span>$26/h</span>
+                            <span>${{$tutor->rateperhour}}/h</span>
                         </div>
                         <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
+                            {{$tutor->name}}
+                            <p>{{$tutor->subjects}}</p>
                         </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
+                        <span class="desc-tutor">{{$tutor->headline}}</span>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="img/Rectangle 17868.png" width="100%" alt="">
-                        </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                5 (36 reviews)
-                            </span>
-                            <span>$26/h</span>
-                        </div>
-                        <span class="name">
-                            Luisa
-                            <p>Brooklyn (English tutor)</p>
-                        </span>
-                        <span class="desc-tutor">ESL - English tutor tesol certified with 8+ years of experience.
-                            improve your fluency!</span>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
             <div class="row mt-4">
                 <div class="col-12">

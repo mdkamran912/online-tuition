@@ -13,9 +13,7 @@
                         </h1>
                         <img src="{{url('frontendnew/img/registrationImg.png')}}" width="100%" alt="">
 
-                        <p class="charcol"> Lorem ipsum dolor sit amet consectetur. Dolor morbi vitae et ultrices
-                            aliquet. Morbi libero ridiculus quis amet sagittis vel. Duis nec quis adipiscing scelerisque
-                            eros.</p>
+                        <p class="charcol">"Become a tutor with us and share your knowledge to inspire and educate students worldwide. Enjoy the flexibility of setting your own schedule, competitive earnings, and the satisfaction of making a difference in learners' lives." <br><br>Join our community of passionate educators today!</p>
 
                     </div>
                 </div>

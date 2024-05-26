@@ -21,7 +21,7 @@ class SubjectController extends Controller
         $scategories = subjectcategory::select('*')->where('is_active',1)->get();
         return view('admin.subject',compact('subjects','classes','scategories'));
     }
-    
+
     public function store(Request $request){
         $request->validate([
             'classname'=> 'required',
@@ -37,10 +37,10 @@ class SubjectController extends Controller
             $data = new subjects();
             $msg = 'Subject added successfully';
         }
-        $imageName = time().'.'.$request->uploadimage->extension();  
-     
+        $imageName = time().'.'.$request->uploadimage->extension();
+
         $request->uploadimage->move(public_path('images/subjects'), $imageName);
-  
+
         $data->class_id = $request->classname;
         $data->name = $request->subject;
         $data->image = $imageName;
@@ -71,9 +71,18 @@ class SubjectController extends Controller
        $res = $data->save();
      return json_encode(array('statusCode'=>200));
     }
-    
+
     public function subjectcategory(){
 
         return view('admin.subjectcategory');
+    }
+    public function cmsindex(){
+        $subjects = Subjects::select('*')->where('is_active',1)->get();
+        $subjectswc = Subjects::select('subjects.*','subjectcategories.name as category_name')
+        ->join('subjectcategories','subjectcategories.id','subjects.category')
+        ->where('subjects.is_active',1)
+        ->get()
+        ->groupBy('category_name');
+        return view('front-cms.allsubjects',compact('subjects','subjectswc'));
     }
 }
