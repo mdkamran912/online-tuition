@@ -61,8 +61,8 @@
                         <a href="findatutor">    <button class="btn search-tutor">Book now</button></a>
 
                         </div>
-
-                        <img src="img/OnefretrialClass.png" width="100%" alt="">
+                        
+                        <img src="{{ url('frontendnew/img/OnefretrialClass.png') }}" width="100%" alt="">
                     </div>
 
                 </div>
@@ -98,8 +98,8 @@
                                     </p>
 
                                 </div>
-
-                                <img src="img/Engage_and_Excel.png" width="100%" alt="">
+                                <img src="{{ url('frontendnew/img/Engage_and_Excel.png') }}" width="100%" alt="">
+                                
                             </div>
                         </div>
                     </div>
@@ -116,8 +116,7 @@
                                 address, and discussing various strategies to improve grades in any subject.</p>
 
                         </div>
-
-                        <img src="img/One-on-one-lessons.png" width="100%" alt="">
+                        <img src="{{ url('frontendnew/img/One-on-one-lessons.png') }}" width="100%" alt="">
                     </div>
 
                 </div>

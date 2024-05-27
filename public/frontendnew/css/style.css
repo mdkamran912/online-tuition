@@ -44,11 +44,6 @@ a:hover {
   background-repeat: no-repeat;
 }
 
-.brand-bg-Color{
-  background-color: #6a307d;
-  color: white;
-}
-
 /* Header */
 header {
   position: absolute;
@@ -139,14 +134,14 @@ header .navbar .dropdown-menu:before {
     display: none;
   }
 }
-header .navbar .dropdown-menu .dropdown-item:hover {
+/* header .navbar .dropdown-menu .dropdown-item:hover {
   background: #007bff;
   color: #fff;
 }
 header .navbar .dropdown-menu .dropdown-item.active {
   background: #007bff;
   color: #fff;
-}
+} */
 header .navbar .dropdown-menu a {
   padding-top: 7px;
   padding-bottom: 7px;
@@ -284,7 +279,7 @@ header .navbar .dropdown-menu a {
 }
 
 .tutorImg img {
-  height:230px;
+  
   border-radius: 20px;
 }
 
@@ -318,7 +313,7 @@ header .navbar .dropdown-menu a {
 }
 
 .tutor-section,
-.howitwork-sec {
+.howitwork-sec, .howitwork-sec2 {
   padding: 100px 0;
 }
 
@@ -368,7 +363,6 @@ header .navbar .dropdown-menu a {
   border-radius: 20px;
   background-color: #ffffff;
   padding: 26px;
-  height: 240px;
 }
 
 .testi-card:hover {
@@ -399,6 +393,13 @@ header .navbar .dropdown-menu a {
 
 .howitwork-sec {
   background-image: url("/img/icons/line.png");
+  background-repeat: no-repeat;
+  /* background-position: 400px 145px; */
+  background-position: 390px 260px;
+}
+
+.howitwork-sec2 {
+  background-image: url("/img/icons/Vector\ 7344.png");
   background-repeat: no-repeat;
   /* background-position: 400px 145px; */
   background-position: 390px 260px;
@@ -588,10 +589,11 @@ header .navbar .dropdown-menu a {
 .tutor-banner{
   width: 100%;
   height: 500px;
-  background-image: url('../img/banner1.jpg');
+  background-image: url('../img/Rectangle\ 17878.png');
   background-size: cover ;
   border-radius: 20px;
   padding: 50px;
+  margin-bottom: 60px;
 }
 
 .trial{
@@ -1045,6 +1047,10 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
     /* background-color: red; */
     z-index: -1;
   }
+  .collapseAdvSearch form{
+
+    padding: 30px;
+  }
 
   #accordion{
     width: 45%;
@@ -1054,8 +1060,108 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
     
   }
 
-
-  .error-message{
-    font-size: 12px;
-    margin-top: 15px;
+  .star-uni-code{
+    color: rgb(240, 225, 21) !important;
   }
+
+
+  .whyChooseUsTop{
+    width: 100%;
+    border-radius: 20px;
+    background-image: url(../img/education-concept-smiling-brunette-girl-student-casual-clothes-holds-her-books-study-material\ 1.png);
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
+  .resourcesTop{
+    width: 100%;
+    border-radius: 20px;
+    background-image: url(../img/resourcesImg-1.png);
+    /* background-position: center; */
+    background-repeat: no-repeat;
+    background-color: #F6F9F8;
+  }
+
+
+  .whyChooseUsCol{
+    padding: 30px;
+    
+  }
+
+  .getstartedBtnPosition{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+  }
+
+  .whyChooseUsCol button{
+    border: none;
+    border-radius: 60px;
+    background-color: #fff;
+    color: black;
+    font-weight: 600;
+    padding: 10px 30px;
+  }
+
+  .resourcesBottom{
+   text-align: center;
+    padding: 80px;
+  }
+
+  .resourcesBottom h1{
+    line-height: 26px;
+    
+  }
+
+  .resourcesBottom button{
+    float: right;
+  }
+
+  .boeder_Bg{
+  background-color: #F7F8FC;
+  border-radius: 30px;
+
+  }
+
+  .Bg_purple{
+    border-radius: 30px;
+    background-color: #6A307D;
+    color: white;
+    /* padding: 30px; */
+  }
+
+  .flex-container {
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+
+    
+  }
+
+ 
+
+  .abc{
+    width: 50%;
+    border: 1px solid lightgrey;
+    border-radius: 30px;
+    padding: 8px 30px;
+    text-align: center;
+    margin: 0 auto;
+   
+    
+    
+  }
+ 
+.right-side img{
+  border-radius: 20px;
+}
+
+
+.error-message{
+  font-size: 12px;
+  margin-top: 15px;
+}
