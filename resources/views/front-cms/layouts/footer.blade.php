@@ -17,7 +17,7 @@
                     <input type="number" class="form-control" id="username" name="username" aria-describedby=""
                         placeholder="Your Number">
                 </div>
-                <span class="text-danger">
+                <span class="text-danger  login-errorMessage">
                     @error('username')
                         {{ $message }}
                     @enderror
@@ -27,38 +27,42 @@
                     <input type="password" class="form-control" id="password" name="password" aria-describedby=""
                         placeholder="Password">
                 </div>
-                <span class="text-danger" style="font-size:10px">
+                <span class="text-danger login-errorMessage">
                     @error('password')
                         {{ $message }}
                     @enderror
                 </span>
-                <p>Login as</p>
+                <p class="mt-3">Login as</p>
+               
                 <div class="radioBtn">
                     <div class="row">
                         <div class="col-4">
-                            <div class="radioLogin active-btn">
-                                <input type="radio" id="loginAsStudent" name="loginAs" value="student" checked> <span>Student</span>
+                            <div class="radioLogin student active-btn">
+                                <input type="radio" value="student" name="registerAs" id="student" checked> 
+                                <span>Student</span>
                             </div>
                         </div>
-
                         <div class="col-4">
-                            <div class="radioLogin">
-                                <input type="radio" id="loginAsTutor" name="loginAs" value="tutor"> <span>Tutor</span>
+                            <div class="radioLogin tutor">
+                                <input type="radio" value="tutor" name="registerAs" id="tutor"> 
+                                <span>Tutor</span>
                             </div>
                         </div>
-
                         <div class="col-4">
-                            <div class="radioLogin">
-                                <input type="radio" id="loginAsParent" name="loginAs" value="parent"> <span>Parent</span>
+                            <div class="radioLogin parents">
+                                <input type="radio" value="parents" name="registerAs" id="parents"> 
+                                <span>Parents</span>
                             </div>
                         </div>
                     </div>
-                    <span class="text-danger">
+
+                    <span class="text-danger login-errorMessage">
                         @error('loginAs')
                             {{ $message }}
                         @enderror
                     </span>
                 </div>
+
                 <hr>
                 <button type="submit" class="btn brand-bg-Color mb-3">Login</button>
             
@@ -90,7 +94,34 @@
 </div>
 
 
+<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const studentRadio = document.getElementById('student');
+                        const tutorRadio = document.getElementById('tutor');
+                        const parentsRadio = document.getElementById('parents');
+                        const studentDiv = document.querySelector('.student');
+                        const tutorDiv = document.querySelector('.tutor');
+                        const parentsDiv = document.querySelector('.parents');
 
+                        function switchActiveClass() {
+                            studentDiv.classList.remove('active-btn');
+                            tutorDiv.classList.remove('active-btn');
+                            parentsDiv.classList.remove('active-btn');
+
+                            if (studentRadio.checked) {
+                                studentDiv.classList.add('active-btn');
+                            } else if (tutorRadio.checked) {
+                                tutorDiv.classList.add('active-btn');
+                            } else if (parentsRadio.checked) {
+                                parentsDiv.classList.add('active-btn');
+                            }
+                        }
+
+                        studentRadio.addEventListener('change', switchActiveClass);
+                        tutorRadio.addEventListener('change', switchActiveClass);
+                        parentsRadio.addEventListener('change', switchActiveClass);
+                    });
+                </script>
 
 
 
@@ -99,6 +130,9 @@
         $('#myInput').trigger('focus')
     })
 </script>
+
+
+
 
 
 <footer class="footerArea mt-5">

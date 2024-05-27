@@ -78,7 +78,7 @@
 
             </div>
             <div class="col-md-6">
-                <img src="img/subj-bann-img.png" alt="">
+                <img  src="{{ url('frontendnew/img/subj-bann-img.png') }}" alt="">
             </div>
         </div>
 

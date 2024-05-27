@@ -280,7 +280,7 @@ header .navbar .dropdown-menu a {
 }
 
 .tutorImg img {
-  
+  height: 230px;
   border-radius: 20px;
 }
 
@@ -364,6 +364,7 @@ header .navbar .dropdown-menu a {
   border-radius: 20px;
   background-color: #ffffff;
   padding: 26px;
+  height: 230px;
 }
 
 .testi-card:hover {
@@ -670,7 +671,7 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
   display: flex !important;
   justify-content: center;
   gap: 100px;
-  margin-top: 20px;
+ 
   color: #6F6F6F;
 
 }
@@ -902,9 +903,17 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
 
   }
 
+  .brand-bg-Color{
+    background-color: #6a307d;
+    color: white;
+  }
 
+  .brand-bg-Color:hover{
+    
+    color: white;
+  }
 
-  .forgotPwd a{
+  .forgotPwd a, .forgotPwd p{
     display: block;
     text-align: center;
     font-size: 14px;
@@ -1039,10 +1048,10 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
 
   .advceAccordian{
    position: absolute;
-   
+   margin-top: 20px;
    background-color: #fff !important; 
    border-radius: 20px;
-   padding: 0px 15px 5px 15px;
+   padding: 5px 15px 5px 15px;
     
     
   }
@@ -1224,3 +1233,12 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
   border: none;
 }
 
+
+.loginForm > .form-group{
+  margin-bottom: 0;
+  padding-top: 10px;
+}
+
+.login-errorMessage{
+  font-size: 12px;
+}

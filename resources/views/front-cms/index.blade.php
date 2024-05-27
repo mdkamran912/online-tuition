@@ -6,7 +6,7 @@
             <div class="bannerImg">
                 <img src="{{ url('frontendnew/img/banner.png') }}" alt="" width="100%">
                 <div class="overlayMTC">
-                    <div class="tutorHeader">
+                    <div class="tutorHeader mb-">
                         <h1>
                             Discover the perfect tutor for you
                         </h1>
