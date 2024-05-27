@@ -20,7 +20,7 @@ use DB;
 class TutorDashboardController extends Controller
 {
     public function index(){
-        
+
         $studentpro = tutorprofile::select('*')
             ->where('tutor_id', '=', session('userid')->id)
             ->first();
@@ -28,7 +28,7 @@ class TutorDashboardController extends Controller
         if(!$classmapping){
             return redirect('tutor/profileupdate')->with('fail', 'Kindly update your profile & add Class/Grade Mapping.');
         }
-        
+
         $pending_demos = democlasses::whereIn('status', [1, 6])->where('tutor_id', '=', session('userid')->id)->count();
         $classes_taken = zoom_classes::where('zoom_classes.is_completed',1)->where('tutor_id', '=', session('userid')->id)->count();
         // $moneyEarned = paymentdetails::join('paymentstudents', 'paymentstudents.transaction_id', 'paymentdetails.transaction_id')
@@ -62,24 +62,25 @@ class TutorDashboardController extends Controller
             'subjects.name as subject',
             DB::raw('JSON_LENGTH(batchstudentmappings.student_data) as student_count')
         )
-            ->join('topics', 'topics.id', 'zoom_classes.batch_id')
-            ->join('subjects', 'subjects.id', 'topics.subject_id')
-            ->join('batchstudentmappings', 'batchstudentmappings.batch_id', 'zoom_classes.batch_id')
-            ->where('zoom_classes.tutor_id', '=', session('userid')->id)
-            ->where('zoom_classes.is_completed',0)
-            ->orderBy('zoom_classes.start_time', 'asc')
-            ->take(5)
-            ->get();
-        
+        ->join('topics', 'topics.id', '=', 'zoom_classes.batch_id')
+        ->join('subjects', 'subjects.id', '=', 'topics.subject_id')
+        ->join('batchstudentmappings', 'batchstudentmappings.batch_id', '=', 'zoom_classes.batch_id')
+        ->where('zoom_classes.tutor_id', '=', session('userid')->id)
+        ->where('zoom_classes.is_completed', 0)
+        ->where('zoom_classes.start_time', '>', Carbon::now()) // Add condition to check if the start time is greater than the current time
+        ->orderBy('zoom_classes.start_time', 'asc')
+        ->take(5)
+        ->get();
+
         $upcomingClasses->transform(function ($class) {
             $class->start_time = Carbon::parse($class->start_time);
             return $class;
         });
-        
-        
-        
 
-       
+
+
+
+
 
         $upcomingQuizes = OnlineTests::where('test_start_date', '>', Carbon::now())->orderBy('test_start_date', 'asc')
                                        ->take(5)->get();
@@ -88,7 +89,7 @@ class TutorDashboardController extends Controller
             $quiz->test_end_date = Carbon::parse($quiz->test_end_date);
             return $quiz;
         });
-        
+
         $tUpcomingClasses = zoom_classes::where('tutor_id', '=', session('userid')->id)
     ->where('start_time', '>', Carbon::now())
     ->where('is_completed',0)
@@ -104,34 +105,35 @@ class TutorDashboardController extends Controller
             return $payment;
         });
 
-        $upcoming_demos = democlasses::select('democlasses.*','subjects.name as subject','studentprofiles.name as student','studentprofiles.profile_pic as student_img')
-        ->join('studentprofiles','studentprofiles.student_id','democlasses.student_id')
-        ->join('subjects','subjects.id','democlasses.subject_id')
-        ->where('democlasses.slot_confirmed', '>', Carbon::now())
+        $upcoming_demos = democlasses::select(
+            'democlasses.*',
+            'subjects.name as subject',
+            'studentprofiles.name as student',
+            'studentprofiles.profile_pic as student_img'
+        )
+        ->join('studentprofiles', 'studentprofiles.student_id', '=', 'democlasses.student_id')
+        ->join('subjects', 'subjects.id', '=', 'democlasses.subject_id')
         ->where('democlasses.tutor_id', '=', session('userid')->id)
-        ->orderBy('democlasses.slot_confirmed', 'asc')->take(5)->get();
-        $upcoming_demos->transform(function ($demos) {
-            $demos->slot_confirmed = Carbon::parse($demos->slot_confirmed);
-            $demos->slot_1 = Carbon::parse($demos->slot_1);
-            return $demos;
-        });
+        ->where('democlasses.status', '=', 1) // Add condition to filter by status
+        ->orderBy('democlasses.slot_confirmed', 'asc')
+        ->take(5)
+        ->get();
+
+    $upcoming_demos->transform(function ($demos) {
+        $demos->slot_confirmed = Carbon::parse($demos->slot_confirmed);
+        $demos->slot_1 = Carbon::parse($demos->slot_1);
+        return $demos;
+    });
 
         // Students Count
-        $studentscount = studentprofile::select(
-            'studentprofiles.name as studentname',
-            'studentprofiles.student_id as studentid',
-            'studentprofiles.profile_pic as profilepic',
-            'classes.name as class',
-            'subjects.name as subject'
-        )
-            ->join('studentregistrations', 'studentregistrations.id', '=', 'studentprofiles.student_id')
-            ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
-            ->join('classes', 'classes.id', '=', 'paymentstudents.class_id')
-            ->join('subjects', 'subjects.id', '=', 'paymentstudents.subject_id')
-            ->where('paymentstudents.tutor_id',session('userid')->id)
-            ->where('studentregistrations.is_active', 1)
-            ->distinct()
-            ->count();
+        $studentscount = studentprofile::join('studentregistrations', 'studentregistrations.id', '=', 'studentprofiles.student_id')
+    ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+    ->join('classes', 'classes.id', '=', 'paymentstudents.class_id')
+    ->join('subjects', 'subjects.id', '=', 'paymentstudents.subject_id')
+    ->where('paymentstudents.tutor_id', session('userid')->id)
+    ->where('studentregistrations.is_active', 1)
+    ->distinct()
+    ->count('studentprofiles.student_id');
 
             // dd($studentscount);
 
