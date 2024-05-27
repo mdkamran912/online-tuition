@@ -10,101 +10,114 @@
                         <h1>
                             Discover the perfect tutor for you
                         </h1>
-                        <form action="">
+                        <form action="{{ url('toptutorsearch') }}" method="POST">
                             @csrf
-                        <div class="findtutor-btns">
-                            <select style="border-radius: 60px; border:0;padding:10px">
-                                <option>Select a subject</option>
-                                @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                @endforeach
-                            </select>
-                            <select style="border-radius: 60px; border:0;padding:10px">
-                                <option>Select a grade</option>
-                                @foreach ($gradelists as $grade)
-                                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="findtutor-btns">
+                                <select style="border-radius: 60px; border:0;padding:10px" id="subject" name="subject">
+                                    <option value="">Select a subject</option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                                <select style="border-radius: 60px; border:0;padding:10px" id="grade" name="grade">
+                                    <option value="">Select a grade</option>
+                                    @foreach ($gradelists as $grade)
+                                        <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                    @endforeach
+                                </select>
 
-                            <button class="btn search-tutor">Search</button>
-                        </div>
-                    </form>
-
-
-
-                    <div id="accordion">
-        
-                            <div class="advceAccordian">
-                              <div class="" id="headingTwo">
-
-                                <div class="advance-search">
-                                    <a href="" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Find the tutor of your choice use advance search</a>
-                                    <span>
-                                        <a href="" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            <img src="{{ url('frontendnew/img/icons/magnifire.png') }}" alt="">
-                                            Advance Search
-                                        </a>
-                                    </span>
-                                </div>
-                               
-                              </div>
-                              <div id="collapseTwo" class="collapse collapseAdvSearch" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <form class="advSearchForm">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search">
-                                    </div>
-                                    <div class="row mb-3">
-                                      <div class="col">
-                                        <label for="">Subject</label>
-                                        <select class="form-control">
-                                            <option value="">English</option>
-                                            <option value="">English</option>
-                                        </select>
-                                      </div>
-                                      <div class="col">
-                                        <label for="">Grade</label>
-                                        <select class="form-control">
-                                            <option value="">10th Grade</option>
-                                            <option value="">10th Grade</option>
-                                        </select>
-                                      </div>
-                                      <div class="col">
-                                        <label for="">Rating</label>
-                                        <select class="form-control rating">
-                                            <option value="">5 Star <span class="star-uni-code">&#9733;&#9733;&#9733;&#9733;&#9733;</span></option>
-                                            <option value="">4 Star &#9733;&#9733;&#9733;&#9733;</option>
-                                            <option value="">3 Star &#9733;&#9733;&#9733;</option>
-                                            <option value="">2 Star &#9733;&#9733;</option>
-                                            <option value="">1 Star &#9733;</option>
-                                        </select>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-4">
-                                          <label for="">Country</label>
-                                          <select class="form-control">
-                                              <option value="">United Kingdom</option>
-                                          </select>
-                                        </div>
-                                       
-                                         
-                                        <div class="col-8">
-                                           <div class="advSearchBtns">
-                                                <button class="btn cancelBtn">Cancel</button>
-                                                <button class="applyBtn">Apply</button>
-                                           </div>
-                                        </div>
-                                        
-                                      </div>
-
-
-                                  </form>
-                                
-                              </div>
+                                <button type="submit" class="btn search-tutor">Search</button>
                             </div>
-                          
-                          </div>
+                        </form>
+
+
+
+                        <div id="accordion">
+
+                            <div class="advceAccordian">
+                                <div class="" id="headingTwo">
+
+                                    <div class="advance-search">
+                                        <a href="" class="collapsed" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">Find the tutor of your choice use advance search</a>
+                                        <span>
+                                            <a href="" class="collapsed" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                                <img src="{{ url('frontendnew/img/icons/magnifire.png') }}" alt="">
+                                                Advance Search
+                                            </a>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div id="collapseTwo" class="collapse collapseAdvSearch" aria-labelledby="headingTwo"
+                                    data-parent="#accordion">
+                                    <form class="advSearchForm" action="{{url('advancesearch')}}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search" id="name" name="name">
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="">Subject</label>
+                                                <select class="form-control" id="subject" name="subject">
+                                                    <option value="">Select a subject</option>
+                                                    @foreach ($subjects as $subject)
+                                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Grade</label>
+                                                <select class="form-control" id="grade" name="grade">
+                                                    <option value="">Select a grade</option>
+                                                    @foreach ($gradelists as $grade)
+                                                        <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                          <div class="col">
+                                            <label for="">Rating</label>
+                                            <select class="form-control rating" id="ratings" name="ratings">
+                                                <option value="">5 Star <span class="star-uni-code">&#9733;&#9733;&#9733;&#9733;&#9733;</span></option>
+                                                <option value="">4 Star &#9733;&#9733;&#9733;&#9733;</option>
+                                                <option value="">3 Star &#9733;&#9733;&#9733;</option>
+                                                <option value="">2 Star &#9733;&#9733;</option>
+                                                <option value="">1 Star &#9733;</option>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                              <label for="">Country</label>
+                                              <select class="form-control" id="country" name="country">
+                                                  <option value="">Select Country</option>
+                                                  @foreach ($countries as $country)
+                                                      <option value="{{$country->id}}">{{$country->name}}</option>
+                                                  @endforeach
+                                              </select>
+                                            </div>
+
+
+                                            <div class="col-8">
+                                               <div class="advSearchBtns">
+                                                    <button class="btn cancelBtn">Cancel</button>
+                                                    <button type="submit" class="applyBtn">Apply</button>
+                                               </div>
+                                            </div>
+
+                                          </div>
+
+
+                                      </form>
+
+                                </div>
+                            </div>
+
+                        </div>
 
 
                     </div>
@@ -201,26 +214,26 @@
             <br>
             <div class="row">
                 @foreach ($tutors->slice(0, 8) as $tutor)
-
-                <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
-                    <div class="tutorDetails">
-                        <div class="tutorImg">
-                            <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}" width="100%"  alt="">
+                    <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
+                        <div class="tutorDetails">
+                            <div class="tutorImg">
+                                <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}"
+                                    width="100%" alt="">
+                            </div>
+                            <div class="star">
+                                <span>
+                                    <i class="fa fa-star"></i>
+                                    {{ $tutor->avg_rating }} ({{ $tutor->total_reviews }})
+                                </span>
+                                <span>${{ $tutor->rateperhour }}/h</span>
+                            </div>
+                           <a href="tutor-details/{{$tutor->tutor_id}}"> <span class="name">
+                                {{ $tutor->name }}
+                                <p>{{ $tutor->subjects }}</p>
+                            </span></a>
+                            <span class="desc-tutor">{{ $tutor->headline }}</span>
                         </div>
-                        <div class="star">
-                            <span>
-                                <i class="fa fa-star"></i>
-                                {{$tutor->avg_rating}} ({{$tutor->total_reviews}})
-                            </span>
-                            <span>${{$tutor->rateperhour}}/h</span>
-                        </div>
-                        <span class="name">
-                            {{$tutor->name}}
-                            <p>{{$tutor->subjects}}</p>
-                        </span>
-                        <span class="desc-tutor">{{$tutor->headline}}</span>
                     </div>
-                </div>
                 @endforeach
 
             </div>
@@ -239,24 +252,23 @@
             <h3 class="">Customer Testimonials</h3>
             <div class="row">
                 @foreach ($reviews->slice(0, 4) as $review)
-
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <div class="testi-card">
-                        <span class="nameTo">
-                            {{$review->tutorname}}
-                            <p>{{$review->subjectname}}
-                                <br>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </p>
-                        </span>
-                        <p class="mt-4">“{{$review->name}}”</p>
-                        <p class="nameFrom">{{$review->studentname}}</p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="testi-card">
+                            <span class="nameTo">
+                                {{ $review->tutorname }}
+                                <p>{{ $review->subjectname }}
+                                    <br>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </p>
+                            </span>
+                            <p class="mt-4">“{{ $review->name }}”</p>
+                            <p class="nameFrom">{{ $review->studentname }}</p>
+                        </div>
                     </div>
-                </div>
                 @endforeach
 
             </div>
@@ -368,10 +380,10 @@
         <div class="container">
             <div class="tutor-banner ">
 
-                        <div class="rightside">
-                            <h2>Begin your tutoring journey now! Join us as a tutor.</h2>
-                            <button>Get Started</button>
-                        </div>
+                <div class="rightside">
+                    <h2>Begin your tutoring journey now! Join us as a tutor.</h2>
+                    <button>Get Started</button>
+                </div>
 
             </div>
         </div>
@@ -381,43 +393,46 @@
 
     <!-- -----------blog---------- -->
     <!-- <section class="testimonial-sec">
-        <div class="container topheader">
-            <h3 class="">Resources / Blogs</h3>
-            <p class="para">Experience seamless learning with our online tuition app. We've simplified education, making
-                it easy for students, parents, and tutors to connect and excel. Effortless, effective, and engaging learning
-                awaits you.</p>
-            <div class="row">
-                @foreach ($blogs as $blog)
+            <div class="container topheader">
+                <h3 class="">Resources / Blogs</h3>
+                <p class="para">Experience seamless learning with our online tuition app. We've simplified education, making
+                    it easy for students, parents, and tutors to connect and excel. Effortless, effective, and engaging learning
+                    awaits you.</p>
+                <div class="row">
+                    @foreach ($blogs as $blog)
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="blog-card">
 
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="blog-card">
-
-                        <img src="{{ url('images/blogs') }}/{{$blog->image}}" width="100%" height="230px" alt="">
+                            <img src="{{ url('images/blogs') }}/{{ $blog->image }}" width="100%" height="230px" alt="">
 
 
-                        <div class="blogDetails">
-                            <span class="feature">@if($blog->is_featured)Featured | @endif {{$blog->published_by}}<span>
-                                    <h5 class="my-2">{{$blog->name}}</h5>
-                                    <p class="bDesc">{{$blog->description}}</p>
+                            <div class="blogDetails">
+                                <span class="feature">
+    @if ($blog->is_featured)
+    Featured |
+    @endif {{ $blog->published_by }}
+    <span>
+                                        <h5 class="my-2">{{ $blog->name }}</h5>
+                                        <p class="bDesc">{{ $blog->description }}</p>
 
-                                    <a href="#">
-                                        Read more
-                                    </a>
+                                        <a href="#">
+                                            Read more
+                                        </a>
+                            </div>
+
                         </div>
+                    </div>
+    @endforeach
 
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 ">
+                        <div class="expMore">
+                            <a href="#" class="btn btn-lg">View all</a>
+                        </div>
                     </div>
                 </div>
-                @endforeach
-
-
             </div>
-            <div class="row mt-4">
-                <div class="col-12 ">
-                    <div class="expMore">
-                        <a href="#" class="btn btn-lg">View all</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
+        </section> -->
 @endsection
