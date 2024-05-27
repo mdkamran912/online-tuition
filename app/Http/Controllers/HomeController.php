@@ -72,9 +72,9 @@ class HomeController extends Controller
         )
         ->get();
 
-        // dd($tutors);
-        // Tutors List
-        $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience','tutorprofiles.rate as rateperhour', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
+
+
+    $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience','tutorprofiles.rate as rateperhour', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
     DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
 )
     ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
@@ -120,15 +120,13 @@ class HomeController extends Controller
         return view('front-cms.index',get_defined_vars());
         // return view('front-cms.index', compact('classes'));
     }
+    public function indexresources(){
+        return view('front-cms.resources');
+    }
     public function allsubjects()
     {
         $classes = classes::all('id', 'name');
 
-        // $tutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'))
-        //     ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-        //     ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
-        //     ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-        //     ->get();
         $tutors = tutorprofile::select(
             'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',

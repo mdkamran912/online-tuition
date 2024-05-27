@@ -65,6 +65,7 @@ Route::get('checkNotificationDetails/{id}',[HomeController::class,'checkNotifica
 Route::get('findatutor',[HomeController::class,'findatutor'])->name('findatutor');
 Route::get('tutor-details/{id}',[HomeController::class,'tutordetails'])->name('tutordetails');
 Route::get('index/slots/search', [SlotBookingController::class, 'indexslotsearch'])->name('index.slots.search');
+Route::get('resources', [HomeController::class, 'indexresources'])->name('index.resources');
 
 // Route::get('findatutor', function(){
 //     return view('front-cms/findatutor');
@@ -211,7 +212,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('scheduledclasses', [ClassController::class, 'scheduledclasses'])->name('admin.scheduledclasses');
     Route::get('tutorslots', [SlotBookingController::class, 'admintutorslots'])->name('admin.tutorslots');
     Route::post('tutorslotssearch', [SlotBookingController::class, 'admintutorslotssearch'])->name('admin.tutorslotssearch');
-    
+
     // Subjects
     Route::get('subject', [SubjectController::class, 'index'])->name('admin.subject');
     Route::post('subject', [SubjectController::class, 'store'])->name('admin.subject.create');
@@ -253,7 +254,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::get('tutorslotscheck/{id}',[TutorSearchController::class, 'tutorslotscheck'])->name('admin.tutorslotscheck');
     Route::post('adminslotsdelete', [SlotBookingController::class, 'slotsdelete'])->name('admin.slots.delete');
     Route::post('adminslotsupdate', [SlotBookingController::class, 'slotsupdate'])->name('admin.slots.update');
-    
+
     // Admin Commission
     Route::get('commission/update',[TutorSearchController::class,'commissionupdate'])->name('admin.commission.update');
     // Payment details
@@ -367,7 +368,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     Route::get('batches/students/{id}', [BatchesController::class, 'tutorbatchesstudents'])->name('tutor.batches.students');
     Route::any('batches/attendance/{id}', [BatchesController::class, 'tutorbatchesattendance'])->name('tutor.batches.attendance');
     Route::post('batches/update-attendance', [BatchesController::class, 'tutorBatcheUpdateattendance'])->name('tutor.batches.update-attendance');
-    
+
     // Student Lists(Enrolled)
     Route::get('students', [BatchesController::class, 'tstudentlists'])->name('tutor.studentslist');
 
