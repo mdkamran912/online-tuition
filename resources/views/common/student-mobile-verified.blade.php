@@ -43,7 +43,7 @@
                                 <h4>Well done !</h4>
                                 <p class="text-muted mx-4">Aww yeah, mobile number verified successfully.</p>
                                 <div class="mt-4">
-                                    <a href="{{route('studentlogin')}}" class="btn btn-success w-100">Back to Login</a>
+                                    <a href="{{url('/')}}" class="btn btn-success w-100">Back to Login</a>
                                 </div>
                             </div>
                         </div>

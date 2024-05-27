@@ -212,7 +212,7 @@
                         </button> --}}
                     </div>
                 </div>
-               
+
                 <div class="row">
                     <div class="col-xl-8 col-xxl-9">
                         <div class="tu-listinginfo-holder">
@@ -235,7 +235,7 @@
                                         </div>
                                         <div class="tu-listinginfo_price">
                                             <span>Starting from:</span>
-                                            <h4>£{{$tutorlist->rate}}/hr</h4>
+                                            <h4>£{{$tutorlist->rateperhour}}/hr</h4>
                                         </div>
                                     </div>
                                     <div class="tu-listinginfo_description">
@@ -274,10 +274,10 @@
                                         <div class="tu-iconheart">
                                             <a href="addfav/{{$tutorlist->tutor_id}}"><img src="{{asset('images/grey-heart.png')}}" width="18px" alt=""><span>&nbsp; Add Favourite</span></a>
                                         </div>
-                                    
-                                    
+
+
                                     @endif
-                                    
+
                                     <div class="tu-btnarea">
                                        <a href="#booktrial"> <button data-toggle="modal" data-target="#openDemoModal"
                                         class="btn btn-sm btn-primary"
@@ -287,7 +287,7 @@
                                         {{-- <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Chat</button></a> --}}
                                         <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-primary" id="enrollnow">Chat</button></a>
                                         <a href="enrollnow/{{ $tutorlist->sub_map_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Enroll Now</button></a>
-                                
+
                                         {{-- <a href="#checkslots" onclick="checkslots('{{$tutorlist->tutor_id}}')" class="btn btn-success">Check Slots</a> --}}
                                         {{-- <a href="{{url('student/searchtutor')}}" class="btn btn-primary">Book Trial</a> --}}
                                         <a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}" class="tu-primbtn">View full profile</a>
@@ -325,7 +325,7 @@
                                             <button class="btn btn-sm btn-success" style="width: 30%;"><i class="fa fa-search"></i> Search</button>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side2" role="button" aria-expanded="true">
                                         <h6>Education level</h6>
                                     </div>
@@ -374,7 +374,7 @@
                                             </div>
                                         </div>
                                         <div class="tu-distanceholder">
-                                            <div id="tu-rangecollapse" class="collapse">	
+                                            <div id="tu-rangecollapse" class="collapse">
                                                 <div class="tu-distance">
                                                     <div id="tu-rangeslider" class="tu-tooltiparrow tu-rangeslider"></div>
                                                 </div>
@@ -398,10 +398,10 @@
                                                             </span>
                                                             <em class="tu-totalreview">
                                                                 <span>5.0/<em>5.0</em></span>
-                                                            </em>  
+                                                            </em>
                                                         </label>
                                                     </div>
-                                                </li>                                              
+                                                </li>
                                                 <li>
                                                     <div class="tu-check tu-checksm">
                                                         <input type="checkbox" id="rate4" name="rate4">
@@ -414,7 +414,7 @@
                                                             </em>
                                                         </label>
                                                     </div>
-                                                </li>                                              
+                                                </li>
                                                 <li>
                                                     <div class="tu-check tu-checksm">
                                                         <input type="checkbox" id="rate3" name="rate2">
@@ -427,7 +427,7 @@
                                                             </em>
                                                         </label>
                                                     </div>
-                                                </li>                                              
+                                                </li>
                                                 <li>
                                                     <div class="tu-check tu-checksm">
                                                         <input type="checkbox" id="rate2a" name="rate2a">
@@ -440,7 +440,7 @@
                                                             </em>
                                                         </label>
                                                     </div>
-                                                </li>                                              
+                                                </li>
                                                 <li>
                                                     <div class="tu-check tu-checksm">
                                                         <input type="checkbox" id="rate1a" name="rate1a">
@@ -453,12 +453,12 @@
                                                             </em>
                                                         </label>
                                                     </div>
-                                                </li>                                              
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="tu-aside-holder">
                                     <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1ab" role="button" aria-expanded="true">
                                         <h5>Location</h5>
@@ -475,13 +475,13 @@
                                                     </li>
                                                 @endforeach
 
-                                                                        
+
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tu-filterbtns">
-                                    
+
                                  <button type="submit" class="tu-primbtn">Apply filters</button>
                                  <button type="button" onclick="clearfilter()">   <a href="{{url('student/searchtutor')}}" class="tu-sb-sliver">Clear all filters</a></button>
                                 </div>
@@ -490,7 +490,7 @@
                         </aside>
                     </div>
                 </div>
-                
+
                 {{-- Modified search modal as per customer requirements --}}
                 <div class="modal fade" id="advSearchModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1187,7 +1187,7 @@
 
 {{-- Slot Availablity Starts here --}}
 <script>
-    
+
     // At the beginning of your script
     let selectedSlotIds = [];
 
@@ -1398,9 +1398,9 @@ document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join
                 alert('Required class should not be more than available class');
                 return false;
             }
-            
-            
-            
+
+
+
             document.getElementById('selectedSlotConfirmation').innerHTML = '';
             document.getElementById('selectedSlotConfirmation').innerHTML = `You have selected total ${selectedSlotIds.length} slots out of ${totalclasstaken}.`;
             if(selectedSlotIds.length > totalclasstaken){
@@ -1422,5 +1422,5 @@ document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join
         }
 
     </script>
-   
+
 @endsection

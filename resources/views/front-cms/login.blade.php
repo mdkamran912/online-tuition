@@ -1,6 +1,6 @@
 @extends('front-cms.layouts.main')
 @section('main-section')
-   
+
     <!-- MAIN START -->
 	<main>
 		<style>
@@ -73,10 +73,10 @@
 									<div class="tu-radio-group">
 										<input type="radio" id="loginAsStudent" name="loginAs" value="student" style="margin-top: -7px" required>
 										<label for="loginAsStudent">Student</label>
-								
+
 										<input type="radio" id="loginAsParent" name="loginAs" value="parent"  style="margin-top: -7px" required>
 										<label for="loginAsParent">Parent</label>
-								
+
 										<input type="radio" id="loginAsTutor" name="loginAs" value="tutor" style="margin-top: -7px" required>
 										<label for="loginAsTutor">Tutor</label>
 									</div>

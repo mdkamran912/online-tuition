@@ -20,49 +20,85 @@
                 <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                     <div class="regidform">
                         <h3 class="text-center mt-4">To Register with us fill out the following</h3>
-
-                        <form action="" class="">
+                        @if (Session::has('success'))
+                                <div class="alert alert-success">{{ Session::get('success') }}</div>
+                            @endif
+                            @if (Session::has('fail'))
+                                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                            @endif
+                        <form action="{{url('/student/register')}}" method="POST" class="">
+                            @csrf
                             <div class="form-group">
                                 <label for="name">Full Name:<span class="reqrd">*</span></label>
-                                <input type="text" class="form-control" id="" aria-describedby=""
-                                    placeholder="Your name">
+                                <input type="text" class="form-control" id="name" name="name" aria-describedby=""
+                                    placeholder="Your name" value="{{old('name')}}">
+                                    <span class="text-danger">
+                                        @error('name')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                             </div>
+
 
                             <div class="form-group">
                                 <label for="email">Email:<span class="reqrd">*</span></label>
-                                <input type="email" class="form-control" id="" aria-describedby=""
-                                    placeholder="Your email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="number">Mobile:<span class="reqrd">*</span></label>
-                                <input type="number" class="form-control" id="" aria-describedby=""
-                                    placeholder="Your mobile number">
+                                <input type="email" class="form-control" id="email" name="email" aria-describedby=""
+                                    placeholder="Your email address"value="{{old('email')}}">
+                                    <span class="text-danger">
+                                        @error('email')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                             </div>
 
                             <div class="form-group">
-                                <label for="password">Create password:<span class="reqrd">*</span></label>
-                                <input type="password" class="form-control" id="" aria-describedby=""
-                                    placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;">
+                                <label for="number">Mobile:<span class="reqrd">*</span></label>
+                                <input type="number" class="form-control" id="mobile" name="mobile" aria-describedby=""
+                                    placeholder="Your mobile number" value="{{old('mobile')}}">
+                                    <span class="text-danger">
+                                        @error('mobile')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                             </div>
+
+
+                            <div class="form-group">
+                                <label for="password">Create password:<span class="reqrd">*</span></label>
+                                <input type="password" class="form-control" id="password" name="password" aria-describedby=""
+                                    placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;">
+                                    <span class="text-danger">
+                                        @error('password')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                            </div>
+
                             <div class="form-group">
                                 <label for="password">Retype password:<span class="reqrd">*</span></label>
-                                <input type="password" class="form-control" id="" aria-describedby=""
+                                <input type="password" class="form-control" id="confpassword" name="confpassword" aria-describedby=""
                                     placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;">
+                                    <span class="text-danger">
+                                        @error('confpassword')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                             </div>
+
 
                             <p>Register as<span class="reqrd">*</span></p>
                             <div class="radioBtn">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="radioLogin student active-btn">
-                                            <input type="radio" class="" value="Student" name="loginAs"
+                                            <input type="radio" class="" value="student" name="registerAs"
                                                 id="student" checked> <span>Student</span>
                                         </div>
                                     </div>
 
                                     <div class="col-6">
                                         <div class="radioLogin tutor">
-                                            <input type="radio" value="Tutor" name="loginAs" id="tutor">
+                                            <input type="radio" value="tutor" name="registerAs" id="tutor">
                                             <span>Tutor</span>
                                         </div>
                                     </div>
@@ -71,15 +107,20 @@
                             </div>
 
                             <div class="term-Condition">
-                                <input type="checkbox"> <span for="termCondition">I have read and agree to all <a
+                                <input type="checkbox" id="expcheck" name="expcheck" {{ old('expcheck') ? 'checked' : '' }}> <span for="termCondition">I have read and agree to all <a
                                         href="#">Terms & conditions</a></span>
                             </div>
+                            <span class="text-danger">
+                                @error('expcheck')
+                                    {{ $message }}
+                                @enderror
+                            </span>
 
 
                             <div class="row mt-4">
                                 <div class="col-12 ">
                                     <div class="regSub">
-                                        <button class="btn btn-lg">Create</button>
+                                        <button type="submit" class="btn btn-lg">Create</button>
                                     </div>
                                 </div>
                             </div>

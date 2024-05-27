@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 use App\Events\RealTimeMessage;
 use App\Models\classes;
 use App\Models\studentregistration;
-use App\Models\tutorregistration;   
-use App\Models\country;   
-use App\Models\subjects;   
-use App\Models\Blogs;   
+use App\Models\tutorregistration;
+use App\Models\country;
+use App\Models\subjects;
+use App\Models\Blogs;
 use App\Models\tutorprofile;
 use App\Models\subjectcategory;
 use App\Models\payments\paymentdetails;
@@ -31,12 +31,12 @@ class HomeController extends Controller
 {
     // public function deepesh(){
     //     event(new \App\Events\TestNotification('This is testing data'));
-        
+
     // }
     public function index()
     {
         $classes = classes::all('id', 'name');
-        
+
         // $tutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'))
         //     ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
         //     ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
@@ -71,7 +71,7 @@ class HomeController extends Controller
             'tutorprofiles.headline'
         )
         ->get();
-        
+
         // dd($tutors);
         // Tutors List
         $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience','tutorprofiles.rate as rateperhour', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
@@ -123,14 +123,14 @@ class HomeController extends Controller
     public function allsubjects()
     {
         $classes = classes::all('id', 'name');
-        
+
         // $tutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'))
         //     ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
         //     ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
         //     ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
         //     ->get();
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
+            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',
             'classes.name as className',
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -146,7 +146,7 @@ class HomeController extends Controller
         })
         ->groupBy('tutorsubjectmappings.id', 'tutorprofiles.name', 'subjects.name', 'tutorsubjectmappings.rate','tutorsubjectmappings.admin_commission','classes.name','tutorprofiles.profile_pic')
         ->get();
-        
+
         // Tutors List
         $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification as tutor_qualification','tutorprofiles.intro_video_link','tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
     DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
@@ -187,7 +187,7 @@ class HomeController extends Controller
     public function findatutor()
     {
         $classes = classes::all('id', 'name');
-        
+
          $tutors = tutorprofile::select(
             'tutorprofiles.name',
             'tutorprofiles.headline',
@@ -217,7 +217,7 @@ class HomeController extends Controller
             'tutorprofiles.headline'
         )
         ->get();
-        
+
         $subjectlists = DB::table('subjects')
         ->join('subjectcategories', 'subjects.category', '=', 'subjectcategories.id')
         ->select('subjectcategories.name as category_name', 'subjects.name as subject_name','subjects.id as subject_id')
@@ -264,11 +264,11 @@ class HomeController extends Controller
         }
 
 
-        
+
         if (!$tutorpd) {
             return view('front-cms.tutordetails')->with('fail', 'Something went wrong');
         }
-        
+
         return view('front-cms.tutordetails', compact('tutorpd', 'achievement', 'reviews'));
     }
 
@@ -359,7 +359,7 @@ class HomeController extends Controller
             'loginAs' => 'required',
         ]);
         if($request->loginAs == 'student')
-        
+
     {    $user = studentregistration::where('mobile', '=', $request->username)->first();
             if ($user) {
             if (Hash::check($request->password, $user->password)) {
@@ -454,18 +454,34 @@ class HomeController extends Controller
         // if ($request->id == "1") {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'mobile' => 'required|min:4|max:13',
             'password' => 'required|min:8|max:50',
-            'expcheck' => 'required'
+            'confpassword' => 'required|min:8|max:50|same:password',
+            'expcheck' => 'required|accepted'
         ],[
-        // 'mobile.regex' => 'The mobile must  be a valid  number with a country code, e.g., +4470000000',
-    ]);
+            'name.required' => 'Name is required.',
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email must be a valid email address.',
+            'mobile.required' => 'Mobile number is required.',
+            'mobile.min' => 'Mobile number must be at least 4 digits.',
+            'mobile.max' => 'Mobile number must not exceed 13 digits.',
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.max' => 'Password must not exceed 50 characters.',
+            'confpassword.required' => 'Confirmation password is required.',
+            'confpassword.min' => 'Confirmation password must be at least 8 characters.',
+            'confpassword.max' => 'Confirmation password must not exceed 50 characters.',
+            'confpassword.same' => 'Password and confirmation password must match.',
+            'expcheck.required' => 'You must accept the terms.',
+            'expcheck.accepted' => 'The terms must be accepted.'
+        ]);
 
     if($request->registerAs == 'student'){
-        
 
     $user = studentregistration::where('mobile', '=', $request->mobile,)->first();
+    // echo $user;
+    // dd();
     if($user){
         return back()->with('fail', 'Mobile Already Registered');
     }
@@ -537,7 +553,7 @@ class HomeController extends Controller
         }
     }
     if($request->registerAs == 'tutor'){
-       
+
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -555,7 +571,7 @@ class HomeController extends Controller
             return back()->with('fail', 'Mobile Already Registered');
         }
 
-       
+
         $user = new tutorregistration();
         $user->mobile = $request->mobile;
         $user->role_id = "2";
@@ -586,7 +602,7 @@ class HomeController extends Controller
         $mobile = $request->mobile;
         if ($res) {
             $user = tutorregistration::where('mobile', '=', $mobile)->first();
-        
+
             // if (Hash::check($request->password, $user->password)) {
                 //  event(new Registered($user));
 
@@ -601,11 +617,11 @@ class HomeController extends Controller
             $notificationdata->initiator_role = "2";
             $notificationdata->event_id = $user->id;
             // Sending to admin
-          
+
                 $notificationdata->show_to_admin = 1;
                 $notificationdata->show_to_admin_id = 1;
                 $notificationdata->show_to_all_admin = 1;
-           
+
             $notificationdata->read_status = 0;
 
             $notified = $notificationdata->save();
@@ -629,7 +645,7 @@ class HomeController extends Controller
                 }
                 // return redirect(RouteServiceProvider::HOME);
             // }
-         
+
             // return view('common.tutor-mobile-verify', compact('mobile'))->with('success', 'Registration successful. Please Login Now To Access More Features.');
 
             // return redirect('student/dashboard');
@@ -661,7 +677,7 @@ class HomeController extends Controller
 
     public function verify_student_mobile(Request $request)
     {
-       
+
         $request->validate([
             'digit1_input' => 'required',
             'digit2_input' => 'required',
@@ -855,7 +871,7 @@ class HomeController extends Controller
     public function notifications(){
         // Logged In User Role
         $logged_in_role = session('userid')->role_id;
-        
+
         // Notification for Admin
         if($logged_in_role == 1){
             $notifications = Notification::orderBy('created_at', 'desc')
@@ -878,21 +894,21 @@ class HomeController extends Controller
                 })
                 ->select(
                     'notifications.*',
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.name
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.name
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.fathers_name
                             ELSE NULL
                         END AS initiator_name'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.profile_pic
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.profile_pic
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.profile_pic
                             ELSE NULL
                         END AS initiator_pic'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                                 WHEN notifications.initiator_role = 1 THEN "Admin"
                                 WHEN notifications.initiator_role = 2 THEN "Tutor"
                                 WHEN notifications.initiator_role = 3 THEN "Student"
@@ -930,21 +946,21 @@ class HomeController extends Controller
                 })
                 ->select(
                     'notifications.*',
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.name
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.name
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.fathers_name
                             ELSE NULL
                         END AS initiator_name'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.profile_pic
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.profile_pic
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.profile_pic
                             ELSE NULL
                         END AS initiator_pic'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                                 WHEN notifications.initiator_role = 1 THEN "Admin"
                                 WHEN notifications.initiator_role = 2 THEN "Tutor"
                                 WHEN notifications.initiator_role = 3 THEN "Student"
@@ -982,21 +998,21 @@ class HomeController extends Controller
                 })
                 ->select(
                     'notifications.*',
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.name
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.name
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.fathers_name
                             ELSE NULL
                         END AS initiator_name'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.profile_pic
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.profile_pic
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.profile_pic
                             ELSE NULL
                         END AS initiator_pic'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                                 WHEN notifications.initiator_role = 1 THEN "Admin"
                                 WHEN notifications.initiator_role = 2 THEN "Tutor"
                                 WHEN notifications.initiator_role = 3 THEN "Student"
@@ -1034,21 +1050,21 @@ class HomeController extends Controller
                 })
                 ->select(
                     'notifications.*',
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.name
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.name
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.fathers_name
                             ELSE NULL
                         END AS initiator_name'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                             WHEN notifications.initiator_role = 1 THEN admins.name
                             WHEN notifications.initiator_role = 2 THEN tutorprofiles.profile_pic
                             WHEN notifications.initiator_role = 3 THEN studentprofiles.profile_pic
                             WHEN notifications.initiator_role = 4 THEN studentprofiles.profile_pic
                             ELSE NULL
                         END AS initiator_pic'),
-                    DB::raw('CASE 
+                    DB::raw('CASE
                                 WHEN notifications.initiator_role = 1 THEN "Admin"
                                 WHEN notifications.initiator_role = 2 THEN "Tutor"
                                 WHEN notifications.initiator_role = 3 THEN "Student"
@@ -1064,19 +1080,19 @@ class HomeController extends Controller
                 })
                 ->count();
         }
-    
+
         return response()->json([
             'notifications' => $notifications,
             'unread_count' => $unreadCount
         ]);
     }
-    
+
     public function markAsRead($id){
-       
+
         $updatestatus = Notification::find($id);
         $updatestatus->read_status = 1;
         $updatestatus->update();
-        
+
         $notifications = Notification::orderBy('created_at', 'desc')->get();
         $unreadCount = Notification::where('read_status', 0)->count();
         return response()->json([
@@ -1089,7 +1105,7 @@ class HomeController extends Controller
     //    dd($notificationData);
         // Notification Event On Chat
         if($notificationData->alert_type == 1){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1116,7 +1132,7 @@ class HomeController extends Controller
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/studentmessages/'.$notificationData->initiator_id);
                 }
-               
+
             }
             // Initiated by parent
             if($notificationData->initiator_role == 4){
@@ -1130,7 +1146,7 @@ class HomeController extends Controller
         }
         // Notification Event On Trial Class
         if($notificationData->alert_type == 2){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1151,14 +1167,14 @@ class HomeController extends Controller
             }
             // Chat Initiated by student
             if($notificationData->initiator_role == 3){
-                
+
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/demolist');
                 }
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/demolist');
                 }
-               
+
             }
             // Initiated by parent
             // if($notificationData->initiator_role == 4){
@@ -1172,7 +1188,7 @@ class HomeController extends Controller
         }
         // Notification Event On Assignments
         if($notificationData->alert_type == 3){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1193,14 +1209,14 @@ class HomeController extends Controller
             }
             // Chat Initiated by student
             if($notificationData->initiator_role == 3){
-                
+
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/assignments');
                 }
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/assignments');
                 }
-               
+
             }
             // Initiated by parent
             // if($notificationData->initiator_role == 4){
@@ -1214,7 +1230,7 @@ class HomeController extends Controller
         }
         // Notification Event On Quiz/Online Test
         if($notificationData->alert_type == 4){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1235,14 +1251,14 @@ class HomeController extends Controller
             }
             // Chat Initiated by student
             if($notificationData->initiator_role == 3){
-                
+
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/onlinetestlist');
                 }
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/onlinetestlist');
                 }
-               
+
             }
             // Initiated by parent
             // if($notificationData->initiator_role == 4){
@@ -1256,7 +1272,7 @@ class HomeController extends Controller
         }
         // Notification Event On Feedback
         if($notificationData->alert_type == 5){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1277,14 +1293,14 @@ class HomeController extends Controller
             }
             // Chat Initiated by student
             if($notificationData->initiator_role == 3){
-                
+
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/dashboard');
                 }
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/feedback');
                 }
-               
+
             }
             // Initiated by parent
             // if($notificationData->initiator_role == 4){
@@ -1298,7 +1314,7 @@ class HomeController extends Controller
         }
         // Notification Event On Enrollment
         if($notificationData->alert_type == 6){
-            
+
             // Initiated By Admin
             if($notificationData->initiator_role == 1){
                 if(session('userid')->role_id == 2){
@@ -1319,14 +1335,14 @@ class HomeController extends Controller
             }
             // Chat Initiated by student
             if($notificationData->initiator_role == 3){
-                
+
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/payments');
                 }
                 if(session('userid')->role_id == 2){
                     return redirect()->to('tutor/students');
                 }
-               
+
             }
             // Initiated by parent
             // if($notificationData->initiator_role == 4){
@@ -1340,7 +1356,7 @@ class HomeController extends Controller
         }
         // Notification Event On Slot Booking
         // if($notificationData->alert_type == 7){
-            
+
         //     // Initiated By Admin
         //     if($notificationData->initiator_role == 1){
         //         if(session('userid')->role_id == 2){
@@ -1361,14 +1377,14 @@ class HomeController extends Controller
         //     }
         //     // Chat Initiated by student
         //     if($notificationData->initiator_role == 3){
-                
+
         //         if(session('userid')->role_id == 1){
         //             return redirect()->to('admin/payments');
         //         }
         //         if(session('userid')->role_id == 2){
         //             return redirect()->to('tutor/students');
         //         }
-               
+
         //     }
         //     // Initiated by parent
         //     // if($notificationData->initiator_role == 4){
@@ -1382,15 +1398,15 @@ class HomeController extends Controller
         // }
         // Notification Event On Tutor Registration
         if($notificationData->alert_type == 8){
-            
+
             // Initiated by tutor
             if($notificationData->initiator_role == 2){
                 if(session('userid')->role_id == 1){
                     return redirect()->to('admin/tutors');
                 }
-                
+
             }
-            
+
         }
 
     }

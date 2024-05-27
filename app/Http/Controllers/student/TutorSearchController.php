@@ -27,23 +27,37 @@ class TutorSearchController extends Controller
     public function index()
     {
 
-        $tutorlist = tutorprofile::select('tutorprofiles.id', 'my_favourites.status as myfav', 'tutorprofiles.tutor_id as tutor_id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id')
-    ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-    ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-    ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-    ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
-    ->join('tutorregistrations', 'tutorregistrations.id', '=', 'tutorprofiles.tutor_id')
-    ->leftJoin('my_favourites', function ($join) {
-        $join->on('my_favourites.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->where('my_favourites.student_id', session('userid')->id);
-    })
-    ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.id')
-    ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-    ->where('tutorregistrations.is_active', 1)
-    ->groupBy('tutorprofiles.id', 'my_favourites.status', 'tutorprofiles.tutor_id', 'subjects.id', 'subjects.name', 'classes.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name', 'rate', 'sub_map_id', 'experience')
-    ->get();
+        $tutorlist = tutorprofile::select(
+            'tutorprofiles.name',
+            'tutorprofiles.headline',
+            'tutorprofiles.profile_pic',
+            'tutorprofiles.rate as rateperhour',
+            DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
+            DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
+            DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
+            DB::raw('AVG(tutorreviews.ratings) as avg_rating'),
+            DB::raw('COUNT(tutorreviews.id) as total_reviews') // Count total reviews
+        )
+        ->distinct()
+        ->leftJoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
+        ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+        ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+        ->leftJoin('tutorreviews', function($join) {
+            $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
+                 ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
+        })
+        ->groupBy(
+            'tutorprofiles.name',
+            'tutorprofiles.profile_pic',
+            'tutorprofiles.rate',
+            'tutorsubjectmappings.rate',
+            'tutorsubjectmappings.admin_commission',
+            'tutorprofiles.headline'
+        )
+        ->get();
 
-// dd($tutorlist);
+dd($tutorlist);
 
         $subjectlist = subjects::where('is_active',1)->get();
         $classes = classes::where('is_active',1)->get();
@@ -56,10 +70,10 @@ class TutorSearchController extends Controller
 
     public function sorttutor($sort_value,$sort_type)
     {
-        
+
 
         // $tutorlist = tutorprofile::select('tutorprofiles.*','subjects.name as subject','subjects.name as subject','tutorreviews.*',DB::raw('SUM(ratings) AS sum_of_1'))
-        
+
         $query = tutorprofile:: select('tutorprofiles.id','classes.name as class_name','tutorprofiles.experience','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
             ->leftjoin('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
@@ -153,8 +167,8 @@ class TutorSearchController extends Controller
 
             if($tutorpd){
                 $achievement = tutorachievements::select('*')->where('tutor_id', '=', $tutorpd->tutor_id)->get();
-    
-    
+
+
                 $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings','studentprofiles.name as student_name','studentprofiles.profile_pic as student_pic', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
                     ->leftjoin('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
                     ->leftjoin('studentprofiles','studentprofiles.student_id', '=', 'tutorreviews.student_id')
@@ -183,8 +197,8 @@ class TutorSearchController extends Controller
 // dd($tutorpd);
             if($tutorpd){
                 $achievement = tutorachievements::select('*')->where('tutor_id', '=', $tutorpd->tutor_id)->get();
-    
-    
+
+
                 $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings','studentprofiles.name as student_name','studentprofiles.profile_pic as student_pic', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
                     ->leftjoin('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
                     ->leftjoin('studentprofiles','studentprofiles.student_id', '=', 'tutorreviews.student_id')
@@ -203,12 +217,12 @@ class TutorSearchController extends Controller
 
     public function tutoradvs(Request $request)
     {
-       
-        
+
+
         $classes = classes::all('id', 'name');
-    
+
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
+            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',
             'classes.name as className',
             'my_favourites.status as myfav',
@@ -240,7 +254,7 @@ class TutorSearchController extends Controller
     $ratings = $request->input('ratings');
     $locations = $request->input('locations');
     $tutorName = $request->input('ttsearch');
-   
+
     // Tutors List
     $tutorlist = tutorprofile::select('tutorprofiles.tutor_id as tutor_id','my_favourites.status as myfav', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
         DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
@@ -302,7 +316,7 @@ class TutorSearchController extends Controller
 
     // Return the HTML response
     // return response()->json(['html' => $html]);
-    
+
         $subjectlist = subjects::select('*')->get();
         $classes = classes::where('is_active',1)->get();
         $countrylist = country::select('*')->get();
@@ -320,7 +334,7 @@ class TutorSearchController extends Controller
     public function tutorsearchindex(Request $request)
     {
         // dd($request->all());
-        
+
         // $query = tutorprofile::select('tutorprofiles.id','classes.name as class_name','tutorprofiles.name',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating,  COUNT(DISTINCT topics.name) as total_topics'),'tutorsubjectmappings.id as sub_map_id')
         // // select('tutorprofiles.id', 'tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(topics.name) as total_topics'))
         //     ->leftjoin('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
@@ -335,26 +349,26 @@ class TutorSearchController extends Controller
         //     if($request->subjectlistid){
         //         $query->where('tutorsubjectmappings.subject_id',$request->subjectlistid);
         //     }
-            
-          
+
+
         //     $tutorlist=  $query->groupby('tutorprofiles.id', 'subjects.id', 'subjects.name',  'classes.name','tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','rate','sub_map_id')
         //     ->get();
         // // dd($tutorlist);
-        
+
         // if (!$tutorlist) {
         //     return view('student.searchtutor')->with('fail', 'No tutor found');
         // }
         //////////////////////==========
 
         $classes = classes::all('id', 'name');
-        
+
         // $tutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'))
         //     ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
         //     ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
         //     ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
         //     ->get();
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
+            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',
             'classes.name as className',
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -370,7 +384,7 @@ class TutorSearchController extends Controller
         })
         ->groupBy('tutorsubjectmappings.id', 'tutorprofiles.name', 'subjects.name', 'tutorsubjectmappings.rate','tutorsubjectmappings.admin_commission','classes.name','tutorprofiles.profile_pic')
         ->get();
-        
+
     // Check if either gradelistid or subjectlistid is provided
 if ($request->has('gradelistid') || $request->has('subjectlistid')) {
     $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating', 'COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id', DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done'))
@@ -417,7 +431,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
     }
 
-   
+
 
     public function purchaseclass(Request $request)
     {
@@ -433,10 +447,10 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
         $selectedSlotIds = $request->slotids;
         $contactadmin = $request->contactadmin;
-    
+
         // Temp. Order Id
         $order_id = '1234-5678-qqyz-aspa-zqkp1o2';
-    
+
         $classId = subjects::select('*')->where('id',$request->subjectenrollid)->first();
 
         // Step 1: Save the paymentdetails record
@@ -446,7 +460,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         $paymentdetails->amount = $request->totalamountenroll;
         $paymentdetails->status = 1;
         $test= $paymentdetails->save();
-    
+
         // Step 2: Save the studentpayment record
         $studentpayment = new paymentstudents();
         $studentpayment->transaction_id = $order_id;
@@ -457,7 +471,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         $studentpayment->classes_purchased = $request->requiredclassenroll;
         $studentpayment->rate_per_hr = $request->rateperhourenroll;
         $spdres = $studentpayment->save();
-    
+
        // Step 3: Update slotbooking records for each selected slot
        // Converting comma-separated string to an array
         $selectedSlotIdsArray = explode(',', $selectedSlotIds);
@@ -480,7 +494,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
                 // Save the changes
                 $slotbooking->save();
             }
-        }   
+        }
         if($contactadmin == 'on'){
 
             //////////////// Here I need to pass notification into db
@@ -515,10 +529,10 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
             //     // $notificationdata->show_to_all_parent = 0;
             // }
             $notificationdata->read_status = 0;
-    
+
             $notified = $notificationdata->save();
             broadcast(new RealTimeMessage('$notification'));
-    
+
             $msg = 'Enrollment completed. Please have patience, admin you contact you soon.';
         }
         else{
@@ -526,7 +540,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         }
 
         if ($spdres) {
-            
+
             //////////////// Here I need to pass notification into db
             $notificationdata = new Notification();
             $notificationdata->alert_type = 4;
@@ -559,16 +573,16 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
             //     // $notificationdata->show_to_all_parent = 0;
             // }
             $notificationdata->read_status = 0;
-    
+
             $notified = $notificationdata->save();
             broadcast(new RealTimeMessage('$notification'));
-    
+
             return back()->with('success', $msg);
         } else {
             return back()->with('fail', 'Something Went Wrong. Try Again Later');
         }
     }
-    
+
 
 
     public function tutorslist(){
@@ -578,7 +592,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
     ->leftjoin('classes', 'classes.id', '=', 'subjects.class_id')
     ->orderBy('tutorregistrations.created_at', 'desc') // Add this line to sort by created_at in descending order
     ->get();
-    
+
     $classes = classes::where('is_active', 1)->get();
 
     return view('admin.tutors', get_defined_vars());
@@ -625,9 +639,9 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         // dd($request->gradelistid);
 
         $classes = classes::all('id', 'name');
-    
+
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
+            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',
             'classes.name as className',
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -644,7 +658,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         ->groupBy('tutorsubjectmappings.id', 'tutorprofiles.name', 'subjects.name', 'tutorsubjectmappings.rate','tutorsubjectmappings.admin_commission','classes.name','tutorprofiles.profile_pic')
         ->get();
 
-   
+
 
     // Get form data
     $subjectIds = $request->input('subjectlistid');
@@ -653,7 +667,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
     $maxPrice = $request->input('tmaxprice');
     $ratings = $request->input('ratings');
     $locations = $request->input('locations');
-   
+
     // Tutors List
     $tutorlists = tutorprofile::select('tutorprofiles.tutor_id as tutor_id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
         DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
@@ -708,7 +722,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
     // Return the HTML response
     // return response()->json(['html' => $html]);
-    
+
         $subjectlist = subjects::select('*')->get();
         $classes = classes::where('is_active',1)->get();
         $countrylist = country::select('*')->get();
@@ -723,9 +737,9 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
     public function tutorsdashboardsearch(Request $request){
 
         $classes = classes::all('id', 'name');
-    
+
         $tutors = tutorprofile::select(
-            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',    
+            'tutorsubjectmappings.id as submapid','tutorprofiles.name','tutorprofiles.profile_pic',
             'subjects.name as subject',
             'classes.name as className',
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -748,7 +762,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
     $minPrice = $request->input('tminprice');
     $maxPrice = $request->input('tmaxprice');
 
-   
+
     // Tutors List
     $tutorlists = tutorprofile::select('tutorprofiles.id', 'classes.name as class_name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.experience', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'), 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings) / COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), 'tutorsubjectmappings.id as sub_map_id',
         DB::raw('(SELECT COUNT(*) FROM classschedules WHERE classschedules.tutor_id = tutorprofiles.id) AS total_classes_done')
@@ -786,8 +800,8 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
     // Return the HTML response
     return response()->json(['html' => $html]);
-    
-    
+
+
     }
     public function status(Request $request){
         $data = tutorregistration::find($request->id);
@@ -838,7 +852,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         if (!$tutorpd) {
             return back();
         }
-        
+
         return view('common.tutorprofile', compact('tutorpd', 'achievement', 'reviews'));
 
     }
@@ -876,19 +890,19 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
             'id' => $id,
         ];
     }
-   
+
     return view('student.enrollnow', compact('enrollment', 'groupedSlots'));
     }
 
     function enrollupdate($id) {
         $studentid = session('userid')->id;
-    
+
         $enrollment = TutorSubjectMapping::select('tutorsubjectmappings.*', 'subjects.name as subject_name', 'tutorprofiles.name as tutor_name', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),)
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', '=', 'tutorsubjectmappings.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
             ->where('tutorsubjectmappings.id', $id)
             ->first();
-    
+
         $slotsAvailability = SlotBooking::select('slot_bookings.*', 'studentprofiles.name as student_name', 'subjects.name as subject', 'studentregistrations.id as student_id')
             ->leftJoin('studentprofiles', 'studentprofiles.student_id', '=', 'slot_bookings.student_id')
             ->leftJoin('subjects', 'subjects.id', '=', 'slot_bookings.subject_id')
@@ -896,38 +910,38 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
             ->where('slot_bookings.tutor_id', $enrollment->tutor_id)
             ->orderBy('slot_bookings.date')
             ->get();
-    
+
         $groupedSlots = [];
         $bookedSlotsCount = 0; // Initialize the count variable
-    
+
         foreach ($slotsAvailability as $slot) {
             $date = $slot->date;
             $time = $slot->slot;
-           
+
             $id = $slot->id;
             $isAvailable = $slot->status == 0; // Adjust this based on your actual logic
             $bookedById = $slot->student_id == $studentid; // Check if the slot is booked by the current student
-    
+
             if (!isset($groupedSlots[$date])) {
                 $groupedSlots[$date] = [];
             }
-    
+
             $groupedSlots[$date][] = [
                 'time' => $time,
                 'is_available' => $isAvailable,
                 'id' => $id,
                 'bookedbyme' => $bookedById,
             ];
-    
+
             // Increment the count if the slot is booked by the current user
             if ($bookedById) {
                 $bookedSlotsCount++;
             }
         }
-    
+
         return view('student.enrollupdate', compact('enrollment', 'groupedSlots', 'bookedSlotsCount'));
     }
-        
+
 
     function updateslots(Request $request){
         // dd($request->all());
@@ -964,7 +978,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
                // Save the changes
                $spdres = $slotbooking->save();
            }
-       }   
+       }
         if($contactadmin == 'on'){
             $msg = 'Slots Updated. Please have patience, admin will contact you soon.';
         }
@@ -974,7 +988,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
         // dd($studentpayment);
         if ($spdres) {
-           
+
             return back()->with('success', $msg);
         } else {
             return back()->with('fail', 'Something Went Wrong. Try Again Later');
@@ -989,5 +1003,5 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
     return view('admin.tutorslots', compact('slots'));
     }
-    
+
 }

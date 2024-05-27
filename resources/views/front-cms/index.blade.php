@@ -10,7 +10,8 @@
                         <h1>
                             Discover the perfect tutor for you
                         </h1>
-
+                        <form action="">
+                            @csrf
                         <div class="findtutor-btns">
                             <select style="border-radius: 60px; border:0;padding:10px">
                                 <option>Select a subject</option>
@@ -27,6 +28,7 @@
 
                             <button class="btn search-tutor">Search</button>
                         </div>
+                    </form>
                         <div class="advance-search">
                             <p>Find the tutor of your choice use advance search</p>
                             <span>
@@ -129,7 +131,7 @@
             <br>
             <div class="row">
                 @foreach ($tutors->slice(0, 8) as $tutor)
-                    
+
                 <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                     <div class="tutorDetails">
                         <div class="tutorImg">
@@ -150,7 +152,7 @@
                     </div>
                 </div>
                 @endforeach
-                
+
             </div>
             <div class="row mt-4">
                 <div class="col-12">
@@ -167,7 +169,7 @@
             <h3 class="">Customer Testimonials</h3>
             <div class="row">
                 @foreach ($reviews->slice(0, 4) as $review)
-                    
+
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <div class="testi-card">
                         <span class="nameTo">
@@ -186,7 +188,7 @@
                     </div>
                 </div>
                 @endforeach
-                
+
             </div>
             <div class="row mt-4">
                 <div class="col-12 ">
@@ -295,12 +297,12 @@
     <section>
         <div class="container">
             <div class="tutor-banner ">
-                
+
                         <div class="rightside">
                             <h2>Begin your tutoring journey now! Join us as a tutor.</h2>
                             <button>Get Started</button>
                         </div>
-                    
+
             </div>
         </div>
     </section>
@@ -316,7 +318,7 @@
                 awaits you.</p>
             <div class="row">
                 @foreach ($blogs as $blog)
-                    
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="blog-card">
 
