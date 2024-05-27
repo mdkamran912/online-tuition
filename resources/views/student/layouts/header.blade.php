@@ -59,7 +59,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                 <span class="logo-sm">
                                     <!-- <h3>LOGO</h3> -->
                                      <img src="{{url('/images/MCT Logo.png')}}" alt="" height="22">
-                                    
+
                                 </span>
                                 <span class="logo-lg">
                                     <!-- <h3>LOGO</h3> -->
@@ -72,12 +72,12 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                 <span class="logo-sm">
                                     <!-- <h3>LOGO</h3> -->
                                     <img src="{{url('images/MCT Logo.png')}}" alt="" height="22">
-                                    
+
                                 </span>
                                 <span class="logo-lg">
                                     <!-- <h3>LOGO</h3> -->
                                     <img src="{{url('images/MCT Logo.png')}}" alt=""
-                                    height="17"> 
+                                    height="17">
                                 </span>
                             </a>
                         </div>
@@ -134,7 +134,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                         </div>
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                   
+
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
                                     <div class="tab-pane noti-sec fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
@@ -165,16 +165,16 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
-        
+
+
                                             <div class="my-3 text-center view-all">
                                                 <button type="button" class="btn btn-soft-success waves-effect waves-light">View
                                                     All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
                                             </div>
                                         </div>
-        
+
                                     </div>
-        
+
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
                                             <div class="text-reset notification-item d-block dropdown-item">
@@ -199,7 +199,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-2.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -223,7 +223,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-6.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -247,7 +247,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-8.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -270,7 +270,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="my-3 text-center view-all">
                                                 <button type="button" class="btn btn-soft-success waves-effect waves-light">View
                                                     All Messages <i class="ri-arrow-right-line align-middle"></i></button>
@@ -278,7 +278,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                         </div>
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
-        
+
                                     <div class="notification-actions" id="notification-actions">
                                         <div class="d-flex text-muted justify-content-center">
                                             Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
@@ -288,15 +288,15 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                             </div>
                         </div>
                         {{-- /////////////////////// --}}
-        
+
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                            
+
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class='bx bx-bell fs-22'></i>
                                 <span id="unreadNotificationCount" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                                
+
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="" style="padding-left: 10px">
                                         <div class="row align-items-center">
@@ -305,13 +305,13 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                             </div>
                                         </div>
                                     </div>
-        
+
                                     <div class="px-2 pt-2">
                                         <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">All</a>
                                             </li>
-        {{--                                     
+        {{--
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">Messages</a>
                                             </li>
@@ -320,18 +320,18 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                             </li> --}}
                                         </ul>
                                     </div>
-        
+
                                 </div>
-        
+
                                 <div class="tab-content position-relative" id="notificationItemsTabContent1">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                            
-        
+
+
                                         </div>
-        
+
                                     </div>
-        
+
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
                                             <div class="text-reset notification-item d-block dropdown-item">
@@ -356,7 +356,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-2.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -380,7 +380,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-6.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -404,7 +404,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="{{url('new-styles/assets/images/users/avatar-8.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
@@ -427,7 +427,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                                     </div>
                                                 </div>
                                             </div>
-        
+
                                             <div class="my-3 text-center view-all">
                                                 <button type="button" class="btn btn-soft-success waves-effect waves-light">View
                                                     All Messages <i class="ri-arrow-right-line align-middle"></i></button>
@@ -435,7 +435,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                         </div>
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
-        
+
                                     <div class="notification-actions" id="notification-actions">
                                         <div class="d-flex text-muted justify-content-center">
                                             Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
@@ -474,7 +474,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                 <div class="dropdown-divider"></div>
                                 {{-- <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Balance : <b>$5971.67</b></span></a> --}}
                                 {{-- <a class="dropdown-item" href="pages-profile-settings.html"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a> --}}
-                                
+
                                 <a class="dropdown-item" href="{{route('logout')}}"><i
                                         class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle" data-key="t-logout">Logout</span></a>
@@ -549,7 +549,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
 
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                        
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/student/dashboard" role="button"
                                 aria-expanded="false" aria-controls="sidebarDashboards">
@@ -592,20 +592,20 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
-                                   
+
                                     <li class="nav-item submneu">
                                         <img src="/images/Student-dashboard-menu-icon/My Scheduled Classes.svg"
-                                            alt=""><a href="{{route('student.demolist')}}" 
+                                            alt=""><a href="{{route('student.demolist')}}"
                                             class="nav-link" data-key="">My Demo Classes</a>
                                     </li>
                                     <li class="nav-item submneu">
                                         <img src="/images/Student-dashboard-menu-icon/My Scheduled Classes.svg"
-                                            alt=""><a href="{{route('student.classes')}}" 
+                                            alt=""><a href="{{route('student.classes')}}"
                                             class="nav-link" data-key="">My Scheduled Classes</a>
                                     </li>
                                     <li class="nav-item submneu">
                                         <img src="/images/Student-dashboard-menu-icon/My recordings.svg" alt="">&nbsp;<a
-                                            href="{{route('student.completed-classes')}}" 
+                                            href="{{route('student.completed-classes')}}"
                                             class="nav-link" data-key="t-horizontal">My Recordings</a>
                                     </li>
 
@@ -619,19 +619,19 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                                     data-key="t-dashboards"> Explore Tutors</span> </a>
                         </li>
 
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{route('student.subjects')}}" class="nav-link menu-link"> <img
                                     src="/images/Student-dashboard-menu-icon/My Subjects.svg" alt="">&nbsp; <span
                                     data-key="t-dashboards"> My Subjects</span> </a>
-                        </li>
+                        </li> --}}
 
 
-
+{{--
                         <li class="nav-item">
                             <a href="{{route('student.subjectlist')}}" class="nav-link menu-link"> <img
                                     src="/images/Student-dashboard-menu-icon/Explore Subjects.svg" alt="">&nbsp; <span
                                     data-key="t-dashboards"> Explore Subjects </span></a>
-                        </li>
+                        </li> --}}
 
 
 
@@ -727,7 +727,7 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCharts">
                         <ul class="nav nav-sm flex-column">
-                           
+
                             <li class="nav-item">
                                 <a href="{{route('student.class.report')}}" class="nav-link" data-key="t-chartjs">
                                     Classes </a>

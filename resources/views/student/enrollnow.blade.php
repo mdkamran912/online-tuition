@@ -28,7 +28,7 @@
             .blinking-icon {
                 animation: blink 1s infinite;
             }
-            
+
             .red{
                 color:#f06548;
             }
@@ -58,7 +58,7 @@
                 <div id="" class="mb-3 listHeader page-title-box">
                     <h3>Enroll Now</h3>
                     {{-- <a href="completed-classes"> <button class="btn btn-primary">Completed Classes</button></a> --}}
-                    
+
                 </div>
                 <div class="avalability">
                     <i class="fa fa-square red" aria-hidden="true"></i><span>&nbsp;Not Available</span>
@@ -84,11 +84,11 @@
                                 @enderror
                             </span>
                         </div>
-                        <div class="col-md-3 mt-4">
-                            <label for="">Subject</label>
+                        <div class="col-md-3 mt-4" hidden>
+                            {{-- <label for="">Subject</label> --}}
                             <input type="hidden" id="subjectenrollid" name="subjectenrollid"
                                 value="{{ $enrollment->subject_id }}">
-                            <input type="text" class="form-control readonly" name="subjectenroll" id="subjectenroll"
+                            <input type="hidden" class="form-control readonly" name="subjectenroll" id="subjectenroll"
                                 readonly value="{{ $enrollment->subject_name }}">
                             <span class="text-danger">
                                 @error('subjectenrollid')
@@ -133,9 +133,9 @@
 
 
                     </div>
-                
+
                 <hr>
-                
+
                 <div class="full-width-table-responsive">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table" style="height: 260px;">
                         <thead class="thead-dark">
@@ -166,12 +166,12 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                
+
                             </table>
                         </div>
-                        
-                        
-                        
+
+
+
                     </table>
                 </div>
                 <div style="display: flex; justify-content:space-between" class="my-3">
@@ -264,6 +264,6 @@
             $('#totalamountenroll').val($('#rateperhourenroll').val() * $('#requiredclassenroll').val())
         }
     </script>
-   
-    
+
+
 @endsection

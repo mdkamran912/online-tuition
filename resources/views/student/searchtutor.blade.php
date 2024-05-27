@@ -1,6 +1,6 @@
 @extends('student.layouts.main')
 @section('main-section')
-<link rel="stylesheet" href="{{url('frontend/css/profile.css')}}">
+    <link rel="stylesheet" href="{{ url('frontend/css/profile.css') }}">
 
     <!-- ============================================================== -->
     <!-- Start right Content here -->
@@ -110,8 +110,8 @@
                 /* color: white; */
             }
 
-            .icon-heart{
-                fill:red !important;
+            .icon-heart {
+                fill: red !important;
             }
         </style>
 
@@ -148,18 +148,18 @@
                     <div class="btns">
 
                         <!-- <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                Sort By
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Price</a>
-                                <a class="dropdown-item" href="#">Class</a>
-                                <a class="dropdown-item" href="#">Rating</a>
-                                <a class="dropdown-item" href="#">Experience</a>
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Sort By
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Price</a>
+                                    <a class="dropdown-item" href="#">Class</a>
+                                    <a class="dropdown-item" href="#">Rating</a>
+                                    <a class="dropdown-item" href="#">Experience</a>
 
-                            </div>
-                        </div> -->
+                                </div>
+                            </div> -->
                         <div class="dropdown">
                             {{-- <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -216,85 +216,100 @@
                 <div class="row">
                     <div class="col-xl-8 col-xxl-9">
                         <div class="tu-listinginfo-holder">
-                            @if(isset($tutorlist))
-                            @foreach ($tutorlist as $tutorlist)
-                            <div class="tu-listinginfo">
-                                <span class="tu-cardtag"></span>
-                                <div class="tu-listinginfo_wrapper">
-                                    <div class="tu-listinginfo_title">
-                                        <div class="tu-listinginfo-img">
-                                            <figure>
-                                                <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutorlist->profile_pic ?? url('images/avatar/default-profile-pic.png') }}" width="60px" alt="imge">
-                                            </figure>
-                                            <div class="tu-listing-heading">
-                                                <h5><a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}">{{ $tutorlist->name }}</a> <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
-                                                <div class="tu-listing-location">
-                                                    <span>{{$tutorlist->starrating}} <i class="fa-solid fa-star"></i><em></em></span><address><i class="icon icon-map-pin"></i> <span>Exp:</span> {{$tutorlist->experience}}</address>
+                            @if (isset($tutorlist))
+                                @foreach ($tutorlist as $tutorlist)
+                                    <div class="tu-listinginfo">
+                                        <span class="tu-cardtag"></span>
+                                        <div class="tu-listinginfo_wrapper">
+                                            <div class="tu-listinginfo_title">
+                                                <div class="tu-listinginfo-img">
+                                                    <figure>
+                                                        <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutorlist->profile_pic ?? url('images/avatar/default-profile-pic.png') }}"
+                                                            width="60px" alt="imge">
+                                                    </figure>
+                                                    <div class="tu-listing-heading">
+                                                        <h5><a
+                                                                href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}">{{ $tutorlist->name }}</a>
+                                                            <i class="icon icon-check-circle tu-greenclr"
+                                                                data-tippy-trigger="mouseenter"
+                                                                data-tippy-html="#tu-verifed" data-tippy-interactive="true"
+                                                                data-tippy-placement="top"></i></h5>
+                                                        <div class="tu-listing-location">
+                                                            <span>{{ $tutorlist->starrating }} <i
+                                                                    class="fa-solid fa-star"></i><em></em></span>
+                                                            <address><i class="icon icon-map-pin"></i> <span>Exp:</span>
+                                                                {{ $tutorlist->experience }}</address>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tu-listinginfo_price">
+                                                    <span>Starting from:</span>
+                                                    <h4>£{{ $tutorlist->rateperhour }}/hr</h4>
                                                 </div>
                                             </div>
+                                            <div class="tu-listinginfo_description">
+                                                <p>{{ $tutorlist->headline }}</p>
+                                            </div>
+                                            <div class="tu-listinginfo_service">
+                                                <h6>You can get teaching service direct at</h6>
+                                                <ul class="tu-service-list">
+                                                    <li>
+                                                        <span>
+                                                            <i class="icon icon-home tu-greenclr"></i>
+                                                            {{ $tutorlist->subject }}
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>
+                                                            <i class="icon icon-map-pin tu-blueclr"></i>
+                                                            {{ $tutorlist->total_classes_done }}+ Lessons Completed
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>
+                                                            <i class="icon icon-video tu-orangeclr"></i>
+                                                            {{ $tutorlist->total_topics }}+ Topics
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="tu-listinginfo_price">
-                                            <span>Starting from:</span>
-                                            <h4>£{{$tutorlist->rateperhour}}/hr</h4>
+                                        <div class="tu-listinginfo_btn">
+                                            @if ($tutorlist->myfav)
+                                                <div class="tu-iconheart">
+                                                    <a href="addfav/{{ $tutorlist->tutor_id }}"><img
+                                                            src="{{ asset('images/red-heart.png') }}" width="18px"
+                                                            alt=""><span>&nbsp; Remove Favourite</span></a>
+                                                </div>
+                                            @else
+                                                <div class="tu-iconheart">
+                                                    <a href="addfav/{{ $tutorlist->tutor_id }}"><img
+                                                            src="{{ asset('images/grey-heart.png') }}" width="18px"
+                                                            alt=""><span>&nbsp; Add Favourite</span></a>
+                                                </div>
+                                            @endif
+
+                                            <div class="tu-btnarea">
+                                                <a href="#booktrial"> <button data-toggle="modal"
+                                                        data-target="#openDemoModal" class="btn btn-sm btn-primary"
+                                                        onclick="openDemoModal('{{ $tutorlist->tutor_id }}','{{ $tutorlist->name }}','{{ $tutorlist->subjectid }}','{{ $tutorlist->subject }}')">Trial
+                                                        Class</button></a>
+
+                                                {{-- <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Chat</button></a> --}}
+                                                <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button
+                                                        class="btn btn-sm btn-primary" id="enrollnow">Chat</button></a>
+                                                <a href="enrollnow/{{ $tutorlist->tutor_id }}"> <button
+                                                        class="btn btn-sm btn-success" id="enrollnow">Enroll
+                                                        Now</button></a>
+
+                                                {{-- <a href="#checkslots" onclick="checkslots('{{$tutorlist->tutor_id}}')" class="btn btn-success">Check Slots</a> --}}
+                                                {{-- <a href="{{url('student/searchtutor')}}" class="btn btn-primary">Book Trial</a> --}}
+                                                <a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}"
+                                                    class="tu-primbtn">View full profile</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="tu-listinginfo_description">
-                                        <p>{{ $tutorlist->headline }}</p>
-                                    </div>
-                                    <div class="tu-listinginfo_service">
-                                        <h6>You can get teaching service direct at</h6>
-                                        <ul class="tu-service-list">
-                                            <li>
-                                                <span>
-                                                    <i class="icon icon-home tu-greenclr"></i>
-                                                    {{ $tutorlist->subject }}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <i class="icon icon-map-pin tu-blueclr"></i>
-                                                    {{$tutorlist->total_classes_done}}+ Lessons Completed
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <i class="icon icon-video tu-orangeclr"></i>
-                                                    {{ $tutorlist->total_topics }}+ Topics
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="tu-listinginfo_btn">
-                                    @if ($tutorlist->myfav)
-                                    <div class="tu-iconheart">
-                                        <a href="addfav/{{$tutorlist->tutor_id}}"><img src="{{asset('images/red-heart.png')}}" width="18px" alt=""><span>&nbsp; Remove Favourite</span></a>
-                                    </div>
-                                    @else
-                                        <div class="tu-iconheart">
-                                            <a href="addfav/{{$tutorlist->tutor_id}}"><img src="{{asset('images/grey-heart.png')}}" width="18px" alt=""><span>&nbsp; Add Favourite</span></a>
-                                        </div>
-
-
-                                    @endif
-
-                                    <div class="tu-btnarea">
-                                       <a href="#booktrial"> <button data-toggle="modal" data-target="#openDemoModal"
-                                        class="btn btn-sm btn-primary"
-                                        onclick="openDemoModal('{{ $tutorlist->tutor_id }}','{{ $tutorlist->name }}','{{ $tutorlist->subjectid }}','{{ $tutorlist->subject }}')">Trial
-                                        Class</button></a>
-
-                                        {{-- <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Chat</button></a> --}}
-                                        <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-primary" id="enrollnow">Chat</button></a>
-                                        <a href="enrollnow/{{ $tutorlist->sub_map_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Enroll Now</button></a>
-
-                                        {{-- <a href="#checkslots" onclick="checkslots('{{$tutorlist->tutor_id}}')" class="btn btn-success">Check Slots</a> --}}
-                                        {{-- <a href="{{url('student/searchtutor')}}" class="btn btn-primary">Book Trial</a> --}}
-                                        <a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}" class="tu-primbtn">View full profile</a>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
+                                @endforeach
                             @endif
                         </div>
                         {{-- <nav class="tu-pagination">
@@ -314,179 +329,205 @@
                     <div class="col-xl-4 col-xxl-3">
                         <aside class="tu-asidewrapper">
                             <a href="javascript:void(0)" class="tu-dbmenu"><i class="icon icon-chevron-left"></i></a>
-                            <form action="{{route('student.tutoradvs')}}" method="POST">
+                            <form action="{{ route('student.tutoradvs') }}" method="POST">
                                 @csrf
-                            <div class="tu-aside-menu">
-                                <div class="tu-aside-holder">
-                                    <div class="tu-asidetitle" data-bs-toggle="collapse" aria-expanded="true">
-                                        <h6>Search Tutor</h6>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control tu-input-field" placeholder="Type Tutor Name..." id="ttsearch" name="ttsearch" style="width: 70%;">
-                                            <button class="btn btn-sm btn-success" style="width: 30%;"><i class="fa fa-search"></i> Search</button>
+                                <div class="tu-aside-menu">
+                                    <div class="tu-aside-holder">
+                                        <div class="tu-asidetitle" data-bs-toggle="collapse" aria-expanded="true">
+                                            <h6>Search Tutor</h6>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control tu-input-field"
+                                                    placeholder="Type Tutor Name..." id="ttsearch" name="ttsearch"
+                                                    style="width: 70%;">
+                                                <button class="btn btn-sm btn-success" style="width: 30%;"><i
+                                                        class="fa fa-search"></i> Search</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side2"
+                                            role="button" aria-expanded="true">
+                                            <h6>Education level</h6>
+                                        </div>
+                                        <div id="side2" class="collapse show">
+                                            <div class="tu-aside-content">
+                                                <div class="tu-filterselect">
+                                                    <div class="tu-select">
+                                                        <select id="gradelistid" name="gradelistid"
+                                                            data-placeholder="Select education level"
+                                                            data-placeholderinput="Select education level"
+                                                            class="form-control tu-input-field">
+                                                            <option label="Select Grade"></option>
+                                                            @foreach ($classes as $class)
+                                                                <option value="{{ $class->id }}">{{ $class->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="tu-filterselect">
+                                                    <h6>Choose subjects</h6>
+                                                    <ul class="tu-categoriesfilter">
+                                                        @foreach ($subjectlist as $subject)
+                                                            <li>
+                                                                <div class="tu-check tu-checksm">
+                                                                    <input type="checkbox"
+                                                                        id="subject{{ $subject->id }}"
+                                                                        name="subjectlistid[]"
+                                                                        value="{{ $subject->id }}">
+                                                                    <label
+                                                                        for="subject{{ $subject->id }}">{{ $subject->name }}</label>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    <div class="show-more">
+                                                        <a href="javascript:void(0);"
+                                                            class="tu-readmorebtn tu-show_more">Show all</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tu-aside-holder">
+                                        <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side3"
+                                            role="button" aria-expanded="true">
+                                            <h5>Price range</h5>
+                                        </div>
+                                        <div id="side3" class="collapse show">
+                                            <div class="tu-aside-content">
+                                                <div class="tu-rangevalue" data-bs-target="#tu-rangecollapse"
+                                                    role="list" aria-expanded="false">
+                                                    <div class="tu-areasizebox">
+                                                        <input type="number" class="form-control tu-input-field"
+                                                            step="1" placeholder="Min price" id="tminprice"
+                                                            name="tminprice" />
+                                                        <input type="number" class="form-control tu-input-field"
+                                                            step="1" placeholder="Max price" id="tmaxprice"
+                                                            name="tmaxprice" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tu-distanceholder">
+                                                <div id="tu-rangecollapse" class="collapse">
+                                                    <div class="tu-distance">
+                                                        <div id="tu-rangeslider" class="tu-tooltiparrow tu-rangeslider">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tu-aside-holder">
+                                        <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1a"
+                                            role="button" aria-expanded="true">
+                                            <h5>Rating</h5>
+                                        </div>
+                                        <div id="side1a" class="collapse show">
+                                            <div class="tu-aside-content">
+                                                <ul class="tu-categoriesfilter">
+                                                    <li>
+                                                        <div class="tu-check tu-checksm">
+                                                            <input type="checkbox" id="rate" name="rate">
+                                                            <label for="rate">
+                                                                <span class="tu-stars">
+                                                                    <span></span>
+                                                                </span>
+                                                                <em class="tu-totalreview">
+                                                                    <span>5.0/<em>5.0</em></span>
+                                                                </em>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="tu-check tu-checksm">
+                                                            <input type="checkbox" id="rate4" name="rate4">
+                                                            <label for="rate4">
+                                                                <span class="tu-stars tu-fourstar">
+                                                                    <span></span>
+                                                                </span>
+                                                                <em class="tu-totalreview">
+                                                                    <span>4.0/<em>5.0</em></span>
+                                                                </em>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="tu-check tu-checksm">
+                                                            <input type="checkbox" id="rate3" name="rate2">
+                                                            <label for="rate3">
+                                                                <span class="tu-stars tu-threestar">
+                                                                    <span></span>
+                                                                </span>
+                                                                <em class="tu-totalreview">
+                                                                    <span>3.0/<em>5.0</em></span>
+                                                                </em>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="tu-check tu-checksm">
+                                                            <input type="checkbox" id="rate2a" name="rate2a">
+                                                            <label for="rate2a">
+                                                                <span class="tu-stars tu-twostar">
+                                                                    <span></span>
+                                                                </span>
+                                                                <em class="tu-totalreview">
+                                                                    <span>2.0/<em>5.0</em></span>
+                                                                </em>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="tu-check tu-checksm">
+                                                            <input type="checkbox" id="rate1a" name="rate1a">
+                                                            <label for="rate1a">
+                                                                <span class="tu-stars tu-onestar">
+                                                                    <span></span>
+                                                                </span>
+                                                                <em class="tu-totalreview">
+                                                                    <span>1.0/<em>5.0</em></span>
+                                                                </em>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side2" role="button" aria-expanded="true">
-                                        <h6>Education level</h6>
-                                    </div>
-                                    <div id="side2" class="collapse show">
-                                        <div class="tu-aside-content">
-                                            <div class="tu-filterselect">
-                                                <div class="tu-select">
-                                                    <select id="gradelistid" name="gradelistid" data-placeholder="Select education level" data-placeholderinput="Select education level" class="form-control tu-input-field">
-                                                        <option label="Select Grade"></option>
-                                                        @foreach ( $classes as  $class)
-                                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="tu-filterselect">
-                                                <h6>Choose subjects</h6>
+                                    <div class="tu-aside-holder">
+                                        <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1ab"
+                                            role="button" aria-expanded="true">
+                                            <h5>Location</h5>
+                                        </div>
+                                        <div id="side1ab" class="collapse show">
+                                            <div class="tu-aside-content">
                                                 <ul class="tu-categoriesfilter">
-                                                    @foreach($subjectlist as $subject)
+                                                    @foreach ($countrylist as $country)
                                                         <li>
                                                             <div class="tu-check tu-checksm">
-                                                                <input type="checkbox" id="subject{{ $subject->id }}" name="subjectlistid[]" value="{{ $subject->id }}">
-                                                                <label for="subject{{ $subject->id }}">{{ $subject->name }}</label>
+                                                                <input type="checkbox" id="name{{ $country->id }}"
+                                                                    name="expcheck">
+                                                                <label
+                                                                    for="name{{ $country->id }}">{{ $country->name }}</label>
                                                             </div>
                                                         </li>
                                                     @endforeach
+
+
                                                 </ul>
-                                                <div class="show-more">
-                                                    <a href="javascript:void(0);" class="tu-readmorebtn tu-show_more">Show all</a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tu-aside-holder">
-                                    <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side3" role="button" aria-expanded="true">
-                                        <h5>Price range</h5>
-                                    </div>
-                                    <div id="side3" class="collapse show">
-                                        <div class="tu-aside-content">
-                                            <div class="tu-rangevalue" data-bs-target="#tu-rangecollapse" role="list" aria-expanded="false">
-                                                <div class="tu-areasizebox">
-                                                    <input type="number" class="form-control tu-input-field" step="1" placeholder="Min price" id="tminprice" name="tminprice" />
-                                                    <input type="number" class="form-control tu-input-field" step="1" placeholder="Max price" id="tmaxprice" name="tmaxprice" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tu-distanceholder">
-                                            <div id="tu-rangecollapse" class="collapse">
-                                                <div class="tu-distance">
-                                                    <div id="tu-rangeslider" class="tu-tooltiparrow tu-rangeslider"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tu-aside-holder">
-                                    <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1a" role="button" aria-expanded="true">
-                                        <h5>Rating</h5>
-                                    </div>
-                                    <div id="side1a" class="collapse show">
-                                        <div class="tu-aside-content">
-                                            <ul class="tu-categoriesfilter">
-                                                <li>
-                                                    <div class="tu-check tu-checksm">
-                                                        <input type="checkbox" id="rate" name="rate">
-                                                        <label for="rate">
-                                                            <span class="tu-stars">
-                                                                <span></span>
-                                                            </span>
-                                                            <em class="tu-totalreview">
-                                                                <span>5.0/<em>5.0</em></span>
-                                                            </em>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tu-check tu-checksm">
-                                                        <input type="checkbox" id="rate4" name="rate4">
-                                                        <label for="rate4">
-                                                            <span class="tu-stars tu-fourstar">
-                                                                <span></span>
-                                                            </span>
-                                                            <em class="tu-totalreview">
-                                                                <span>4.0/<em>5.0</em></span>
-                                                            </em>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tu-check tu-checksm">
-                                                        <input type="checkbox" id="rate3" name="rate2">
-                                                        <label for="rate3">
-                                                            <span class="tu-stars tu-threestar">
-                                                                <span></span>
-                                                            </span>
-                                                            <em class="tu-totalreview">
-                                                                <span>3.0/<em>5.0</em></span>
-                                                            </em>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tu-check tu-checksm">
-                                                        <input type="checkbox" id="rate2a" name="rate2a">
-                                                        <label for="rate2a">
-                                                            <span class="tu-stars tu-twostar">
-                                                                <span></span>
-                                                            </span>
-                                                            <em class="tu-totalreview">
-                                                                <span>2.0/<em>5.0</em></span>
-                                                            </em>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tu-check tu-checksm">
-                                                        <input type="checkbox" id="rate1a" name="rate1a">
-                                                        <label for="rate1a">
-                                                            <span class="tu-stars tu-onestar">
-                                                                <span></span>
-                                                            </span>
-                                                            <em class="tu-totalreview">
-                                                                <span>1.0/<em>5.0</em></span>
-                                                            </em>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <div class="tu-filterbtns">
 
-                                <div class="tu-aside-holder">
-                                    <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1ab" role="button" aria-expanded="true">
-                                        <h5>Location</h5>
-                                    </div>
-                                    <div id="side1ab" class="collapse show">
-                                        <div class="tu-aside-content">
-                                            <ul class="tu-categoriesfilter">
-                                                @foreach ($countrylist as $country)
-                                                    <li>
-                                                        <div class="tu-check tu-checksm">
-                                                            <input type="checkbox" id="name{{$country->id}}" name="expcheck">
-                                                            <label for="name{{$country->id}}">{{$country->name}}</label>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-
-
-                                            </ul>
-                                        </div>
+                                        <button type="submit" class="tu-primbtn">Apply filters</button>
+                                        <button type="button" onclick="clearfilter()"> <a
+                                                href="{{ url('student/searchtutor') }}" class="tu-sb-sliver">Clear all
+                                                filters</a></button>
                                     </div>
                                 </div>
-                                <div class="tu-filterbtns">
-
-                                 <button type="submit" class="tu-primbtn">Apply filters</button>
-                                 <button type="button" onclick="clearfilter()">   <a href="{{url('student/searchtutor')}}" class="tu-sb-sliver">Clear all filters</a></button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
                         </aside>
                     </div>
                 </div>
@@ -707,15 +748,18 @@
                                         </div>
                                         <p id="selectedSlotConfirmation"></p>
                                         <div class="col-12 col-md-12 col-sm-6 mb-2">
-                                        <input class="" type="checkbox" id="contactadmin" name="contactadmin"><label for="contactadmin">&nbsp;Contact admin</label>
+                                            <input class="" type="checkbox" id="contactadmin"
+                                                name="contactadmin"><label for="contactadmin">&nbsp;Contact admin</label>
                                         </div>
                                     </div>
                                     <div class="row" style="float:right">
                                         <div class="col-12 col-md-12 col-sm-12 mb-2" id="formbuttons">
                                             <button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
                                             {{-- <button type="submit" class="btn btn-sm btn-success">Pay Now</button> --}}
-                                            <button type="button" onclick="confirmformdata()" class="btn btn-sm btn-success">Confirm</button>
-                                            <button type="button" onclick="confirmformdata()" class="btn btn-sm btn-success">Confirm</button>
+                                            <button type="button" onclick="confirmformdata()"
+                                                class="btn btn-sm btn-success">Confirm</button>
+                                            <button type="button" onclick="confirmformdata()"
+                                                class="btn btn-sm btn-success">Confirm</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1185,182 +1229,188 @@
         };
     </script>
 
-{{-- Slot Availablity Starts here --}}
-<script>
+    {{-- Slot Availablity Starts here --}}
+    <script>
+        // At the beginning of your script
+        let selectedSlotIds = [];
 
-    // At the beginning of your script
-    let selectedSlotIds = [];
-
-    // Load selectedSlotIds from local storage if available
-    const storedSelectedSlotIds = sessionStorage.getItem('selectedSlotIds');
-    if (storedSelectedSlotIds) {
-        selectedSlotIds = JSON.parse(storedSelectedSlotIds);
-    }
-
-    // Function to convert 24-hour time to AM/PM format
-    function convertToAmPm(timeString) {
-        const convertedTime = new Date(`2000-01-01 ${timeString}`);
-        return convertedTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-    }
-
-    function searchSlots() {
-        const tutorid = document.getElementById('tutorenrollid').value;
-        const selectedDate = document.getElementById('classdate').value;
-        const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Get CSRF token from meta tag
-
-        // Make an AJAX request to fetch available slots based on the selected date
-        $.ajax({
-            url: "{{ route('index.slots.search') }}",
-            type: 'GET',
-            data: { date: selectedDate, tutorid: tutorid },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken, // Include CSRF token in headers
-            },
-            success: function (response) {
-                // Assuming 'response' is an array of slot data
-                displayAvailableSlots(response);
-            },
-            error: function (error) {
-                console.error('Error fetching slot data:', error);
-            }
-        });
-    }
-
-    function displayAvailableSlots(slots) {
-        const availableSlotsContainer = document.getElementById('availableSlots');
-        availableSlotsContainer.innerHTML = '';
-
-        if (slots.length === 0) {
-            // Display an error message when no slots are found
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'error-message';
-            errorMessage.innerHTML = 'No slots found';
-            availableSlotsContainer.appendChild(errorMessage);
-            return;
+        // Load selectedSlotIds from local storage if available
+        const storedSelectedSlotIds = sessionStorage.getItem('selectedSlotIds');
+        if (storedSelectedSlotIds) {
+            selectedSlotIds = JSON.parse(storedSelectedSlotIds);
         }
 
-        for (let i = 0; i < slots.length; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot';
-            slot.setAttribute('data-slot-id', slots[i].id); // Set slot ID as a data attribute
-            slot.onclick = function () {
-                toggleSlot(this);
-            };
+        // Function to convert 24-hour time to AM/PM format
+        function convertToAmPm(timeString) {
+            const convertedTime = new Date(`2000-01-01 ${timeString}`);
+            return convertedTime.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+        }
 
-           // Check if the slot is selected and stored in local storage
-            if ((selectedSlotIds && selectedSlotIds.includes(slots[i].id.toString())) || (storedSelectedSlotIds && storedSelectedSlotIds.includes(slots[i].id.toString()))) {
+        function searchSlots() {
+            const tutorid = document.getElementById('tutorenrollid').value;
+            const selectedDate = document.getElementById('classdate').value;
+            const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Get CSRF token from meta tag
+
+            // Make an AJAX request to fetch available slots based on the selected date
+            $.ajax({
+                url: "{{ route('index.slots.search') }}",
+                type: 'GET',
+                data: {
+                    date: selectedDate,
+                    tutorid: tutorid
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken, // Include CSRF token in headers
+                },
+                success: function(response) {
+                    // Assuming 'response' is an array of slot data
+                    displayAvailableSlots(response);
+                },
+                error: function(error) {
+                    console.error('Error fetching slot data:', error);
+                }
+            });
+        }
+
+        function displayAvailableSlots(slots) {
+            const availableSlotsContainer = document.getElementById('availableSlots');
+            availableSlotsContainer.innerHTML = '';
+
+            if (slots.length === 0) {
+                // Display an error message when no slots are found
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                errorMessage.innerHTML = 'No slots found';
+                availableSlotsContainer.appendChild(errorMessage);
+                return;
+            }
+
+            for (let i = 0; i < slots.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slot.setAttribute('data-slot-id', slots[i].id); // Set slot ID as a data attribute
+                slot.onclick = function() {
+                    toggleSlot(this);
+                };
+
+                // Check if the slot is selected and stored in local storage
+                if ((selectedSlotIds && selectedSlotIds.includes(slots[i].id.toString())) || (storedSelectedSlotIds &&
+                        storedSelectedSlotIds.includes(slots[i].id.toString()))) {
+                    slot.classList.add('selected');
+                    slot.style.backgroundColor = 'blue'; // Set the background color to blue
+                }
+
+
+                // Customize the slot appearance based on the slot data
+                if (slots[i].status === 0) {
+                    // Available slot styling
+                    slot.classList.add('available');
+                } else {
+                    // Booked slot styling
+                    slot.classList.add('booked');
+                }
+
+                // Add slot information to the slot element
+                const slotInfo = document.createElement('div');
+                slotInfo.innerHTML = `${convertToAmPm(slots[i].slot)}`;
+                slot.appendChild(slotInfo);
+
+                availableSlotsContainer.appendChild(slot);
+            }
+        }
+
+        function toggleSlot(slot) {
+            // Check if the slot is already selected or disabled
+            const slotId = slot.getAttribute('data-slot-id');
+
+            // Check if the slot is not available (you can modify this condition based on your data)
+            if (slot.classList.contains('booked') || slot.classList.contains('unavailable')) {
+                // Slot is not available, return early
+                return;
+            }
+
+            if (selectedSlotIds.includes(slotId)) {
+                // Slot is already selected, deselect it
+                const index = selectedSlotIds.indexOf(slotId);
+                selectedSlotIds.splice(index, 1);
+                slot.classList.remove('selected');
+                slot.style.backgroundColor = ''; // Remove the background color
+            } else if (!slot.hasAttribute('disabled')) {
+                // Slot is not selected, select it
+                selectedSlotIds.push(slotId);
                 slot.classList.add('selected');
                 slot.style.backgroundColor = 'blue'; // Set the background color to blue
             }
-
-
-            // Customize the slot appearance based on the slot data
-            if (slots[i].status === 0) {
-                // Available slot styling
-                slot.classList.add('available');
-            } else {
-                // Booked slot styling
-                slot.classList.add('booked');
-            }
-
-            // Add slot information to the slot element
-            const slotInfo = document.createElement('div');
-            slotInfo.innerHTML = `${convertToAmPm(slots[i].slot)}`;
-            slot.appendChild(slotInfo);
-
-            availableSlotsContainer.appendChild(slot);
-        }
-    }
-
-    function toggleSlot(slot) {
-        // Check if the slot is already selected or disabled
-        const slotId = slot.getAttribute('data-slot-id');
-
-        // Check if the slot is not available (you can modify this condition based on your data)
-        if (slot.classList.contains('booked') || slot.classList.contains('unavailable')) {
-            // Slot is not available, return early
-            return;
-        }
-
-        if (selectedSlotIds.includes(slotId)) {
-            // Slot is already selected, deselect it
-            const index = selectedSlotIds.indexOf(slotId);
-            selectedSlotIds.splice(index, 1);
-            slot.classList.remove('selected');
-            slot.style.backgroundColor = ''; // Remove the background color
-        } else if (!slot.hasAttribute('disabled')) {
-            // Slot is not selected, select it
-            selectedSlotIds.push(slotId);
-            slot.classList.add('selected');
-            slot.style.backgroundColor = 'blue'; // Set the background color to blue
-        }
-        valuechanged();
-        // Retrieve selected slot IDs from local storage
-        const storedSelectedSlotIds = JSON.parse(sessionStorage.getItem('selectedSlotIds')) || [];
+            valuechanged();
+            // Retrieve selected slot IDs from local storage
+            const storedSelectedSlotIds = JSON.parse(sessionStorage.getItem('selectedSlotIds')) || [];
 
             // Save selectedSlotIds to local storage
-    sessionStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
+            sessionStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
 
-// Update the 'Selected Slot' input field
-const selectedSlotInput = document.getElementById('selectedSlot');
-selectedSlotInput.value = selectedSlotIds.map(id => convertToAmPm(id)).join(', ');
+            // Update the 'Selected Slot' input field
+            const selectedSlotInput = document.getElementById('selectedSlot');
+            selectedSlotInput.value = selectedSlotIds.map(id => convertToAmPm(id)).join(', ');
 
-// Attach an event listener to the form submission
-document.querySelector('form').addEventListener('submit', function (event) {
-    // Before the form is submitted, update the hidden input with the latest selected slots from local storage
-    const latestStoredSelectedSlotIds = JSON.parse(sessionStorage.getItem('selectedSlotIds')) || [];
-    document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join(', ');
-document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join(', ');
+            // Attach an event listener to the form submission
+            document.querySelector('form').addEventListener('submit', function(event) {
+                // Before the form is submitted, update the hidden input with the latest selected slots from local storage
+                const latestStoredSelectedSlotIds = JSON.parse(sessionStorage.getItem('selectedSlotIds')) || [];
+                document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join(', ');
+                document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join(', ');
 
-    // Optionally, you can remove or clear the local storage after using the data
-    // sessionStorage.removeItem('selectedSlotIds');
-});
+                // Optionally, you can remove or clear the local storage after using the data
+                // sessionStorage.removeItem('selectedSlotIds');
+            });
 
-        // // Update the 'Selected Slot' input field
-        // const selectedSlotInput = document.getElementById('selectedSlot');
-        // selectedSlotInput.value = selectedSlotIds.map(id => convertToAmPm(id)).join(', ');
+            // // Update the 'Selected Slot' input field
+            // const selectedSlotInput = document.getElementById('selectedSlot');
+            // selectedSlotInput.value = selectedSlotIds.map(id => convertToAmPm(id)).join(', ');
 
-        // // Save selectedSlotIds to local storage
-        // sessionStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
-    }
+            // // Save selectedSlotIds to local storage
+            // sessionStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
+        }
 
-    // Function to handle the submission of selected slots to the API
-    function submitSelectedSlots() {
-        // Add your logic to send selectedSlotIds to the API
-        console.log('Selected Slot IDs:', selectedSlotIds);
+        // Function to handle the submission of selected slots to the API
+        function submitSelectedSlots() {
+            // Add your logic to send selectedSlotIds to the API
+            console.log('Selected Slot IDs:', selectedSlotIds);
 
-        // Clear selectedSlotIds after submission (optional)
-        // sessionStorage.removeItem('selectedSlotIds');
-    }
+            // Clear selectedSlotIds after submission (optional)
+            // sessionStorage.removeItem('selectedSlotIds');
+        }
 
-    function clearselectedslots() {
-    // Clear selectedSlotIds in memory
-    selectedSlotIds = [];
+        function clearselectedslots() {
+            // Clear selectedSlotIds in memory
+            selectedSlotIds = [];
 
-    // Clear selectedSlotIds in local storage
-    sessionStorage.removeItem('selectedSlotIds');
+            // Clear selectedSlotIds in local storage
+            sessionStorage.removeItem('selectedSlotIds');
 
-    // Clear the 'Selected Slot' input field
-    const selectedSlotInput = document.getElementById('selectedSlot');
-    selectedSlotInput.value = '';
+            // Clear the 'Selected Slot' input field
+            const selectedSlotInput = document.getElementById('selectedSlot');
+            selectedSlotInput.value = '';
 
-    // Optionally, you can also clear the slots in the UI
-    const slots = document.querySelectorAll('.slot.selected');
-    slots.forEach(slot => {
-        slot.classList.remove('selected');
-        slot.style.backgroundColor = ''; // Remove the background color
-    });
+            // Optionally, you can also clear the slots in the UI
+            const slots = document.querySelectorAll('.slot.selected');
+            slots.forEach(slot => {
+                slot.classList.remove('selected');
+                slot.style.backgroundColor = ''; // Remove the background color
+            });
 
-    // Optionally, you can also update the UI or perform other actions related to clearing
-    // ...
+            // Optionally, you can also update the UI or perform other actions related to clearing
+            // ...
 
-    console.log('Selected Slot IDs cleared');
-}
+            console.log('Selected Slot IDs cleared');
+        }
+    </script>
 
-</script>
 
-
-{{-- Slots availability ends here --}}
+    {{-- Slots availability ends here --}}
 
     <script>
         function checkslots(id) {
@@ -1386,15 +1436,15 @@ document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join
             var totalclasstaken = document.getElementById('requiredclassenroll').value;
             var totalclassavl = document.getElementById('availableclassenroll').value;
             var selectedSlotIds = JSON.parse(sessionStorage.getItem('selectedSlotIds')) || [];
-            if(totalclasstaken == ""){
+            if (totalclasstaken == "") {
                 alert('Required class should not be empty');
                 return false;
             }
-            if(totalclasstaken < 1){
+            if (totalclasstaken < 1) {
                 alert('Required class should not be less than 1');
                 return false;
             }
-            if(totalclasstaken > totalclassavl){
+            if (totalclasstaken > totalclassavl) {
                 alert('Required class should not be more than available class');
                 return false;
             }
@@ -1402,8 +1452,9 @@ document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join
 
 
             document.getElementById('selectedSlotConfirmation').innerHTML = '';
-            document.getElementById('selectedSlotConfirmation').innerHTML = `You have selected total ${selectedSlotIds.length} slots out of ${totalclasstaken}.`;
-            if(selectedSlotIds.length > totalclasstaken){
+            document.getElementById('selectedSlotConfirmation').innerHTML =
+                `You have selected total ${selectedSlotIds.length} slots out of ${totalclasstaken}.`;
+            if (selectedSlotIds.length > totalclasstaken) {
                 alert('Selected slots should not more than purchase class');
                 return false;
             }
@@ -1411,16 +1462,18 @@ document.getElementById('selectedSlot').value = latestStoredSelectedSlotIds.join
             document.getElementById('selectedSlotIds').value = selectedSlotIds.join(',');
 
             document.getElementById('formbuttons').innerHTML = '';
-            document.getElementById('formbuttons').innerHTML = `<button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+            document.getElementById('formbuttons').innerHTML =
+                `<button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
                                                                 <button type="submit" class="btn btn-sm btn-success">Pay Now</button>`;
         }
-        function valuechanged(){
+
+        function valuechanged() {
             document.getElementById('formbuttons').innerHTML = '';
-            document.getElementById('formbuttons').innerHTML = `<button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+            document.getElementById('formbuttons').innerHTML =
+                `<button class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
                                                                 <button type="button" onclick="confirmformdata()" class="btn btn-sm btn-success">Confirm</button>`;
             document.getElementById('selectedSlotConfirmation').innerHTML = '';
         }
-
     </script>
 
 @endsection
