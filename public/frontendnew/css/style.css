@@ -239,8 +239,9 @@ header .navbar .dropdown-menu a {
   background-color: #fff;
   border-radius: 20px;
   /* padding: 0px 40px; */
-  margin: 0 50px;
+  margin: 50px;
   opacity: 1;
+  z-index: -1;
 }
 
 .subSec ul {
@@ -1037,16 +1038,16 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
   }
 
   .advceAccordian{
+   position: absolute;
    
-    /* z-index: -1; */
+   background-color: #fff !important; 
+   border-radius: 20px;
+   padding: 0px 15px 5px 15px;
     
     
   }
 
-  .collapseAdvSearch {
-    /* background-color: red; */
-    z-index: -1;
-  }
+ 
   .collapseAdvSearch form{
 
     padding: 30px;
@@ -1055,8 +1056,9 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
   #accordion{
     width: 45%;
     margin: 0 auto;
-    background-color: #fff; 
+    background-color: #fff !important; 
     border-radius: 20px;
+
     
   }
 
@@ -1165,3 +1167,60 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
   font-size: 12px;
   margin-top: 15px;
 }
+
+.advSearchForm label{
+  float: left;
+  font-size: 12px;
+  line-height: 10px;
+}
+
+
+
+.advSearchForm input{
+  height: 26px;
+}
+
+.advSearchForm select{
+  padding: 0px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.advSearchForm input::placeholder{
+  font-size: 12px;
+}
+
+.advSearchForm select option{
+  font-size: 12px;
+}
+
+.advSearchBtns{
+  float: right;
+  margin-top: 10px;
+}
+.advSearchBtns .applyBtn {
+  background-color: #6a307d;
+  color: white;
+  border-radius: 60px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 25px;
+  text-decoration: none;
+  border: none;
+}
+
+.advSearchBtns .applyBtn :hover {
+  color: white;
+}
+
+.advSearchBtns .cancelBtn {
+  
+  color: #4A4A4A;
+  border-radius: 60px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 25px;
+  text-decoration: none;
+  border: none;
+}
+

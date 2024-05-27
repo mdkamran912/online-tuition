@@ -29,14 +29,84 @@
                             <button class="btn search-tutor">Search</button>
                         </div>
                     </form>
-                        <div class="advance-search">
-                            <p>Find the tutor of your choice use advance search</p>
-                            <span>
-                                <a href="">
-                                    <img src="{{ url('frontendnew/img/icons/magnifire.png') }}" alt=""> Advance Search
-                                </a>
-                            </span>
-                        </div>
+
+
+
+                    <div id="accordion">
+        
+                            <div class="advceAccordian">
+                              <div class="" id="headingTwo">
+
+                                <div class="advance-search">
+                                    <a href="" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Find the tutor of your choice use advance search</a>
+                                    <span>
+                                        <a href="" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <img src="{{ url('frontendnew/img/icons/magnifire.png') }}" alt="">
+                                            Advance Search
+                                        </a>
+                                    </span>
+                                </div>
+                               
+                              </div>
+                              <div id="collapseTwo" class="collapse collapseAdvSearch" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <form class="advSearchForm">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search">
+                                    </div>
+                                    <div class="row mb-3">
+                                      <div class="col">
+                                        <label for="">Subject</label>
+                                        <select class="form-control">
+                                            <option value="">English</option>
+                                            <option value="">English</option>
+                                        </select>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">Grade</label>
+                                        <select class="form-control">
+                                            <option value="">10th Grade</option>
+                                            <option value="">10th Grade</option>
+                                        </select>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">Rating</label>
+                                        <select class="form-control rating">
+                                            <option value="">5 Star <span class="star-uni-code">&#9733;&#9733;&#9733;&#9733;&#9733;</span></option>
+                                            <option value="">4 Star &#9733;&#9733;&#9733;&#9733;</option>
+                                            <option value="">3 Star &#9733;&#9733;&#9733;</option>
+                                            <option value="">2 Star &#9733;&#9733;</option>
+                                            <option value="">1 Star &#9733;</option>
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                          <label for="">Country</label>
+                                          <select class="form-control">
+                                              <option value="">United Kingdom</option>
+                                          </select>
+                                        </div>
+                                       
+                                         
+                                        <div class="col-8">
+                                           <div class="advSearchBtns">
+                                                <button class="btn cancelBtn">Cancel</button>
+                                                <button class="applyBtn">Apply</button>
+                                           </div>
+                                        </div>
+                                        
+                                      </div>
+
+
+                                  </form>
+                                
+                              </div>
+                            </div>
+                          
+                          </div>
+
+
                     </div>
                     <div class="subSec">
                         <ul>
