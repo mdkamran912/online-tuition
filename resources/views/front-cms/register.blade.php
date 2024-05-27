@@ -32,7 +32,7 @@
                                 <label for="name">Full Name:<span class="reqrd">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" aria-describedby=""
                                     placeholder="Your name" value="{{old('name')}}">
-                                    <span class="text-danger">
+                                    <span class="text-danger error-message">
                                         @error('name')
                                             {{ $message }}
                                         @enderror
@@ -44,7 +44,7 @@
                                 <label for="email">Email:<span class="reqrd">*</span></label>
                                 <input type="email" class="form-control" id="email" name="email" aria-describedby=""
                                     placeholder="Your email address"value="{{old('email')}}">
-                                    <span class="text-danger">
+                                    <span class="text-danger error-message">
                                         @error('email')
                                             {{ $message }}
                                         @enderror
@@ -55,7 +55,7 @@
                                 <label for="number">Mobile:<span class="reqrd">*</span></label>
                                 <input type="number" class="form-control" id="mobile" name="mobile" aria-describedby=""
                                     placeholder="Your mobile number" value="{{old('mobile')}}">
-                                    <span class="text-danger">
+                                    <span class="text-danger error-message">
                                         @error('mobile')
                                             {{ $message }}
                                         @enderror
@@ -67,7 +67,7 @@
                                 <label for="password">Create password:<span class="reqrd">*</span></label>
                                 <input type="password" class="form-control" id="password" name="password" aria-describedby=""
                                     placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;">
-                                    <span class="text-danger">
+                                    <span class="text-danger error-message">
                                         @error('password')
                                             {{ $message }}
                                         @enderror
@@ -78,7 +78,7 @@
                                 <label for="password">Retype password:<span class="reqrd">*</span></label>
                                 <input type="password" class="form-control" id="confpassword" name="confpassword" aria-describedby=""
                                     placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;">
-                                    <span class="text-danger">
+                                    <span class="text-danger error-message">
                                         @error('confpassword')
                                             {{ $message }}
                                         @enderror
@@ -110,7 +110,7 @@
                                 <input type="checkbox" id="expcheck" name="expcheck" {{ old('expcheck') ? 'checked' : '' }}> <span for="termCondition">I have read and agree to all <a
                                         href="#">Terms & conditions</a></span>
                             </div>
-                            <span class="text-danger">
+                            <span class="text-danger error-message">
                                 @error('expcheck')
                                     {{ $message }}
                                 @enderror

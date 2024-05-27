@@ -44,7 +44,7 @@
 									<div class="tu-placeholderholder">
 										<input type="text" class="form-control" required="" placeholder="Mobile Number" value="" id="username" name="username">
 										<div class="tu-placeholder">
-											<span>Mobile No.</span>
+											<span>Mobile No. </span>
 											<em>*</em>
 										</div>
 									</div>

@@ -135,7 +135,7 @@
                 <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                     <div class="tutorDetails">
                         <div class="tutorImg">
-                            <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}" width="100%" alt="">
+                            <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}" width="100%"  alt="">
                         </div>
                         <div class="star">
                             <span>
@@ -245,7 +245,7 @@
     </section>
     <!-- fact sector -->
     <section>
-        <div class="tu-statsholder">
+        <div class="tu-statsholder mb-5">
             <div class="container">
                 <ul id="tu-counter" class="tu-stats">
                     <li>

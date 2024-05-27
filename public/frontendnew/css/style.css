@@ -44,6 +44,11 @@ a:hover {
   background-repeat: no-repeat;
 }
 
+.brand-bg-Color{
+  background-color: #6a307d;
+  color: white;
+}
+
 /* Header */
 header {
   position: absolute;
@@ -279,7 +284,7 @@ header .navbar .dropdown-menu a {
 }
 
 .tutorImg img {
-  
+  height:230px;
   border-radius: 20px;
 }
 
@@ -363,6 +368,7 @@ header .navbar .dropdown-menu a {
   border-radius: 20px;
   background-color: #ffffff;
   padding: 26px;
+  height: 240px;
 }
 
 .testi-card:hover {
@@ -1046,4 +1052,10 @@ background: linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(282, 38%, 95%,
     background-color: #fff; 
     border-radius: 20px;
     
+  }
+
+
+  .error-message{
+    font-size: 12px;
+    margin-top: 15px;
   }

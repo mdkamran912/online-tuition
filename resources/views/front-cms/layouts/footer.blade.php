@@ -27,7 +27,7 @@
                     <input type="password" class="form-control" id="password" name="password" aria-describedby=""
                         placeholder="Password">
                 </div>
-                <span class="text-danger">
+                <span class="text-danger" style="font-size:10px">
                     @error('password')
                         {{ $message }}
                     @enderror
@@ -60,13 +60,13 @@
                     </span>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-success">Login</button>
-            </form>
+                <button type="submit" class="btn brand-bg-Color mb-3">Login</button>
+            
                 <br>
                 <a href="#">
                     <div class="googleLogin">
 
-                        <img src="{{ url('frontendnew/img/icons/google.png') }}" alt=""><span>Sign in with
+                        <img src="{{ url('frontendnew/img/icons/google-logo.png') }}" alt=""><span>Sign in with
                             Google</span>
 
                     </div>
@@ -101,7 +101,7 @@
 </script>
 
 
-<footer class="footerArea">
+<footer class="footerArea mt-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
