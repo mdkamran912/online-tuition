@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Events\NewNotificationEvent;
 use App\Models\Notification;
+use App\Models\SlotBooking;
 
 class HomeController extends Controller
 {
@@ -399,8 +400,40 @@ class HomeController extends Controller
         if (!$tutorpd) {
             return view('front-cms.tutordetails')->with('fail', 'Something went wrong');
         }
+        $subjects = tutorSubjectMapping::select('tutorsubjectmappings.*','subjects.name as subject_name')
+        ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
+        ->where('tutor_id',$id)
+        ->get();
+     
+        // dd($reviews);
+        $averagereview = tutorreviews::select(
+            DB::raw('AVG(tutorreviews.ratings) as avg_rating')
+        )
+        ->where('tutorreviews.tutor_id', $id)
+        ->first();
 
-        return view('front-cms.tutordetails', compact('tutorpd', 'achievement', 'reviews'));
+    $averagecount = tutorreviews::where('tutorreviews.tutor_id',$id)->count();
+    $totalStudents = SlotBooking::where('tutor_id', $id)
+                             ->select('student_id') // Only select student_id
+                             ->distinct() // Ensure unique students
+                             ->get()->count();
+    // dd($totalStudents);
+    $primarysubjects = tutorSubjectMapping::select('tutorsubjectmappings.*','subjects.name as subject_name')
+        ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
+        ->where('tutor_id',$id)
+        ->first();
+        
+        $othertutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
+        ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+            ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
+            ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            ->where('tutorsubjectmappings.subject_id', '=', $primarysubjects->subject_id)
+            ->get();
+
+            // dd($othertutors);
+
+
+        return view('front-cms.tutordetails', compact('tutorpd', 'achievement', 'reviews','subjects','averagecount','averagereview','totalStudents','othertutors','primarysubjects'));
     }
 
     public function registration(Request $request)
