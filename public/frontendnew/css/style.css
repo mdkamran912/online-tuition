@@ -434,11 +434,60 @@ header .navbar .dropdown-menu a {
   bottom: 80px;
 }
 
+
+.imgNumber1 {
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  left: 440px;
+  bottom: 180px;
+}
+.imgNumber1 .shaddow-shape1{
+  width: 200px;
+ 
+}
+
+
+.imgNumber2 {
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  left: 885px;
+  bottom: -50px;
+}
+.imgNumber2 .shaddow-shape2{
+  width: 200px;
+ 
+}
+
+.imgNumber3 {
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  left: 460px;
+  bottom: 150px;
+}
+.imgNumber3 .shaddow-shape3{
+  width: 200px;
+ 
+}
+
 .numbr1 {
   position: relative;
   bottom: 150px;
   left: 45px;
   width: 55px;
+  z-index: 100;
+}
+
+.numbr11 {
+  position: relative;
+  bottom: 200px;
+  left: 70px;
+  width: 80px;
   z-index: 100;
 }
 
@@ -449,6 +498,13 @@ header .navbar .dropdown-menu a {
   width: 75px;
   z-index: 100;
 }
+.numbr22 {
+  position: relative;
+  bottom: 200px;
+  left: 30px;
+  width: 130px;
+  z-index: 100;
+}
 
 .numbr3 {
   position: relative;
@@ -457,6 +513,16 @@ header .navbar .dropdown-menu a {
   width: 75px;
   z-index: 100;
 }
+
+.numbr33 {
+  position: relative;
+  bottom: 200px;
+  left: 50px;
+  width: 130px;
+  z-index: 100;
+}
+
+
 
 .tu-statsholder {
   background-color: #f7f8fc;
