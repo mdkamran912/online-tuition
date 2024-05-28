@@ -68,6 +68,7 @@ Route::get('index/slots/search', [SlotBookingController::class, 'indexslotsearch
 Route::get('resources', [HomeController::class, 'indexresources'])->name('index.resources');
 Route::post('toptutorsearch',[HomeController::class, 'toptutorsearch'])->name('toptutorsearch');
 Route::post('advancesearch',[HomeController::class, 'advancesearch'])->name('advancesearch');
+Route::get('reviews',[HomeController::class,'reviewslist'])->name('revieweslist');
 
 // Route::get('findatutor', function(){
 //     return view('front-cms/findatutor');

@@ -275,7 +275,7 @@
             <div class="row mt-4">
                 <div class="col-12 ">
                     <div class="expMore">
-                        <a href="#" class="btn btn-lg">View all</a>
+                        <a href="/reviews" class="btn btn-lg">View all</a>
                     </div>
                 </div>
             </div>

@@ -152,13 +152,13 @@
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <h5 class="mb-4">Quick Links</h5>
                 <ul>
-                    <li>About us</li>
-                    <li>Who we are</li>
-                    <li>Find Tutor</li>
-                    <li>Subjects</li>
-                    <li>Contact Us</li>
-                    <li>Privacy Policy</li>
-                    <li>Terms and Conditions</li>
+                    <a href="/aboutus"><li>About us</li></a>
+                    <a href="/aboutus"><li>Who we are</li></a>
+                    <a href="/findatutor"><li>Find Tutor</li></a>
+                    <a href="/subjects"><li>Subjects</li></a>
+                    <a href="/aboutus"><li>Contact Us</li></a>
+                    <a href="#"><li>Privacy Policy</li></a>
+                    <a href="#"><li>Terms and Conditions</li></a>
 
                 </ul>
             </div>
