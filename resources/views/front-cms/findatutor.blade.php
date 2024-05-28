@@ -7,24 +7,27 @@
                 <h1>
                     Discover the perfect tutor for you
                 </h1>
-                <div class="findtutor-btns">
-                    <select style="border-radius: 60px; border:0;padding:10px">
-                        <option>Select a subject</option>
-                        @foreach ($subjects as $subject)
-                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                        @endforeach
-                    </select>
-                    <select style="border-radius: 60px; border:0;padding:10px">
-                        <option>Select a grade</option>
-                        @foreach ($gradelists as $grade)
-                            <option value="{{ $grade->id }}">{{ $grade->name }}</option>
-                        @endforeach
-                    </select>
+                <form action="{{ url('toptutorsearch') }}" method="POST">
+                    @csrf
+                    <div class="findtutor-btns">
+                        <select style="border-radius: 60px; border:0;padding:10px" id="subject" name="subject">
+                            <option value="">Select a subject</option>
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                            @endforeach
+                        </select>
+                        <select style="border-radius: 60px; border:0;padding:10px" id="grade" name="grade">
+                            <option value="">Select a grade</option>
+                            @foreach ($gradelists as $grade)
+                                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                            @endforeach
+                        </select>
 
-                    <button class="btn search-tutor">Search</button>
-                </div>
+                        <button type="submit" class="btn search-tutor">Search</button>
+                    </div>
+                </form>
                 <div id="accordion" class="mb-5">
-        
+
                             <div class="advceAccordian">
                               <div class="" id="headingTwo">
 
@@ -37,31 +40,36 @@
                                         </a>
                                     </span>
                                 </div>
-                               
+
                               </div>
                               <div id="collapseTwo" class="collapse collapseAdvSearch" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <form class="advSearchForm">
+                                <form class="advSearchForm" action="{{url('advancesearch')}}" method="POST">
+                                    @csrf
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search">
+                                        <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search" id="name" name="name">
                                     </div>
                                     <div class="row mb-3">
-                                      <div class="col">
-                                        <label for="">Subject</label>
-                                        <select class="form-control">
-                                            <option value="">English</option>
-                                            <option value="">English</option>
-                                        </select>
-                                      </div>
-                                      <div class="col">
-                                        <label for="">Grade</label>
-                                        <select class="form-control">
-                                            <option value="">10th Grade</option>
-                                            <option value="">10th Grade</option>
-                                        </select>
-                                      </div>
+                                        <div class="col">
+                                            <label for="">Subject</label>
+                                            <select class="form-control" id="subject" name="subject">
+                                                <option value="">Select a subject</option>
+                                                @foreach ($subjects as $subject)
+                                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="">Grade</label>
+                                            <select class="form-control" id="grade" name="grade">
+                                                <option value="">Select a grade</option>
+                                                @foreach ($gradelists as $grade)
+                                                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                       <div class="col">
                                         <label for="">Rating</label>
-                                        <select class="form-control rating">
+                                        <select class="form-control rating" id="ratings" name="ratings">
                                             <option value="">5 Star <span class="star-uni-code">&#9733;&#9733;&#9733;&#9733;&#9733;</span></option>
                                             <option value="">4 Star &#9733;&#9733;&#9733;&#9733;</option>
                                             <option value="">3 Star &#9733;&#9733;&#9733;</option>
@@ -74,27 +82,30 @@
                                     <div class="row">
                                         <div class="col-4">
                                           <label for="">Country</label>
-                                          <select class="form-control">
-                                              <option value="">United Kingdom</option>
+                                          <select class="form-control" id="country" name="country">
+                                              <option value="">Select Country</option>
+                                              @foreach ($countries as $country)
+                                                  <option value="{{$country->id}}">{{$country->name}}</option>
+                                              @endforeach
                                           </select>
                                         </div>
-                                       
-                                         
+
+
                                         <div class="col-8">
                                            <div class="advSearchBtns">
                                                 <button class="btn cancelBtn">Cancel</button>
-                                                <button class="applyBtn">Apply</button>
+                                                <button type="submit" class="applyBtn">Apply</button>
                                            </div>
                                         </div>
-                                        
+
                                       </div>
 
 
                                   </form>
-                                
+
                               </div>
                             </div>
-                          
+
                           </div>
 
 
@@ -110,7 +121,7 @@
             <br>
             <div class="row">
                 @foreach ($tutors as $tutor)
-                    
+
                 <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                     <div class="tutorDetails">
                         <div class="tutorImg">
@@ -131,7 +142,7 @@
                     </div>
                 </div>
                 @endforeach
-                
+
             </div>
             <div class="row mt-4">
                 <div class="col-12">
