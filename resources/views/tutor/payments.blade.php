@@ -92,7 +92,7 @@
                             {{-- <td><a href="tutorprofile/{{$payment->tutor_id}}">{{ $payment->tutor_name }}</a></td> --}}
                             <td>{{ $payment->transaction_date }}</td>
                             <td>{{ $payment->transaction_no }}</td>
-                            <td>{{ $payment->transaction_amount }}</td>
+                            <td>£{{ $payment->transaction_amount }}</td>
                             <td>{{ $payment->payment_mode }}</td>
                             @if ($payment->transaction_status_id == "3")
                             <td><span class="badge bg-success">{{ $payment->transaction_status }}</span></td>

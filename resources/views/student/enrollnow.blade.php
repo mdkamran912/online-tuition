@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="col-md-2 mt-4">
-                            <label for="">Rate/Hr</label>
+                            <label for="">Rate/Hr(£)</label>
                             <input type="text" class="form-control readonly" name="rateperhourenroll"
                                 id="rateperhourenroll" readonly value="{{ $enrollment->rate }}">
                             <span class="text-danger">
@@ -121,7 +121,7 @@
 
 
                         <div class="col-md-2 mt-4">
-                            <label for="">Total Amount</label>
+                            <label for="">Total Amount(£)</label>
                             <input type="text" class="form-control readonly" name="totalamountenroll"
                                 id="totalamountenroll" readonly>
                             <span class="text-danger">
