@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Events\RealTimeMessage;
 use App\Models\Notification;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class TutorSearchController extends Controller
 {
@@ -435,6 +437,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         $order_id = '1234-5678-qqyz-aspa-zqkp1o2';
 
         $classId = subjects::select('*')->where('id',$request->subjectenrollid)->first();
+        $tutorname = tutorprofile::select('*')->where('tutor_id',$request->tutorenrollid)->first();
 
         // Step 1: Save the paymentdetails record
         $paymentdetails = new paymentdetails();
@@ -454,6 +457,17 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         $studentpayment->classes_purchased = $request->requiredclassenroll;
         $studentpayment->rate_per_hr = $request->rateperhourenroll;
         $spdres = $studentpayment->save();
+
+        // Send welcome mail
+        $details = [
+            'name' => session('userid')->name,
+            'total_classes' => $request->requiredclassenroll,
+            'tutor_name' => $tutorname->name,
+            'mailtype' => 4
+            ];
+
+            Mail::to(session('userid')->email)->send(new SendMail($details));
+            // Send welcome mail ends here ..
 
        // Step 3: Update slotbooking records for each selected slot
        // Converting comma-separated string to an array

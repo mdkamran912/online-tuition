@@ -12,10 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\RealTimeMessage;
 use App\Models\Notification;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 class DemoListController extends Controller
 {
     public function index(){
-        
+
         $demos = democlasses::select('*','democlasses.id as demo_id','classes.name as class_name','tutorregistrations.name as tutor','subjects.name as subject','subjects.id as subjectid','statuses.name as currentstatus')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'democlasses.tutor_id')
         ->join('subjects', 'subjects.id','=','democlasses.subject_id')
@@ -24,7 +26,7 @@ class DemoListController extends Controller
         ->where('democlasses.student_id','=', session('userid')->id)
         ->orderBy('democlasses.created_at', 'desc')
         ->paginate(100);
-        
+
         $subjects = subjects::where('is_active',1)->where('class_id',session('userid')->class_id)->get();
         $statuses = status::select('*')->get();
         $tutors = tutorregistration::select('*')->get();
@@ -120,10 +122,10 @@ class DemoListController extends Controller
              //     // $notificationdata->show_to_all_parent = 0;
              // }
              $notificationdata->read_status = 0;
- 
+
              $notified = $notificationdata->save();
              broadcast(new RealTimeMessage('$notification'));
- 
+
             return back()->with('success','Demo Cancelled Successfully');
         }
         else{
@@ -133,9 +135,10 @@ class DemoListController extends Controller
     }
 
     public function bookdemo(Request $request){
-        
+
         // $studentprofile = studentprofile::select('*')->where('student_id',session('userid')->id)->first();
         $profchk = studentprofile::select('email')->where('student_id',session('userid')->id)->first();
+        $tutorname = tutorregistration::select('*')->where('id',$request->demotutorid)->first();
 
         if (!$profchk || $profchk->email === null) {
             return back()->with('fail','Please update your profile first. Visit your profile section to update');
@@ -156,6 +159,20 @@ class DemoListController extends Controller
         $demo->status = "1";
 
         $res = $demo->save();
+
+        // Send welcome mail
+        $details = [
+        'name' => session('userid')->name,
+        'slot_1' => $request->demoslotfirst,
+        'slot_2' => $request->demoslotsecond,
+        'slot_3' => $request->demoslotthird,
+        'tutor_name' => $tutorname->name,
+        'mailtype' => 2
+        ];
+
+        Mail::to(session('userid')->email)->send(new SendMail($details));
+        // Send welcome mail ends here ..
+
         if ($res) {
             //////////////// Here I need to pass notification into db
             $notificationdata = new Notification();

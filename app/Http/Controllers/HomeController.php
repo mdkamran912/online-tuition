@@ -28,7 +28,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Events\NewNotificationEvent;
 use App\Models\Notification;
 use App\Models\SlotBooking;
-
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
     // public function deepesh(){
@@ -37,6 +38,9 @@ class HomeController extends Controller
     // }
     public function index()
     {
+
+        // return 'Email has been sent!';
+
         $classes = classes::all('id', 'name');
 
         // $tutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject',DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'))
@@ -699,6 +703,17 @@ class HomeController extends Controller
         $studentprofile->grade = 1;
         $studentprofile->save();
 
+        // Send welcome mail
+        $details = [
+            'name' => $request->name,
+            'mobile' => $request->mobile,
+            'password' => $request->password,
+            'mailtype' => 1
+        ];
+
+        Mail::to($request->email)->send(new SendMail($details));
+        // Send welcome mail ends here ..
+
         $mobile = $request->mobile;
         $formattedDate = Carbon::now()->format('Y-m-d');
         // Generate a random 4-digit OTP
@@ -789,6 +804,17 @@ class HomeController extends Controller
         $tprofile->rateperhour = 0;
         $tprofile->admin_commission = 0;
         $tprofile->save();
+
+        // Send welcome mail
+        $details = [
+            'name' => $request->name,
+            'mobile' => $request->mobile,
+            'password' => $request->password,
+            'mailtype' => 1
+        ];
+
+        Mail::to($request->email)->send(new SendMail($details));
+        // Send welcome mail ends here ..
 
         $mobile = $request->mobile;
 

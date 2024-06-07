@@ -27,6 +27,8 @@ use App\Models\payments\paymentstudents;
 use App\Events\NewNotificationEvent;
 use App\Events\RealTimeMessage;
 use App\Models\Notification;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class GoogleCalendarController extends Controller
 {
@@ -138,24 +140,24 @@ class GoogleCalendarController extends Controller
 
         // Check if the user is already authenticated
         if (!$request->session()->has('access_token')) {
-           
+
             // Redirect the user to Google's OAuth 2.0 consent screen
             $authUrl = $client->createAuthUrl();
             return redirect()->away($authUrl);
         }
         $client->setAccessToken($request->session()->get('access_token'));
-        
+
         $service = new Google_Service_Calendar($client);
 
         $StartTime = '31/12/2023 03:03 PM';
-        $dateTime = DateTime::createFromFormat('d/m/Y h:i A', 
+        $dateTime = DateTime::createFromFormat('d/m/Y h:i A',
         $StartTime, new DateTimeZone('Asia/Kolkata'));
         $classstarttime = $dateTime->format(DateTime::RFC3339);
         $classduration = 60;
         $classpassword = $request->input('classpassword');
 
         $event = new Google_Service_Calendar_Event([
-            
+
             'summary' =>  'Live Class By ' . $tutor->name . '',
             'description' =>  'Live for student : ' . $student->name . ', by tutor : ' . $tutor->name,
             'start' => [
@@ -180,30 +182,30 @@ class GoogleCalendarController extends Controller
             'attendees' => [['email' => $student->email]],
         ]);
         $calendarId = 'primary';
-        
+
         try {
-            
+
             // Code that makes the API request to Google Calendar
             $response = $service->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
-        
+
             // Process the response here
         } catch (\Google\Service\Exception $e) {
-            
+
             // Handle Google API exceptions
             $errorResponse = json_decode($e->getMessage());
             $authUrl = $client->createAuthUrl();
             return redirect()->away($authUrl);
             // Log or handle the error here
         } catch (\Exception $e) {
-            
+
             // Handle other exceptions
             // Log or handle the error here
             $authUrl = $client->createAuthUrl();
             return redirect()->away($authUrl);
         }
-        
-        
-        
+
+
+
         if ($response->status == 'confirmed') {
             // $response = json_decode($response);
             $data = new zoom_classes(); // zoom_classes -> Currently we are using gmeet to host meeting
@@ -275,14 +277,14 @@ class GoogleCalendarController extends Controller
     }
     public function democonfirm(Request $request)
     {
-      
+
         $request->validate([
             'slot' => 'required',
             // 'demolink'=>'required'
         ]);
         $demodata = democlasses::select('*')->where('id', $request->confirmid)->first();
         $demostudent = studentprofile::select('*')->where('student_id', $demodata->student_id)->first();
-        
+
         // try {
         // Initialize the Google API client with OAuth 2.0 credentials
         $client = new Google_Client();
@@ -337,7 +339,7 @@ class GoogleCalendarController extends Controller
         // dd($response);
 
         if ($response->status == 'confirmed') {
-         
+
             $dcnf = democlasses::find($request->confirmid);
 
             $dcnf->slot_confirmed = $request->slot;
@@ -348,6 +350,17 @@ class GoogleCalendarController extends Controller
             $dcnf->status = 3;
 
             $res = $dcnf->save();
+
+             // Send welcome mail
+        $details = [
+            'name' => $demostudent->name,
+            'confirmed_slot' => $request->slot,
+            'tutor_name' => session('userid')->name,
+            'mailtype' => 3
+            ];
+
+            Mail::to($demostudent->email)->send(new SendMail($details));
+            // Send welcome mail ends here ..
 
         if ($res) {
             //////////////// Here I need to pass notification into db
@@ -396,7 +409,7 @@ class GoogleCalendarController extends Controller
 
     }
     function demoend(Request $request){
-   
+
         // dd($request->demoendid);
        $dcnf = democlasses::find($request->demoendid);
 
@@ -450,7 +463,7 @@ class GoogleCalendarController extends Controller
    } else {
        return back()->with('fail', 'Something went wrong. Please try again later');
    }
-   
+
 }
 }
 
