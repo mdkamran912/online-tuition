@@ -80,7 +80,7 @@
                             <div class="col-md-3 col-12">
 
                                 <div class="profile-pic-div">
-                                    <img src="{{url('images/tutors/profilepics','/')}}{{ $tutorpd->profile_pic ?? url('images/avatar/default-profile-pic.png')}}"
+                                    <img src="{{url('images/tutors/profilepics','/')}}{{ $tutorpd->profile_pic ?? '1703078631.png'}}"
                                         id="photo">
                                     <input type="file" id="file" name="file">
                                     {{-- <input type="file" id="test" name="test"> --}}

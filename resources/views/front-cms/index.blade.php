@@ -124,79 +124,79 @@
                     <div class="subSec">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/board-math.png') }}" alt="">
                                     <p>Maths</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/book-03.png') }}" alt="">
                                     <p>English</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/chemistry-03.png') }}" alt="">
                                     <p>Chemistry</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/physics.png') }}" alt="">
                                     <p>Physics</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/geology-crust.png') }}" alt="">
                                     <p>Biology</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/submerge.png') }}" alt="">
                                     <p>Science</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/translation.png') }}" alt="">
                                     <p>Spanish</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/translation.png') }}" alt="">
                                     <p>French</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/translation.png') }}" alt="">
                                     <p>German</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/text-creation.png') }}" alt="">
                                     <p>History</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/music-note-03.png') }}" alt="">
                                     <p>Music</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/global-education.png') }}" alt="">
                                     <p>Psychology</p>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="findatutor">
                                     <img src="{{ url('frontendnew/img/icons/school-tie.png') }}" alt="">
                                     <p>Politics</p>
                                 </a>
@@ -227,7 +227,7 @@
                                 </span>
                                 <span>${{ $tutor->rateperhour }}/h</span>
                             </div>
-                           <a href="tutor-details/{{$tutor->tutor_id}}"> <span class="name">
+                           <a href="tutor-details/{{$tutor->tutor_id}}" style="color: black"> <span class="name">
                                 {{ $tutor->name }}
                                 <p>{{ $tutor->subjects }}</p>
                             </span></a>
@@ -240,7 +240,7 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="expMore">
-                        <a href="#" class="btn btn-lg">Explore more</a>
+                        <a href="findatutor" class="btn btn-lg">Explore more</a>
                     </div>
                 </div>
             </div>

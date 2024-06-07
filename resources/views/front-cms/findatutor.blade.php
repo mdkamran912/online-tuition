@@ -13,7 +13,7 @@
                         <select style="border-radius: 60px; border:0;padding:10px" id="subject" name="subject">
                             <option value="">Select a subject</option>
                             @foreach ($subjects as $subject)
-                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                <option value="{{ $subject->id }}" {{ old('dropdown_name') ==  $subject->id ? 'selected' : '' }}>{{ $subject->name }}</option>
                             @endforeach
                         </select>
                         <select style="border-radius: 60px; border:0;padding:10px" id="grade" name="grade">
@@ -134,23 +134,23 @@
                             </span>
                             <span>${{$tutor->rateperhour}}/h</span>
                         </div>
-                        <span class="name">
+                        <a href="tutor-details/{{$tutor->tutor_id}}" style="color: black"><span class="name">
                             {{$tutor->name}}
                             <p>{{$tutor->subjects}}</p>
-                        </span>
+                        </span></a>
                         <span class="desc-tutor">{{$tutor->headline}}</span>
                     </div>
                 </div>
                 @endforeach
 
             </div>
-            <div class="row mt-4">
+            {{-- <div class="row mt-4">
                 <div class="col-12">
                     <div class="expMore">
                         <a href="#" class="btn btn-lg">Explore more</a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </section>
     <section>

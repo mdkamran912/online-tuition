@@ -106,7 +106,7 @@
                                         <td>{{ $ttrlist->class_name }}</td>
                                         <td>{{ $ttrlist->subject_name }}</td>
                                         <td>£ {{ $ttrlist->rate }}</td>
-                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->rate_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a></td>
+                                        <td><a href="#" onclick="updatecommission('{{$ttrlist->tutor_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a></td>
                                         <td><a href="tutorslotscheck/{{$ttrlist->tutor_id}}"><span class="badge bg-success ml-3">Check Slots</span> </a></td>
                                         @if($ttrlist->subject_name)
                                         <td>

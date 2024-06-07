@@ -48,7 +48,7 @@ class HomeController extends Controller
             'tutorprofiles.tutor_id',
             'tutorprofiles.headline',
             'tutorprofiles.profile_pic',
-            'tutorprofiles.rate as rateperhour',
+            DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) as rateperhour'), // Calculate rateperhour with commission
             DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
             DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -60,20 +60,24 @@ class HomeController extends Controller
         ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
         ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
         ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+        ->leftJoin('tutorregistrations','tutorregistrations.id','tutorprofiles.tutor_id')
         ->leftJoin('tutorreviews', function($join) {
             $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
                  ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
         })
+        ->where('tutorregistrations.is_active', 1)
         ->groupBy(
             'tutorprofiles.name',
             'tutorprofiles.tutor_id',
             'tutorprofiles.profile_pic',
-            'tutorprofiles.rate',
+            'tutorprofiles.headline',
             'tutorsubjectmappings.rate',
             'tutorsubjectmappings.admin_commission',
-            'tutorprofiles.headline'
+            'tutorprofiles.rateperhour',
+            'tutorprofiles.admin_commission'
         )
         ->get();
+        
 
 
 
@@ -136,7 +140,8 @@ class HomeController extends Controller
         'tutorprofiles.name',
         'tutorprofiles.headline',
         'tutorprofiles.profile_pic',
-        'tutorprofiles.rate as rateperhour',
+        'tutorprofiles.tutor_id as tutor_id',
+        DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) as rateperhour'), // Calculate rateperhour with commission
         DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
         DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
         DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -148,10 +153,12 @@ class HomeController extends Controller
     ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
     ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
     ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+    ->leftJoin('tutorregistrations','tutorregistrations.id','tutorprofiles.tutor_id')
     ->leftJoin('tutorreviews', function($join) {
         $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
              ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
     })
+    ->where('tutorregistrations.is_active',1)
     ->where('tutorsubjectmappings.subject_id', 'LIKE', '%' . $subjectid . '%')
     ->where('tutorsubjectmappings.class_id', 'LIKE', '%' . $classid . '%')
     ->groupBy(
@@ -160,7 +167,10 @@ class HomeController extends Controller
         'tutorprofiles.rate',
         'tutorsubjectmappings.rate',
         'tutorsubjectmappings.admin_commission',
-        'tutorprofiles.headline'
+        'tutorprofiles.headline',
+        'tutorprofiles.tutor_id',
+        'tutorprofiles.rateperhour',
+        'tutorprofiles.admin_commission'
     )
     ->get();
 
@@ -202,7 +212,8 @@ class HomeController extends Controller
         'tutorprofiles.name',
         'tutorprofiles.headline',
         'tutorprofiles.profile_pic',
-        'tutorprofiles.rate as rateperhour',
+        'tutorprofiles.tutor_id as tutor_id',
+        DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) as rateperhour'), // Calculate rateperhour with commission
         DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
         DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
         DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -214,6 +225,7 @@ class HomeController extends Controller
     ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
     ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
     ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+    ->leftJoin('tutorregistrations','tutorregistrations.id','tutorprofiles.tutor_id')
     ->leftJoin('tutorreviews', function($join) {
         $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
              ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
@@ -222,14 +234,19 @@ class HomeController extends Controller
     ->where('tutorsubjectmappings.class_id', 'LIKE', '%' . $classid . '%')
     ->where('tutorprofiles.country_id', 'LIKE', '%' . $countryid . '%')
     ->where('tutorprofiles.name', 'LIKE', '%' . $tutorname . '%')
+    ->where('tutorregistrations.is_active', 1)
     ->groupBy(
         'tutorprofiles.name',
         'tutorprofiles.profile_pic',
         'tutorprofiles.rate',
         'tutorsubjectmappings.rate',
         'tutorsubjectmappings.admin_commission',
-        'tutorprofiles.headline'
+        'tutorprofiles.headline',
+        'tutorprofiles.rateperhour',
+        'tutorprofiles.admin_commission',
+        'tutorprofiles.tutor_id'
     )
+    ->havingRaw('AVG(tutorreviews.ratings) >= ?', [$ratings])
     ->get();
 
 
@@ -324,7 +341,8 @@ class HomeController extends Controller
             'tutorprofiles.name',
             'tutorprofiles.headline',
             'tutorprofiles.profile_pic',
-            'tutorprofiles.rate as rateperhour',
+            'tutorprofiles.tutor_id as tutor_id',
+            DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) as rateperhour'), // Calculate rateperhour with commission
             DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
             DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
@@ -336,17 +354,22 @@ class HomeController extends Controller
         ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
         ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
         ->leftJoin('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+        ->leftJoin('tutorregistrations','tutorregistrations.id','tutorprofiles.tutor_id')
         ->leftJoin('tutorreviews', function($join) {
             $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
                  ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
         })
+        ->where('tutorregistrations.is_active',1)
         ->groupBy(
             'tutorprofiles.name',
             'tutorprofiles.profile_pic',
             'tutorprofiles.rate',
             'tutorsubjectmappings.rate',
             'tutorsubjectmappings.admin_commission',
-            'tutorprofiles.headline'
+            'tutorprofiles.headline',
+            'tutorprofiles.tutor_id',
+            'tutorprofiles.rateperhour',
+        'tutorprofiles.admin_commission'
         )
         ->get();
 
