@@ -28,8 +28,8 @@ class TutorProfileController extends Controller
 
 
     public function tutorprofile()
-    {  
-        
+    {
+
          $id = session('userid')->id;
         $classes = (new CommonController)->classes();
         $tutorpd = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
@@ -38,7 +38,7 @@ class TutorProfileController extends Controller
             ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
             ->where('tutorprofiles.tutor_id','=',$id)
             ->first();
-        
+
         // dd($tutorpd);
         $achievement = tutorachievements::select('*')
             ->where('tutor_id', '=', $id)->get();
@@ -47,8 +47,8 @@ class TutorProfileController extends Controller
 
             if($tutorpd){
                 $achievement = tutorachievements::select('*')->where('tutor_id', '=', session('userid')->id)->get();
-    
-    
+
+
                 $reviews = tutorreviews::select('tutorreviews.id', 'tutorreviews.name', 'tutorreviews.ratings','studentprofiles.name as student_name','studentprofiles.profile_pic as student_pic', 'tutorreviews.subject_id', 'tutorreviews.tutor_id', 'subjects.name as subject')
                     ->leftjoin('subjects', 'subjects.id', '=', 'tutorreviews.subject_id')
                     ->leftjoin('studentprofiles','studentprofiles.student_id', '=', 'tutorreviews.student_id')
@@ -118,11 +118,11 @@ class TutorProfileController extends Controller
             $ppic->mobile = session('userid')->mobile;
         }
         $ppic->name = session('userid')->name;
-        
+
         $ppic->secondary_mobile = $request->secmobile;
-        
+
         $ppic->goal = $request->goals;
-        $ppic->qualification = $request->qualification;
+        $ppic->qualification = $request->qualification ?? ' ';
         $ppic->intro_video_link = $request->introvideolink;
         // $ppic->expertise = $request->expertise;
         $ppic->experience = $request->experience;

@@ -114,8 +114,8 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="name">Gender<i style="color:red">*</i></label>
-                                <select type="text" class="form-control" id="gender" name="gender" value="" required>
+                                <label for="name">Gender</label>
+                                <select type="text" class="form-control" id="gender" name="gender" value="">
                                     @if (empty($tutorpd->gender))
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -128,14 +128,14 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="name">Qualification<i style="color:red">*</i></label>
+                                <label for="name">Qualification</label>
                                 <input type="text" class="form-control" id="qualification" name="qualification"
-                                    placeholder="qualification" value="{{ $tutorpd->qualification ?? '' }}" required>
+                                    placeholder="qualification" value="{{ $tutorpd->qualification ?? '' }}">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="name">Experience<i style="color:red">*</i></label>
+                                <label for="name">Experience</label>
                                 <input type="text" class="form-control" id="experience" name="experience"
-                                    placeholder="experience" value="{{ $tutorpd->experience ?? '' }}" required>
+                                    placeholder="experience" value="{{ $tutorpd->experience ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name">Cetification</label>
@@ -144,7 +144,7 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="">Mobile<i style="color:red">*</i></label>
+                                <label for="">Mobile</label>
                                 <input type="text" class="form-control" id="primarymobile" name="primarymobile"
                                     placeholder="" value="{{ $tutorpd->mobile ?? session('userid')->mobile }}" disabled>
                             </div>
@@ -165,9 +165,9 @@
                         <div class="row">
 
                             <div class="form-group col-md-6">
-                                <label for="">Headline<i style="color:red">*</i></i></label>
+                                <label for="">Headline</label>
                                 <input type="text" class="form-control" id="headline" name="headline"
-                                    placeholder="Enter Headline" value="{{ $tutorpd->headline ?? '' }}" required>
+                                    placeholder="Enter Headline" value="{{ $tutorpd->headline ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="">Goals</label>
@@ -175,9 +175,9 @@
                                     placeholder="Enter Goals " value="{{ $tutorpd->goal ?? '' }}">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="">Details 1<i style="color:red">*</i></label>
+                                <label for="">Details 1</label>
                                 <input type="text" class="form-control" id="details1" name="details1"
-                                    placeholder="Enter Details" value="{{ $tutorpd->detail_1 ?? '' }}" required>
+                                    placeholder="Enter Details" value="{{ $tutorpd->detail_1 ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name">Details 2</label>
@@ -194,17 +194,17 @@
                                 <label for="name">Rate Per Hour(£)<i style="color:red">*</i></label>
                                 <input type="text" class="form-control" id="rateperhour" name="rateperhour"
                                     placeholder="0"
-                                    value="{{ $tutorpd->rateperhour ?? ''}}" required>
+                                    value="{{ $tutorpd->rateperhour ?? 0}}" required>
                             </div>
                             {{-- Added new field for rate per hour based on profile ends here --}}
 
                             <div class="form-group col-md-6">
-                                <label for="name">Intro Video Link<i style="color:red">*</i></label>
+                                <label for="name">Intro Video Link</label>
                                 <input type="text" class="form-control" id="introvideolink" name="introvideolink"
                                     placeholder="https://youtube.com/abZpqYUppz"
-                                    value="{{ $tutorpd->intro_video_link ?? ''}}" required>
+                                    value="{{ $tutorpd->intro_video_link ?? ''}}">
                             </div>
-                            
+
                             <div class="form-group col-md-6">
                                 <div style="float:right; margin-top:10px">
                                     <button type="submit" id="" class="btn btn-sm btn-success"><span
@@ -246,7 +246,7 @@
 
                             </select>
                         </div>
-                        
+
 
                         <div class="form-group col-md-3 text-right" style="margin-top: 33px;">
                             <button class=" btn btn-sm btn-success text-white" type="submit"><span
@@ -354,7 +354,7 @@
 
                     </tbody>
                 </table>
-                
+
                 <hr>
 
                 <h3 class="text-center my-5"><u>Skills</u></h3>
@@ -364,7 +364,7 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <input type="text" class="form-control" oninput="validateInput(this)" name="skills" value="{{ $tutorpd->keywords ?? '' }}"placeholder="Enter skills separated with comma (Example: Java Expert, Python Expert)">
-                                
+
                                 @error('skills')
                                   <span class="text-danger">{{ $message }}</span>
                                 @enderror

@@ -9,6 +9,7 @@ use App\Models\country;
 use App\Models\subjects;
 use App\Models\Blogs;
 use App\Models\tutorprofile;
+use App\Models\studentprofile;
 use App\Models\subjectcategory;
 use App\Models\payments\paymentdetails;
 use App\Models\payments\paymentstudents;
@@ -77,7 +78,7 @@ class HomeController extends Controller
             'tutorprofiles.admin_commission'
         )
         ->get();
-        
+
 
 
 
@@ -427,7 +428,7 @@ class HomeController extends Controller
         ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
         ->where('tutor_id',$id)
         ->get();
-     
+
         // dd($reviews);
         $averagereview = tutorreviews::select(
             DB::raw('AVG(tutorreviews.ratings) as avg_rating')
@@ -445,7 +446,7 @@ class HomeController extends Controller
         ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
         ->where('tutor_id',$id)
         ->first();
-        
+
         $othertutors = tutorprofile::select('tutorprofiles.*', 'subjects.name as subject', 'subjects.name as subject')
         ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->leftjoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
@@ -686,8 +687,17 @@ class HomeController extends Controller
         $user->is_active = "1";
         $user->password = Hash::make($request->password);
         $user->parent_password = Hash::make($request->mobile);
-
         $res = $user->save();
+
+        $finduser = studentregistration::select('*')->where('mobile',$request->mobile)->first();
+        $studentprofile = new studentprofile();
+        $studentprofile->name = $request->name;
+        $studentprofile->mobile = $request->mobile;
+        $studentprofile->email = $request->email;
+        $studentprofile->student_id = $finduser->id;
+        // $studentprofile->profile_pic =
+        $studentprofile->grade = 1;
+        $studentprofile->save();
 
         $mobile = $request->mobile;
         $formattedDate = Carbon::now()->format('Y-m-d');
@@ -768,6 +778,17 @@ class HomeController extends Controller
         $user->password = Hash::make($request->password);
 
         $res = $user->save();
+
+        $checktutorid = tutorregistration::select('*')->where('mobile',$request->mobile)->first();
+        $tprofile = new tutorprofile();
+        $tprofile->name = $request->name;
+        $tprofile->mobile = $request->mobile;
+        $tprofile->email = $request->email;
+        $tprofile->tutor_id = $checktutorid->id;
+        $tprofile->qualification = " ";
+        $tprofile->rateperhour = 0;
+        $tprofile->admin_commission = 0;
+        $tprofile->save();
 
         $mobile = $request->mobile;
 

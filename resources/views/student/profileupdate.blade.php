@@ -55,8 +55,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="name">Name<i style="color:red">*</i></label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                    value="{{ $student->name ?? session('userid')->name }}" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $student->student_name ?? '' }}" required>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -64,7 +63,7 @@
                                 <input type="date" class="form-control" id="dob" name="dob" value="{{ $dob ?? '' }}" required>
                                 <small id="dobError" class="text-danger"></small>
                             </div>
-                            
+
                             <div class="form-group col-md-6">
                                 <label for="name">Gender<i style="color:red">*</i></label>
                                 <select type="text" class="form-control" id="gender" name="gender" value="" required>
@@ -72,7 +71,7 @@
                                     <option value="2" {{ ($student && $student->gender == "2") ? 'selected' : '' }}>Female</option>
                                     <option value="3" {{ ($student && $student->gender == "3") ? 'selected' : '' }}>Other</option>
                                 </select>
-                                
+
                             </div>
 
                         </div>
@@ -96,14 +95,14 @@
                                     value="{{ $student->email ?? session('userid')->email }}" disabled>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="">School<i style="color:red">*</i></i></label>
+                                <label for="">School</label>
                                 <input type="text" class="form-control" id="school" name="school"
-                                    placeholder="Enter School Name" value="{{ $student->school_name ?? '' }}" required>
+                                    placeholder="Enter School Name" value="{{ $student->school_name ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="">Father's Name<i style="color:red">*</i></label>
+                                <label for="">Father's Name</label>
                                 <input type="text" class="form-control" id="fname" name="fname"
-                                    placeholder="Enter Father's Name " value="{{ $student->fathers_name ?? '' }}" required>
+                                    placeholder="Enter Father's Name " value="{{ $student->fathers_name ?? '' }}" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="">Mother's Name</label>
@@ -273,7 +272,7 @@
         const file = document.querySelector('#file');
         const uploadBtn = document.querySelector('#uploadBtn');
 
-        //if user hover on img div 
+        //if user hover on img div
 
         imgDiv.addEventListener('mouseenter', function() {
             uploadBtn.style.display = "block";
@@ -328,7 +327,7 @@
             var inputDate = new Date(dob);
             var minDate = new Date(currentDate.getFullYear() - 100, currentDate.getMonth(), currentDate.getDate());
             var maxDate = new Date(currentDate.getFullYear() - 3, currentDate.getMonth(), currentDate.getDate());
-    
+
             if (inputDate > maxDate) {
                 document.getElementById('dobError').textContent = 'You must be at least 3 years old and not more than 100 years old.';
                 this.setCustomValidity('You must be at least 3 years old.');
@@ -341,5 +340,5 @@
             }
         });
     </script>
-    
+
 @endsection

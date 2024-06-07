@@ -47,7 +47,7 @@ class StudentProfileController extends Controller
     public function edit($id)
     {
 
-        $student = studentregistration::select('*', 'studentregistrations.name as name', 'studentregistrations.mobile as mobile', 'studentregistrations.email as email', 'classes.name as gradename')
+        $student = studentregistration::select('*', 'studentregistrations.name as name','studentprofiles.name as student_name', 'studentregistrations.mobile as mobile', 'studentregistrations.email as email', 'classes.name as gradename')
             ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
             ->leftJoin('classes', 'classes.id', '=', 'studentregistrations.class_id')
             ->where('studentregistrations.id', '=', session('userid')->id)
@@ -67,10 +67,10 @@ class StudentProfileController extends Controller
             // echo $student;
             // dd($student);
         if (!$student) {
-            
+
             $dob = "";
         } else {
-            
+
             $dob = Carbon::parse($student->dob)->format('Y-m-d');
         }
 
@@ -95,7 +95,7 @@ class StudentProfileController extends Controller
         }
 
         $ppic->student_id = session('userid')->id;
-        $ppic->name = session('userid')->name;
+        $ppic->name = $request->name;
         $ppic->dob = $request->dob;
         $ppic->gender = $request->gender;
         $ppic->grade = session('userid')->class_id;
@@ -105,13 +105,13 @@ class StudentProfileController extends Controller
         $ppic->school_name = $request->school;
         $ppic->fathers_name = $request->fname;
         $ppic->mothers_name = $request->mname;
-        
+
         if ($request->file) {
             $imageName = time() . '.' . $request->file->extension();
             $request->file->move(public_path('images/students/profilepics'), $imageName);
             $ppic->profile_pic = $imageName;
         }
-        
+
         $res = $ppic->save();
 
         if ($res) {
