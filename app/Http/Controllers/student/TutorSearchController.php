@@ -119,7 +119,7 @@ class TutorSearchController extends Controller
 
     public function yourtutor()
     {
-        $tutorlist = tutorprofile::select('tutorprofiles.id','tutorprofiles.tutor_id as tutor_id','classes.name as class_name', 'classes.id as class_id','tutorprofiles.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), DB::raw('SUM(    paymentstudents.classes_purchased) as total_classes_purchased'),'tutorsubjectmappings.id as sub_map_id')
+        $tutorlist = tutorprofile::select('tutorprofiles.id','tutorprofiles.tutor_id as tutor_id','classes.name as class_name', 'classes.id as class_id','tutorprofiles.name', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), DB::raw('SUM(    paymentstudents.classes_purchased) as total_classes_purchased'),'tutorsubjectmappings.id as sub_map_id',\DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) + tutorprofiles.rateperhour as rate'))
             ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
             ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
@@ -133,7 +133,7 @@ class TutorSearchController extends Controller
             ->where('paymentdetails.status', '1')
             ->where('paymentstudents.student_id',session('userid')->id)
             // ->where('paymentdetails.id', '=', 'paymentstudents.subject_id' )
-            ->groupby('tutorprofiles.id', 'subjects.id','classes.id','tutorprofiles.tutor_id', 'classes.name','subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','sub_map_id')
+            ->groupby('tutorprofiles.id', 'subjects.id','classes.id','tutorprofiles.tutor_id', 'classes.name','subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','sub_map_id','tutorprofiles.rateperhour','tutorprofiles.admin_commission')
             ->get();
 
             // dd($tutorlist);
