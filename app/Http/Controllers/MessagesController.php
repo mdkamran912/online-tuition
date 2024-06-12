@@ -249,6 +249,8 @@ class MessagesController extends Controller
         }
         $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->join('paymentstudents','paymentstudents.tutor_id','tutorprofiles.tutor_id')
+            ->where('paymentstudents.student_id',session('userid')->id)
             ->where('is_active', 1)->get();
 
         return view('student.message', compact('userlists'));
@@ -371,7 +373,7 @@ class MessagesController extends Controller
 
         // return view('student.partial_chat_messages', ['messages' => $messages], compact('userlists', 'header', 'profile_pics'));
         return view('student.message', compact('userlists', 'header', 'messages', 'profile_pics'));
-        
+
 
     // Render messages HTML and return
     }
@@ -414,13 +416,13 @@ class MessagesController extends Controller
 
         return view('student.partial_chat_messages', ['messages' => $messages], compact('userlists', 'header', 'profile_pics'));
         // return view('student.message', compact('userlists', 'header', 'messages', 'profile_pics'));
-        
+
 
     // Render messages HTML and return
     }
     public function messagesentbystudent(Request $request)
     {
-       
+
         $request->validate([
             'receiver_role_id' => 'required',
             'receiver_id' => 'required',
@@ -437,7 +439,7 @@ class MessagesController extends Controller
         $data->seen = "0";
         echo $request->receiver_role_id;
         $res = $data->save();
-        
+
         if ($res) {
             //////////////// Here I need to pass notification into db
             $notificationdata = new Notification();
@@ -476,7 +478,7 @@ class MessagesController extends Controller
             broadcast(new RealTimeMessage('$notification'));
 
             return back()->with('success', 'Message sent successfully!');
-            
+
         } else {
             return back()->with('fail', 'Message sending failed');
         }
@@ -694,7 +696,7 @@ class MessagesController extends Controller
             })
             ->orderby('created_at', 'desc')->get();
 
-            
+
 
         return view('admin.partial_chat_messages', compact('userlists', 'header', 'messages', 'profile_pics'));
     }

@@ -203,7 +203,7 @@ class PaymentsController extends Controller
         $type="tutor";
         $viewTable = view('admin.partials.payments-search', compact('payments','totalTransactionAmount','type'))->render();
         $viewPagination = $payments->links()->render();
-        
+
         $subjects = subjects::where('is_active',1)->get();
         $classes = classes::where('is_active',1)->get();
         $students = studentregistration::where('is_active',1)->get();
@@ -378,15 +378,22 @@ class PaymentsController extends Controller
 
     public function studentpayments(){
 
-        $payments = paymentstudents::select('paymentstudents.*','classes.name as class','subjects.name as subject','tutorregistrations.name as tutor','paymentdetails.id as paymentdetails_id','paymentdetails.amount as amount')
-        ->join('classes','classes.id','paymentstudents.class_id')
-        ->join('subjects', 'subjects.id','paymentstudents.subject_id')
-        ->join('tutorregistrations','tutorregistrations.id','paymentstudents.tutor_id')
-        ->join('paymentdetails','paymentdetails.transaction_id','paymentstudents.transaction_id')
-        ->where('paymentstudents.student_id',session('userid')->id)
-        ->where('paymentstudents.student_id',session('userid')->id)
+        $payments = paymentstudents::select(
+            'paymentstudents.*',
+            'classes.name as class',
+            'subjects.name as subject',
+            'tutorregistrations.name as tutor',
+            DB::raw('(SELECT id FROM paymentdetails WHERE paymentdetails.transaction_id = paymentstudents.transaction_id LIMIT 1) as paymentdetails_id'),
+            DB::raw('(SELECT amount FROM paymentdetails WHERE paymentdetails.transaction_id = paymentstudents.transaction_id LIMIT 1) as amount')
+        )
+        ->join('classes', 'classes.id', '=', 'paymentstudents.class_id')
+        ->join('subjects', 'subjects.id', '=', 'paymentstudents.subject_id')
+        ->join('tutorregistrations', 'tutorregistrations.id', '=', 'paymentstudents.tutor_id')
+        ->where('paymentstudents.student_id', session('userid')->id)
         ->paginate(10);
-        // dd($payments);
+    // dd($payments);
+
+        // dd(session('userid')->id);
         return view('student.fees',compact('payments'));
     }
     public function studentpaymentsParent(){
@@ -428,7 +435,7 @@ class PaymentsController extends Controller
         $type="students-payments";
         $viewTable = view('admin.partials.common-search', compact('payments','type'))->render();
         $viewPagination = $payments->links()->render();
-        
+
         return view('student.fees',compact('payments'));
     }
     public function tutorpayouts(){
