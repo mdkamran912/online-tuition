@@ -10,9 +10,16 @@
                 </button>
             </div>
             <h3 class="text-center">Login</h3>
+
             <form class="loginForm" action="{{ url('/student-login') }}" method="GET">
               @csrf
                 <div class="form-group">
+                    @if (Session::has('success'))
+                                <div class="alert alert-success">{{ Session::get('success') }}</div>
+                            @endif
+                            @if (Session::has('fail'))
+                                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                            @endif
                     <label for="number">Mobile Number</label>
                     <input type="number" class="form-control" id="username" name="username" aria-describedby=""
                         placeholder="Your Number">
@@ -33,24 +40,24 @@
                     @enderror
                 </span>
                 <p class="mt-3">Login as</p>
-               
+
                 <div class="radioBtn">
                     <div class="row">
                         <div class="col-4">
                             <div class="radioLogin student active-btn">
-                                <input type="radio" value="student" name="loginAs" id="student" checked> 
+                                <input type="radio" value="student" name="loginAs" id="student" checked>
                                 <span>Student</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="radioLogin tutor">
-                                <input type="radio" value="tutor" name="loginAs" id="tutor"> 
+                                <input type="radio" value="tutor" name="loginAs" id="tutor">
                                 <span>Tutor</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="radioLogin parents">
-                                <input type="radio" value="parents" name="loginAs" id="parents"> 
+                                <input type="radio" value="parents" name="loginAs" id="parents">
                                 <span>Parents</span>
                             </div>
                         </div>
@@ -65,7 +72,7 @@
 
                 <hr>
                 <button type="submit" class="btn brand-bg-Color mb-3">Login</button>
-            
+
                 <br>
                 <a href="#">
                     <div class="googleLogin">
