@@ -110,12 +110,18 @@ class TutorProfileController extends Controller
         // echo $request->profileid;
         // dd($request);
         $tutor = tutorprofile::select('*')->where('tutor_id', '=', session('userid')->id)->first();
+        // dd(session('userid')->id);
         if ($tutor) {
+
             $ppic = tutorprofile::find($tutor->id)->first();
+            // if(!$ppic->admin_commission)
+
         } else {
+
             $ppic = new tutorprofile();
             $ppic->email = session('userid')->email;
             $ppic->mobile = session('userid')->mobile;
+            $ppic->admin_commission = 0;
         }
         $ppic->name = session('userid')->name;
 

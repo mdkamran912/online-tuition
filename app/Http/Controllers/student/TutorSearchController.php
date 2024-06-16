@@ -908,6 +908,7 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
             ->leftJoin('subjects', 'subjects.id', '=', 'slot_bookings.subject_id')
             ->leftJoin('studentregistrations', 'studentregistrations.id', '=', 'slot_bookings.student_id')
             ->where('slot_bookings.tutor_id', $enrollment->tutor_id)
+            ->where('slot_bookings.date','>=', Carbon::now())
             ->orderBy('slot_bookings.date')
             ->get();
 

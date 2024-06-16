@@ -12,12 +12,12 @@ use App\Models\classes;
 class SlotBookingController extends Controller
 {
     public function tutorslots(){
-        
+
         $slots = SlotBooking::select('slot_bookings.*','studentprofiles.name as student_name','subjects.name as subject')
         ->leftJoin('studentprofiles','studentprofiles.student_id','=','slot_bookings.student_id')
         ->leftJoin('subjects','subjects.id','=','slot_bookings.subject_id')
         ->where('slot_bookings.tutor_id',session('userid')->id)
-        // ->where('slot_bookings.date', '>', Carbon::now())
+        ->where('slot_bookings.date', '>', Carbon::now())
         ->get();
 
         $subjects = subjects::select('subjects.*')
@@ -35,7 +35,7 @@ class SlotBookingController extends Controller
     ->distinct()
     ->where('studentregistrations.is_active',1)
     ->get();
-    
+
         // dd($students);
         return view('tutor.slotcreate',compact('slots','subjects','students'));
     }
@@ -142,7 +142,7 @@ private function replicateSlotsForPeriod($sourceDateTime, $days)
     return $conflictMessage;
 }
 
-    
+
     public function slotsdelete(Request $request)
 {
     $request->validate([
@@ -207,7 +207,7 @@ public function tutorslotsearch(Request $request) {
     ->distinct()
     ->where('studentregistrations.is_active',1)
     ->get();
-       
+
     return view('tutor.slotcreate', compact('slots','subjects','students'));
 }
 
@@ -215,13 +215,13 @@ public function indexslotsearch(Request $request) {
     // Get the selected date from the request
     $selectedDate = $request->input('date');
     $tutorid = $request->input('tutorid');
-   
+
     // Assuming 'date' is the column in your 'slot_bookings' table where the date is stored
     $slots = SlotBooking::select('*')
     ->where('slot_bookings.tutor_id', $tutorid)
         ->where('slot_bookings.date', $selectedDate) // Assuming there is a 'status' column for the slot status
         ->get();
-    
+
     // Return the filtered slots as JSON
     return response()->json($slots);
 }
@@ -303,23 +303,23 @@ public function admintutorslotssearch(Request $request){
         ->leftJoin('subjects','subjects.id','=','slot_bookings.subject_id')
         ->leftJoin('tutorregistrations','tutorregistrations.id','slot_bookings.tutor_id');
         // ->whereDate('slot_bookings.date', '>=', now()->toDateString())
-       
+
         if ($request->student_name) {
             $query->where('studentprofiles.name', 'like', '%' . $request->student_name . '%');
         }
-        
+
         if ($request->student_mobile) {
             $query->where('studentprofiles.mobile', 'like', '%' . $request->student_mobile . '%');
         }
-        
+
         if ($request->tutor_name) {
             $query->where('tutorregistrations.name', 'like', '%' . $request->tutor_name . '%');
         }
-        
+
         if ($request->tutor_mobile) {
             $query->where('tutorregistrations.mobile', 'like', '%' . $request->tutor_mobile . '%');
         }
-        
+
         if ($request->start_date && $request->end_date) {
             $query->whereBetween('slot_bookings.date', [$request->start_date, $request->end_date]);
         } elseif ($request->start_date) {
@@ -327,18 +327,18 @@ public function admintutorslotssearch(Request $request){
         } elseif ($request->end_date) {
             $query->where('slot_bookings.date', '<=', $request->end_date);
         }
-        
-        
+
+
         if ($request->status) {
             $query->where('slot_bookings.status', '=', $request->status);
         }
-        
-            
-          
+
+
+
             $slots=  $query->get();
             // ->get();
         // ->get();
     return view('admin.tutorslotslist', get_defined_vars());
 }
-  
+
 }

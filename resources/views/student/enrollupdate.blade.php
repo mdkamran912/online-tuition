@@ -32,7 +32,7 @@
             .blinking-icon {
                 animation: blink 1s infinite;
             }
-            
+
             .red{
                 color:#f06548;
             }
@@ -70,7 +70,7 @@
                 <div id="" class="mb-3 listHeader page-title-box">
                     <h3>Enroll Now</h3>
                     {{-- <a href="completed-classes"> <button class="btn btn-primary">Completed Classes</button></a> --}}
-                    
+
                 </div>
                 <div class="avalability">
                     <i class="fa fa-square red" aria-hidden="true"></i><span>&nbsp;Not Available</span>
@@ -116,7 +116,7 @@
                             ->where('subject_id', $enrollment->subject_id)
                             ->sum('classes_purchased');
                         ?>
-                       
+
 
 
                         <div class="col-md-2 mt-4">
@@ -154,11 +154,11 @@
 
 
                     </div>
-                
+
                 <hr>
 
                 <div class="table-responsive">
-                            <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table" style="height: 260px; display:block; overflow-Y:scroll !important;">
+                            <table class="table table-hover table-striped align-middle table-nowrap mb-0 users-table" style="display:block; overflow-Y:scroll !important;">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">Date</th>
@@ -191,17 +191,14 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
-
-<!-- ... Existing HTML code ... -->
 
                                 </tbody>
-                                
+
                             </table>
                         </div>
-                        
-                        
-                        
+
+
+
                     </table>
                 </div>
                 <div style="display: flex; justify-content:space-between" class="my-3">
@@ -294,6 +291,6 @@
             $('#totalamountenroll').val($('#rateperhourenroll').val() * $('#requiredclassenroll').val())
         }
     </script>
-   
-    
+
+
 @endsection
