@@ -826,15 +826,15 @@
 
                                     <div class="row mb-2">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <label for="">Prefer Slot 2<i style="color: red;">*</i></label>
+                                            <label for="">Prefer Slot 2</label>
                                             <input type="datetime-local" class="form-control" id="demoslotsecond"
-                                                name="demoslotsecond" required>
+                                                name="demoslotsecond">
 
                                         </div>
                                         <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <label for="">Prefer Slot 3<i style="color: red;">*</i></label>
+                                            <label for="">Prefer Slot 3</label>
                                             <input type="datetime-local" class="form-control" id="demoslotthird"
-                                                name="demoslotthird" required>
+                                                name="demoslotthird">
 
                                         </div>
 
