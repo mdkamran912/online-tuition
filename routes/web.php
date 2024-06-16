@@ -111,6 +111,7 @@ Route::get("logout", [HomeController::class, "logout"])->name("logout");
 
 Route::post('fetchsubjects', [CommonController::class, 'fetchsubjects'])->name('fetchsubjects');
 Route::post('fetchtopics', [CommonController::class, 'fetchtopics'])->name('fetchtopics');
+Route::post('fetchslottime', [CommonController::class, 'fetchslottime'])->name('fetchslottime');
 Route::post('studentsbyclass', [CommonController::class, 'studentsbyclass'])->name('studentsbyclass');
 Route::post('batchbysubject', [CommonController::class, 'batchbysubject'])->name('batchbysubject');
 Route::post('studentsbybatch', [CommonController::class, 'studentsbybatch'])->name('studentsbybatch');
@@ -396,6 +397,7 @@ Route::group(['prefix' => 'tutor', 'middleware' => ['TutorAuthenticate']], funct
     // tutor Slot Creation
     Route::get('tutorslots', [SlotBookingController::class, 'tutorslots'])->name('tutor.tutorslots');
     Route::post('tutorslots', [SlotBookingController::class, 'slotscreate'])->name('tutor.slots.create');
+    Route::post('reschedule', [SlotBookingController::class, 'reschedule'])->name('tutor.slots.reschedule');
     Route::post('tutorslotsdelete', [SlotBookingController::class, 'slotsdelete'])->name('tutor.slots.delete');
     Route::get('tutor/tutorslotsearch', [SlotBookingController::class, 'tutorslotsearch'])->name('tutor.slots.search');
     // Route::get('getclass-bkp', [ZoomClassesController::class, 'classlist'])->name('tutor.liveclass.classlist');

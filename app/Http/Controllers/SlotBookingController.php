@@ -102,6 +102,31 @@ class SlotBookingController extends Controller
         return back()->with('fail', 'Slot creation failed. There is a conflicting slot within the 1-hour gap. Conflicting times: ' . $conflictingTimes);
     }
 }
+public function reschedule(Request $request){
+    $getdata = SlotBooking::where('id',$request->currentslotid)->first();
+
+    $updatedata = SlotBooking::find($request->changedslottime);
+    $updatedata->status = $getdata->status;
+    $updatedata->student_id = $getdata->student_id;
+    $updatedata->booked_at = Carbon::now();
+    $updatedata->transaction_id = $getdata->transaction_id;
+    $updatedata->class_schedule_id = $getdata->class_schedule_id;
+    $updatedata->contact_admin = $getdata->contact_admin;
+    $updatedata->remarks = $getdata->remarks;
+    $updatedata->save();
+
+    $cleardata = SlotBooking::find($request->currentslotid);
+    $cleardata->status = 0;
+    $cleardata->student_id = NULL;
+    $cleardata->booked_at = NULL;
+    $cleardata->transaction_id = NULL;
+    $cleardata->class_schedule_id = NULL;
+    $cleardata->contact_admin = 0;
+    $cleardata->remarks = NULL;
+    $cleardata->save();
+
+    return back()->with('success', 'Slot changed successfully!');
+}
 
 private function replicateSlotsForPeriod($sourceDateTime, $days)
 {

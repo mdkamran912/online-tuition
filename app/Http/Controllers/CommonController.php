@@ -10,6 +10,7 @@ use App\Models\tutorsubjectmapping;
 use App\Models\batchstudentmapping;
 use App\Models\subjects;
 use App\Models\topics;
+use App\Models\SlotBooking;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -41,6 +42,14 @@ class CommonController extends Controller
         return response()->json($data);
     }
 
+    public function fetchslottime(Request $request)
+    {
+        // Fetch Slot Times Based On Date -> Using jQuerry
+        $data['times'] = SlotBooking::where("date", $request->date)
+            ->where('status', 0)->get();
+        return response()->json($data);
+    }
+
     public function studentsbyclass(Request $request)
     {
         $data['students'] = studentregistration::where('class_id', $request->class_id)
@@ -53,7 +62,7 @@ class CommonController extends Controller
         $data['batches'] = batches::where('subject_id', $request->subject_id)->where('is_active', 1)->get();
         return response()->json($data);
     }
-    
+
     public function fetchtutors(Request $request)
     {
         // Fetch Subjects Based On Class -> Using jQuerry
