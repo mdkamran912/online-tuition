@@ -585,21 +585,39 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
 
 
 
-    public function tutorslist(){
-        $ttrlists = tutorregistration::select('*','tutorregistrations.id as tutor_id', 'classes.name as class_name','tutorregistrations.name as tutor_name','tutorregistrations.mobile as tutor_mobile','tutorregistrations.email as tutor_email','tutorregistrations.is_active as tutor_status','subjects.name as subject_name','tutorprofiles.rateperhour as rate','tutorprofiles.admin_commission as admin_commission','tutorprofiles.id as rate_id')
-    ->leftjoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorregistrations.id')
-    ->leftjoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-    ->leftjoin('classes', 'classes.id', '=', 'subjects.class_id')
-    ->leftJoin('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
-    ->orderBy('tutorregistrations.created_at', 'desc') // Add this line to sort by created_at in descending order
-    ->get();
+    public function tutorslist() {
+        $ttrlists = tutorregistration::select(
+                'tutorregistrations.id as tutor_id',
+                'tutorregistrations.name as tutor_name',
+                'tutorregistrations.mobile as tutor_mobile',
+                'tutorregistrations.email as tutor_email',
+                'tutorregistrations.is_active as tutor_status',
+                'tutorprofiles.rateperhour as rate',
+                'tutorprofiles.admin_commission as admin_commission',
+                'tutorprofiles.id as rate_id'
+            )
+            ->leftJoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorregistrations.id')
+            // ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+            // ->leftJoin('classes', 'classes.id', '=', 'subjects.class_id')
+            ->leftJoin('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->groupBy(
+                'tutorregistrations.id',
+                'tutorregistrations.name',
+                'tutorregistrations.mobile',
+                'tutorregistrations.email',
+                'tutorregistrations.is_active',
+                'tutorprofiles.rateperhour',
+                'tutorprofiles.admin_commission',
+                'tutorprofiles.id'
+            )
+            ->orderBy('tutorregistrations.created_at', 'desc')
+            ->get();
 
-    $classes = classes::where('is_active', 1)->get();
+        $classes = classes::where('is_active', 1)->get();
 
-    return view('admin.tutors', get_defined_vars());
-
-
+        return view('admin.tutors', compact('ttrlists', 'classes'));
     }
+
     //  tutors search
     public function tutorslistsearch(Request $request){
         // return $request->all();

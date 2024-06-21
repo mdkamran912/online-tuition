@@ -82,8 +82,6 @@
                                     <th scope="col">S.No</th>
                                     <th scope="col">Tutor Name</th>
                                     <th scope="col">Tutor Mobile</th>
-                                    <th scope="col">Class</th>
-                                    <th scope="col">Subject</th>
                                     <th scope="col">Rate/Hr (£)</th>
                                     <th scope="col">Commission/Hr</th>
                                     <th scope="col">Check Slots</th>
@@ -103,8 +101,6 @@
                                             @endif
                                         </td>
                                         <td>{{ $ttrlist->tutor_mobile }}</td>
-                                        <td>{{ $ttrlist->class_name }}</td>
-                                        <td>{{ $ttrlist->subject_name }}</td>
                                         <td>£ {{ $ttrlist->rate }}</td>
                                         <td><a href="#" onclick="updatecommission('{{$ttrlist->tutor_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a></td>
                                         <td><a href="tutorslotscheck/{{$ttrlist->tutor_id}}"><span class="badge bg-success ml-3">Check Slots</span> </a></td>
@@ -130,7 +126,7 @@
                             </tbody>
                         </table>
                     </div>
-                   
+
 
                 </div>
             </div>
