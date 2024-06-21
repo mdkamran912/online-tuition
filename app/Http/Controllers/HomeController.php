@@ -340,15 +340,13 @@ class HomeController extends Controller
     }
     public function findatutor()
     {
-        $classes = classes::all('id', 'name');
-
-         $tutors = tutorprofile::select(
+        $tutors = tutorprofile::select(
             'tutorprofiles.name',
             'tutorprofiles.headline',
             'tutorprofiles.profile_pic',
             'tutorprofiles.tutor_id as tutor_id',
             DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) as rateperhour'), // Calculate rateperhour with commission
-            DB::raw('GROUP_CONCAT(DISTINCT subjects.name) as subjects'), // Concatenate subjects
+            DB::raw("GROUP_CONCAT(DISTINCT SUBSTRING_INDEX(subjects.name, ', ', 2) SEPARATOR ', ') as subjects"), // Limit to maximum 2 subjects
             DB::raw('GROUP_CONCAT(DISTINCT classes.name) as classNames'), // Concatenate class names
             DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),
             DB::raw('AVG(tutorreviews.ratings) as avg_rating'),
@@ -364,7 +362,7 @@ class HomeController extends Controller
             $join->on('tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
                  ->on('tutorreviews.subject_id', '=', 'tutorsubjectmappings.subject_id');
         })
-        ->where('tutorregistrations.is_active',1)
+        ->where('tutorregistrations.is_active', 1)
         ->groupBy(
             'tutorprofiles.name',
             'tutorprofiles.profile_pic',
@@ -374,9 +372,10 @@ class HomeController extends Controller
             'tutorprofiles.headline',
             'tutorprofiles.tutor_id',
             'tutorprofiles.rateperhour',
-        'tutorprofiles.admin_commission'
+            'tutorprofiles.admin_commission'
         )
         ->get();
+
 
         $subjectlists = DB::table('subjects')
         ->join('subjectcategories', 'subjects.category', '=', 'subjectcategories.id')
