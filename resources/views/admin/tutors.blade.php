@@ -104,7 +104,7 @@
                                         <td>£ {{ $ttrlist->rate }}</td>
                                         <td><a href="#" onclick="updatecommission('{{$ttrlist->tutor_id}}','{{$ttrlist->admin_commission}}')"> {{ $ttrlist->admin_commission }}% <span class="badge bg-primary ml-3"> Update</span> </a></td>
                                         <td><a href="tutorslotscheck/{{$ttrlist->tutor_id}}"><span class="badge bg-success ml-3">Check Slots</span> </a></td>
-                                        @if($ttrlist->subject_name)
+                                        {{-- @if($ttrlist->subject_name) --}}
                                         <td>
                                             <div class="form-check form-switch">
                                                 @if ($ttrlist->tutor_status == 1)
@@ -117,9 +117,9 @@
 
                                             </div>
                                         </td>
-                                        @else
+                                        {{-- @else
                                         <td class="text-danger">Profile Not Updated</td>
-                                        @endif
+                                        @endif --}}
 
                                     </tr>
                                 @endforeach
