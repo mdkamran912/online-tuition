@@ -110,11 +110,12 @@ class TutorProfileController extends Controller
         // echo $request->profileid;
         // dd($request);
         $tutor = tutorprofile::select('*')->where('tutor_id', '=', session('userid')->id)->first();
-        // dd(session('userid')->id);
+        // dd($tutor);
         if ($tutor) {
 
-            $ppic = tutorprofile::find($tutor->id)->first();
+            $ppic = $tutor;
             // if(!$ppic->admin_commission)
+            // dd($ppic);
 
         } else {
 
@@ -123,6 +124,7 @@ class TutorProfileController extends Controller
             $ppic->mobile = session('userid')->mobile;
             $ppic->admin_commission = 0;
         }
+
         $ppic->name = session('userid')->name;
 
         $ppic->secondary_mobile = $request->secmobile;
@@ -147,6 +149,7 @@ class TutorProfileController extends Controller
         $request->file->move(public_path('images/tutors/profilepics'), $imageName);
         $ppic->profile_pic = $imageName;
     }
+    // dd($ppic);
     $res = $ppic->save();
         if ($res) {
             return back()->with('success', 'Profile updated successfully');
