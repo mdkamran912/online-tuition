@@ -740,41 +740,62 @@ function formatTimeToAMPM(time) {
                 });;
             }
         </script>
-        <script>
-            // Get the current time
-            var currentTime = new Date();
-
-            // Convert current time to HH:MM format
-            var hours = currentTime.getHours();
-            var minutes = currentTime.getMinutes();
-
-            // Format hours and minutes as two digits
-            if (hours < 10) {
-                hours = '0' + hours;
-            }
-            if (minutes < 10) {
-                minutes = '5' + minutes;
-            }
-
-            // Construct the minimum time string
-            var minTime = hours + ':' + minutes;
-
-            // Set the minimum attribute of the input element
-            document.getElementById('classtime').min = minTime;
-        </script>
-        <script>
-            // Get the current date
-            var currentDate = new Date();
+       <script>
+        // Function to set the minimum date and time
+        function setMinDateTime() {
+            // Get the current date and time
+            var currentDateTime = new Date();
 
             // Get the current year, month, and day
-            var currentYear = currentDate.getFullYear();
-            var currentMonth = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Adding 1 because months are zero-based
-            var currentDay = ('0' + currentDate.getDate()).slice(-2);
+            var currentYear = currentDateTime.getFullYear();
+            var currentMonth = ('0' + (currentDateTime.getMonth() + 1)).slice(-2); // Adding 1 because months are zero-based
+            var currentDay = ('0' + currentDateTime.getDate()).slice(-2);
 
             // Format the current date in the required format (YYYY-MM-DD)
             var minDate = currentYear + '-' + currentMonth + '-' + currentDay;
 
             // Set the minimum date attribute of the input element
             document.getElementById("classdate").min = minDate;
-        </script>
+
+            // Function to set the minimum time if the selected date is today
+            function setMinTime() {
+                // Get the selected date
+                var selectedDate = document.getElementById('classdate').value;
+
+                // If the selected date is the current date, set the minimum time
+                if (selectedDate === minDate) {
+                    // Get the current time
+                    var currentTime = new Date();
+                    var hours = currentTime.getHours();
+                    var minutes = currentTime.getMinutes();
+
+                    // Format hours and minutes as two digits
+                    if (hours < 10) {
+                        hours = '0' + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+
+                    // Construct the minimum time string
+                    var minTime = hours + ':' + minutes;
+
+                    // Set the minimum attribute of the time input element
+                    document.getElementById('classtime').min = minTime;
+                } else {
+                    // Remove the minimum attribute if the selected date is not the current date
+                    document.getElementById('classtime').removeAttribute('min');
+                }
+            }
+
+            // Add event listener to the date input element
+            document.getElementById('classdate').addEventListener('change', setMinTime);
+
+            // Initial call to set the minimum time based on the default date value
+            setMinTime();
+        }
+
+        // Initial call to set the minimum date and time on page load
+        setMinDateTime();
+    </script>
     @endsection
