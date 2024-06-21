@@ -253,6 +253,7 @@ class MessagesController extends Controller
             ->where('paymentstudents.student_id',session('userid')->id)
             ->where('is_active', 1)->get();
 
+        // dd();
         return view('student.message', compact('userlists'));
     }
     public function messagesbystudentadmins()
@@ -266,6 +267,8 @@ class MessagesController extends Controller
     {
         $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->join('paymentstudents','paymentstudents.tutor_id','tutorprofiles.tutor_id')
+            ->where('paymentstudents.student_id',session('userid')->id)
             ->where('is_active', 1)->get();
 
         return view('student.message', compact('userlists'));
