@@ -117,7 +117,8 @@ $studentprofile =studentprofile::where('student_id',session('userid')->id)->firs
                             </div>
                         </div>
 
-                       <a href="/" target="_blank"> <button class="btn btn-primary">Visit Website</button></a>
+                        <a href="searchtutor" style="padding-right: 10px"> <button class="btn btn-primary">Explore Tutors</button></a>
+                        <a href="/" target="_blank" > <button class="btn btn-primary">Visit Website</button></a>
 
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
