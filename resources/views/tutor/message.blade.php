@@ -73,7 +73,7 @@
     .userlists div{
         display:flex;
         justify-content: start
-       
+
     }
     </style>
 
@@ -88,13 +88,7 @@
                             <a href="{{ route('tutor.messages.admins') }}"> <button
                                     class="badge bg-primary">Admin</button></a>
                         </div>
-                        <div class="px-4 d-none d-md-block">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <input type="text" class="form-control my-3" placeholder="Search...">
-                                </div>
-                            </div>
-                        </div>
+                        <hr>
                         {{-- Populating chat user list --}}
                         @foreach ($userlists as $userlist)
                         @if ($userlist->role_id == 1)
@@ -266,12 +260,12 @@
                 success: function(response) {
                     // Update the chat messages section with the fetched content
                     $('#chatbox').html(response);
-                    
+
                 }
             });
             @endif
         }
-        
+
 
         // Reload chat messages every 10 seconds
         setInterval(reloadChat, 10000);

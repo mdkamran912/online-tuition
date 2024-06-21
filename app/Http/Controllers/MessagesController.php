@@ -20,9 +20,37 @@ class MessagesController extends Controller
     // Messages by tutor
     public function messagesbytutor()
     {
-        $userlists = studentregistration::select('studentregistrations.*')
-            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
-            ->where('is_active', 1)->get();
+        $userlists = studentregistration::select(
+            'studentregistrations.*',
+            'studentprofiles.profile_pic as profile_pic'
+        )
+        ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
+        ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+        ->where('paymentstudents.tutor_id', session('userid')->id)
+        ->where('is_active', 1)
+        ->groupBy('studentregistrations.id',
+        'studentprofiles.profile_pic',
+        'studentregistrations.name',
+        'studentregistrations.mobile',
+        'studentregistrations.email',
+        'studentregistrations.is_mobile_verified',
+        'studentregistrations.mobile_verified_at',
+        'studentregistrations.is_email_verified',
+        'studentregistrations.email_verified_at',
+        'studentregistrations.password',
+        'studentregistrations.class_id',
+        'studentregistrations.role_id',
+        'studentregistrations.is_active',
+        'studentregistrations.remember_token',
+        'studentregistrations.created_at',
+        'studentregistrations.updated_at',
+        'studentregistrations.mobile_otp',
+        'studentregistrations.email_otp',
+        'studentregistrations.parent_password'
+        )
+        ->get();
+
+
 
         return view('tutor.message', compact('userlists'));
     }
@@ -35,9 +63,35 @@ class MessagesController extends Controller
     }
     public function messagesbytutorstudents()
     {
-        $userlists = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
-            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
-            ->where('is_active', 1)->get();
+        $userlists = studentregistration::select(
+            'studentregistrations.*',
+            'studentprofiles.profile_pic as profile_pic'
+        )
+        ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
+        ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+        ->where('paymentstudents.tutor_id', session('userid')->id)
+        ->where('is_active', 1)
+        ->groupBy('studentregistrations.id',
+        'studentprofiles.profile_pic',
+        'studentregistrations.name',
+        'studentregistrations.mobile',
+        'studentregistrations.email',
+        'studentregistrations.is_mobile_verified',
+        'studentregistrations.mobile_verified_at',
+        'studentregistrations.is_email_verified',
+        'studentregistrations.email_verified_at',
+        'studentregistrations.password',
+        'studentregistrations.class_id',
+        'studentregistrations.role_id',
+        'studentregistrations.is_active',
+        'studentregistrations.remember_token',
+        'studentregistrations.created_at',
+        'studentregistrations.updated_at',
+        'studentregistrations.mobile_otp',
+        'studentregistrations.email_otp',
+        'studentregistrations.parent_password'
+        )
+        ->get();
 
         return view('tutor.message', compact('userlists'));
     }
@@ -106,9 +160,35 @@ class MessagesController extends Controller
     }
     public function messagesbytutorstudentmessages($id)
     {
-        $userlists = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
-            ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
-            ->where('is_active', 1)->get();
+        $userlists = studentregistration::select(
+            'studentregistrations.*',
+            'studentprofiles.profile_pic as profile_pic'
+        )
+        ->join('studentprofiles', 'studentprofiles.student_id', '=', 'studentregistrations.id')
+        ->join('paymentstudents', 'paymentstudents.student_id', '=', 'studentregistrations.id')
+        ->where('paymentstudents.tutor_id', session('userid')->id)
+        ->where('is_active', 1)
+        ->groupBy('studentregistrations.id',
+        'studentprofiles.profile_pic',
+        'studentregistrations.name',
+        'studentregistrations.mobile',
+        'studentregistrations.email',
+        'studentregistrations.is_mobile_verified',
+        'studentregistrations.mobile_verified_at',
+        'studentregistrations.is_email_verified',
+        'studentregistrations.email_verified_at',
+        'studentregistrations.password',
+        'studentregistrations.class_id',
+        'studentregistrations.role_id',
+        'studentregistrations.is_active',
+        'studentregistrations.remember_token',
+        'studentregistrations.created_at',
+        'studentregistrations.updated_at',
+        'studentregistrations.mobile_otp',
+        'studentregistrations.email_otp',
+        'studentregistrations.parent_password'
+        )
+        ->get();
         $header = studentregistration::select('studentregistrations.*', 'studentprofiles.profile_pic as profile_pic')
             ->join('studentprofiles', 'studentprofiles.student_id', 'studentregistrations.id')
             ->where('studentregistrations.is_active', 1)->where('studentregistrations.id', $id)
@@ -342,6 +422,8 @@ class MessagesController extends Controller
 
         $userlists = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
+            ->join('paymentstudents','paymentstudents.tutor_id','tutorprofiles.tutor_id')
+            ->where('paymentstudents.student_id',session('userid')->id)
             ->where('is_active', 1)->get();
         $header = tutorregistration::select('tutorregistrations.*', 'tutorprofiles.profile_pic as profile_pic')
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', 'tutorregistrations.id')
