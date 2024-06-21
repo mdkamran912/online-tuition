@@ -30,7 +30,6 @@ class TutorSearchController extends Controller
     {
         $tutorlist = tutorprofile::select(
             'tutorprofiles.tutor_id as tutor_id',
-            'classes.name as class_name',
             'tutorprofiles.name',
             'tutorprofiles.headline',
             'tutorprofiles.qualification as tutor_qualification',
@@ -39,10 +38,8 @@ class TutorSearchController extends Controller
             DB::raw('(tutorprofiles.rateperhour + (tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100)) as rateperhour'),
             'tutorprofiles.profile_pic',
             DB::raw('GROUP_CONCAT(DISTINCT subjects.name ORDER BY subjects.name SEPARATOR ", ") as subject'),
-            'subjects.id as subjectid',
             DB::raw('SUM(tutorreviews.ratings) / COUNT(tutorreviews.id) AS starrating'),
             DB::raw('COUNT(DISTINCT topics.name) as total_topics'),
-            'tutorsubjectmappings.id as sub_map_id',
             DB::raw('COUNT(DISTINCT zoom_classes.id) as total_classes_done')
         )
         ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
@@ -53,9 +50,20 @@ class TutorSearchController extends Controller
         ->join('topics', 'topics.subject_id', '=', 'subjects.id')
         ->join('tutorregistrations', 'tutorregistrations.id', '=', 'tutorprofiles.tutor_id')
         ->leftJoin('zoom_classes', 'zoom_classes.tutor_id', '=', 'tutorprofiles.tutor_id') // Adding join for zoom_classes
-        ->where('tutorregistrations.is_active', '1')
-        ->groupBy('tutorprofiles.tutor_id', 'classes.name', 'tutorprofiles.name', 'tutorprofiles.headline', 'tutorprofiles.qualification', 'tutorprofiles.intro_video_link', 'tutorprofiles.experience', 'tutorprofiles.rateperhour', 'tutorprofiles.admin_commission', 'tutorprofiles.profile_pic', 'subjects.id', 'sub_map_id')
+        ->where('tutorregistrations.is_active', 1)
+        ->groupBy(
+            'tutorprofiles.tutor_id',
+            'tutorprofiles.name',
+            'tutorprofiles.headline',
+            'tutorprofiles.qualification',
+            'tutorprofiles.intro_video_link',
+            'tutorprofiles.experience',
+            'tutorprofiles.rateperhour',
+            'tutorprofiles.admin_commission',
+            'tutorprofiles.profile_pic'
+        )
         ->get();
+
 
             // dd($tutorlist);
 

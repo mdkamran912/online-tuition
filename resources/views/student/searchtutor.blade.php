@@ -296,8 +296,8 @@
                                                         Class</button></a>
 
                                                 {{-- <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button class="btn btn-sm btn-success" id="enrollnow">Chat</button></a> --}}
-                                                <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button
-                                                        class="btn btn-sm btn-primary" id="enrollnow">Chat</button></a>
+                                                {{-- <a href="tutormessages/{{ $tutorlist->tutor_id }}"> <button
+                                                        class="btn btn-sm btn-primary" id="enrollnow">Chat</button></a> --}}
                                                 <a href="enrollnow/{{ $tutorlist->tutor_id }}"> <button
                                                         class="btn btn-sm btn-success" id="enrollnow">Enroll
                                                         Now</button></a>
