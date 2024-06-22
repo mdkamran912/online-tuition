@@ -16,13 +16,15 @@
                 <div class="form-group">
                     @if (Session::has('success'))
                                 <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                <input type="hidden" id="showloginpopup" name="showloginpopup" value="0">
                             @endif
                             @if (Session::has('fail'))
+                            <input type="hidden" id="showloginpopup" name="showloginpopup" value="1">
                                 <div class="alert alert-danger">{{ Session::get('fail') }}</div>
                             @endif
                     <label for="number">Mobile Number</label>
                     <input type="number" class="form-control" id="username" name="username" aria-describedby=""
-                        placeholder="Your Number">
+                        placeholder="Your Number" required>
                 </div>
                 <span class="text-danger  login-errorMessage">
                     @error('username')
@@ -32,7 +34,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" aria-describedby=""
-                        placeholder="Password">
+                        placeholder="Password" required>
                 </div>
                 <span class="text-danger login-errorMessage">
                     @error('password')
@@ -137,6 +139,14 @@
         $('#myInput').trigger('focus')
     })
 </script>
+<script>
+    $(document).ready(function(){
+        if(document.getElementById('showloginpopup').value == 1){
+
+            $("#loginPopup").modal('show');
+        }
+    });
+    </script>
 
 
 

@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link rel="stylesheet" href="{{url('frontendnew/fonts/icomoon/style.css')}}">
         <link rel="stylesheet" href="{{url('frontendnew/css/owl.carousel.min.css')}}">
+        <script src="{{ url('frontendnew/js/jquery-3.3.1.min.js') }}"></script>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{url('frontendnew/css/bootstrap.min.css')}}">
         <!-- Style -->
@@ -60,6 +61,7 @@
                                 <a class="nav-link" href="{{('/howitworks')}}">How it works</a>
                             </li>
                         </ul>
+
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item cta-btn">
                                 <div class="btnSec">

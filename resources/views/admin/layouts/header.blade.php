@@ -30,13 +30,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-   
+
 </head>
 
 <body>
     <div id="app"></div>
 
-    
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -77,7 +77,7 @@
                     </span>
                 </button>
 
-                
+
             </div>
 
             <div class="d-flex align-items-center">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
 
-             
+
 
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -122,7 +122,7 @@
                     </div>
                 </div> --}}
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                   
+
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane noti-sec fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
@@ -278,13 +278,13 @@
                 {{-- /////////////////////// --}}
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                    
+
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
                         <span id="unreadNotificationCount" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                        
+
                         <div class="dropdown-head bg-primary bg-pattern rounded-top">
                             <div class="" style="padding-left: 10px">
                                 <div class="row align-items-center">
@@ -299,7 +299,7 @@
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">All</a>
                                     </li>
-{{--                                     
+{{--
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">Messages</a>
                                     </li>
@@ -314,7 +314,7 @@
                         <div class="tab-content position-relative" id="notificationItemsTabContent1">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    
+
 
                                 </div>
 
@@ -432,12 +432,12 @@
                         </div>
                     </div>
                 </div>
-                
+
 
 
                 {{-- ////////////////////////////// --}}
-                
-                
+
+
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -530,7 +530,7 @@
                             <a class="nav-link menu-link" href="/admin/dashboard" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
-                           
+
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
@@ -553,7 +553,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.batch')}}" class="nav-link" data-key="t-faqs"> Batch </a>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
@@ -566,14 +566,14 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.messages')}}" class="nav-link" data-key="t-chat"> Chat </a>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Classes</span> 
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Classes</span>
                                 {{-- <span class="badge badge-pill bg-danger" data-key="t-hot">Updates</span> --}}
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -587,7 +587,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.tutorslots')}}" class="nav-link" data-key="t-horizontal">Tutor Slots</a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -603,7 +603,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.students')}}" class="nav-link" data-key="t-starter"> Student List </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -617,7 +617,7 @@
                                     <li class="nav-item">
                                         <a href="{{route('admin.tutors')}}" class="nav-link" data-key="t-one-page"> Tutor List </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -636,7 +636,7 @@
                                             <li class="nav-item">
                                                 <a href="{{route('admin.assignments')}}" class="nav-link" data-key="t-alerts">Assignments</a>
                                             </li>
-                                    
+
                                         </ul>
                                     </div>
                                 </li>
@@ -656,12 +656,12 @@
                                             <li class="nav-item">
                                                 <a href="{{route('admin.onlinetests.responses.list')}}" class="nav-link" data-key="t-alerts">Test Responses</a>
                                             </li>
-                                    
+
                                         </ul>
                                     </div>
                                 </li>
 
-                      
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarFormsPay" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarForms">
                                 <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Payments</span>
@@ -680,7 +680,7 @@
                                     <li class="nav-item">
                                         <a href="#" class="nav-link" data-key="t-pickers"> Transactions List </a>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
@@ -705,13 +705,16 @@
                                                     <a href="{{route('admin.reports.tutor-payments')}}" class="nav-link" data-key="t-area"> Tutor Payment
                                                     </a>
                                                 </li>
-                                               
+
                                             </ul>
                                         </div>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{route('admin.reports.class-list')}}" class="nav-link" data-key="t-chartjs"> Classes </a>
                                     </li>
+                                    {{-- <li class="nav-item">
+                                        <a href="{{route('admin.reports.chat-list')}}" class="nav-link" data-key="t-chartjs"> Chat Report </a>
+                                    </li> --}}
                                     {{-- <li class="nav-item">
                                         <a href="{{route('admin.topic')}}" class="nav-link" data-key="t-echarts"> Topic </a>
                                     </li>
@@ -722,7 +725,7 @@
                             </div>
                         </li>
 
-                     
+
                     </ul>
                 </div>
                 <!-- Sidebar -->

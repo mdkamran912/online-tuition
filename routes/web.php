@@ -334,6 +334,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthenticate']], funct
     Route::post('sendmessage', [MessagesController::class, 'messagesentbyadmin'])->name('admin.messages.send');
     // Admin Reports
     Route::get('classes-report',[ReportController::class, 'admin_class_report'])->name('admin.reports.class-list');
+    Route::get('chat-report',[ReportController::class, 'admin_chat_report'])->name('admin.reports.chat-list');
     Route::post('payouts-search',[PaymentsController::class,'adminPayoutsSearch'])->name('admin.payouts-search');
 
 });
