@@ -176,7 +176,7 @@ class TutorSearchController extends Controller
         ->leftJoin('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
         ->leftJoin('teacherclassmappings', 'teacherclassmappings.subject_mapping_id', '=', 'tutorsubjectmappings.id')
         ->leftJoin('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-        ->where('tutorsubjectmappings.id', '=', $id)
+        ->where('tutorsubjectmappings.tutor_id', '=', $id)
         ->first();
 
 

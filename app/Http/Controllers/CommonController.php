@@ -33,6 +33,13 @@ class CommonController extends Controller
             ->where('is_active', 1)->get();
         return response()->json($data);
     }
+    public function fetchtutorsubjects(Request $request){
+        $data['subjects'] = tutorsubjectmapping::select('subjects.id','subjects.name')
+        ->join('subjects','subjects.id','tutorsubjectmappings.subject_id')
+        ->where("tutorsubjectmappings.tutor_id", $request->tutor_id)
+            ->where('subjects.is_active', 1)->get();
+        return response()->json($data);
+    }
     // Fetch Topic By Class
     public function fetchtopics(Request $request)
     {

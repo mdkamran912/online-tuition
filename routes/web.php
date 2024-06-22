@@ -110,6 +110,7 @@ Route::get("logout", [HomeController::class, "logout"])->name("logout");
 
 
 Route::post('fetchsubjects', [CommonController::class, 'fetchsubjects'])->name('fetchsubjects');
+Route::post('fetchtutorsubjects', [CommonController::class, 'fetchtutorsubjects'])->name('fetchtutorsubjects');
 Route::post('fetchtopics', [CommonController::class, 'fetchtopics'])->name('fetchtopics');
 Route::post('fetchslottime', [CommonController::class, 'fetchslottime'])->name('fetchslottime');
 Route::post('studentsbyclass', [CommonController::class, 'studentsbyclass'])->name('studentsbyclass');

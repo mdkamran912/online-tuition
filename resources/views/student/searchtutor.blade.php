@@ -304,7 +304,7 @@
 
                                                 {{-- <a href="#checkslots" onclick="checkslots('{{$tutorlist->tutor_id}}')" class="btn btn-success">Check Slots</a> --}}
                                                 {{-- <a href="{{url('student/searchtutor')}}" class="btn btn-primary">Book Trial</a> --}}
-                                                <a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}"
+                                                <a href="/student/tutorprofile/{{ $tutorlist->tutor_id }}"
                                                     class="tu-primbtn">View full profile</a>
                                             </div>
                                         </div>
@@ -803,18 +803,10 @@
                                     <div class="row mb-2">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
                                             <label for="name">Subject</label>
-                                            <input type="hidden" id="demosubjectid" name="demosubjectid">
-                                            <input type="text" class="form-control" id="demosubjectname"
-                                                name="demosubjectname" disabled>
-                                            {{-- <select class="form-control" id="" disabled>
-                                            <option>--Select--</option>
-                                            <option>Biology</option>
-                                            <option>Chemistry</option>
-                                            <option selected>English</option>
-                                            <option>Mathematics</option>
-                                            <option>Physics</option>
-
-                                        </select> --}}
+                                            {{-- <input type="text" id="demosubjectid" name="demosubjectid"> --}}
+                                            {{-- <input type="text" class="form-control" id="demosubjectname"
+                                                name="demosubjectname" disabled> --}}
+                                            <select class="form-control" id="demosubjectid" name="demosubjectid" required></select>
                                         </div>
                                         <div class="col-md-6 col-sm-12 col-xs-12">
                                             <label for="">Prefer Slot 1<i style="color: red;">*</i></label>
@@ -912,10 +904,11 @@
     </div>
     <script>
         function openDemoModal(tid, tname, sid, sname) {
+            getTutorSubjects(tid);
             $('#demotutorid').val(tid)
             $('#demotutorname').val(tname)
-            $('#demosubjectid').val(sid)
-            $('#demosubjectname').val(sname)
+            // $('#demosubjectid').val(sid)
+            // $('#demosubjectname').val(sname)
             $('#openDemoModal').modal('show')
 
         }
@@ -1219,6 +1212,32 @@
                     $('#subject').html('<option value="">-- Select Subject --</option>');
                     $.each(result.subjects, function(key, value) {
                         $("#subject").append('<option value="' + value
+                            .id + '">' + value.name + '</option>');
+                    });
+
+                }
+
+            });
+
+        };
+    </script>
+    <script>
+        function getTutorSubjects(id) {
+
+
+            $.ajax({
+                url: "{{ url('fetchtutorsubjects') }}",
+                type: "POST",
+                data: {
+                    tutor_id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    // $('#demosubjectid').html('<option value="">-- Select Subject --</option>');
+                    $('#demosubjectid').html('<option value="">-- Select Subject --</option>');
+                    $.each(result.subjects, function(key, value) {
+                        $("#demosubjectid").append('<option value="' + value
                             .id + '">' + value.name + '</option>');
                     });
 
