@@ -148,24 +148,18 @@ class TutorSearchController extends Controller
             'tutorprofiles.tutor_id as tutor_id',
             'tutorprofiles.name',
             'tutorprofiles.profile_pic',
-            'paymentstudents.classes_purchased',
-            DB::raw('GROUP_CONCAT(DISTINCT subjects.name ORDER BY subjects.name ASC SEPARATOR ", ") as subject'),
-            DB::raw('IFNULL(AVG(tutorreviews.ratings), 0) as starrating'),
-            DB::raw('COUNT(paymentstudents.classes_purchased) as total_classes_purchased'),
-            DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) + tutorprofiles.rateperhour as rate')
+            DB::raw('IFNULL(SUM(tutorreviews.ratings) / COUNT(tutorreviews.ratings), 0) AS starrating'),
+            DB::raw('IFNULL(ps.total_classes_purchased, 0) as total_classes_purchased'),
+            DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) + tutorprofiles.rateperhour as rate'),
+            DB::raw('GROUP_CONCAT(DISTINCT subjects.name ORDER BY subjects.name ASC SEPARATOR ", ") as subject')
         )
-        ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+        ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->join(DB::raw('(SELECT tutor_id, SUM(classes_purchased) as total_classes_purchased
+                            FROM paymentstudents
+                            WHERE student_id = ' . session('userid')->id . '
+                            GROUP BY tutor_id) as ps'), 'ps.tutor_id', '=', 'tutorprofiles.tutor_id')
         ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
         ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-        ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
-        ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-        ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
-        ->join('paymentstudents', 'paymentstudents.tutor_id', '=', 'tutorprofiles.tutor_id')
-        ->join('paymentdetails', function($join) {
-            $join->on('paymentdetails.transaction_id', '=', 'paymentstudents.transaction_id')
-                 ->where('paymentdetails.status', '=', '1');
-        })
-        ->where('paymentstudents.student_id', session('userid')->id)
         ->groupBy(
             'tutorprofiles.id',
             'tutorprofiles.tutor_id',
@@ -173,19 +167,31 @@ class TutorSearchController extends Controller
             'tutorprofiles.profile_pic',
             'tutorprofiles.rateperhour',
             'tutorprofiles.admin_commission',
-            'paymentstudents.classes_purchased'
+            'ps.total_classes_purchased'
         )
         ->get();
 
 
+    // // Accessing total_classes_purchased for each tutor
+    // foreach ($tutorlist as $tutor) {
+    //     echo $tutor->total_classes_purchased;
+    //     // dd($tutor);
+    // }
 
-        // foreach ($tutorlist as $tutor) {
-        //     // echo $tutor->total_classes_purchased.", ";
-        //     // You can also use dd($tutor) here to inspect each tutor
+    // // Alternatively, if you expect a single tutor, you can do:
+    // $tutor = $tutorlist->first();
+    // if ($tutor) {
+    //     echo $tutor->total_classes_purchased;
+    // } else {
+    //     echo "No tutor found.";
+    // }
+    // dd($tutor);
 
-        // }
-        // echo $tutor->total_classes_purchased;
-        // dd();
+
+
+
+            // dd($tutorlist);
+
         return view('student.yourtutor', compact('tutorlist'));
     }
     public function tutorprofile($id)
@@ -975,14 +981,15 @@ if ($request->has('gradelistid') || $request->has('subjectlistid')) {
         $enrollment = TutorSubjectMapping::select('tutorsubjectmappings.*', 'subjects.name as subject_name', 'tutorprofiles.name as tutor_name', DB::raw('(tutorsubjectmappings.rate + (tutorsubjectmappings.rate * tutorsubjectmappings.admin_commission / 100)) as rate'),)
             ->join('tutorprofiles', 'tutorprofiles.tutor_id', '=', 'tutorsubjectmappings.tutor_id')
             ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->where('tutorsubjectmappings.id', $id)
+            // ->where('tutorsubjectmappings.id', $id)
+            ->where('tutorsubjectmappings.tutor_id', $id)
             ->first();
 
         $slotsAvailability = SlotBooking::select('slot_bookings.*', 'studentprofiles.name as student_name', 'subjects.name as subject', 'studentregistrations.id as student_id')
             ->leftJoin('studentprofiles', 'studentprofiles.student_id', '=', 'slot_bookings.student_id')
             ->leftJoin('subjects', 'subjects.id', '=', 'slot_bookings.subject_id')
             ->leftJoin('studentregistrations', 'studentregistrations.id', '=', 'slot_bookings.student_id')
-            ->where('slot_bookings.tutor_id', $enrollment->tutor_id)
+            ->where('slot_bookings.tutor_id', $id)
             ->where('slot_bookings.date','>=', Carbon::now())
             ->orderBy('slot_bookings.date')
             ->get();
