@@ -384,7 +384,7 @@ class OnlineTestController extends Controller
             ->update(['is_attempted' => 1]);
 
             $tutor_id = AssignTest::select('*')->where('test_id',$test_id)->where('student_id',session('userid')->id)->first();
-        
+
             //////////////// Here I need to pass notification into db
             $notificationdata = new Notification();
             $notificationdata->alert_type = 4;
@@ -417,10 +417,10 @@ class OnlineTestController extends Controller
             //     // $notificationdata->show_to_all_parent = 0;
             // }
             $notificationdata->read_status = 0;
-    
+
             $notified = $notificationdata->save();
             broadcast(new RealTimeMessage('$notification'));
-    
+
         return response()->json(['message' => 'Test Submitted Successfully']);
     }
     public function saveSubjectiveResponses(Request $request)
@@ -573,12 +573,17 @@ class OnlineTestController extends Controller
             ->join('classes', 'classes.id', 'online_tests.class_id')
             ->join('subjects', 'subjects.id', 'online_tests.subject_id')
             ->join('topics', 'topics.id', 'online_tests.topic_id')
-            ->whereIn('online_tests.subject_id', $subs)
+            ->join('testattempteds','testattempteds.test_id','online_tests.id')
+            ->join('paymentstudents','paymentstudents.student_id','testattempteds.student_id')
+            ->where('online_tests.subject_id', 'paymentstudents.subject_id')
             ->where('online_tests.test_type', 2)
+            ->where('paymentstudents.tutor_id', session('userid')->id)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);$classes = classes::where('is_active', 1)->get();
+            ->paginate(10);
+            $classes = classes::where('is_active', 1)->get();
             $subjects = subjects::where('is_active', 1)->get();
             $topics = topics::where('is_active', 1)->get();
+            // dd();
             return view('tutor.onlinetestresponselist-tutor', get_defined_vars());
         } else {
             return back()->with('fail', 'No tests Found');
@@ -1106,14 +1111,14 @@ class OnlineTestController extends Controller
             $assigntdata = AssignTest::find($id);
             $onlineTest = OnlineTests::where('id', $assigntdata->test_id)->first();
             $testid = testattempted::where('test_id', $onlineTest->id)->where('student_id', $assigntdata->student_id)->first();
-            
+
             $response = testattempted::find($testid);
             if ($response && $response->isNotEmpty()) {
                 // Access the first item in the collection
                 $firstResponse = $response->first();
-                
+
                 $responseIds = json_decode($firstResponse->answer);
-                
+
                 $finalResponses = SubjectiveResponse::select('subjective_responses.*', 'questionbanks.question')
                     ->join('questionbanks', 'questionbanks.id', 'subjective_responses.question_id')
                     ->whereIn('subjective_responses.id', $responseIds)
@@ -1137,10 +1142,10 @@ class OnlineTestController extends Controller
                 }
                 // iuiuiuuii //
 
-                
-            
+
+
             }
-            
+
         }
     }
 

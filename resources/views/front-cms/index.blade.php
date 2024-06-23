@@ -214,7 +214,8 @@
             <br>
             <div class="row">
                 @foreach ($tutors->slice(0, 8) as $tutor)
-                    <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
+                <a href="tutor-details/{{$tutor->tutor_id}}" style="color: black">
+                     <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                         <div class="tutorDetails">
                             <div class="tutorImg">
                                 <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}"
@@ -234,6 +235,7 @@
                             <span class="desc-tutor">{{ $tutor->headline }}</span>
                         </div>
                     </div>
+                </a>
                 @endforeach
 
             </div>

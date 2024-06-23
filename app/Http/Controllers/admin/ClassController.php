@@ -77,7 +77,7 @@ class ClassController extends Controller
     }
 
     public function studentclass(){
-   
+
         $targetValue = session('userid')->id; // The value we want to check in the JSON array
 
         $classes = zoom_classes::select('zoom_classes.*','zoom_classes.id as class_id','zoom_classes.topic_name as topics','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id','subjects.name as subjects',)
@@ -119,7 +119,7 @@ class ClassController extends Controller
 
     }
     public function studentCompletedclass(){
-        
+
         $targetValue = session('userid')->id; // The value we want to check in the JSON array
 
         $classes = zoom_classes::select('zoom_classes.*','zoom_classes.id as class_id','zoom_classes.topic_name as topics','zoom_classes.tutor_id as tutor_id','subjects.id as subject_id','subjects.name as subjects',)
@@ -222,8 +222,9 @@ return view('student.classes',get_defined_vars());
         ->join('classes','classes.id','studentattendances.class_id')
         ->join('subjects','subjects.id','studentattendances.subject_id')
         ->join('tutorprofiles','tutorprofiles.tutor_id','studentattendances.tutor_id')
-        
-        
+        ->where('studentattendances.student_id', session('userid')->id)
+
+
         ->get();
         // dd($attend);
 
@@ -253,7 +254,7 @@ return view('student.classes',get_defined_vars());
         return view('parent.class-report');
     }
 
-   
+
     public function student_attendance_reportParent(){
         return view('parent.attendance-report');
     }
@@ -313,11 +314,11 @@ return view('student.classes',get_defined_vars());
         ->leftjoin('subjects','subjects.id','=','topics.subject_id')
         ->leftjoin('classes','classes.id','=','subjects.class_id')
         ->get();
-        
+
         // dd($scheduledclasses);
         return view('admin.scheduledclasses',get_defined_vars());
     }
-    // Scheduled Class Search 
+    // Scheduled Class Search
     public function scheduledsearch(Request $request){
 
         $subjects = subjects::where('is_active',1)->get();

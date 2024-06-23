@@ -31,13 +31,13 @@
       <link rel="stylesheet" href="{{url('frontend/css/profile.css')}}">
             <h3 class="text-center mb-2">Your Tutor</h3>
             <hr>
-            
+
             <div class="row">
                 <div class="col-xl-12 col-xxl-9">
                     <div class="">
                         @if (count($tutorlist) < 1)
                         <div style="display: flex; justify-content: center;">
-                            
+
                             <img class="img-fluid" src="{{asset('images/no-data-found.jpg')}}" width="50%" >
                         </div>
                          @endif
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="tu-listinginfo_service">
                                     <h6>Enrollment Date: {{$formatted_date}}</h6>
-                                
+
                                 {{-- <p><b>Total Classes Purchased: </b>{{ $class_purchased ?? '-' }}</p>
                                 <p><b>Current Rate:</b> <span>&#163;</span>{{ $tutorlist->rate }}</p>
                                 <a href="tutorprofile/{{ $tutorlist->sub_map_id }}" class="btn btn-sm btn-primary">Profile</a>
@@ -126,7 +126,7 @@
                                         <li>
                                             <span>
                                                 <i class="icon tu-blueclr bg-success"></i>
-                                                {{$class_purchased ?? '0' }} Classes Purchased
+                                                {{$tutorlist->total_classes_purchased ?? '0' }} Classes Purchased
                                             </span>
                                         </li>
                                         <li>
@@ -138,7 +138,7 @@
                                         <li>
                                             <span style="color: green">
                                                 <i class="icon tu-orangeclr"></i>
-                                                {{$class_purchased ?? '0' - $class_attended ?? '0' }} Classes Remaining
+                                                {{$tutorlist->total_classes_purchased ?? '0' - $class_attended ?? '0' }} Classes Remaining
                                             </span>
                                         </li>
                                     </ul>
@@ -154,9 +154,9 @@
                                   {{-- <a href="#classes">  <button class="btn btn-sm btn-primary"
                                     onclick="openDemoModal('{{ $tutorlist->tutor_id }}','{{ $tutorlist->name }}','{{ $tutorlist->class_name }}','{{ $tutorlist->subjectid }}','{{ $tutorlist->subject }}','{{ $class_purchased ?? '-' }}','{{ $total_amount_paid ?? '-' }}','{{ $formatted_date ?? '_'}}','{{ $class_attended ?? '-'}}')">Classes
                                     </button></a> --}}
-                                    <a href="enrollupdate/{{$tutorlist->sub_map_id}}"><button class="btn btn-sm btn-success">Booked Slots</button></a>
+                                    <a href="enrollupdate/{{$tutorlist->tutor_id}}"><button class="btn btn-sm btn-success">Booked Slots</button></a>
                                     <a href="tutormessages/{{$tutorlist->tutor_id}}"><button class="btn btn-sm btn-success">Start Chat</button></a>
-                                    <a href="/student/tutorprofile/{{ $tutorlist->sub_map_id }}" class="tu-primbtn">View full profile</a>
+                                    <a href="/student/tutorprofile/{{ $tutorlist->tutor_id }}" class="tu-primbtn">View full profile</a>
                                 </div>
                             </div>
                         </div>
@@ -321,8 +321,8 @@
         <script>
             function openDemoModal(id,name,className,subjectId,subjectName,classPurchased,totalAmountPaid,enrollmentDate,classAttended){
                 // alert(totalAmountPaid)
-                
-                                
+
+
                 // document.getElementById('studentName').innerHTML = name;
                 document.getElementById('tutorName').innerHTML = name;
                 document.getElementById('className').innerHTML = className;

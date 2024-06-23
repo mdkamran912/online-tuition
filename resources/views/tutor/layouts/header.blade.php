@@ -49,7 +49,7 @@
                         <img src="/images/MCTsmallLogo.png" alt="logo" height="35">
                         </span>
                         <span class="logo-lg">
-                           
+
                             <img src="/images/MCT Logo.png" alt="logo" height="17">
                         </span>
                     </a>
@@ -72,11 +72,16 @@
                     </span>
                 </button>
 
-                
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                    <a href="/tutor/tutorslots"><div class="btn btn-primary">Slot Management</div></a>
+                </button>
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                    <a href="/tutor/getclasslist"><div class="btn btn-primary">Upcoming Classes</div></a>
+                </button>
                 <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
                     <a href="/" target="_blank"><div class="btn btn-primary">Visit Website</div></a>
                 </button>
-               
+
             </div>
 
             <div class="d-flex align-items-center">
@@ -97,9 +102,9 @@
                     </div>
                 </div>
 
-          
 
-               
+
+
 
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -113,7 +118,7 @@
                     </button>
                 </div>
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                   
+
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane noti-sec fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
@@ -269,13 +274,13 @@
                 {{-- /////////////////////// --}}
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                    
+
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
                         <span id="unreadNotificationCount" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                        
+
                         <div class="dropdown-head bg-primary bg-pattern rounded-top">
                             <div class="" style="padding-left: 10px">
                                 <div class="row align-items-center">
@@ -290,7 +295,7 @@
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">All</a>
                                     </li>
-{{--                                     
+{{--
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">Messages</a>
                                     </li>
@@ -305,7 +310,7 @@
                         <div class="tab-content position-relative" id="notificationItemsTabContent1">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    
+
 
                                 </div>
 
@@ -423,7 +428,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
 
                 {{-- ////////////////////////////// --}}
@@ -690,7 +695,7 @@
                             </div>
                         </div>
                     </div>
-                </div> --}} 
+                </div> --}}
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     @php
@@ -873,7 +878,7 @@
                             </a>
                         </li> --}}
 
-                        <li class="nav-item"> 
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
                             <img src="/images/Tutor-Dashboard-menu-icons/Study Materials.svg" alt="">&nbsp; <span
                                     data-key="t-dashboards">Study Materials</span>
@@ -914,7 +919,7 @@
                             </div>
                         </li> --}}
 
-                        
+
 
                         {{--
 
@@ -1010,7 +1015,7 @@
 
 
 
-                       
+
 
 
                 </ul>

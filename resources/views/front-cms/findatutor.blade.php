@@ -121,7 +121,7 @@
             <br>
             <div class="row">
                 @foreach ($tutors as $tutor)
-
+                <a href="tutor-details/{{$tutor->tutor_id}}" style="color: black">
                 <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
                     <div class="tutorDetails">
                         <div class="tutorImg">
@@ -141,6 +141,7 @@
                         <span class="desc-tutor">{{$tutor->headline}}</span>
                     </div>
                 </div>
+                </a>
                 @endforeach
 
             </div>

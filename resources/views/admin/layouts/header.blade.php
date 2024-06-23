@@ -79,7 +79,12 @@
 
 
             </div>
-
+            {{-- <a href="/student/classes" style="padding-right: 10px"> <button class="btn btn-primary">Upcoming Classes</button></a>
+                        <a href="/student/searchtutor" style="padding-right: 10px"> <button class="btn btn-primary">Explore Tutors</button></a> --}}
+                        <a href="/admin/students" > <button class="btn btn-primary">Students List</button></a>
+                        <a href="/admin/tutors" > <button class="btn btn-primary">Tutors List</button></a>
+                        <a href="/admin/messages" > <button class="btn btn-primary">Chat</button></a>
+                        <a href="/" target="_blank" > <button class="btn btn-primary">Visit Website</button></a>
             <div class="d-flex align-items-center">
 
                 <div class="dropdown d-md-none topbar-head-dropdown header-item">
@@ -557,7 +562,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                                 <i class="ri-apps-2-line"></i> <span data-key="t-apps">Apps</span>
                             </a>
@@ -569,7 +574,7 @@
 
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">

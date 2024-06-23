@@ -143,25 +143,49 @@ class TutorSearchController extends Controller
 
     public function yourtutor()
     {
-        $tutorlist = tutorprofile::select('tutorprofiles.id','tutorprofiles.tutor_id as tutor_id','classes.name as class_name', 'classes.id as class_id','tutorprofiles.name', 'tutorprofiles.profile_pic', 'subjects.id as subjectid', 'subjects.name as subject', DB::raw('SUM(ratings)/COUNT(ratings) AS starrating, COUNT(DISTINCT topics.name) as total_topics'), DB::raw('SUM(    paymentstudents.classes_purchased) as total_classes_purchased'),'tutorsubjectmappings.id as sub_map_id',\DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) + tutorprofiles.rateperhour as rate'))
-            ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
-            ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
-            ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('topics', 'topics.subject_id', '=', 'subjects.id')
-            ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
-            ->join('paymentstudents', 'paymentstudents.tutor_id', '=', 'tutorprofiles.tutor_id')
-            ->join('paymentdetails', 'paymentdetails.transaction_id', '=', 'paymentstudents.transaction_id')
-            // ->where('teacherclassmappings.class_id', '=', session('userid')->class_id)
-            // ->where('paymentstudents.subject_id', '1')  // Need to implement subject Id currently passed 1 for testing purpose
-            ->where('paymentdetails.status', '1')
-            ->where('paymentstudents.student_id',session('userid')->id)
-            // ->where('paymentdetails.id', '=', 'paymentstudents.subject_id' )
-            ->groupby('tutorprofiles.id', 'subjects.id','classes.id','tutorprofiles.tutor_id', 'classes.name','subjects.name', 'tutorprofiles.rate', 'tutorprofiles.profile_pic', 'tutorprofiles.name','sub_map_id','tutorprofiles.rateperhour','tutorprofiles.admin_commission')
-            ->get();
+        $tutorlist = tutorprofile::select(
+            'tutorprofiles.id',
+            'tutorprofiles.tutor_id as tutor_id',
+            'tutorprofiles.name',
+            'tutorprofiles.profile_pic',
+            'paymentstudents.classes_purchased',
+            DB::raw('GROUP_CONCAT(DISTINCT subjects.name ORDER BY subjects.name ASC SEPARATOR ", ") as subject'),
+            DB::raw('IFNULL(AVG(tutorreviews.ratings), 0) as starrating'),
+            DB::raw('COUNT(paymentstudents.classes_purchased) as total_classes_purchased'),
+            DB::raw('(tutorprofiles.rateperhour * tutorprofiles.admin_commission / 100) + tutorprofiles.rateperhour as rate')
+        )
+        ->join('teacherclassmappings', 'teacherclassmappings.teacher_id', '=', 'tutorprofiles.tutor_id')
+        ->join('tutorsubjectmappings', 'tutorsubjectmappings.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->join('subjects', 'subjects.id', '=', 'tutorsubjectmappings.subject_id')
+        ->leftJoin('tutorreviews', 'tutorreviews.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->join('topics', 'topics.subject_id', '=', 'subjects.id')
+        ->join('classes', 'classes.id', '=', 'tutorsubjectmappings.class_id')
+        ->join('paymentstudents', 'paymentstudents.tutor_id', '=', 'tutorprofiles.tutor_id')
+        ->join('paymentdetails', function($join) {
+            $join->on('paymentdetails.transaction_id', '=', 'paymentstudents.transaction_id')
+                 ->where('paymentdetails.status', '=', '1');
+        })
+        ->where('paymentstudents.student_id', session('userid')->id)
+        ->groupBy(
+            'tutorprofiles.id',
+            'tutorprofiles.tutor_id',
+            'tutorprofiles.name',
+            'tutorprofiles.profile_pic',
+            'tutorprofiles.rateperhour',
+            'tutorprofiles.admin_commission',
+            'paymentstudents.classes_purchased'
+        )
+        ->get();
 
-            // dd($tutorlist);
 
+
+        // foreach ($tutorlist as $tutor) {
+        //     // echo $tutor->total_classes_purchased.", ";
+        //     // You can also use dd($tutor) here to inspect each tutor
+
+        // }
+        // echo $tutor->total_classes_purchased;
+        // dd();
         return view('student.yourtutor', compact('tutorlist'));
     }
     public function tutorprofile($id)
