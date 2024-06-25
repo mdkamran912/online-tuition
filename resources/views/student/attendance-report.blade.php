@@ -31,7 +31,7 @@
 
 <div class="form-group mt-">
     <div class="row">
-       
+
         <div class="col-md-3">
             <label>Start Date</label>
             <input type="date" name="start_date" class="form-control">
@@ -54,7 +54,7 @@
 
 
     </div>
-    
+
 </div>
 </form> --}}
 {{-- <hr> --}}
@@ -65,7 +65,6 @@
                     <thead class=" ">
                         <tr>
                             <th scope="col">S.No</th>
-                            <th scope="col">Class</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Tutor</th>
                             <th scope="col">Date & Time</th>
@@ -77,9 +76,8 @@
                         @foreach ($attend as $attendreport)
                         <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $attendreport->class }}</td>
-                        <td>{{ $attendreport->subject }}</td>
-                        <td>{{ $attendreport->tutor }}</td>
+                        <td>{{ $attendreport->subject_name }}</td>
+                        <td>{{ $attendreport->tutor_name }}</td>
                         <td>{{ \Carbon\Carbon::parse($attendreport->class_starts_at)->format('d/m/Y h:i a') }}</td>
 
                         @if ($attendreport->status == 1)

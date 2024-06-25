@@ -218,10 +218,12 @@ return view('student.classes',get_defined_vars());
 
     public function student_attendance_report(){
 
-        $attend = studentattendance::select('*','classes.name as class','subjects.name as subject','tutorprofiles.name as tutor')
-        ->join('classes','classes.id','studentattendances.class_id')
+        $attend = studentattendance::select('studentattendances.*','tutorregistrations.name as tutor_name','subjects.name as subject_name')
+        // ->join('classes','classes.id','studentattendances.class_id')
+        // ->join('subjects','subjects.id','studentattendances.subject_id')
+        // ->join('tutorprofiles','tutorprofiles.tutor_id','studentattendances.tutor_id')
+        ->join('tutorregistrations','tutorregistrations.id','studentattendances.tutor_id')
         ->join('subjects','subjects.id','studentattendances.subject_id')
-        ->join('tutorprofiles','tutorprofiles.tutor_id','studentattendances.tutor_id')
         ->where('studentattendances.student_id', session('userid')->id)
 
 
