@@ -301,7 +301,7 @@
                 </div>
             </div> <!-- end row-->
 
-            <div class="row">
+            <div class="row" hidden>
                 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                     <div class="card card-animate">
                         <div class="cardTitle">

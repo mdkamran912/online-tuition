@@ -330,7 +330,7 @@
                 </div>
             </div> <!-- end row-->
 
-            <div class="row">
+            <div class="row" hidden>
                 <div class="col-md-6">
                     <div class="card card-animate">
                         <div class="cardTitle">

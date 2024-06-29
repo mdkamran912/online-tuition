@@ -36,9 +36,9 @@
 
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="how-card card1" style="width: 60%;">
+                    <div class="how-card how-card2 card1" >
                         <h2>Find the best tutor</h2>
-                        <div style="width: 60%;">
+                        <div class="cardText" >
                             <p class="mt-4">MCT offers a selection of in-house trained tutors to elevate your academic
                                 career. Explore tutors’ profiles, filter them based on reviews, video testimonials, and
                                 availability.</p>
@@ -52,9 +52,9 @@
 
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="how-card card2 " style="width: 60%; float: right;">
+                    <div class="how-card how-card2 card2 " style=" float: right;">
                         <h2>Connect with the tutor</h2>
-                        <div style="width: 60%;">
+                        <div class="cardText" >
                             <p class="mt-4">MCT embraces a connection-first strategy, offering students the option to
                                 book a free trial class with tutors. This presents an excellent opportunity for both
                                 students and tutors to familiarise themselves.</p>
@@ -71,9 +71,9 @@
                 </div>
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="margin-top: 90px;">
-                    <div class="how-card card3" style="width: 60%;">
+                    <div class="how-card how-card2 card3" >
                         <h2>Access course material</h2>
-                        <div style="width: 60%;">
+                        <div class="cardText">
                             <p class="mt-4">At MCT, we go beyond the basics. When it comes to your grades and
                                 learning, we take that extra step. Our platform automatically records your sessions,
                                 enabling you to revisit, rethink, and reinforce concepts. </p>

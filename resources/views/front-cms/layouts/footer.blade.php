@@ -1,3 +1,24 @@
+<style>
+    
+  .active-btn{
+    background-color: #000;
+    accent-color: #fff;
+    
+    
+  }
+
+  .active-btn span{
+    color: #fff;
+  }
+
+  .radioLogin{
+    border-radius: 8px;
+    padding: 10px;
+
+    accent-color: #000;
+  }
+</style>
+
 <!-- Modal -->
 <div class="modal fade loginModel" id="loginPopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -45,21 +66,21 @@
 
                 <div class="radioBtn">
                     <div class="row">
-                        <div class="col-4">
-                            <div class="radioLogin student active-btn">
-                                <input type="radio" value="student" name="loginAs" id="student" checked>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="radioLogin studentPopup  active-btn">
+                                <input type="radio" value="student" name="loginAs" id="studentPopup" checked>
                                 <span>Student</span>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="radioLogin tutor">
-                                <input type="radio" value="tutor" name="loginAs" id="tutor">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="radioLogin tutorPopup">
+                                <input type="radio" value="tutor" name="loginAs" id="tutorPopup">
                                 <span>Tutor</span>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="radioLogin parents">
-                                <input type="radio" value="parents" name="loginAs" id="parents">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="radioLogin parentsPopup">
+                                <input type="radio" value="parents" name="loginAs" id="parentsPopup">
                                 <span>Parents</span>
                             </div>
                         </div>
@@ -112,10 +133,21 @@
                         const tutorDiv = document.querySelector('.tutor');
                         const parentsDiv = document.querySelector('.parents');
 
+                        const studentRadioPopup = document.getElementById('studentPopup');
+                        const tutorRadioPopup = document.getElementById('tutorPopup');
+                        const parentsRadioPopup = document.getElementById('parentsPopup');
+                        const studentDivPopup = document.querySelector('.studentPopup');
+                        const tutorDivPopup = document.querySelector('.tutorPopup');
+                        const parentsDivPopup = document.querySelector('.parentsPopup');
+
                         function switchActiveClass() {
                             studentDiv.classList.remove('active-btn');
                             tutorDiv.classList.remove('active-btn');
                             parentsDiv.classList.remove('active-btn');
+
+                            studentDivPopup .classList.remove('active-btn');
+                            tutorDivPopup .classList.remove('active-btn');
+                            parentsDivPopup .classList.remove('active-btn');
 
                             if (studentRadio.checked) {
                                 studentDiv.classList.add('active-btn');
@@ -124,11 +156,25 @@
                             } else if (parentsRadio.checked) {
                                 parentsDiv.classList.add('active-btn');
                             }
+
+
+
+                            if (studentRadioPopup.checked) {
+                                studentDivPopup .classList.add('active-btn');
+                            } else if (tutorRadioPopup.checked) {
+                                tutorDivPopup .classList.add('active-btn');
+                            } else if (parentsRadioPopup.checked) {
+                                parentsDivPopup .classList.add('active-btn');
+                            }
                         }
 
                         studentRadio.addEventListener('change', switchActiveClass);
                         tutorRadio.addEventListener('change', switchActiveClass);
                         parentsRadio.addEventListener('change', switchActiveClass);
+
+                        studentRadioPopup.addEventListener('change', switchActiveClass);
+                        tutorRadioPopup.addEventListener('change', switchActiveClass);
+                        parentsRadioPopup.addEventListener('change', switchActiveClass);
                     });
                 </script>
 
@@ -166,7 +212,7 @@
 <footer class="footerArea mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <h5 class="mb-4">Quick Links</h5>
                 <ul>
                     <a href="/aboutus"><li>About us</li></a>
@@ -180,7 +226,7 @@
                 </ul>
             </div>
 
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <h5 class="mb-4">Popular Subjects</h5>
                 <ul>
                     <li>Psychology</li>
@@ -198,7 +244,7 @@
             </div>
 
 
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <h5 class="mb-4">Follow us</h5>
                 <ul class="contactDetail">
                     <li><img src="{{ url('frontendnew/img/icons/Group.png') }}" alt="">07761 975326</li>
@@ -217,14 +263,14 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <h5 class="mt-4">Help</h5>
                 <ul>
                     <li>Help Center</li>
                     <li>Contact Us</li>
                 </ul>
 
-                <div class="social">
+                <div class="social my-5">
                     <img src="{{ url('frontendnew/img/footer-logo.png') }}" width="160px" alt="">
                 </div>
             </div>

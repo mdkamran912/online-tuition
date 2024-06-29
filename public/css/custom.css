@@ -1019,4 +1019,47 @@ input[type="range"]::-ms-thumb {
     margin-right: 10px;
   }
    
+
+
+  .d-flex >.topBtn{
+    display: flex;
+    justify-content: center;
+    margin-left: 90px;
+  }
+
+
+
  
+
+  @media only screen and (max-width: 480px) {
+    .d-flex >.topBtn {
+        margin-left:0;
+       
+    }
+    .listHeader {
+        margin-top: 10px;
+    }
+
+
+   
+
+  }
+  @media only screen and (max-width: 767px) {
+    .d-flex >.topBtn {
+        margin-left:0; 
+        
+        
+    }
+    .listHeader {
+        margin-top: 10px;
+    }
+  }
+  @media only screen and (max-width: 767px) and (orientation: landscape) {
+    .d-flex >.topBtn {
+        margin-left:0;  
+    }
+
+    .listHeader {
+        margin-top: 10px;
+    }
+  }

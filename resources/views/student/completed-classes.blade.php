@@ -29,7 +29,7 @@
 
             
 
-            <form id="payment-search">
+            <form id="payment-search" hidden>
                 <div class="row ">
 
 
@@ -88,6 +88,7 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">Duration</th>
                             <th scope="col">Recordings</th>
+                            <!-- <th scope="col">Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -107,6 +108,7 @@
                                 @endforelse
 
                             </td>
+                            <!-- <td></td> -->
                             
                         </tr>
                         @endforeach

@@ -1,11 +1,11 @@
 @extends('front-cms.layouts.main')
 @section('main-section')
     <!-- tutor section -->
-    <section class="tutor-section">
+    <section class="tutor-details">
         <div class="container tutor-card topheader-tutor">
 
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 profileSec1">
                     <h2>{{ $tutorpd->headline }}</h2>
 
                     <h6 class="mb-4">Subjects</h6>
@@ -77,7 +77,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSec2">
                     <div class="tutorDetails tutorProfPic">
                         <div class="tutorImg">
                             <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutorpd->profile_pic ?? url('images/avatar/default-profile-pic.png') }}"
@@ -109,11 +109,11 @@
                         </table>
 
                         <div class="freeTrial btnSize ">
-                            <a href="/student/searchtutor" class="btn">Free Trial Class</a>
+                            <a href="{{('/student/login')}}" class="btn">Free Trial Class</a>
                         </div>
 
                         <div class="expMore btnSize">
-                            <a href="/student/enrollnow/{{ $tutorpd->id }}" class="btn">Book Now</a>
+                            <a href="/student/enrollnow/{{ $tutorpd->id }}" href="/student/enrollnow/{{ $tutorpd->id }}" class="btn">Book Now</a>
                         </div>
 
 

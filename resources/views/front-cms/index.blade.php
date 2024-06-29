@@ -3,30 +3,38 @@
     <!-- END header -->
     <section class="bannerSec">
         <div class="container-fluid">
-            <div class="bannerImg">
-                <img src="{{ url('frontendnew/img/banner.png') }}" alt="" width="100%">
+            <div class="bannerImg ">
+                <div class="bannerBGImg">
+                <img src="{{ url('frontendnew/img/Group 850.png') }}" alt="" width="100%">
+                </div>
                 <div class="overlayMTC">
-                    <div class="tutorHeader mb-">
+                    <div class="tutorHeader">
                         <h1>
                             Discover the perfect tutor for you
                         </h1>
                         <form action="{{ url('toptutorsearch') }}" method="POST">
                             @csrf
                             <div class="findtutor-btns">
-                                <select style="border-radius: 60px; border:0;padding:10px" id="subject" name="subject">
+                                <div class="drpdwn">
+                                <select  id="subject" name="subject">
                                     <option value="">Select a subject</option>
                                     @foreach ($subjects as $subject)
                                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                     @endforeach
                                 </select>
-                                <select style="border-radius: 60px; border:0;padding:10px" id="grade" name="grade">
+                                </div>
+                               <div class="drpdwn">
+                               <select  id="grade" name="grade">
                                     <option value="">Select a grade</option>
                                     @foreach ($gradelists as $grade)
                                         <option value="{{ $grade->id }}">{{ $grade->name }}</option>
                                     @endforeach
                                 </select>
+                               </div>
 
+                                <div class="drpdwnSearch">
                                 <button type="submit" class="btn search-tutor">Search</button>
+                                </div>
                             </div>
                         </form>
 
@@ -34,11 +42,12 @@
 
                         <div id="accordion">
 
-                            <div class="advceAccordian">
+                           <div class="accor">
+                           <div class="advceAccordian">
                                 <div class="" id="headingTwo">
 
                                     <div class="advance-search">
-                                        <a href="" class="collapsed" data-toggle="collapse"
+                                        <a href="" class="collapsed advSearTextLeft" data-toggle="collapse"
                                             data-target="#collapseTwo" aria-expanded="false"
                                             aria-controls="collapseTwo">Find the tutor of your choice use advance search</a>
                                         <span>
@@ -56,11 +65,14 @@
                                     data-parent="#accordion">
                                     <form class="advSearchForm" action="{{url('advancesearch')}}" method="POST">
                                         @csrf
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search" id="name" name="name">
-                                        </div>
+                                       
                                         <div class="row mb-3">
-                                            <div class="col">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="" aria-describedby="" placeholder="Search" id="name" name="name">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                 <label for="">Subject</label>
                                                 <select class="form-control" id="subject" name="subject">
                                                     <option value="">Select a subject</option>
@@ -69,7 +81,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-2">
                                                 <label for="">Grade</label>
                                                 <select class="form-control" id="grade" name="grade">
                                                     <option value="">Select a grade</option>
@@ -78,7 +90,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                          <div class="col">
+                                          <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                             <label for="">Rating</label>
                                             <select class="form-control rating" id="ratings" name="ratings">
                                                 <option value="">5 Star <span class="star-uni-code">&#9733;&#9733;&#9733;&#9733;&#9733;</span></option>
@@ -91,7 +103,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                               <label for="">Country</label>
                                               <select class="form-control" id="country" name="country">
                                                   <option value="">Select Country</option>
@@ -102,7 +114,7 @@
                                             </div>
 
 
-                                            <div class="col-8">
+                                            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                                <div class="advSearchBtns">
                                                     <button class="btn cancelBtn">Cancel</button>
                                                     <button type="submit" class="applyBtn">Apply</button>
@@ -116,12 +128,13 @@
 
                                 </div>
                             </div>
+                           </div>
 
                         </div>
 
 
                     </div>
-                    <div class="subSec">
+                    <div class="subSec" >
                         <ul>
                             <li>
                                 <a href="findatutor">
@@ -215,7 +228,7 @@
             <div class="row">
                 @foreach ($tutors->slice(0, 8) as $tutor)
                 <a href="tutor-details/{{$tutor->tutor_id}}" style="color: black">
-                     <div class="col-lg-3 col-md-3-col-sm-12 col-xs-12 tutorCol">
+                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 tutorCol">
                         <div class="tutorDetails">
                             <div class="tutorImg">
                                 <img src="{{ url('images/tutors/profilepics', '/') }}{{ $tutor->profile_pic }}"
@@ -254,7 +267,7 @@
             <h3 class="">Customer Testimonials</h3>
             <div class="row">
                 @foreach ($reviews->slice(0, 4) as $review)
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-4">
                         <div class="testi-card">
                             <span class="nameTo">
                                 {{ $review->tutorname }}
@@ -284,14 +297,14 @@
         </div>
     </section>
     <!-- ----------how it works----- -->
-    <section class="howitwork-sec">
+    <section class="howitwork-sec" >
         <div class="container topheader">
             <h3 class="">How it works</h3>
-            <p class="para">Experience seamless learning with our online tuition app. We've simplified education, making
+            <p class="text-center px-5 mb-5">Experience seamless learning with our online tuition app. We've simplified education, making
                 it easy for students, parents, and tutors to connect and excel. Effortless, effective, and engaging learning
                 awaits you.</p>
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="how-card card1">
                         <span class="nameTo">Find the best tutor</span>
                         <p class="mt-4 pb-5">MCT offers a selection of in-house trained tutors to elevate your academic
@@ -302,7 +315,7 @@
                         <img class="numbr1" src="{{ url('frontendnew/img/icons/one.png') }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="how-card card2">
                         <span class="nameTo">Find the best tutor</span>
                         <p class="mt-4 pb-5">MCT offers a selection of in-house trained tutors to elevate your academic
@@ -313,7 +326,7 @@
                         <img class="numbr2" src="{{ url('frontendnew/img/icons/two.png') }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="how-card card3">
                         <span class="nameTo">Find the best tutor</span>
                         <p class="mt-4 pb-5">MCT offers a selection of in-house trained tutors to elevate your academic
@@ -331,7 +344,59 @@
     <section>
         <div class="tu-statsholder mb-5">
             <div class="container">
-                <ul id="tu-counter" class="tu-stats">
+
+
+            <div id="tu-counter" class="tu-stats">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-5">
+                        
+                        <img src="{{ url('frontendnew/img/icons/img-01.png') }}" alt="img">
+                        <div class="tu-stats_info">
+                            <h4>
+                                <span data-from="0" data-to="50" data-speed="8000"
+                                    data-refresh-interval="10">50</span>+ Courses
+                            </h4>
+                            <p>Courses available from verified and top tutors</p>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-5">
+
+                    
+                        <img src="{{ url('frontendnew/img/icons/img-02.png') }}" alt="img">
+                        <div class="tu-stats_info">
+                            <h4>
+                                <span data-from="0" data-to="100" data-speed="8000"
+                                    data-refresh-interval="30">100</span>+ Quizes
+                            </h4>
+                            <p>Online quiz & online tests to improve your skills</p>
+                        </div>
+                    
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-5">
+                    <img src="{{ url('frontendnew/img/icons/img-03.png') }}" alt="img">
+                        <div class="tu-stats_info">
+                            <h4>
+                                <span data-from="0" data-to="10" data-speed="8000"
+                                    data-refresh-interval="50">10</span>+ Hours
+                            </h4>
+                            <p>User daily average time spent on the platform</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-5">
+
+                    <img src="{{ url('frontendnew/img/icons/img-04.png') }}" alt="img">
+                        <div class="tu-stats_info">
+                            <h4>
+                                <span data-from="0" data-to="1000" data-speed="8000"
+                                    data-refresh-interval="100">1000</span>+ Users
+                            </h4>
+                            <p>Active instructor and students available on the platform</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- <ul id="tu-counter" class="tu-stats">
                     <li>
                         <img src="{{ url('frontendnew/img/icons/img-01.png') }}" alt="img">
                         <div class="tu-stats_info">
@@ -372,24 +437,32 @@
                             <p>Active instructor and students available on the platform</p>
                         </div>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </div>
     </section>
     <!-- fact sector END -->
     <!-- fact sector END -->
-    <section>
+    <section >
         <div class="container">
             <div class="tutor-banner ">
 
                 <div class="rightside">
                     <h2>Begin your tutoring journey now! Join us as a tutor.</h2>
-                    <button>Get Started</button>
+                    <button onclick="redirect();">Get Started</button>
                 </div>
 
             </div>
         </div>
+        <script>
+            function redirect(){
+                window.location.href = "{{('/student/register')}}";
+            }
+
+        </script>
     </section>
+
+    
 
 
 

@@ -145,12 +145,12 @@
 
                             <div class="form-group col-md-6">
                                 <label for="">Mobile</label>
-                                <input type="text" class="form-control" id="primarymobile" name="primarymobile"
+                                <input type="number" class="form-control" id="primarymobile" name="primarymobile"
                                     placeholder="" value="{{ $tutorpd->mobile ?? session('userid')->mobile }}" disabled>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="">Secondary Mobile</i></label>
-                                <input type="text" class="form-control" id="secmobile" name="secmobile"
+                                <input type="number" class="form-control" id="secmobile" name="secmobile"
                                     placeholder="Enter Secondary Mobile" value="{{ $tutorpd->secondary_mobile ?? '' }}">
                             </div>
                             <div class="form-group col-md-6">
